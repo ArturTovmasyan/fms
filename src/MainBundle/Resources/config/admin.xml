@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Production -->
+        <service id="sonata.admin.main.product" class="MainBundle\Admin\ProductAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="Product"/>
+            <argument/>
+            <argument>MainBundle\Entity\Product</argument>
+            <argument/>
+        </service>
+
+        <!--Mould-->
+        <service id="sonata.admin.main.mould" class="MainBundle\Admin\MouldAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="Mould"/>
+            <argument/>
+            <argument>MainBundle\Entity\Mould</argument>
+            <argument/>
+        </service>
+
+        <!--RawMaterial-->
+        <service id="sonata.admin.main.raw" class="MainBundle\Admin\RawMaterialAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RawMaterial"/>
+            <argument/>
+            <argument>MainBundle\Entity\RawMaterial</argument>
+            <argument/>
+        </service>
+
+        <!--Client-->
+        <service id="sonata.admin.main.client" class="MainBundle\Admin\ClientAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Partners" label="Client"/>
+            <argument/>
+            <argument>MainBundle\Entity\Client</argument>
+            <argument/>
+        </service>
+
+        <!--Personnel-->
+        <service id="sonata.admin.main.personnel" class="MainBundle\Admin\PersonnelAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="Personnel"/>
+            <argument/>
+            <argument>MainBundle\Entity\Personnel</argument>
+            <argument/>
+        </service>
+
+        <!--Equipment-->
+        <service id="sonata.admin.main.equipment" class="MainBundle\Admin\EquipmentAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="Equipment"/>
+            <argument/>
+            <argument>MainBundle\Entity\Equipment</argument>
+            <argument/>
+        </service>
+
+        <!--PurposeList-->
+        <service id="sonata.admin.main.purpose.list" class="MainBundle\Admin\PurposeListAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="Purpose"/>
+            <argument/>
+            <argument>MainBundle\Entity\PurposeList</argument>
+            <argument/>
+        </service>
+
+        <!--Spares-->
+        <service id="sonata.admin.main.spares" class="MainBundle\Admin\SparesAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="Spares"/>
+            <argument/>
+            <argument>MainBundle\Entity\Spares</argument>
+            <argument/>
+        </service>
+
+        <!--PlaceWarehous-->
+        <service id="sonata.admin.main.place.warehouse" class="MainBundle\Admin\PlaceWarehouseAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="PlaceWarehouse"/>
+            <argument/>
+            <argument>MainBundle\Entity\PlaceWarehouse</argument>
+            <argument/>
+        </service>
+
+    </services>
+
+</container>

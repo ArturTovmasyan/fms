@@ -1,0 +1,56 @@
+Id: Հ/Հ
+Equipment: Սարքավորում
+Action: Գործիքներ
+PlaceWarehouse: Տեղը պահեստում
+RawMaterial: Հումքեր
+Code: Կոդը
+Price: Գինը
+Name: Անուն
+Gost: Գոստ
+Description: Բնութագիրը
+Product: Արտադրանք
+size: Չափման միավո
+Purpose: Նշանակություն
+Personnel: Անձնակազմ
+Weight: Քաշը
+Count: Քանակը
+workshop: Թող.֊ող արտադրամաս
+#warehouse: Տեղը պահեստում
+equipment: Թող.֊ող սարքավորումը
+mould: Թող.֊ող կաղապարը
+Client: Պատվիրատուներ
+Created: Ստեղծվել է
+Spares: Պահեստամաս
+kg: Կգ
+meters: Մետր
+counts_in_warehouse: Քանակը Պահեստում
+counts: Հատ
+place_warehouse: Տեղը պահեստում
+complects: Կոմպլեկտ
+together: Համատեղ
+rubber: Ռեզինե
+manual: Մեխանիկական
+Images: Նկարները
+Sketchs: Գծագրերը
+Certificate: Սերտիֆիկատ
+Mould: Կաղապար
+cost_price: Ինքնարժեքը
+actual_price: Փաստացի արժեքը
+accounting_price: Հաշվապահական արժեքը
+renovate_date: Վերանորոգման բնույթը
+last_renovated: Վերջին վերանորոգում
+Image: Նկարներ
+Sketch: Էսքիզներ
+lastName: Ազգանուն
+Bandwidth: Թողունակությունը
+over_size: Գաբարիտային չափսերը
+current_state: Ընթացիկ վիճակը
+state: Վիճակը
+equipment_workshop: Շահագործող արտադրամասը
+preparation_time: Հանձնման ժամկետը
+general_count: Ընդհանուր քանակը
+technical_file: Տեխ. ֆայլ
+minimal_volume: Մինիմալ ծավալը
+
+
+
