@@ -65,15 +65,15 @@ class ProductAdmin extends Admin
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('size', 'choice', array('choices'=> array(
-                    Product::kg =>'kg',
-                Product::meters =>'meters',
-                Product::counts =>'counts',
-                Product::complects =>'complects')))
-
+                'Կգ',
+                'Մետր',
+                'Հատ',
+                'Կոմպլեկտ',
+                'Լիտր')))
             ->add('workshop', 'choice', array('label' => 'workshop', 'choices' => array(
-                Product::rubber =>'rubber',
-                Product::manual =>'manual',
-                Product::together =>'together')))
+                'Ռեզինե',
+                'Մեխանիկական',
+                'Համատեղ')))
             ->add('image', 'sonata_type_model_list',
                 array('required' => false),
                 array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
@@ -101,7 +101,7 @@ class ProductAdmin extends Admin
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('equipment', null, array('label' => 'equipment', 'mapped' => true))
             ->add('mould', null, array('label'=>'mould', 'mapped'=>true))
-       ;
+        ;
     }
 
     // Fields to be shown on lists

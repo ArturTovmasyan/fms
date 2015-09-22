@@ -15,15 +15,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Product
 {
 
-    const counts = 1;
-    const square = 2;
-    const complects = 3;
-    const meters = 4;
-    const kg = 5;
-    const rubber = 6;
-    const manual = 7;
-    const together = 8;
-
     /**
      * @var integer
      *
@@ -60,7 +51,7 @@ class Product
      *
      * @ORM\Column(name="size", type="smallint", nullable=true)
      */
-    private $size = self::counts;
+    private $size;
 
     /**
      * @var integer
@@ -340,17 +331,20 @@ class Product
         $stringSize = null;
 
         switch($this->size) {
-            case self::kg:
+            case 0:
                 $stringSize = "Կգ";
                 break;
-            case self::meters:
+            case 1:
                 $stringSize = "Մետր";
                 break;
-            case self::counts:
+            case 2:
                 $stringSize = "Հատ";
                 break;
-            case self::complects:
+            case 3:
                 $stringSize = "Կոմպլեկտ";
+                break;
+            case 4:
+                $stringSize = "Լիտր";
                 break;
             default:
                 echo "";
@@ -370,13 +364,13 @@ class Product
         $stringWorkshop = null;
 
         switch($this->workshop) {
-            case self::rubber:
+            case 0:
                 $stringWorkshop = "Ռեզինե";
                 break;
-            case self::manual:
+            case 1:
                 $stringWorkshop = "Մեխանիկական";
                 break;
-            case self::together:
+            case 2:
                 $stringWorkshop = "Համատեղ";
                 break;
 

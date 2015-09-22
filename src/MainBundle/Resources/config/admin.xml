@@ -77,6 +77,14 @@
             <argument/>
         </service>
 
+        <!--RawCategory-->
+        <service id="sonata.admin.main.raw.category" class="MainBundle\Admin\RawCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RawCategory"/>
+            <argument/>
+            <argument>MainBundle\Entity\RawCategory</argument>
+            <argument/>
+        </service>
+
     </services>
 
 </container>

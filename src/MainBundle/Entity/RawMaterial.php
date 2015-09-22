@@ -59,15 +59,14 @@ class RawMaterial
      */
     private $technicalFile;
 
-//    /**
-//     * @var string
-//     *
-//     * @ORM\Column(name="categories", type="string", length=255)
-//     */
-//    private $categories;
+    /**
+     * @ORM\OneToOne(targetEntity="RawCategory")
+     */
+    private $category;
 
 //    private $vendor;
 
+//for operation card
 //    private $product;
 
 //    private $price;
@@ -454,5 +453,28 @@ class RawMaterial
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \MainBundle\Entity\RawCategory $category
+     * @return RawMaterial
+     */
+    public function setCategory(\MainBundle\Entity\RawCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \MainBundle\Entity\RawCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

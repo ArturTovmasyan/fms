@@ -41,6 +41,7 @@ class RawMaterialAdmin extends Admin
 
         $formMapper
             ->add('name')
+            ->add('category')
             ->add('gost')
             ->add('description')
             ->add('code')

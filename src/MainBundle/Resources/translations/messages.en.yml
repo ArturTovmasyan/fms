@@ -21,15 +21,8 @@ mould: Թող.֊ող կաղապարը
 Client: Պատվիրատուներ
 Created: Ստեղծվել է
 Spares: Պահեստամաս
-kg: Կգ
-meters: Մետր
 counts_in_warehouse: Քանակը Պահեստում
-counts: Հատ
 place_warehouse: Տեղը պահեստում
-complects: Կոմպլեկտ
-together: Համատեղ
-rubber: Ռեզինե
-manual: Մեխանիկական
 Images: Նկարները
 Sketchs: Գծագրերը
 Certificate: Սերտիֆիկատ
@@ -51,6 +44,9 @@ preparation_time: Հանձնման ժամկետը
 general_count: Ընդհանուր քանակը
 technical_file: Տեխ. ֆայլ
 minimal_volume: Մինիմալ ծավալը
+RawCategory: Հումքի կատեգորիան
+Category: Կատեգորիան
+
 
 
 
