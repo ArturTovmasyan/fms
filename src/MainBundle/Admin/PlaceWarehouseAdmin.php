@@ -40,8 +40,8 @@ class PlaceWarehouseAdmin extends Admin
             ->add('name')
             ->add('warehouse')
             ->add('mould')
+            ->add('rawMaterials', null, array('label' => 'raw_materials'))
             ->add('product')
-            ->add('rawMaterials')
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
@@ -75,7 +75,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('warehouse')
             ->add('mould')
             ->add('product')
-            ->add('rawMaterials')
+            ->add('rawMaterials', null, array('label' => 'raw_materials'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
