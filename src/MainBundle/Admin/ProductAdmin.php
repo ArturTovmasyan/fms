@@ -12,6 +12,26 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class ProductAdmin extends Admin
 {
     /**
+     * override list query
+     *
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+        // add selected
+        $query->addSelect('m, e, c, pw, pl');
+        $query->leftJoin($query->getRootAlias() . '.mould', 'm');
+        $query->leftJoin($query->getRootAlias() . '.equipment', 'e');
+        $query->leftJoin($query->getRootAlias() . '.client', 'c');
+        $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
+        $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
+        return $query;
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
@@ -129,6 +149,7 @@ class ProductAdmin extends Admin
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))
+            ->add('created', 'date', array('widget' => 'single_text'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

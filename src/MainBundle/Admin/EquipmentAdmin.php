@@ -12,6 +12,25 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class EquipmentAdmin extends Admin
 {
     /**
+     * override list query
+     *
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+        // add selected
+        $query->addSelect('p, pe, s');
+        $query->leftJoin($query->getRootAlias() . '.product', 'p');
+        $query->leftJoin($query->getRootAlias() . '.responsiblePersons', 'pe');
+        $query->leftJoin($query->getRootAlias() . '.spares', 's');
+        return $query;
+    }
+
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void

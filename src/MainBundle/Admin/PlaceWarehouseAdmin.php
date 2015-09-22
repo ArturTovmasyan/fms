@@ -52,8 +52,8 @@ class PlaceWarehouseAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('warehouse')
-//            ->add('mould')
-//            ->add('product')
+            ->add('mould')
+            ->add('product')
         ;
     }
 

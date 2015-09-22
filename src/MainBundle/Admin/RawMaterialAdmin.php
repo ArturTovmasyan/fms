@@ -11,6 +11,23 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class RawMaterialAdmin extends Admin
 {
     /**
+     * override list query
+     *
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+        // add selected
+        $query->addSelect('v, pw');
+        $query->leftJoin($query->getRootAlias() . '.vendors', 'v');
+        $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
+        return $query;
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
@@ -39,7 +56,7 @@ class RawMaterialAdmin extends Admin
     {
 
         //get subjec
-        $subject = $this->getSubject();
+//        $subject = $this->getSubject();
 
         $formMapper
             ->add('name')
