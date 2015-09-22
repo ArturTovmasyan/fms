@@ -49,7 +49,7 @@ class PlaceWarehouse
     /**
      * @ORM\ManyToMany(targetEntity="RawMaterial", mappedBy="placeWarehouse", cascade={"persist"})
      */
-    private $rawMaterial;
+    private $rawMaterials;
 
     /**
      * @var datetime $created
@@ -208,39 +208,6 @@ class PlaceWarehouse
     }
 
     /**
-     * Add rawMaterial
-     *
-     * @param \MainBundle\Entity\RawMaterial $rawMaterial
-     * @return PlaceWarehouse
-     */
-    public function addRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterial)
-    {
-        $this->rawMaterial[] = $rawMaterial;
-
-        return $this;
-    }
-
-    /**
-     * Remove rawMaterial
-     *
-     * @param \MainBundle\Entity\RawMaterial $rawMaterial
-     */
-    public function removeRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterial)
-    {
-        $this->rawMaterial->removeElement($rawMaterial);
-    }
-
-    /**
-     * Get rawMaterial
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getRawMaterial()
-    {
-        return $this->rawMaterial;
-    }
-
-    /**
      * Set created
      *
      * @param \DateTime $created
@@ -284,5 +251,38 @@ class PlaceWarehouse
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add rawMaterials
+     *
+     * @param \MainBundle\Entity\RawMaterial $rawMaterials
+     * @return PlaceWarehouse
+     */
+    public function addRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterials)
+    {
+        $this->rawMaterials[] = $rawMaterials;
+
+        return $this;
+    }
+
+    /**
+     * Remove rawMaterials
+     *
+     * @param \MainBundle\Entity\RawMaterial $rawMaterials
+     */
+    public function removeRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterials)
+    {
+        $this->rawMaterials->removeElement($rawMaterials);
+    }
+
+    /**
+     * Get rawMaterials
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRawMaterials()
+    {
+        return $this->rawMaterials;
     }
 }

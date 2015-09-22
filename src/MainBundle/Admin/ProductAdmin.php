@@ -43,23 +43,23 @@ class ProductAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //get subject
-        $subject = $this->getSubject();
+//        $subject = $this->getSubject();
 
         $formMapper
             ->add('name')
             ->add('client')
             ->add('description','textarea', array('required' => false))
-            ->add('gost');
+            ->add('gost')
 
-        if($subject->getCountInWarehouse() == 0) {
-            $formMapper
-                ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
-        }
+//        if($subject->getCountInWarehouse() == 0) {
+//            $formMapper
+                ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+//        }
 
-        if($subject->getGeneralCount() == 0) {
-            $formMapper
+//        if($subject->getGeneralCount() == 0) {
+//            $formMapper
                 ->add('generalCount', null, array('label' => 'general_count'));
-        }
+//        }
 
         $formMapper
             ->add('purposeList', null, array('label' => 'Purpose'))

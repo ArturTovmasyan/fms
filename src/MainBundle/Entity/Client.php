@@ -44,6 +44,11 @@ class Client
     private $product;
 
     /**
+     * @ORM\ManyToMany(targetEntity="RawMaterial", mappedBy="vendors", cascade={"persist"})
+     */
+    private $rawMaterials;
+
+    /**
      * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -208,5 +213,38 @@ class Client
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add rawMaterials
+     *
+     * @param \MainBundle\Entity\RawMaterial $rawMaterials
+     * @return Client
+     */
+    public function addRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterials)
+    {
+        $this->rawMaterials[] = $rawMaterials;
+
+        return $this;
+    }
+
+    /**
+     * Remove rawMaterials
+     *
+     * @param \MainBundle\Entity\RawMaterial $rawMaterials
+     */
+    public function removeRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterials)
+    {
+        $this->rawMaterials->removeElement($rawMaterials);
+    }
+
+    /**
+     * Get rawMaterials
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRawMaterials()
+    {
+        return $this->rawMaterials;
     }
 }

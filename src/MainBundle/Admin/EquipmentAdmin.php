@@ -22,13 +22,13 @@ class EquipmentAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('code')
-            ->add('getStringWorkshop')
-            ->add('getStringState', null, array('label'=>'state'))
+            ->add('getStringWorkshop', null, array('label' => 'equipment_workshop'))
+            ->add('getStringState', null, array('label'=>'State'))
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
-            ->add('responsiblePersons')
-            ->add('getStringDeployment')
+            ->add('responsiblePersons', null, array('label' => 'responsible_person'))
+            ->add('getStringDeployment', null, array('label' => 'deployment'))
             ->add('spares')
             ->add('image')
             ->add('chronologyFile')
@@ -59,7 +59,7 @@ class EquipmentAdmin extends Admin
                 "Մետաղամշակման",
                 "Լաբորատորիա",
                 "Այլ")))
-            ->add('deployment', 'choice', array('choices'=> array(
+            ->add('deployment', 'choice', array('label' => 'deployment', 'choices'=> array(
                 "BNGO",
                 "KVARTAL",
                 "CHERMUSHKA",
@@ -68,7 +68,7 @@ class EquipmentAdmin extends Admin
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
-            ->add('responsiblePersons')
+            ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('spares')
             ->add('image', 'sonata_type_model_list',
                 array('required' => false),
@@ -112,7 +112,7 @@ class EquipmentAdmin extends Admin
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
-            ->add('responsiblePersons')
+            ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('getStringDeployment')
             ->add('spares')
             ->add('image', 'sonata_type_model_list',

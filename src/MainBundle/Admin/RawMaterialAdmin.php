@@ -19,15 +19,17 @@ class RawMaterialAdmin extends Admin
     {
         $showMapper
             ->add('name')
+            ->add('category')
+            ->add('vendors')
             ->add('gost')
             ->add('description')
             ->add('code')
             ->add('technicalFile')
             ->add('getStringSize', null, array('label' => 'size'))
-            ->add('minimalVolume')
-            ->add('placeWarehouse')
+            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('image')
-            ->add('countInWarehouse')
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
@@ -42,6 +44,7 @@ class RawMaterialAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('category')
+            ->add('vendors')
             ->add('gost')
             ->add('description')
             ->add('code')
@@ -58,12 +61,12 @@ class RawMaterialAdmin extends Admin
                 "Մետր",
                 "Հատ",
                 "Կոմպլեկտ",
-                "Լիտր")));
+                "Լիտր")))
 
-        if($subject->getCountInWarehouse() == 0) {
-            $formMapper
+//        if($subject->getCountInWarehouse() == 0) {
+//            $formMapper
                 ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
-        }
+//        }
 //        $formMapper
 //            ->add('vendor')
         ;
@@ -75,6 +78,8 @@ class RawMaterialAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
+            ->add('category')
+            ->add('vendors')
             ->add('gost')
             ->add('code')
         ;
@@ -85,15 +90,17 @@ class RawMaterialAdmin extends Admin
     {
         $listMapper
             ->add('name')
+            ->add('category')
+            ->add('vendors')
             ->add('gost')
             ->add('description')
             ->add('code')
             ->add('technicalFile')
             ->add('getStringSize', null, array('label' => 'size'))
-            ->add('minimalVolume')
-            ->add('placeWarehouse')
+            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('image')
-            ->add('countInWarehouse')
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

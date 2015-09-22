@@ -66,11 +66,11 @@ class MouldAdmin extends Admin
                 "Վերանորոգման ենթակա",
                 "Անպիտան",
                 "Ձևափոխված")))
-            ->add('bandwidth');
-        if($subject->getGeneralCount() == 0) {
-            $formMapper
+            ->add('bandwidth')
+//        if($subject->getGeneralCount() == 0) {
+//            $formMapper
                 ->add('generalCount', null, array('label' => 'general_count'));
-        }
+//        }
         $formMapper
             ->add('preparationTime', 'date', array('widget' => 'single_text', 'label' => 'preparation_time'))
             ->add('lastRenovated', 'date', array('label' => 'last_renovated', 'widget' => 'single_text'))

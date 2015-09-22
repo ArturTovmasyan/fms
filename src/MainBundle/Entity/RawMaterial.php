@@ -64,7 +64,11 @@ class RawMaterial
      */
     private $category;
 
-//    private $vendor;
+    /**
+     * @ORM\ManyToMany(targetEntity="Client", cascade={"persist"}, inversedBy="rawMaterials")
+     * @ORM\JoinTable(name="raw_materials_client")
+     */
+    private $vendors;
 
 //for operation card
 //    private $product;
@@ -84,7 +88,7 @@ class RawMaterial
     private $minimalVolume;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rawMaterial", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rawMaterials", cascade={"persist"})
      * @ORM\JoinTable(name="raw_place")
      */
     private $placeWarehouse;
@@ -116,6 +120,14 @@ class RawMaterial
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
+
+    /**
+     * @return string
+     */
+    function __toString()
+    {
+        return ((string)$this->name) ? (string)$this->name : '';
+    }
 
     /**
      * Get id
@@ -476,5 +488,38 @@ class RawMaterial
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Add vendors
+     *
+     * @param \MainBundle\Entity\Client $vendors
+     * @return RawMaterial
+     */
+    public function addVendor(\MainBundle\Entity\Client $vendors)
+    {
+        $this->vendors[] = $vendors;
+
+        return $this;
+    }
+
+    /**
+     * Remove vendors
+     *
+     * @param \MainBundle\Entity\Client $vendors
+     */
+    public function removeVendor(\MainBundle\Entity\Client $vendors)
+    {
+        $this->vendors->removeElement($vendors);
+    }
+
+    /**
+     * Get vendors
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVendors()
+    {
+        return $this->vendors;
     }
 }
