@@ -102,7 +102,7 @@ sonata_block:
         sonata.block.service.rss:
 
 sonata_admin:
-    title:      Factory
+    title:      FMS
     title_logo: /bundles/sonataadmin/logo_title.png
     templates:
             # default global templates
@@ -170,7 +170,6 @@ sonata_media:
         local:
             directory: %kernel.root_dir%/../web/uploads/media
             create: false
-#
     buzz:
         connector:  sonata.media.buzz.connector.file_get_contents # sonata.media.buzz.connector.curl
 

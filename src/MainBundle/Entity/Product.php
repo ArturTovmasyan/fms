@@ -114,7 +114,7 @@ class Product
     private $purposeList;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
+     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
      */
     private $certificate;
 
@@ -291,7 +291,7 @@ class Product
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -671,13 +671,14 @@ class Product
         return $this->countInWarehouse;
     }
 
+
     /**
      * Set certificate
      *
-     * @param \Application\MediaBundle\Entity\Media $certificate
+     * @param \Application\MediaBundle\Entity\Gallery $certificate
      * @return Product
      */
-    public function setCertificate(\Application\MediaBundle\Entity\Media $certificate = null)
+    public function setCertificate(\Application\MediaBundle\Entity\Gallery $certificate = null)
     {
         $this->certificate = $certificate;
 
@@ -687,7 +688,7 @@ class Product
     /**
      * Get certificate
      *
-     * @return \Application\MediaBundle\Entity\Media 
+     * @return \Application\MediaBundle\Entity\Gallery 
      */
     public function getCertificate()
     {

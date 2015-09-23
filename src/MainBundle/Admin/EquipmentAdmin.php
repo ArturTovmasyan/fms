@@ -139,10 +139,10 @@ class EquipmentAdmin extends Admin
                 array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context'  => 'default')))
             ->add('chronologyFile', 'sonata_type_model_list',
                 array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context'  => 'default')))
+                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context'  => 'default')))
             ->add('technicalFile', 'sonata_type_model_list',
                 array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context'  => 'default')))
+                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context'  => 'default')))
             ->add('elPower')
             ->add('weight')
             ->add('carryingPrice')

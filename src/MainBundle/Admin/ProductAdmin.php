@@ -102,7 +102,7 @@ class ProductAdmin extends Admin
                 array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
             ->add('certificate', 'sonata_type_model_list',
                 array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
+                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
             ->add('weight')
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))

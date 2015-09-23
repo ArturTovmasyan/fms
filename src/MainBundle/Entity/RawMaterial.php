@@ -55,7 +55,7 @@ class RawMaterial
     private $code;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
+     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
      */
     private $technicalFile;
 
@@ -206,29 +206,6 @@ class RawMaterial
     public function getCode()
     {
         return $this->code;
-    }
-
-    /**
-     * Set technicalFile
-     *
-     * @param string $technicalFile
-     * @return RawMaterial
-     */
-    public function setTechnicalFile($technicalFile)
-    {
-        $this->technicalFile = $technicalFile;
-
-        return $this;
-    }
-
-    /**
-     * Get technicalFile
-     *
-     * @return string
-     */
-    public function getTechnicalFile()
-    {
-        return $this->technicalFile;
     }
 
     /**
@@ -521,5 +498,28 @@ class RawMaterial
     public function getVendors()
     {
         return $this->vendors;
+    }
+
+    /**
+     * Set technicalFile
+     *
+     * @param \Application\MediaBundle\Entity\Gallery $technicalFile
+     * @return RawMaterial
+     */
+    public function setTechnicalFile(\Application\MediaBundle\Entity\Gallery $technicalFile = null)
+    {
+        $this->technicalFile = $technicalFile;
+
+        return $this;
+    }
+
+    /**
+     * Get technicalFile
+     *
+     * @return \Application\MediaBundle\Entity\Gallery 
+     */
+    public function getTechnicalFile()
+    {
+        return $this->technicalFile;
     }
 }

@@ -67,7 +67,7 @@ class RawMaterialAdmin extends Admin
             ->add('code')
             ->add('technicalFile', 'sonata_type_model_list',
                 array('label' => 'technical_file', 'required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
+                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('image', 'sonata_type_model_list',
@@ -113,10 +113,10 @@ class RawMaterialAdmin extends Admin
             ->add('description')
             ->add('code')
             ->add('technicalFile')
+            ->add('image')
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('image')
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('_action', 'actions', array(
                 'actions' => array(
