@@ -127,6 +127,9 @@ sonata_user:
     class:
         user:         Application\UserBundle\Entity\User
         group:        Application\UserBundle\Entity\Group
+    admin:
+        user:
+            class: Application\UserBundle\Admin\Model\UserAdmin
 
 #SONATA MEDIA BUNDLE CONFIGS
 sonata_media:
