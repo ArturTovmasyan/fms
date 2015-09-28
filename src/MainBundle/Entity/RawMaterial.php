@@ -62,7 +62,7 @@ class RawMaterial
     private $technicalFile;
 
     /**
-     * @ORM\OneToOne(targetEntity="RawCategory")
+     * @ORM\ManyToOne(targetEntity="RawCategory", inversedBy="rawMaterial", cascade={"persist"})
      */
     private $category;
 
@@ -446,28 +446,6 @@ class RawMaterial
         return $this->updated;
     }
 
-    /**
-     * Set category
-     *
-     * @param \MainBundle\Entity\RawCategory $category
-     * @return RawMaterial
-     */
-    public function setCategory(\MainBundle\Entity\RawCategory $category = null)
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    /**
-     * Get category
-     *
-     * @return \MainBundle\Entity\RawCategory
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
 
     /**
      * Add vendors
@@ -523,5 +501,28 @@ class RawMaterial
     public function getTechnicalFile()
     {
         return $this->technicalFile;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \MainBundle\Entity\RawCategory $category
+     * @return RawMaterial
+     */
+    public function setCategory(\MainBundle\Entity\RawCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \MainBundle\Entity\RawCategory 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

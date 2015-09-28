@@ -31,6 +31,11 @@ class RawCategory
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="RawMaterial", mappedBy="category", cascade={"persist"})
+     */
+    protected $rawMaterial;
+
+    /**
      * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -132,5 +137,45 @@ class RawCategory
     public function getUpdated()
     {
         return $this->updated;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->rawMaterial = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add rawMaterial
+     *
+     * @param \MainBundle\Entity\RawMaterial $rawMaterial
+     * @return RawCategory
+     */
+    public function addRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterial)
+    {
+        $this->rawMaterial[] = $rawMaterial;
+
+        return $this;
+    }
+
+    /**
+     * Remove rawMaterial
+     *
+     * @param \MainBundle\Entity\RawMaterial $rawMaterial
+     */
+    public function removeRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterial)
+    {
+        $this->rawMaterial->removeElement($rawMaterial);
+    }
+
+    /**
+     * Get rawMaterial
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRawMaterial()
+    {
+        return $this->rawMaterial;
     }
 }

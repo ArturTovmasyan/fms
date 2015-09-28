@@ -167,6 +167,9 @@ class Equipment
     //relation
 //    private $chronology for SHOW ;
 
+    //repair chronology
+//    private $repairChronology;
+
     /**
      * @return string
      */

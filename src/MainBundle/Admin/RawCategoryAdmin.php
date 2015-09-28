@@ -21,6 +21,7 @@ class RawCategoryAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('name')
+            ->add('rawMaterial')
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
@@ -30,6 +31,7 @@ class RawCategoryAdmin extends Admin
     {
         $formMapper
             ->add('name')
+            ->add('rawMaterial')
         ;
 
     }
@@ -49,6 +51,7 @@ class RawCategoryAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
+            ->add('rawMaterial')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
