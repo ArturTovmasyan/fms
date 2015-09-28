@@ -59,7 +59,7 @@ class UserAdmin extends Admin
         $listMapper
             ->addIdentifier('username')
             ->add('email')
-//            ->add('groups')
+            ->add('groups')
             ->add('enabled', null, array('editable' => true))
             ->add('locked', null, array('editable' => true))
             ->add('createdAt')
@@ -81,7 +81,7 @@ class UserAdmin extends Admin
             ->add('id')
             ->add('username')
             ->add('email')
-//            ->add('groups')
+            ->add('groups')
         ;
     }
 
@@ -95,9 +95,9 @@ class UserAdmin extends Admin
                 ->add('username')
                 ->add('email')
             ->end()
-//            ->with('Groups')
-//                ->add('groups')
-//            ->end()
+            ->with('Groups')
+                ->add('groups')
+            ->end()
             ->with('Profile')
                 ->add('firstname')
                 ->add('lastname')
@@ -118,13 +118,13 @@ class UserAdmin extends Admin
                     'required' => (!$this->getSubject() || is_null($this->getSubject()->getId()))
                 ))
             ->end()
-//            ->with('Groups')
-//                ->add('groups', 'sonata_type_model', array(
-//                    'required' => false,
-//                    'expanded' => true,
-//                    'multiple' => true
-//                ))
-//            ->end()
+            ->with('Groups')
+                ->add('groups', 'sonata_type_model', array(
+                    'required' => false,
+                    'expanded' => true,
+                    'multiple' => true
+                ))
+            ->end()
             ->with('Profile')
                 ->add('firstname', null, array('required' => false))
                 ->add('lastname', null, array('required' => false))

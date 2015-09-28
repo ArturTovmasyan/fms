@@ -62,26 +62,14 @@ class ProductAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        //get subject
-//        $subject = $this->getSubject();
 
         $formMapper
             ->add('name')
             ->add('client')
             ->add('description','textarea', array('required' => false))
             ->add('gost')
-
-//        if($subject->getCountInWarehouse() == 0) {
-//            $formMapper
-                ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-//        }
-
-//        if($subject->getGeneralCount() == 0) {
-//            $formMapper
-                ->add('generalCount', null, array('label' => 'general_count'));
-//        }
-
-        $formMapper
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+            ->add('generalCount', null, array('label' => 'general_count'))
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('size', 'choice', array('choices'=> array(
@@ -105,9 +93,22 @@ class ProductAdmin extends Admin
                 array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
             ->add('weight')
             ->add('equipment', null, array('label' => 'equipment'))
+//                'query_builder' => function ($query) {
+//                    return $query->createQueryBuilder('eq')
+//                        ->addSelect('eq')
+//                        ->leftJoin('eq.product', 'p')
+//                        ->leftJoin('eq.mould', 'm')
+//                        ->where('p is null and m is null');
+//                }) )
             ->add('mould', null, array('label' => 'mould'))
+//                'query_builder' => function ($query) {
+//                    return $query->createQueryBuilder('m')
+//                        ->addSelect('m')
+//                        ->leftJoin('m.product', 'p')
+//                        ->leftJoin('m.equipment', 'eq')
+//                        ->where('p is null and eq is null');
+//                }))
         ;
-
     }
 
     // Fields to be shown on filter forms

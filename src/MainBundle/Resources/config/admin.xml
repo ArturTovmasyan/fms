@@ -85,6 +85,14 @@
             <argument/>
         </service>
 
+        <!--RawExpense-->
+        <service id="sonata.admin.main.raw.expense" class="MainBundle\Admin\RawExpenseAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RawExpense"/>
+            <argument/>
+            <argument>MainBundle\Entity\RawExpense</argument>
+            <argument/>
+        </service>
+
     </services>
 
 </container>
