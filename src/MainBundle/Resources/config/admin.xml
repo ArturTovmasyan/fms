@@ -93,6 +93,14 @@
             <argument/>
         </service>
 
+        <!--BonusList-->
+        <service id="sonata.admin.main.bonus.list" class="MainBundle\Admin\BonusListAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Salary" label="BonusList"/>
+            <argument/>
+            <argument>MainBundle\Entity\BonusList</argument>
+            <argument/>
+        </service>
+
     </services>
 
 </container>

@@ -73,9 +73,18 @@ class RawMaterial
     private $vendors;
 
 //for operation card
-//    private $product;
+//    private $rawExpense;
 
-//    private $price;
+    /**
+     * @ORM\Column(name="actual_cost", type="integer")
+     */
+    private $actualCost;
+
+    /**
+     * @ORM\Column(name="balance_cost", type="integer")
+     */
+    private $balanceCost;
+
 
     /**
      * @ORM\Column(name="size", type="smallint")
@@ -524,5 +533,51 @@ class RawMaterial
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * Set actualCost
+     *
+     * @param integer $actualCost
+     * @return RawMaterial
+     */
+    public function setActualCost($actualCost)
+    {
+        $this->actualCost = $actualCost;
+
+        return $this;
+    }
+
+    /**
+     * Get actualCost
+     *
+     * @return integer 
+     */
+    public function getActualCost()
+    {
+        return $this->actualCost;
+    }
+
+    /**
+     * Set balanceCost
+     *
+     * @param integer $balanceCost
+     * @return RawMaterial
+     */
+    public function setBalanceCost($balanceCost)
+    {
+        $this->balanceCost = $balanceCost;
+
+        return $this;
+    }
+
+    /**
+     * Get balanceCost
+     *
+     * @return integer 
+     */
+    public function getBalanceCost()
+    {
+        return $this->balanceCost;
     }
 }
