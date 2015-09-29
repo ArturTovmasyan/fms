@@ -145,8 +145,8 @@ sonata_media:
                 strategy: sonata.media.security.superadmin_strategy
                 mode: http
             providers:
-                - sonata.media.provider.dailymotion
-                - sonata.media.provider.youtube
+#                - sonata.media.provider.dailymotion
+#                - sonata.media.provider.youtube
                 - sonata.media.provider.image
                 - sonata.media.provider.file
             formats:
