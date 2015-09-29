@@ -66,21 +66,21 @@ class Mould
     /**
      * @var string
      *
-     * @ORM\Column(name="last_renovated", type="datetime")
+     * @ORM\Column(name="last_repair", type="datetime")
      */
-    private $lastRenovated;
+    private $lastRepair;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="renovate_data", type="string", nullable=true, length=255)
+     * @ORM\Column(name="repair_data", type="string", nullable=true, length=255)
      */
-    private $renovateData;
+    private $repairData;
 
     /**
-     * @ORM\Column(name="price", type="integer")
+     * @ORM\Column(name="cost", type="integer")
      */
-    private $price;
+    private $cost;
 
     /**
      * @ORM\Column(name="accounting_price", type="integer")
@@ -144,7 +144,13 @@ class Mould
      * @ORM\Column(name="general_count", type="integer")
      */
     private $generalCount;
-    
+
+    /**
+     * @var integer
+     * @ORM\Column(name="mould_type", type="integer", options={"default"=1})
+     */
+    private $mouldType = 1;
+
     //relation
 //    private $currentOrder;
 
@@ -298,29 +304,6 @@ class Mould
     public function getBandwidth()
     {
         return $this->bandwidth;
-    }
-
-    /**
-     * Set lastRenovated
-     *
-     * @param \DateTime $lastRenovated
-     * @return Mould
-     */
-    public function setLastRenovated($lastRenovated)
-    {
-        $this->lastRenovated = $lastRenovated;
-
-        return $this;
-    }
-
-    /**
-     * Get lastRenovated
-     *
-     * @return \DateTime
-     */
-    public function getLastRenovated()
-    {
-        return $this->lastRenovated;
     }
 
     /**
@@ -560,29 +543,6 @@ class Mould
     }
 
     /**
-     * Set price
-     *
-     * @param integer $price
-     * @return Mould
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * Get price
-     *
-     * @return integer 
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
      * This function is used to get mould state string name
      *
      * @return null|string
@@ -611,29 +571,6 @@ class Mould
         }
 
         return $stringState;
-    }
-
-    /**
-     * Set renovateData
-     *
-     * @param string $renovateData
-     * @return Mould
-     */
-    public function setRenovateData($renovateData)
-    {
-        $this->renovateData = $renovateData;
-
-        return $this;
-    }
-
-    /**
-     * Get renovateData
-     *
-     * @return string 
-     */
-    public function getRenovateData()
-    {
-        return $this->renovateData;
     }
 
     /**
@@ -736,5 +673,97 @@ class Mould
     public function getPlaceWarehouse()
     {
         return $this->placeWarehouse;
+    }
+
+    /**
+     * Set mouldType
+     *
+     * @param integer $mouldType
+     * @return Mould
+     */
+    public function setMouldType($mouldType)
+    {
+        $this->mouldType = $mouldType;
+
+        return $this;
+    }
+
+    /**
+     * Get mouldType
+     *
+     * @return integer 
+     */
+    public function getMouldType()
+    {
+        return $this->mouldType;
+    }
+
+    /**
+     * Set cost
+     *
+     * @param integer $cost
+     * @return Mould
+     */
+    public function setCost($cost)
+    {
+        $this->cost = $cost;
+
+        return $this;
+    }
+
+    /**
+     * Get cost
+     *
+     * @return integer 
+     */
+    public function getCost()
+    {
+        return $this->cost;
+    }
+
+    /**
+     * Set lastRepair
+     *
+     * @param \DateTime $lastRepair
+     * @return Mould
+     */
+    public function setLastRepair($lastRepair)
+    {
+        $this->lastRepair = $lastRepair;
+
+        return $this;
+    }
+
+    /**
+     * Get lastRepair
+     *
+     * @return \DateTime 
+     */
+    public function getLastRepair()
+    {
+        return $this->lastRepair;
+    }
+
+    /**
+     * Set repairData
+     *
+     * @param string $repairData
+     * @return Mould
+     */
+    public function setRepairData($repairData)
+    {
+        $this->repairData = $repairData;
+
+        return $this;
+    }
+
+    /**
+     * Get repairData
+     *
+     * @return string 
+     */
+    public function getRepairData()
+    {
+        return $this->repairData;
     }
 }

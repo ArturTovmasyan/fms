@@ -83,7 +83,7 @@ class EquipmentAdmin extends Admin
                 "KVARTAL",
                 "CHERMUSHKA",
                 "ERORDMAS")))
-//            ->add('mould')// dinamic show by workshop selected data
+            ->add('mould')// dinamic show by workshop selected data
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
@@ -103,7 +103,6 @@ class EquipmentAdmin extends Admin
             ->add('carryingPrice')
             ->add('factualPrice')
             ->add('inspectionPeriod')
-            ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
         ;
     }
 

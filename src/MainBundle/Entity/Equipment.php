@@ -16,7 +16,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Equipment
 {
-
     /**
      * @var integer
      *
@@ -640,6 +639,10 @@ class Equipment
      */
     public function setInspectionPeriod($inspectionPeriod)
     {
+        //set date
+        $date =$this->created ? $this->created : new \DateTime();
+        $this->setInspectionNextDate(date_add($date, date_interval_create_from_date_string($inspectionPeriod . 'day')));
+
         $this->inspectionPeriod = $inspectionPeriod;
 
         return $this;

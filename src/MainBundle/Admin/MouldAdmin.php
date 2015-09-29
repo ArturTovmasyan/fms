@@ -41,16 +41,17 @@ class MouldAdmin extends Admin
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('getStringState', null, array('label' => 'current_state'))
             ->add('preparationTime', 'date', array('widget'=>'single_text', 'label' => 'preparation_time'))
-            ->add('lastRenovated', 'date', array('label' => 'last_renovated', 'widget' => 'single_text'))
-            ->add('price', null, array('label' => 'cost_price'))
+            ->add('lastRepair', 'date', array('label' => 'last_repair', 'widget' => 'single_text'))
+            ->add('cost', null, array('label' => 'cost_price'))
             ->add('actualPrice', null, array('label' => 'actual_price'))
             ->add('accountingPrice', null, array('label' => 'accounting_price'))
             ->add('generalCount', null, array('label' => 'general_count'))
             ->add('created', 'datetime', array('widget' => 'single_text'))
             ->add('product')
             ->add('bandwidth')
+            ->add('mouldType')
             ->add('equipment')
-            ->add('renovateData', null, array('label' => 'renovate_date'))
+            ->add('repairData', null, array('label' => 'repair_date'))
             ->add('description')
             ->add('image')
             ->add('sketch')
@@ -63,13 +64,11 @@ class MouldAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
 
-        //get subjec
-        $subject = $this->getSubject();
-
         $formMapper
             ->add('code')
             ->add('product')
-            ->add('renovateData', null, array('label' => 'renovate_date'))
+            ->add('mouldType')
+            ->add('repairData', null, array('label' => 'repair_date'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('description')
             ->add('purposeList', null, array('label' => 'Purpose'))
@@ -85,14 +84,10 @@ class MouldAdmin extends Admin
                 "Անպիտան",
                 "Ձևափոխված")))
             ->add('bandwidth')
-//        if($subject->getGeneralCount() == 0) {
-//            $formMapper
-                ->add('generalCount', null, array('label' => 'general_count'));
-//        }
-        $formMapper
+            ->add('generalCount', null, array('label' => 'general_count'))
             ->add('preparationTime', 'date', array('widget' => 'single_text', 'label' => 'preparation_time'))
-            ->add('lastRenovated', 'date', array('label' => 'last_renovated', 'widget' => 'single_text'))
-            ->add('price')
+            ->add('lastRepair', 'date', array('label' => 'last_repair', 'widget' => 'single_text'))
+            ->add('cost')
             ->add('actualPrice', null, array('label' => 'actual_price'))
             ->add('accountingPrice', null, array('label' => 'accounting_price'))
             ->add('weight')
@@ -107,6 +102,7 @@ class MouldAdmin extends Admin
         $datagridMapper
             ->add('id', null, array('label' => 'code'))
             ->add('placeWarehouse')
+            ->add('mouldType')
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('code')
         ;
@@ -119,7 +115,8 @@ class MouldAdmin extends Admin
             ->add('id')
             ->add('code')
             ->add('product')
-            ->add('renovateData', null, array('label' => 'renovate_date'))
+            ->add('mouldType')
+            ->add('repairData', null, array('label' => 'repair_date'))
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('description')
@@ -127,14 +124,14 @@ class MouldAdmin extends Admin
             ->add('bandwidth')
             ->add('generalCount', null, array('label' => 'general_count'))
             ->add('preparationTime', 'date', array('widget' => 'single_text', 'label'=>'preparation_time'))
-            ->add('lastRenovated', 'date', array('label' => 'last_renovated', 'widget' => 'single_text'))
+            ->add('lastRepair', 'date', array('label' => 'last_repair', 'widget' => 'single_text'))
             ->add('images', 'sonata_type_model_list',
                 array('required' => false),
                 array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
             ->add('sketch', 'sonata_type_model_list',
                 array('required' => false),
                 array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('price')
+            ->add('cost')
             ->add('actualPrice', null, array('label' => 'actual_price'))
             ->add('accountingPrice', null, array('label' => 'accounting_price'))
             ->add('weight')
