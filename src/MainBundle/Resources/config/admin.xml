@@ -101,6 +101,14 @@
             <argument/>
         </service>
 
+        <!--PositionsList-->
+        <service id="sonata.admin.main.positions.list" class="MainBundle\Admin\PositionsListAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Salary" label="PositionsList"/>
+            <argument/>
+            <argument>MainBundle\Entity\PositionsList</argument>
+            <argument/>
+        </service>
+
     </services>
 
 </container>
