@@ -75,7 +75,7 @@ class RawExpenseAdmin extends Admin
     }
 
     //set rawMaterial in rawExpense
-    public function setRelations($object)
+    public function setPriceData($object)
     {
         //get count
         $count = $object->getCount();
@@ -92,12 +92,12 @@ class RawExpenseAdmin extends Admin
 
     public function preUpdate($object)
     {
-        $this->setRelations($object);
+        $this->setPriceData($object);
     }
 
     public function prePersist($object)
     {
-        $this->setRelations($object);
+        $this->setPriceData($object);
     }
 
 }
