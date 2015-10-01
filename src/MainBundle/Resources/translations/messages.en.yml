@@ -32,7 +32,8 @@ Mould: Կաղապար
 cost_price: Ինքնարժեքը
 actual_price: Փաստացի արժեքը
 accounting_price: Հաշվապահական արժեքը
-renovate_date: Վերանորոգման բնույթը
+renovate_data: Վերանորոգման բնույթը
+ProfessionsTariff: Գործավարձի տարիֆ
 last_repair: Վերջին վերանորոգում
 Image: Նկարներ
 Sketch: Էսքիզներ
@@ -44,16 +45,21 @@ State: Վիճակը
 equipment_workshop: Շահագործող արտադրամասը
 Workshop: Արտադրամասը
 preparation_time: Հանձնման ժամկետը
+ProfessionCategory: Գործավարձի կարգը
 general_count: Ընդհանուր քանակը
 technical_file: Տեխ. ֆայլ
 minimal_volume: Մինիմալ ծավալը
 RawCategory: Հումքի կատեգորիան
+SalariesType: Գործավարձի տեսակը
 Category: Կատեգորիան
 raw_materials: Հումքեր
 Vendors: Մատակարար
 RawExpense: Նյութածախս
 BonusList: Հավելավճարներ
 PositionsList: Հաստիքակազմ
+salaries_type: Գործավարձի տեսակը
+profession_category: Գործավարձի կարգը
+
 
 
 

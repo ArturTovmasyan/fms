@@ -57,6 +57,7 @@ class EquipmentAdmin extends Admin
             ->add('carryingPrice')
             ->add('factualPrice')
             ->add('inspectionPeriod')
+            ->add('mould')
             ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
@@ -199,6 +200,8 @@ class EquipmentAdmin extends Admin
 
         // add spares
         $spares = $object->getSpares();
+
+        //check deleted spares
         $removedSpares = $spares->getDeleteDiff();
 
         foreach($removedSpares as $removedSpare)

@@ -109,6 +109,30 @@
             <argument/>
         </service>
 
+        <!--ProfessionsTariff-->
+        <service id="sonata.admin.main.professions.tariff" class="MainBundle\Admin\ProfessionsTariffAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Salary" label="ProfessionsTariff"/>
+            <argument/>
+            <argument>MainBundle\Entity\Professions</argument>
+            <argument/>
+        </service>
+
+        <!--SalariesType-->
+        <service id="sonata.admin.main.salaries.type" class="MainBundle\Admin\SalariesTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="Salary" label="SalariesType"/>
+            <argument/>
+            <argument>MainBundle\Entity\SalariesType</argument>
+            <argument/>
+        </service>
+
+        <!--ProfessionCategory-->
+        <service id="sonata.admin.main.profession.category" class="MainBundle\Admin\ProfessionCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="Salary" label="ProfessionCategory"/>
+            <argument/>
+            <argument>MainBundle\Entity\ProfessionCategory</argument>
+            <argument/>
+        </service>
+
     </services>
 
 </container>

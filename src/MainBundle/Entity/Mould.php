@@ -36,29 +36,21 @@ class Mould
     private $code;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="preparation_time", type="datetime")
      */
     private $preparationTime;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="current_state", type="smallint", length=255)
      */
     private $currentState;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="bandwidth", type="integer")
      */
     private $bandwidth;
@@ -93,15 +85,11 @@ class Mould
     private $actualPrice;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="weight", type="integer")
      */
     private $weight;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="over_size", type="integer")
      */
     private $overSize;
