@@ -11,6 +11,23 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class ProfessionsTariffAdmin extends Admin
 {
     /**
+     * override list query
+     *
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+        // add selected
+        $query->addSelect('ps, pc');
+        $query->leftJoin($query->getRootAlias() . '.salariesType', 'ps');
+        $query->leftJoin('ps.professionCategory', 'pc');
+        return $query;
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
@@ -29,14 +46,14 @@ class ProfessionsTariffAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('salariesType', 'sonata_type_collection', array(
-                    'label' => 'salaries_type',
-                    'by_reference' => false,
-                    'mapped'   => true,
-                    'required' => true),
-            array(
-                'edit' => 'inline',
-                'inline' => 'table'
-            ))
+                'label' => 'salaries_type',
+                'by_reference' => false,
+                'mapped'   => true,
+                'required' => true),
+                array(
+                    'edit' => 'inline',
+                    'inline' => 'table'
+                ))
         ;
     }
 
@@ -46,6 +63,7 @@ class ProfessionsTariffAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
+            ->add('salariesType.professionCategory.name', null, array('label' => 'profession_category'));
         ;
     }
 
