@@ -2,7 +2,7 @@ Id: Հ/Հ
 Equipment: Սարքավորում
 Action: Գործիքներ
 PlaceWarehouse: Տեղը պահեստում
-RawMaterial: Հումքեր
+RubberMaterials: Ռետ.-տեխ հումքեր
 Code: Կոդը
 Price: Գինը
 Name: Անուն
@@ -49,10 +49,10 @@ ProfessionCategory: Գործավարձի կարգը
 general_count: Ընդհանուր քանակը
 technical_file: Տեխ. ֆայլ
 minimal_volume: Մինիմալ ծավալը
-RawCategory: Հումքի կատեգորիան
+RubberCategory: Ռետ.-տեխ.հումքի կատեգորիան
 SalariesType: Գործավարձի տեսակը
 Category: Կատեգորիան
-raw_materials: Հումքեր
+rubber_materials: Ռետ.-տեխ հումքեր
 Vendors: Մատակարար
 RawExpense: Նյութածախս
 BonusList: Հավելավճարներ

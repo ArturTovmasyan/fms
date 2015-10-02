@@ -21,6 +21,7 @@ class ClientAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('name')
+            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
             ->add('lastName', null, array('label' => 'lastName'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
@@ -50,6 +51,7 @@ class ClientAdmin extends Admin
     {
         $listMapper
             ->add('id')
+            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
             ->add('name')
             ->add('lastName', null, array('label' => 'lastName'))
             ->add('_action', 'actions', array(

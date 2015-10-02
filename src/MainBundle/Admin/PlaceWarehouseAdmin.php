@@ -24,7 +24,7 @@ class PlaceWarehouseAdmin extends Admin
         $query->addSelect('m, p, rm');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
-        $query->leftJoin($query->getRootAlias() . '.rawMaterials', 'rm');
+        $query->leftJoin($query->getRootAlias() . '.rubberMaterials', 'rm');
         return $query;
     }
 
@@ -40,7 +40,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('name')
             ->add('warehouse')
             ->add('mould')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
+            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
             ->add('product')
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
@@ -75,7 +75,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('warehouse')
             ->add('mould')
             ->add('product')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
+            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

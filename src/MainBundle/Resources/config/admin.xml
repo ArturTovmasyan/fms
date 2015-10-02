@@ -22,10 +22,10 @@
         </service>
 
         <!--RawMaterial-->
-        <service id="sonata.admin.main.raw" class="MainBundle\Admin\RawMaterialAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RawMaterial"/>
+        <service id="sonata.admin.main.rubber.materials" class="MainBundle\Admin\RubberMaterialsAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RubberMaterials"/>
             <argument/>
-            <argument>MainBundle\Entity\RawMaterial</argument>
+            <argument>MainBundle\Entity\RubberMaterials</argument>
             <argument/>
         </service>
 
@@ -78,10 +78,10 @@
         </service>
 
         <!--RawCategory-->
-        <service id="sonata.admin.main.raw.category" class="MainBundle\Admin\RawCategoryAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RawCategory"/>
+        <service id="sonata.admin.main.rubber.category" class="MainBundle\Admin\RubberCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RubberCategory"/>
             <argument/>
-            <argument>MainBundle\Entity\RawCategory</argument>
+            <argument>MainBundle\Entity\RubberCategory</argument>
             <argument/>
         </service>
 

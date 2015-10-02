@@ -91,7 +91,6 @@ class ProfessionsTariffAdmin extends Admin
 
         foreach($salariesTypes as $salariesType)
         {
-
             if(!$salariesTypes->contains($object))
             {
                 $salariesType->setProfession($object);

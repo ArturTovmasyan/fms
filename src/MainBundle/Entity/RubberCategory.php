@@ -7,12 +7,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * RawCategory
+ * RubberCategory
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class RawCategory
+class RubberCategory
 {
     /**
      * @var integer
@@ -31,9 +31,9 @@ class RawCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="RawMaterial", mappedBy="category", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RubberMaterials", mappedBy="category", cascade={"persist"})
      */
-    protected $rawMaterial;
+    protected $rubberMaterial;
 
     /**
      * @var datetime $created
@@ -146,36 +146,37 @@ class RawCategory
         $this->rawMaterial = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+
     /**
-     * Add rawMaterial
+     * Add rubberMaterial
      *
-     * @param \MainBundle\Entity\RawMaterial $rawMaterial
-     * @return RawCategory
+     * @param \MainBundle\Entity\RubberMaterials $rubberMaterial
+     * @return RubberCategory
      */
-    public function addRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterial)
+    public function addRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterial)
     {
-        $this->rawMaterial[] = $rawMaterial;
+        $this->rubberMaterial[] = $rubberMaterial;
 
         return $this;
     }
 
     /**
-     * Remove rawMaterial
+     * Remove rubberMaterial
      *
-     * @param \MainBundle\Entity\RawMaterial $rawMaterial
+     * @param \MainBundle\Entity\RubberMaterials $rubberMaterial
      */
-    public function removeRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterial)
+    public function removeRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterial)
     {
-        $this->rawMaterial->removeElement($rawMaterial);
+        $this->rubberMaterial->removeElement($rubberMaterial);
     }
 
     /**
-     * Get rawMaterial
+     * Get rubberMaterial
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRawMaterial()
+    public function getRubberMaterial()
     {
-        return $this->rawMaterial;
+        return $this->rubberMaterial;
     }
 }

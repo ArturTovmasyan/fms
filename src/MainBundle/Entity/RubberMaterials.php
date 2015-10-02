@@ -8,13 +8,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * RawMaterial
+ * RubberMaterials
  *
  * @ORM\Table()
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
  */
-class RawMaterial
+class RubberMaterials
 {
 
     /**
@@ -62,13 +62,13 @@ class RawMaterial
     private $technicalFile;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RawCategory", inversedBy="rawMaterial", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RubberCategory", inversedBy="rubberMaterial", cascade={"persist"})
      */
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Client", cascade={"persist"}, inversedBy="rawMaterials")
-     * @ORM\JoinTable(name="raw_materials_client")
+     * @ORM\ManyToMany(targetEntity="Client", cascade={"persist"}, inversedBy="rubberMaterials")
+     * @ORM\JoinTable(name="rubber_materials_client")
      */
     private $vendors;
 
@@ -99,7 +99,7 @@ class RawMaterial
     private $minimalVolume;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rawMaterials", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rubberMaterials", cascade={"persist"})
      * @ORM\JoinTable(name="raw_place")
      */
     private $placeWarehouse;

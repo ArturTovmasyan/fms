@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class RawMaterialAdmin extends Admin
+class RubberMaterialsAdmin extends Admin
 {
     /**
      * override list query
@@ -55,9 +55,6 @@ class RawMaterialAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
 
-        //get subjec
-//        $subject = $this->getSubject();
-
         $formMapper
             ->add('name')
             ->add('category', null, array('required' => true))
@@ -79,13 +76,7 @@ class RawMaterialAdmin extends Admin
                 "Հատ",
                 "Կոմպլեկտ",
                 "Լիտր")))
-
-//        if($subject->getCountInWarehouse() == 0) {
-//            $formMapper
-                ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
-//        }
-//        $formMapper
-//            ->add('vendor')
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
         ;
     }
 

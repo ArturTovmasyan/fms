@@ -2,14 +2,13 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Entity\Product;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class RawCategoryAdmin extends Admin
+class RubberCategoryAdmin extends Admin
 {
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -21,7 +20,7 @@ class RawCategoryAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('rawMaterial')
+            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
@@ -31,7 +30,7 @@ class RawCategoryAdmin extends Admin
     {
         $formMapper
             ->add('name')
-            ->add('rawMaterial')
+            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
         ;
 
     }
@@ -51,7 +50,7 @@ class RawCategoryAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('rawMaterial')
+            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
