@@ -151,10 +151,10 @@
         </service>
 
         <!--BonusList-->
-        <service id="sonata.admin.main.bonus.list" class="MainBundle\Admin\BonusListAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Salary" label="BonusList"/>
+        <service id="sonata.admin.main.extra.rates.list" class="MainBundle\Admin\ExtraRatesListAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Salary" label="ExtraRatesList"/>
             <argument/>
-            <argument>MainBundle\Entity\BonusList</argument>
+            <argument>MainBundle\Entity\ExtraRatesList</argument>
             <argument/>
         </service>
 
@@ -163,6 +163,14 @@
             <tag name="sonata.admin" manager_type="orm" group="Salary" label="PositionsList"/>
             <argument/>
             <argument>MainBundle\Entity\PositionsList</argument>
+            <argument/>
+        </service>
+
+        <!--ProfessionCategory-->
+        <service id="sonata.admin.main.profession.category" class="MainBundle\Admin\ProfessionCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="Salary" label="ProfessionCategory"/>
+            <argument/>
+            <argument>MainBundle\Entity\ProfessionCategory</argument>
             <argument/>
         </service>
 
@@ -179,14 +187,6 @@
             <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="Salary" label="SalariesType"/>
             <argument/>
             <argument>MainBundle\Entity\SalariesType</argument>
-            <argument/>
-        </service>
-
-        <!--ProfessionCategory-->
-        <service id="sonata.admin.main.profession.category" class="MainBundle\Admin\ProfessionCategoryAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="Salary" label="ProfessionCategory"/>
-            <argument/>
-            <argument>MainBundle\Entity\ProfessionCategory</argument>
             <argument/>
         </service>
 

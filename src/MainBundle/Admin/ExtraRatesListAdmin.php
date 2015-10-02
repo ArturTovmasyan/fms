@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class BonusListAdmin extends Admin
+class ExtraRatesListAdmin extends Admin
 {
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -20,7 +20,7 @@ class BonusListAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('position')
-            ->add('bonus')
+            ->add('extraRates')
         ;
     }
 
@@ -29,7 +29,7 @@ class BonusListAdmin extends Admin
     {
         $formMapper
             ->add('position')
-            ->add('bonus')
+            ->add('extraRates')
         ;
     }
 
@@ -39,7 +39,7 @@ class BonusListAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('position')
-            ->add('bonus')
+            ->add('extraRates')
         ;
     }
 
@@ -49,7 +49,7 @@ class BonusListAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('position')
-            ->add('bonus')
+            ->add('extraRates')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

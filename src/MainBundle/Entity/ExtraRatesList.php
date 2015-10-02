@@ -5,12 +5,12 @@ namespace MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BonusList
+ * ExtraRatesList
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class BonusList
+class ExtraRatesList
 {
     /**
      * @var integer
@@ -31,9 +31,9 @@ class BonusList
     /**
      * @var integer
      *
-     * @ORM\Column(name="bonus", type="integer")
+     * @ORM\Column(name="extra_rates", type="integer")
      */
-    private $bonus;
+    private $extraRates;
 
     /**
      * Get id
@@ -49,7 +49,7 @@ class BonusList
      * Set position
      *
      * @param string $position
-     * @return BonusList
+     * @return ExtraRatesList
      */
     public function setPosition($position)
     {
@@ -68,26 +68,27 @@ class BonusList
         return $this->position;
     }
 
+
     /**
-     * Set bonus
+     * Set extraRates
      *
-     * @param integer $bonus
-     * @return BonusList
+     * @param integer $extraRates
+     * @return ExtraRatesList
      */
-    public function setBonus($bonus)
+    public function setExtraRates($extraRates)
     {
-        $this->bonus = $bonus;
+        $this->extraRates = $extraRates;
 
         return $this;
     }
 
     /**
-     * Get bonus
+     * Get extraRates
      *
      * @return integer 
      */
-    public function getBonus()
+    public function getExtraRates()
     {
-        return $this->bonus;
+        return $this->extraRates;
     }
 }
