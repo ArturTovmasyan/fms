@@ -2,14 +2,13 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Entity\Product;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class ClientAdmin extends Admin
+class MetalCategoryAdmin extends Admin
 {
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -21,9 +20,6 @@ class ClientAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
-            ->add('lastName', null, array('label' => 'lastName'))
-            ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
 
@@ -32,7 +28,6 @@ class ClientAdmin extends Admin
     {
         $formMapper
             ->add('name')
-            ->add('lastName', null, array('label' => 'lastName'))
         ;
     }
 
@@ -42,7 +37,6 @@ class ClientAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('lastName', null, array('label' => 'lastName'))
         ;
     }
 
@@ -52,8 +46,6 @@ class ClientAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
-            ->add('lastName', null, array('label' => 'lastName'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

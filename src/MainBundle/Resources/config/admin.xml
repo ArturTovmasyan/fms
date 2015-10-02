@@ -21,11 +21,75 @@
             <argument/>
         </service>
 
-        <!--RawMaterial-->
+        <!--RubberMaterial-->
         <service id="sonata.admin.main.rubber.materials" class="MainBundle\Admin\RubberMaterialsAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RubberMaterials"/>
+            <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="RubberMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\RubberMaterials</argument>
+            <argument/>
+        </service>
+
+        <!--RubberCategory-->
+        <service id="sonata.admin.main.rubber.category" class="MainBundle\Admin\RubberCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="RubberCategory"/>
+            <argument/>
+            <argument>MainBundle\Entity\RubberCategory</argument>
+            <argument/>
+        </service>
+
+        <!--ToolsMaterials-->
+        <service id="sonata.admin.main.tools.materials" class="MainBundle\Admin\ToolsMaterialsAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="ToolsMaterials"/>
+            <argument/>
+            <argument>MainBundle\Entity\ToolsMaterials</argument>
+            <argument/>
+        </service>
+
+        <!--ToolsCategory-->
+        <service id="sonata.admin.main.tools.category" class="MainBundle\Admin\ToolsCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="ToolsCategory"/>
+            <argument/>
+            <argument>MainBundle\Entity\ToolsCategory</argument>
+            <argument/>
+        </service>
+
+        <!--MetalMaterials-->
+        <service id="sonata.admin.main.metal.materials" class="MainBundle\Admin\MetalMaterialsAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="MetalMaterials"/>
+            <argument/>
+            <argument>MainBundle\Entity\MetalMaterials</argument>
+            <argument/>
+        </service>
+
+        <!--MetalCategory-->
+        <service id="sonata.admin.main.metal.category" class="MainBundle\Admin\MetalCategoryAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="MetalCategory"/>
+            <argument/>
+            <argument>MainBundle\Entity\MetalCategory</argument>
+            <argument/>
+        </service>
+
+        <!--ConductiveMaterials-->
+        <service id="sonata.admin.main.conductive.materials" class="MainBundle\Admin\ConductiveMaterialsAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="ConductiveMaterials"/>
+            <argument/>
+            <argument>MainBundle\Entity\ConductiveMaterials</argument>
+            <argument/>
+        </service>
+
+        <!--IlliquidMaterials-->
+        <service id="sonata.admin.main.illiquid.materials" class="MainBundle\Admin\IlliquidMaterialsAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="IlliquidMaterials"/>
+            <argument/>
+            <argument>MainBundle\Entity\IlliquidMaterials</argument>
+            <argument/>
+        </service>
+
+        <!--HouseholdMaterials-->
+        <service id="sonata.admin.main.household.materials" class="MainBundle\Admin\HouseholdMaterialsAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="HouseholdMaterials"/>
+            <argument/>
+            <argument>MainBundle\Entity\HouseholdMaterials</argument>
             <argument/>
         </service>
 
@@ -77,13 +141,6 @@
             <argument/>
         </service>
 
-        <!--RawCategory-->
-        <service id="sonata.admin.main.rubber.category" class="MainBundle\Admin\RubberCategoryAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Resource" label="RubberCategory"/>
-            <argument/>
-            <argument>MainBundle\Entity\RubberCategory</argument>
-            <argument/>
-        </service>
 
         <!--RawExpense-->
         <service id="sonata.admin.main.raw.expense" class="MainBundle\Admin\RawExpenseAdmin">

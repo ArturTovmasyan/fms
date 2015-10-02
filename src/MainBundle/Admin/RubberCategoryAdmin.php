@@ -30,9 +30,7 @@ class RubberCategoryAdmin extends Admin
     {
         $formMapper
             ->add('name')
-            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
         ;
-
     }
 
     // Fields to be shown on filter forms

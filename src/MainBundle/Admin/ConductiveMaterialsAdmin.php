@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class RubberMaterialsAdmin extends Admin
+class ConductiveMaterialsAdmin extends Admin
 {
     /**
      * override list query
@@ -36,16 +36,13 @@ class RubberMaterialsAdmin extends Admin
     {
         $showMapper
             ->add('name')
-            ->add('category')
             ->add('vendors')
-            ->add('gost')
             ->add('description')
             ->add('code')
             ->add('actualCost')
             ->add('balanceCost')
             ->add('technicalFile')
             ->add('getStringSize', null, array('label' => 'size'))
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('image')
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
@@ -59,9 +56,7 @@ class RubberMaterialsAdmin extends Admin
 
         $formMapper
             ->add('name')
-            ->add('category', null, array('required' => true))
             ->add('vendors')
-            ->add('gost')
             ->add('actualCost')
             ->add('balanceCost')
             ->add('description')
@@ -69,7 +64,6 @@ class RubberMaterialsAdmin extends Admin
             ->add('technicalFile', 'sonata_type_model_list',
                 array('label' => 'technical_file', 'required' => false),
                 array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('image', 'sonata_type_model_list',
                 array('required' => false),
@@ -80,7 +74,7 @@ class RubberMaterialsAdmin extends Admin
                 "Հատ",
                 "Կոմպլեկտ",
                 "Լիտր")))
-                ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
         ;
     }
 
@@ -90,9 +84,7 @@ class RubberMaterialsAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('category')
             ->add('vendors')
-            ->add('gost')
             ->add('code')
         ;
     }
@@ -102,17 +94,14 @@ class RubberMaterialsAdmin extends Admin
     {
         $listMapper
             ->add('name')
-            ->add('category')
             ->add('vendors')
             ->add('actualCost')
             ->add('balanceCost')
-            ->add('gost')
             ->add('description')
             ->add('code')
             ->add('technicalFile')
             ->add('image')
             ->add('getStringSize', null, array('label' => 'size'))
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('_action', 'actions', array(

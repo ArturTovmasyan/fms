@@ -33,7 +33,7 @@ class RubberCategory
     /**
      * @ORM\OneToMany(targetEntity="RubberMaterials", mappedBy="category", cascade={"persist"})
      */
-    protected $rubberMaterial;
+    protected $rubberMaterials;
 
     /**
      * @var datetime $created
@@ -74,7 +74,7 @@ class RubberCategory
      * Set name
      *
      * @param string $name
-     * @return RawCategory
+     * @return RubberCategory
      */
     public function setName($name)
     {
@@ -97,7 +97,7 @@ class RubberCategory
      * Set created
      *
      * @param string $created
-     * @return RawCategory
+     * @return RubberCategory
      */
     public function setCreated($created)
     {
@@ -120,7 +120,7 @@ class RubberCategory
      * Set updated
      *
      * @param string $updated
-     * @return RawCategory
+     * @return RubberCategory
      */
     public function setUpdated($updated)
     {
@@ -148,35 +148,35 @@ class RubberCategory
 
 
     /**
-     * Add rubberMaterial
+     * Add rubberMaterials
      *
-     * @param \MainBundle\Entity\RubberMaterials $rubberMaterial
+     * @param \MainBundle\Entity\RubberMaterials $rubberMaterials
      * @return RubberCategory
      */
-    public function addRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterial)
+    public function addRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterials)
     {
-        $this->rubberMaterial[] = $rubberMaterial;
+        $this->rubberMaterials[] = $rubberMaterials;
 
         return $this;
     }
 
     /**
-     * Remove rubberMaterial
+     * Remove rubberMaterials
      *
-     * @param \MainBundle\Entity\RubberMaterials $rubberMaterial
+     * @param \MainBundle\Entity\RubberMaterials $rubberMaterials
      */
-    public function removeRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterial)
+    public function removeRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterials)
     {
-        $this->rubberMaterial->removeElement($rubberMaterial);
+        $this->rubberMaterials->removeElement($rubberMaterials);
     }
 
     /**
-     * Get rubberMaterial
+     * Get rubberMaterials
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRubberMaterial()
+    public function getRubberMaterials()
     {
-        return $this->rubberMaterial;
+        return $this->rubberMaterials;
     }
 }

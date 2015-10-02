@@ -24,7 +24,7 @@ class PlaceWarehouseAdmin extends Admin
         $query->addSelect('m, p, rm');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
-        $query->leftJoin($query->getRootAlias() . '.rubberMaterials', 'rm');
+        $query->leftJoin($query->getRootAlias() . '.rawMaterials', 'rm');
         return $query;
     }
 
@@ -40,7 +40,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('name')
             ->add('warehouse')
             ->add('mould')
-            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
+            ->add('rawMaterials', null, array('label' => 'raw_materials'))
             ->add('product')
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
@@ -54,6 +54,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('warehouse')
             ->add('mould')
             ->add('product')
+            ->add('rawMaterials')
         ;
     }
 
@@ -75,7 +76,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('warehouse')
             ->add('mould')
             ->add('product')
-            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
+            ->add('rawMaterials', null, array('label' => 'raw_materials'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -84,5 +85,102 @@ class PlaceWarehouseAdmin extends Admin
                 )
             ))
         ;
+    }
+
+    public function setRelations($object)
+    {
+        //get raw materials
+        $rawMaterials = $object->getRawMaterials();
+
+        foreach($rawMaterials as $rawMaterial)
+        {
+            $placeRawMaterials = $rawMaterial->getPlaceWarehouse();
+
+            if(!$placeRawMaterials->contains($object))
+            {
+                $rawMaterial->addPlaceWarehouse($object);
+            }
+        }
+
+        //get products
+        $products = $object->getProduct();
+
+        foreach($products as $product)
+        {
+            $productPlaces = $product->getPlaceWarehouse();
+
+            if(!$productPlaces->contains($object))
+            {
+                $product->addPlaceWarehouse($object);
+            }
+        }
+
+        //get moulds
+        $moulds = $object->getMould();
+
+        foreach($moulds as $mould)
+        {
+            $placeMould = $mould->getPlaceWarehouse();
+
+            if(!$placeMould->contains($object))
+            {
+                $mould->addPlaceWarehouse($object);
+            }
+        }
+    }
+
+    public function removeRelations($object)
+    {
+        //get products
+        $rawMaterials = $object->getRawMaterials();
+
+        //get products
+        $products = $object->getProduct();
+
+        //get moulds
+        $moulds = $object->getMould();
+
+        //get removed rawMaterials in placeWarehouse
+        $removedMaterials = $rawMaterials->getDeleteDiff();
+
+        //get removed products in placeWarehouse
+        $removedProducts = $products->getDeleteDiff();
+
+        //get removed mould in placeWarehouse
+        $removedMoulds = $moulds->getDeleteDiff();
+
+        if(count($removedMaterials) > 0) {
+            foreach($removedMaterials as $removedMaterial)
+            {
+                $removedMaterial->removePlaceWarehouse($object);
+            }
+        }
+
+        if(count($removedProducts) > 0) {
+            foreach($removedProducts as $removedProduct)
+            {
+                $removedProduct->removePlaceWarehouse($object);
+            }
+        }
+
+        if(count($removedMoulds) > 0) {
+            foreach($removedMoulds as $removedMould)
+            {
+                $removedMould->removePlaceWarehouse($object);
+            }
+        }
+
+    }
+
+    public function preUpdate($object)
+    {
+       $this->setRelations($object);
+       $this->removeRelations($object);
+
+    }
+
+    public function prePersist($object)
+    {
+        $this->setRelations($object);
     }
 }

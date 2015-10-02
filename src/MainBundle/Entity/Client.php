@@ -44,9 +44,9 @@ class Client
     private $product;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RubberMaterials", mappedBy="vendors", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="vendors", cascade={"persist"})
      */
-    private $rubberMaterials;
+    private $rawMaterials;
 
     /**
      * @var datetime $created
@@ -215,36 +215,37 @@ class Client
         return $this->updated;
     }
 
+
     /**
-     * Add rubberMaterials
+     * Add rawMaterials
      *
-     * @param \MainBundle\Entity\RubberMaterials $rubberMaterials
+     * @param \MainBundle\Entity\RawMaterials $rawMaterials
      * @return Client
      */
-    public function addRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterials)
+    public function addRawMaterial(\MainBundle\Entity\RawMaterials $rawMaterials)
     {
-        $this->rubberMaterials[] = $rubberMaterials;
+        $this->rawMaterials[] = $rawMaterials;
 
         return $this;
     }
 
     /**
-     * Remove rubberMaterials
+     * Remove rawMaterials
      *
-     * @param \MainBundle\Entity\RubberMaterials $rubberMaterials
+     * @param \MainBundle\Entity\RawMaterials $rawMaterials
      */
-    public function removeRubberMaterial(\MainBundle\Entity\RubberMaterials $rubberMaterials)
+    public function removeRawMaterial(\MainBundle\Entity\RawMaterials $rawMaterials)
     {
-        $this->rubberMaterials->removeElement($rubberMaterials);
+        $this->rawMaterials->removeElement($rawMaterials);
     }
 
     /**
-     * Get rubberMaterials
+     * Get rawMaterials
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRubberMaterials()
+    public function getRawMaterials()
     {
-        return $this->rubberMaterials;
+        return $this->rawMaterials;
     }
 }
