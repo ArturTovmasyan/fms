@@ -64,11 +64,12 @@ abstract class RawMaterials
      */
     private $size;
 
+    //TODO
     /**
      * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rawMaterials", cascade={"persist"})
      * @ORM\JoinTable(name="raw_place")
      */
-    private $placeWarehouse;
+    protected $placeWarehouse;
 
     /**
      * @var integer
@@ -86,7 +87,7 @@ abstract class RawMaterials
      * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="rawMaterials")
      * @ORM\JoinTable(name="raw_materials_partners")
      */
-    private $vendors;
+    protected $vendors;
 
     /**
      * @ORM\Column(name="actual_cost", type="integer")
@@ -101,7 +102,12 @@ abstract class RawMaterials
     /**
      * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
      */
-    private $technicalFile;
+    protected $technicalFile;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist"})
+     */
+    protected $productRawExpense;
 
     /**
      * @var datetime $created
@@ -369,7 +375,7 @@ abstract class RawMaterials
 
         $stringSize = null;
 
-        switch($this->size) {
+        switch($this->getSize()) {
             case 0:
                 $stringSize = "Կգ";
                 break;
@@ -509,5 +515,39 @@ abstract class RawMaterials
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+
+    /**
+     * Add productRawExpense
+     *
+     * @param \MainBundle\Entity\ProductRawExpense $productRawExpense
+     * @return RawMaterials
+     */
+    public function addProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
+    {
+        $this->productRawExpense[] = $productRawExpense;
+
+        return $this;
+    }
+
+    /**
+     * Remove productRawExpense
+     *
+     * @param \MainBundle\Entity\ProductRawExpense $productRawExpense
+     */
+    public function removeProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
+    {
+        $this->productRawExpense->removeElement($productRawExpense);
+    }
+
+    /**
+     * Get productRawExpense
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductRawExpense()
+    {
+        return $this->productRawExpense;
     }
 }

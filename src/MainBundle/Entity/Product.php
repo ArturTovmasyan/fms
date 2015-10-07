@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -11,6 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(fields={"name"}, errorPath="name", message="this name is already exist")
  */
 class Product
 {
@@ -27,7 +29,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\NotNull()
      */
     private $name;
@@ -78,25 +80,25 @@ class Product
      * @ORM\ManyToMany(targetEntity="Equipment", inversedBy="product", cascade={"persist"})
      * @ORM\JoinTable(name="product_equipment")
      */
-    private $equipment;
+    protected $equipment;
 
     /**
      * @ORM\ManyToMany(targetEntity="Mould", inversedBy="product", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="product_mould")
      */
-    private $mould;
+    protected $mould;
 
     /**
      * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="product", cascade={"persist"})
      * @ORM\JoinTable(name="product_place")
      */
-    private $placeWarehouse;
+    protected $placeWarehouse;
 
     /**
      * @ORM\ManyToMany(targetEntity="PartnersList", inversedBy="product", cascade={"persist"})
      * @ORM\JoinTable(name="product_client")
      */
-    private $client;
+    protected $client;
 
     /**
      * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
@@ -111,12 +113,17 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity="PurposeList", inversedBy="product", cascade={"persist"})
      */
-    private $purposeList;
+    protected $purposeList;
 
     /**
      * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
      */
-    private $certificate;
+    protected $certificate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist", "remove"})
+     */
+    protected $productRawExpense;
 
 
 //relations
@@ -319,6 +326,28 @@ class Product
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSumRawExpense()
+    {
+        //get product raw expense
+        $productRawExpense = $this->getProductRawExpense();
+
+        //set sum expense
+        $sumExpense = 0;
+
+        foreach($productRawExpense as $productExpense)
+        {
+            //get product raw price
+            $rawPrice = $productExpense->getProductRawPrice();
+
+            //sum price
+            $sumExpense += $rawPrice;
+        }
+        return $sumExpense;
     }
 
     /**
@@ -560,12 +589,12 @@ class Product
     }
 
     /**
-     * Add client
+     * Add PartnersList
      *
-     * @param \MainBundle\Entity\Client $client
+     * @param \MainBundle\Entity\PartnersList $client
      * @return Product
      */
-    public function addClient(\MainBundle\Entity\Client $client)
+    public function addClient(\MainBundle\Entity\PartnersList $client)
     {
         $this->client[] = $client;
 
@@ -573,11 +602,11 @@ class Product
     }
 
     /**
-     * Remove client
+     * Remove PartnersList
      *
-     * @param \MainBundle\Entity\Client $client
+     * @param \MainBundle\Entity\PartnersList $client
      */
-    public function removeClient(\MainBundle\Entity\Client $client)
+    public function removeClient(\MainBundle\Entity\PartnersList $client)
     {
         $this->client->removeElement($client);
     }
@@ -693,5 +722,38 @@ class Product
     public function getCertificate()
     {
         return $this->certificate;
+    }
+
+    /**
+     * Add productRawExpense
+     *
+     * @param \MainBundle\Entity\ProductRawExpense $productRawExpense
+     * @return Product
+     */
+    public function addProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
+    {
+        $this->productRawExpense[] = $productRawExpense;
+
+        return $this;
+    }
+
+    /**
+     * Remove productRawExpense
+     *
+     * @param \MainBundle\Entity\ProductRawExpense $productRawExpense
+     */
+    public function removeProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
+    {
+        $this->productRawExpense->removeElement($productRawExpense);
+    }
+
+    /**
+     * Get productRawExpense
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductRawExpense()
+    {
+        return $this->productRawExpense;
     }
 }

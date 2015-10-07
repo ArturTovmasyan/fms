@@ -13,7 +13,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table()
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
- * @ORM\HasLifecycleCallbacks()
  */
 class Mould
 {

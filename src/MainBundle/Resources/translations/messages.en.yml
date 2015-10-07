@@ -9,14 +9,17 @@ Name: Անուն
 Gost: Գոստ
 Description: Բնութագիրը
 Product: Արտադրանք
-size: Չափման միավո
+size: Չափման միավոր
 Purpose: Նշանակություն
+client: Պատվիրատու
 Personnel: Անձնակազմ
 Weight: Քաշը
 Count: Քանակը
 deployment: Տեղակայումը
 workshop: Թող.֊ող արտադրամաս
+price: Գինը
 #warehouse: Տեղը պահեստում
+raw_price: Հումքի գինը
 equipment: Թող.֊ող սարքավորումը
 mould: Թող.֊ող կաղապարը
 PartnersList: Գործընկերներ
@@ -28,6 +31,7 @@ place_warehouse: Տեղը պահեստում
 Images: Նկարները
 Sketchs: Գծագրերը
 Certificate: Սերտիֆիկատ
+raw_name: Հումքի անվ․
 Mould: Կաղապար
 cost_price: Ինքնարժեքը
 actual_price: Փաստացի արժեքը
@@ -63,7 +67,8 @@ MetalMaterials: Մեխ․֊ն հումք
 MetalCategory: Մեխ․֊ն հումքերի կատեգ.
 ConductiveMaterials: Օժանդակ հումք
 Vendors: Մատակարար
-RawExpense: Նյութածախս
+ProductRawExpense: Արտադրանքի նյութածախս
+raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ
 PositionsList: Հաստիքակազմ
 salaries_type: Գործավարձի տեսակը

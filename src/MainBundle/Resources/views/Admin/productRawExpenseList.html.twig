@@ -1,0 +1,31 @@
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+
+{% set price = 0 %}
+
+ {% block table_body %}
+     <tbody>
+     {% for object in admin.datagrid.results %}
+
+         {% if object.getProductRawPrice() is defined %}
+
+             {% set price = price + object.getProductRawPrice() %}
+
+         {% endif %}
+
+         <tr>
+             {% include admin.getTemplate('inner_list_row') %}
+         </tr>
+     {% endfor %}
+
+         <tr>
+             <td colspan="7">
+                 {{ "Ընդամենը" }}
+             </td>
+             <td colspan="2">
+                 {{ price }}
+             </td>
+         </tr>
+
+     </tbody>
+
+ {% endblock %}

@@ -149,12 +149,16 @@
             <argument/>
         </service>
 
-        <!--RawExpense-->
-        <service id="sonata.admin.main.raw.expense" class="MainBundle\Admin\RawExpenseAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Operation Card" label="RawExpense"/>
+        <!--ProductRawExpense-->
+        <service id="sonata.admin.main.product.raw.expense" class="MainBundle\Admin\ProductRawExpenseAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Operation Card" label="ProductRawExpense"/>
             <argument/>
-            <argument>MainBundle\Entity\RawExpense</argument>
+            <argument>MainBundle\Entity\ProductRawExpense</argument>
             <argument/>
+            <call method="setTemplate">
+                <argument>list</argument>
+                <argument>MainBundle:Admin:productRawExpenseList.html.twig</argument>
+            </call>
         </service>
 
         <!--PositionsList-->

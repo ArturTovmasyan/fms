@@ -66,7 +66,7 @@ class Equipment
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="equipment")
      */
-    private $product;
+    protected $product;
 
     /**
      * @ORM\ManyToMany(targetEntity="Mould", mappedBy="equipment")
@@ -77,7 +77,7 @@ class Equipment
      * @ORM\ManyToMany(targetEntity="Personnel", inversedBy="equipment", cascade={"persist"})
      * @ORM\JoinTable(name="equipment_personnel")
      */
-    private $responsiblePersons;
+    protected $responsiblePersons;
 
     /**
      * @var string
@@ -129,7 +129,7 @@ class Equipment
     /**
      * @ORM\OneToMany(targetEntity="Spares", mappedBy="equipment")
      */
-    private $spares;
+    protected $spares;
 
     /**
      * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
@@ -139,7 +139,7 @@ class Equipment
     /**
      * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
      */
-    private $technicalFile;
+    protected $technicalFile;
 
     /**
      * @var datetime $created
