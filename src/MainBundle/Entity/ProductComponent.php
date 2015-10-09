@@ -7,12 +7,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * ProductRawExpense
+ * ProductComponent
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class ProductRawExpense
+class ProductComponent
 {
     /**
      * @var integer
@@ -24,19 +24,17 @@ class ProductRawExpense
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="RawMaterials", inversedBy="productRawExpense", cascade={"persist"})
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    protected $rawMaterials;
+    private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productRawExpense", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="productComponent", cascade={"persist", "remove"})
      */
-    protected $product;
+    private $productRouteCard;
 
-    /**
-     * @ORM\Column(name="count", type="integer")
-     */
-    private $count;
 
     /**
      * @var datetime $created
@@ -55,23 +53,19 @@ class ProductRawExpense
     private $updated;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productRouteCard = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * @return string
      */
     function __toString()
     {
-        return ((string)$this->id) ? (string)$this->id : '';
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProductRawPrice()
-    {
-        $rawActualCost = $this->getRawMaterials()->getActualCost();
-
-        $rawPrice = $this->count * $rawActualCost;
-
-        return $rawPrice;
+        return ((string)$this->name) ? (string)$this->name : '';
     }
 
     /**
@@ -85,33 +79,33 @@ class ProductRawExpense
     }
 
     /**
-     * Set count
+     * Set name
      *
-     * @param integer $count
-     * @return ProductRawExpense
+     * @param string $name
+     * @return ProductComponent
      */
-    public function setCount($count)
+    public function setName($name)
     {
-        $this->count = $count;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get count
+     * Get name
      *
-     * @return integer
+     * @return string 
      */
-    public function getCount()
+    public function getName()
     {
-        return $this->count;
+        return $this->name;
     }
 
     /**
      * Set created
      *
      * @param \DateTime $created
-     * @return ProductRawExpense
+     * @return ProductComponent
      */
     public function setCreated($created)
     {
@@ -134,7 +128,7 @@ class ProductRawExpense
      * Set updated
      *
      * @param \DateTime $updated
-     * @return ProductRawExpense
+     * @return ProductComponent
      */
     public function setUpdated($updated)
     {
@@ -154,49 +148,36 @@ class ProductRawExpense
     }
 
     /**
-     * Set product
+     * Add productRouteCard
      *
-     * @param \MainBundle\Entity\Product $product
-     * @return ProductRawExpense
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @return ProductComponent
      */
-    public function setProduct(\MainBundle\Entity\Product $product = null)
+    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
     {
-        $this->product = $product;
+        $this->productRouteCard[] = $productRouteCard;
 
         return $this;
     }
 
     /**
-     * Get product
+     * Remove productRouteCard
      *
-     * @return \MainBundle\Entity\Product
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
      */
-    public function getProduct()
+    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
     {
-        return $this->product;
-    }
-
-
-    /**
-     * Set rawMaterials
-     *
-     * @param \MainBundle\Entity\RawMaterials $rawMaterials
-     * @return ProductRawExpense
-     */
-    public function setRawMaterials(\MainBundle\Entity\RawMaterials $rawMaterials = null)
-    {
-        $this->rawMaterials = $rawMaterials;
-
-        return $this;
+        $this->productRouteCard->removeElement($productRouteCard);
     }
 
     /**
-     * Get rawMaterials
+     * Get productRouteCard
      *
-     * @return \MainBundle\Entity\RawMaterials 
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getRawMaterials()
+    public function getProductRouteCard()
     {
-        return $this->rawMaterials;
+        return $this->productRouteCard;
     }
+
 }

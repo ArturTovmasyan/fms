@@ -193,6 +193,26 @@
             <argument/>
         </service>
 
+        <!--ProductRouteCard-->
+        <service id="sonata.admin.main.product.route.card" class="MainBundle\Admin\ProductRouteCardAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductRouteCard"/>
+            <argument/>
+            <argument>MainBundle\Entity\ProductRouteCard</argument>
+            <argument/>
+            <call method="setTemplate">
+                <argument>list</argument>
+                <argument>MainBundle:Admin:productRouteCardList.html.twig</argument>
+            </call>
+        </service>
+
+        <!--ProductComponent-->
+        <service id="sonata.admin.main.product.component" class="MainBundle\Admin\ProductComponentAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductComponent"/>
+            <argument/>
+            <argument>MainBundle\Entity\ProductComponent</argument>
+            <argument/>
+        </service>
+
     </services>
 
 </container>

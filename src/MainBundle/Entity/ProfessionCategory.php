@@ -34,6 +34,11 @@ class ProfessionCategory
     protected $salariesType;
 
     /**
+     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="professionCategory", cascade={"persist"})
+     */
+    protected $productRouteCard;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -112,5 +117,38 @@ class ProfessionCategory
     public function getSalariesType()
     {
         return $this->salariesType;
+    }
+
+    /**
+     * Add productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @return ProfessionCategory
+     */
+    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard[] = $productRouteCard;
+
+        return $this;
+    }
+
+    /**
+     * Remove productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     */
+    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard->removeElement($productRouteCard);
+    }
+
+    /**
+     * Get productRouteCard
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductRouteCard()
+    {
+        return $this->productRouteCard;
     }
 }

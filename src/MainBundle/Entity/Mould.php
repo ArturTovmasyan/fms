@@ -127,6 +127,11 @@ class Mould
     private $purposeList;
 
     /**
+     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="mould", cascade={"persist"})
+     */
+    protected $productRouteCard;
+
+    /**
      * @var integer
      * @ORM\Column(name="general_count", type="integer")
      */
@@ -752,5 +757,38 @@ class Mould
     public function getRepairData()
     {
         return $this->repairData;
+    }
+
+    /**
+     * Add productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @return Mould
+     */
+    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard[] = $productRouteCard;
+
+        return $this;
+    }
+
+    /**
+     * Remove productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     */
+    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard->removeElement($productRouteCard);
+    }
+
+    /**
+     * Get productRouteCard
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductRouteCard()
+    {
+        return $this->productRouteCard;
     }
 }

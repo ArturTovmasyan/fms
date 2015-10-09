@@ -142,6 +142,11 @@ class Equipment
     protected $technicalFile;
 
     /**
+     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
+     */
+    protected $productRouteCard;
+
+    /**
      * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -835,5 +840,38 @@ class Equipment
     public function getTechnicalFile()
     {
         return $this->technicalFile;
+    }
+
+    /**
+     * Add productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @return Equipment
+     */
+    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard[] = $productRouteCard;
+
+        return $this;
+    }
+
+    /**
+     * Remove productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     */
+    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard->removeElement($productRouteCard);
+    }
+
+    /**
+     * Get productRouteCard
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductRouteCard()
+    {
+        return $this->productRouteCard;
     }
 }

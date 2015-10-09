@@ -1,0 +1,13 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    {% if object.id is defined %}
+        {% set jobTime = object.jobTime %}
+        {% set professionTariff = admin.professionTariff[object.id]['hourSalary']  %}
+        {% set routeCardPrice =  jobTime * professionTariff %}
+        {{ routeCardPrice }}
+    {% endif %}
+{% endblock -%}
+
+
+

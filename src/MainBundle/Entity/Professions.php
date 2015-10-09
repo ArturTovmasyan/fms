@@ -34,6 +34,11 @@ class Professions
     protected $salariesType;
 
     /**
+     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="profession", cascade={"persist"})
+     */
+    protected $productRouteCard;
+
+    /**
      * @return string
      */
     function __toString()
@@ -112,5 +117,38 @@ class Professions
     public function getSalariesType()
     {
         return $this->salariesType;
+    }
+
+    /**
+     * Add productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @return Professions
+     */
+    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard[] = $productRouteCard;
+
+        return $this;
+    }
+
+    /**
+     * Remove productRouteCard
+     *
+     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     */
+    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    {
+        $this->productRouteCard->removeElement($productRouteCard);
+    }
+
+    /**
+     * Get productRouteCard
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductRouteCard()
+    {
+        return $this->productRouteCard;
     }
 }

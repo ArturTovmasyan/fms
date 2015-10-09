@@ -34,6 +34,7 @@ Certificate: Սերտիֆիկատ
 raw_name: Հումքի անվ․
 Mould: Կաղապար
 cost_price: Ինքնարժեքը
+ProductRouteCard: Արտ․֊ի երթ․ քարտ
 actual_price: Փաստացի արժեքը
 accounting_price: Հաշվապահական արժեքը
 renovate_data: Վերանորոգման բնույթը
@@ -64,10 +65,14 @@ RawMaterials: Բոլոր հումքերը
 ToolsCategory: Գործ.- հումքերի կատեգ․
 ToolsMaterials: Գործ.-ի հումք
 MetalMaterials: Մեխ․֊ն հումք
+operationCard: Օպերացիոն քարտ
+product_expense: Արտ․֊ի նյութածախս
+product_route_card: Արտ․֊ի երթ․ քարտ
 MetalCategory: Մեխ․֊ն հումքերի կատեգ.
 ConductiveMaterials: Օժանդակ հումք
 Vendors: Մատակարար
-ProductRawExpense: Արտադրանքի նյութածախս
+ProductRawExpense: Արտ․֊ի նյութածախս
+ProductComponent: Արտ․֊ի կոմպոնենտ
 raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ
 PositionsList: Հաստիքակազմ

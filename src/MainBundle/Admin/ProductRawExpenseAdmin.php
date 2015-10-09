@@ -12,6 +12,24 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ProductRawExpenseAdmin extends Admin
 {
+
+    /**
+     * override list query
+     *
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+        // add selected
+        $query->addSelect('rm');
+        $query->leftJoin($query->getRootAlias() . '.rawMaterials', 'rm');
+        return $query;
+
+    }
+
     public $supportsPreviewMode = true;
 
     /**
@@ -44,7 +62,7 @@ class ProductRawExpenseAdmin extends Admin
 //        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
 
         $formMapper
-        ->add('rawMaterials', null, array()
+        ->add('rawMaterials', null, array(
 //            'query_builder' => function ($query) use ($productId, $editProductId) {
 //                $result = $query->createQueryBuilder('rm');
 //                if(!$editProductId){
@@ -57,7 +75,7 @@ class ProductRawExpenseAdmin extends Admin
 //                        ->setParameter('prodId', $productId);
 //                }
 //                return $result;}
-        );
+        ));
 
         $formMapper
             ->add('count')

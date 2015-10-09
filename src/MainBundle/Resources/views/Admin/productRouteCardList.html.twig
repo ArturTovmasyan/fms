@@ -1,0 +1,33 @@
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+
+{% set price = 0 %}
+
+ {% block table_body %}
+     <tbody>
+     {% for object in admin.datagrid.results %}
+
+         {% if object.id is defined %}
+             {% set jobTime = object.jobTime %}
+             {% set professionTariff = admin.professionTariff[object.id]['hourSalary']  %}
+             {% set routeCardPrice =  jobTime * professionTariff %}
+         {% endif %}
+
+         {% set price = price + routeCardPrice %}
+
+         <tr>
+             {% include admin.getTemplate('inner_list_row') %}
+         </tr>
+     {% endfor %}
+
+     <tr>
+         <td colspan="13">
+             {{ "Ընդամենը" }}
+         </td>
+         <td colspan="1">
+             {{ price }}
+         </td>
+     </tr>
+
+     </tbody>
+
+ {% endblock %}
