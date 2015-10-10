@@ -45,6 +45,7 @@ class EquipmentAdmin extends Admin
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
+            ->add('mould')
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('getStringDeployment', null, array('label' => 'deployment'))
             ->add('spares')
@@ -56,7 +57,6 @@ class EquipmentAdmin extends Admin
             ->add('carryingPrice')
             ->add('factualPrice')
             ->add('inspectionPeriod')
-            ->add('mould')
             ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
@@ -95,6 +95,7 @@ class EquipmentAdmin extends Admin
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
+            ->add('mould')
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('spares')
             ->add('image', 'sonata_type_model_list',
@@ -121,6 +122,7 @@ class EquipmentAdmin extends Admin
             ->add('code')
             ->add('name')
             ->add('product')
+            ->add('mould')
             ->add('spares')
         ;
     }
@@ -137,6 +139,7 @@ class EquipmentAdmin extends Admin
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
+            ->add('mould')
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('getStringDeployment')
             ->add('spares')
