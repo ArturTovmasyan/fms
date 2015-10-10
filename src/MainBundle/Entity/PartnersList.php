@@ -7,12 +7,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Client
+ * PartnersList
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class Client
+class PartnersList
 {
 
     /**
@@ -94,7 +94,7 @@ class Client
      * Set name
      *
      * @param string $name
-     * @return Client
+     * @return PartnersList
      */
     public function setName($name)
     {
@@ -117,7 +117,7 @@ class Client
      * Set lastName
      *
      * @param string $lastName
-     * @return Client
+     * @return PartnersList
      */
     public function setLastName($lastName)
     {
@@ -140,7 +140,7 @@ class Client
      * Add product
      *
      * @param \MainBundle\Entity\Product $product
-     * @return Client
+     * @return PartnersList
      */
     public function addProduct(\MainBundle\Entity\Product $product)
     {
@@ -173,7 +173,7 @@ class Client
      * Set created
      *
      * @param \DateTime $created
-     * @return Client
+     * @return PartnersList
      */
     public function setCreated($created)
     {
@@ -196,7 +196,7 @@ class Client
      * Set updated
      *
      * @param \DateTime $updated
-     * @return Client
+     * @return PartnersList
      */
     public function setUpdated($updated)
     {
@@ -220,7 +220,7 @@ class Client
      * Add rawMaterials
      *
      * @param \MainBundle\Entity\RawMaterials $rawMaterials
-     * @return Client
+     * @return PartnersList
      */
     public function addRawMaterial(\MainBundle\Entity\RawMaterials $rawMaterials)
     {

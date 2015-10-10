@@ -93,7 +93,7 @@ class Product
     private $placeWarehouse;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Client", inversedBy="product", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="PartnersList", inversedBy="product", cascade={"persist"})
      * @ORM\JoinTable(name="product_client")
      */
     private $client;

@@ -83,8 +83,8 @@ abstract class RawMaterials
     private $image;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Client", cascade={"persist"}, inversedBy="rawMaterials")
-     * @ORM\JoinTable(name="raw_materials_client")
+     * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="rawMaterials")
+     * @ORM\JoinTable(name="raw_materials_partners")
      */
     private $vendors;
 

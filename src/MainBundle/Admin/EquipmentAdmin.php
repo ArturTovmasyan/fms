@@ -2,7 +2,6 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Entity\Product;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -63,9 +62,17 @@ class EquipmentAdmin extends Admin
         ;
     }
 
+    protected $time;
+
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get subject
+        $subject = $this->getSubject();
+
+        //get inspection period in database
+        $this->time = $subject->getInspectionPeriod();
+
         $formMapper
             ->add('name')
             ->add('code')
@@ -103,8 +110,7 @@ class EquipmentAdmin extends Admin
             ->add('weight')
             ->add('carryingPrice')
             ->add('factualPrice')
-            ->add('inspectionPeriod')
-        ;
+            ->add('inspectionPeriod');
     }
 
     // Fields to be shown on filter forms
@@ -184,10 +190,24 @@ class EquipmentAdmin extends Admin
             }
         }
 
+        // add moulds
+        $moulds = $object->getMould();
+
+        foreach($moulds as $mould)
+        {
+            $mouldEquipment = $mould->getEquipment();
+
+            if(!$mouldEquipment->contains($object))
+            {
+                $mould->addEquipment($object);
+            }
+        }
+
     }
 
     public function removeRelations($object)
     {
+        //get products
         $products = $object->getProduct();
 
         //get removed products in Equipment
@@ -209,10 +229,34 @@ class EquipmentAdmin extends Admin
             $removedSpare->setEquipment(null);
         }
 
+        // add moulds
+        $moulds = $object->getMould();
+
+        //check deleted moulds
+        $removedMoulds = $moulds->getDeleteDiff();
+
+        foreach($removedMoulds as $removedMould)
+        {
+            $removedMould->removeEquipment($object);
+        }
+
     }
 
     public function preUpdate($object)
     {
+        //get inspection period in form
+        $inspectionPeriod = $object->getInspectionPeriod();
+
+        //check date
+        if($inspectionPeriod != $this->time) {
+
+            //get current date
+            $date = new \DateTime();
+
+            //set inspection next date
+            $object->setInspectionNextDate(date_add($date, date_interval_create_from_date_string($inspectionPeriod . 'day')));
+        }
+
         $this->setRelations($object);
         $this->removeRelations($object);
     }

@@ -93,11 +93,11 @@
             <argument/>
         </service>
 
-        <!--Client-->
-        <service id="sonata.admin.main.client" class="MainBundle\Admin\ClientAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Partners" label="Client"/>
+        <!--Partners-->
+        <service id="sonata.admin.main.partners" class="MainBundle\Admin\PartnersListAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Partners" label="PartnersList"/>
             <argument/>
-            <argument>MainBundle\Entity\Client</argument>
+            <argument>MainBundle\Entity\PartnersList</argument>
             <argument/>
         </service>
 
@@ -106,6 +106,14 @@
             <tag name="sonata.admin" manager_type="orm" group="Personnel" label="Personnel"/>
             <argument/>
             <argument>MainBundle\Entity\Personnel</argument>
+            <argument/>
+        </service>
+
+        <!--ExtraRates-->
+        <service id="sonata.admin.main.extra.rates.list" class="MainBundle\Admin\ExtraRatesListAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Salary" label="ExtraRatesList"/>
+            <argument/>
+            <argument>MainBundle\Entity\ExtraRatesList</argument>
             <argument/>
         </service>
 
@@ -141,7 +149,6 @@
             <argument/>
         </service>
 
-
         <!--RawExpense-->
         <service id="sonata.admin.main.raw.expense" class="MainBundle\Admin\RawExpenseAdmin">
             <tag name="sonata.admin" manager_type="orm" group="Operation Card" label="RawExpense"/>
@@ -150,17 +157,9 @@
             <argument/>
         </service>
 
-        <!--BonusList-->
-        <service id="sonata.admin.main.extra.rates.list" class="MainBundle\Admin\ExtraRatesListAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Salary" label="ExtraRatesList"/>
-            <argument/>
-            <argument>MainBundle\Entity\ExtraRatesList</argument>
-            <argument/>
-        </service>
-
         <!--PositionsList-->
         <service id="sonata.admin.main.positions.list" class="MainBundle\Admin\PositionsListAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Salary" label="PositionsList"/>
+            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="PositionsList"/>
             <argument/>
             <argument>MainBundle\Entity\PositionsList</argument>
             <argument/>
