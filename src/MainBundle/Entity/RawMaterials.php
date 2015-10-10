@@ -445,10 +445,10 @@ abstract class RawMaterials
     /**
      * Add vendors
      *
-     * @param \MainBundle\Entity\Client $vendors
+     * @param \MainBundle\Entity\PartnersList $vendors
      * @return RawMaterials
      */
-    public function addVendor(\MainBundle\Entity\Client $vendors)
+    public function addVendor(\MainBundle\Entity\PartnersList $vendors)
     {
         $this->vendors[] = $vendors;
 
@@ -458,9 +458,9 @@ abstract class RawMaterials
     /**
      * Remove vendors
      *
-     * @param \MainBundle\Entity\Client $vendors
+     * @param \MainBundle\Entity\PartnersList $vendors
      */
-    public function removeVendor(\MainBundle\Entity\Client $vendors)
+    public function removeVendor(\MainBundle\Entity\PartnersList $vendors)
     {
         $this->vendors->removeElement($vendors);
     }

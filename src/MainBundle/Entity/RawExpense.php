@@ -72,14 +72,6 @@ class RawExpense
         return ((string)$this->price) ? (string)$this->price : '';
     }
 
-//    /**
-//     * Constructor
-//     */
-//    public function __construct()
-//    {
-//        $this->rawMaterial = new \Doctrine\Common\Collections\ArrayCollection();
-//    }
-
     /**
      * Get id
      *
@@ -227,28 +219,5 @@ class RawExpense
     {
         return $this->updated;
     }
-
-//    /**
-//     * Set rawMaterial
-//     *
-//     * @param \MainBundle\Entity\RawMaterial $rawMaterial
-//     * @return RawExpense
-//     */
-//    public function setRawMaterial(\MainBundle\Entity\RawMaterial $rawMaterial = null)
-//    {
-//        $this->rawMaterial = $rawMaterial;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get rawMaterial
-//     *
-//     * @return \MainBundle\Entity\RawMaterial
-//     */
-//    public function getRawMaterial()
-//    {
-//        return $this->rawMaterial;
-//    }
 
 }
