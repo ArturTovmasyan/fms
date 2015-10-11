@@ -92,39 +92,50 @@ class PlaceWarehouseAdmin extends Admin
         //get raw materials
         $rawMaterials = $object->getRawMaterials();
 
-        foreach($rawMaterials as $rawMaterial)
-        {
-            $placeRawMaterials = $rawMaterial->getPlaceWarehouse();
+        if($rawMaterials) {
 
-            if(!$placeRawMaterials->contains($object))
+            foreach($rawMaterials as $rawMaterial)
             {
-                $rawMaterial->addPlaceWarehouse($object);
+                $placeRawMaterials = $rawMaterial->getPlaceWarehouse();
+
+                if(!$placeRawMaterials->contains($object))
+                {
+                    $rawMaterial->addPlaceWarehouse($object);
+                }
             }
         }
+
 
         //get products
         $products = $object->getProduct();
 
-        foreach($products as $product)
-        {
-            $productPlaces = $product->getPlaceWarehouse();
+        if($products) {
 
-            if(!$productPlaces->contains($object))
+            foreach($products as $product)
             {
-                $product->addPlaceWarehouse($object);
+                $productPlaces = $product->getPlaceWarehouse();
+
+                if(!$productPlaces->contains($object))
+                {
+                    $product->addPlaceWarehouse($object);
+                }
             }
         }
+
 
         //get moulds
         $moulds = $object->getMould();
 
-        foreach($moulds as $mould)
-        {
-            $placeMould = $mould->getPlaceWarehouse();
+        if($moulds) {
 
-            if(!$placeMould->contains($object))
+            foreach($moulds as $mould)
             {
-                $mould->addPlaceWarehouse($object);
+                $placeMould = $mould->getPlaceWarehouse();
+
+                if(!$placeMould->contains($object))
+                {
+                    $mould->addPlaceWarehouse($object);
+                }
             }
         }
     }
@@ -149,27 +160,26 @@ class PlaceWarehouseAdmin extends Admin
         //get removed mould in placeWarehouse
         $removedMoulds = $moulds->getDeleteDiff();
 
-        if(count($removedMaterials) > 0) {
+        if($removedMaterials) {
             foreach($removedMaterials as $removedMaterial)
             {
                 $removedMaterial->removePlaceWarehouse($object);
             }
         }
 
-        if(count($removedProducts) > 0) {
+        if($removedProducts) {
             foreach($removedProducts as $removedProduct)
             {
                 $removedProduct->removePlaceWarehouse($object);
             }
         }
 
-        if(count($removedMoulds) > 0) {
+        if($removedMoulds) {
             foreach($removedMoulds as $removedMould)
             {
                 $removedMould->removePlaceWarehouse($object);
             }
         }
-
     }
 
     public function preUpdate($object)

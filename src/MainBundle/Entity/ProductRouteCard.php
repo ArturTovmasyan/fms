@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProductRouteCard
  *
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_route_card", columns={"profession_id", "profession_category_id"})})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_route_card", columns={"profession_id", "profession_category_id", "product_id"})})
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\ProductRouteCardRepository")
  */
 class ProductRouteCard

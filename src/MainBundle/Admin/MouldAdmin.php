@@ -154,22 +154,29 @@ class MouldAdmin extends Admin
         //get products
         $products = $object->getProduct();
 
-        foreach($products as $product)
-        {
-            $productMoulds = $product->getMould();
+        if($products) {
 
-            if(!$productMoulds->contains($object))
+            foreach($products as $product)
             {
-                $product->addMould($object);
+                $productMoulds = $product->getMould();
+
+                if(!$productMoulds->contains($object))
+                {
+                    $product->addMould($object);
+                }
             }
         }
+
 
         //get removed products in mould
         $removed = $products->getDeleteDiff();
 
-        foreach($removed as $remove)
-        {
-            $remove->removeMould($object);
+        if($removed) {
+
+            foreach($removed as $remove)
+            {
+                $remove->removeMould($object);
+            }
         }
     }
 
@@ -178,13 +185,16 @@ class MouldAdmin extends Admin
         //get products
         $products = $object->getProduct();
 
-        foreach($products as $product)
-        {
-            $productMoulds = $product->getMould();
+        if($products) {
 
-            if(!$productMoulds->contains($object))
+            foreach($products as $product)
             {
-                $product->addMould($object);
+                $productMoulds = $product->getMould();
+
+                if(!$productMoulds->contains($object))
+                {
+                    $product->addMould($object);
+                }
             }
         }
     }

@@ -173,39 +173,48 @@ class EquipmentAdmin extends Admin
     {
         // add products
         $products = $object->getProduct();
-        foreach($products as $product)
-        {
-            $productEquipment = $product->getEquipment();
 
-            if(!$productEquipment->contains($object))
+        if($products) {
+            foreach($products as $product)
             {
-                $product->addEquipment($object);
+                $productEquipment = $product->getEquipment();
+
+                if(!$productEquipment->contains($object))
+                {
+                    $product->addEquipment($object);
+                }
             }
         }
+
 
         // add spares
         $spares = $object->getSpares();
-        foreach($spares as $spare)
-        {
-            if(!$spares->contains($object))
+
+        if($spares) {
+            foreach($spares as $spare)
             {
-                $spare->setEquipment($object);
+                if(!$spares->contains($object))
+                {
+                    $spare->setEquipment($object);
+                }
             }
         }
+
 
         // add moulds
         $moulds = $object->getMould();
 
-        foreach($moulds as $mould)
-        {
-            $mouldEquipment = $mould->getEquipment();
-
-            if(!$mouldEquipment->contains($object))
+        if($moulds) {
+            foreach($moulds as $mould)
             {
-                $mould->addEquipment($object);
+                $mouldEquipment = $mould->getEquipment();
+
+                if(!$mouldEquipment->contains($object))
+                {
+                    $mould->addEquipment($object);
+                }
             }
         }
-
     }
 
     public function removeRelations($object)
@@ -216,33 +225,45 @@ class EquipmentAdmin extends Admin
         //get removed products in Equipment
         $removed = $products->getDeleteDiff();
 
-        foreach($removed as $remove)
-        {
-            $remove->removeEquipment($object);
+        if($removed) {
+            foreach($removed as $remove)
+            {
+                $remove->removeEquipment($object);
+            }
         }
 
         // add spares
         $spares = $object->getSpares();
 
-        //check deleted spares
-        $removedSpares = $spares->getDeleteDiff();
+        if($spares) {
 
-        foreach($removedSpares as $removedSpare)
-        {
-            $removedSpare->setEquipment(null);
+            //check deleted spares
+            $removedSpares = $spares->getDeleteDiff();
+
+            if($removedSpares) {
+                foreach($removedSpares as $removedSpare)
+                {
+                    $removedSpare->setEquipment(null);
+                }
+            }
         }
 
         // add moulds
         $moulds = $object->getMould();
 
-        //check deleted moulds
-        $removedMoulds = $moulds->getDeleteDiff();
+        if($moulds) {
 
-        foreach($removedMoulds as $removedMould)
-        {
-            $removedMould->removeEquipment($object);
+            //check deleted moulds
+            $removedMoulds = $moulds->getDeleteDiff();
+
+            if($removedMoulds) {
+
+                foreach($removedMoulds as $removedMould)
+                {
+                    $removedMould->removeEquipment($object);
+                }
+            }
         }
-
     }
 
     public function preUpdate($object)
