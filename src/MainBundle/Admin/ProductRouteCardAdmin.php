@@ -45,6 +45,8 @@ class ProductRouteCardAdmin extends Admin
         $formMapper
             ->add('productComponent')
             ->add('operation')
+            ->add('operationCode')
+            ->add('dependency')
             ->add('equipment')
             ->add('profession')
             ->add('professionCategory');
@@ -55,8 +57,6 @@ class ProductRouteCardAdmin extends Admin
                 ->add('mould');
         }
         $formMapper
-            ->add('operationCode')
-            ->add('dependency')
             ->add('jobTime')
             ->add('specificPercent')
         ;
