@@ -229,59 +229,14 @@ class ProductAdmin extends Admin
         }
     }
 
-    private function getPrice($productCards)
-    {
-        //get entity manager
-        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getEntityManager();
-
-        //if product Cards exist
-        if($productCards){
-            foreach($productCards as $productCard){
-
-                //get profession
-                $profession = $productCard->getProfession();
-
-                //get profession category
-                $professionCategory = $productCard->getProfessionCategory();
-
-                //get job time
-                $jobTime = $productCard->getJobTime();
-
-                //get all salaries type by profession
-                $salariesTypeArray = $profession->getSalariesType();
-
-                //get salaries type by profession category id
-                $salariesType = $salariesTypeArray[$professionCategory->getId()];
-
-                if($salariesType) {
-                    //get hour salary
-                    $hourSalary  = $salariesType->getHourSalary();
-
-                    //get route card price
-                    $price =  $jobTime * $hourSalary;
-
-                    //set route card price
-                    $productCard->setRouteCardPrice($price);
-                }
-                else {
-                    $productCard->setRouteCardPrice(0);
-                }
-                $em->persist($productCard);
-
-            }
-        }
-    }
-
     public function preUpdate($object)
     {
-        $this->getPrice($object->getProductRouteCard());
         $this->setRelations($object);
         $this->removeRelations($object);
     }
 
     public function prePersist($object)
     {
-        $this->getPrice($object->getProductRouteCard());
         $this->setRelations($object);
     }
 }
