@@ -29,7 +29,7 @@ class Professions
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="SalariesType", mappedBy="profession", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="SalariesType", mappedBy="profession", indexBy="profession_category_id", cascade={"persist"}, orphanRemoval=true)
      */
     protected $salariesType;
 

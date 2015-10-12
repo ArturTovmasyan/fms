@@ -1,9 +1,12 @@
 {% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
 
 {%- block field %}
-    {% if object.id is defined %}
-        {{ admin.professionTariff[object.id]['hourSalary'] }}
-    {% endif %}
+    {% set jobTime = object.jobTime %}
+    {% set routeCardPrice = object.routeCardPrice %}
+    {% set tariff =  routeCardPrice/jobTime %}
+
+    {{ tariff }}
+
 {% endblock -%}
 
 

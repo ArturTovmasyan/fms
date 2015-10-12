@@ -117,28 +117,14 @@ class MouldAdmin extends Admin
             ->add('code')
             ->add('product')
             ->add('mouldType')
-            ->add('repairData', null, array('label' => 'repair_data'))
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('description')
+            ->add('equipment')
             ->add('getStringState', null, array('label' => 'current_state'))
-            ->add('bandwidth')
             ->add('generalCount', null, array('label' => 'general_count'))
-            ->add('preparationTime', 'date', array('widget' => 'single_text', 'label'=>'preparation_time'))
-            ->add('lastRepair', 'date', array('label' => 'last_repair', 'widget' => 'single_text'))
-            ->add('images', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('sketch', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
             ->add('cost')
             ->add('actualPrice', null, array('label' => 'actual_price'))
             ->add('accountingPrice', null, array('label' => 'accounting_price'))
-            ->add('weight')
-            ->add('overSize', null, array('label' => 'over_size'))
-            ->add('equipment')
-            ->add('created', 'date', array('widget' => 'single_text'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

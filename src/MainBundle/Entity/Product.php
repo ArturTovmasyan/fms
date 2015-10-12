@@ -135,9 +135,6 @@ class Product
 //    private $price;
 
 //relations
-//    private $operationCard;
-
-//relations
 //    private $currentOrder;
 
     /**
@@ -334,6 +331,8 @@ class Product
     }
 
     /**
+     * This function is used to get product raw expense sum
+     *
      * @return int
      */
     public function getSumRawExpense()
@@ -353,6 +352,30 @@ class Product
             $sumExpense += $rawPrice;
         }
         return $sumExpense;
+    }
+
+    /**
+     * This function is used to get product route card sum
+     *
+     * @return int
+     */
+    public function getSumRouteCard()
+    {
+        //get product route cards
+        $productRouteCards = $this->getProductRouteCard();
+
+        //set sum expense
+        $sumRouteCard = 0;
+
+        foreach($productRouteCards as $productRouteCard)
+        {
+            //get product route card price
+            $routeCardPrice = $productRouteCard->getRouteCardPrice();
+
+            //sum routeCardPrice
+            $sumRouteCard += $routeCardPrice;
+        }
+        return $sumRouteCard;
     }
 
     /**

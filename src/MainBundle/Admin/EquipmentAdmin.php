@@ -136,24 +136,10 @@ class EquipmentAdmin extends Admin
             ->add('code')
             ->add('getStringWorkshop', null, array('label'=>'equipment_workshop'))
             ->add('getStringState', null, array('label'=>'state'))
-            ->add('description')
-            ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
             ->add('mould')
-            ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('getStringDeployment')
             ->add('spares')
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context'  => 'default')))
-            ->add('chronologyFile', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context'  => 'default')))
-            ->add('technicalFile', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context'  => 'default')))
-            ->add('elPower')
-            ->add('weight')
             ->add('carryingPrice')
             ->add('factualPrice')
             ->add('inspectionPeriod')
@@ -186,7 +172,6 @@ class EquipmentAdmin extends Admin
             }
         }
 
-
         // add spares
         $spares = $object->getSpares();
 
@@ -199,7 +184,6 @@ class EquipmentAdmin extends Admin
                 }
             }
         }
-
 
         // add moulds
         $moulds = $object->getMould();

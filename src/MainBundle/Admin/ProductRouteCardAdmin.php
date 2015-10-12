@@ -10,10 +10,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ProductRouteCardAdmin extends Admin
 {
-
-    //set array value
-    public $professionTariff = array();
-
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -21,12 +17,6 @@ class ProductRouteCardAdmin extends Admin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
-        //get entity manager
-        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getEntityManager();
-
-        //get tariff price for route card
-        $this->professionTariff = $em->getRepository('MainBundle:ProductRouteCard')->getRawCardSumByIds();
-
         $showMapper
             ->add('id')
             ->add('product')
@@ -40,7 +30,7 @@ class ProductRouteCardAdmin extends Admin
             ->add('professionCategory')
             ->add('jobTime')
             ->add('tariff', null, array('template' => 'MainBundle:Admin:professionTariffPriceShow.html.twig'))
-            ->add('routeCardPrice', null, array('template' => 'MainBundle:Admin:routeCardPriceShow.html.twig'))
+            ->add('routeCardPrice')
             ->add('specificPercent')
         ;
     }
@@ -48,9 +38,9 @@ class ProductRouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-//        $productWorkshop = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getWorkshop();
+        $productWorkshop = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getWorkshop();
 
-//        $editProductWorkshop = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getWorkshop() : null : null;
+        $editProductWorkshop = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getWorkshop() : null : null;
 
         $formMapper
             ->add('productComponent')
@@ -60,10 +50,10 @@ class ProductRouteCardAdmin extends Admin
             ->add('professionCategory');
 
         // if product workshop is HAMATEX
-//        if(($editProductWorkshop && $editProductWorkshop == 2) || $productWorkshop && $productWorkshop == 2) {
+        if(($editProductWorkshop && $editProductWorkshop == 2) || $productWorkshop && $productWorkshop == 2) {
             $formMapper
                 ->add('mould');
-//        }
+        }
         $formMapper
             ->add('operationCode')
             ->add('dependency')
@@ -85,12 +75,6 @@ class ProductRouteCardAdmin extends Admin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
-        //get entity manager
-        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getEntityManager();
-
-        //get tariff price for route card
-        $this->professionTariff = $em->getRepository('MainBundle:ProductRouteCard')->getRawCardSumByIds();
-
         $listMapper
             ->add('id')
             ->add('product')
@@ -104,7 +88,7 @@ class ProductRouteCardAdmin extends Admin
             ->add('professionCategory')
             ->add('jobTime')
             ->add('tariff', null, array('template' => 'MainBundle:Admin:professionTariffPriceList.html.twig'))
-            ->add('routeCardPrice', null, array('template' => 'MainBundle:Admin:routeCardPriceList.html.twig'))
+            ->add('routeCardPrice')
             ->add('specificPercent')
             ->add('_action', 'actions', array(
                 'actions' => array(

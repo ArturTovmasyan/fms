@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ProductRouteCard
  *
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_route_card", columns={"profession_id", "profession_category_id", "product_id"})})
- * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\ProductRouteCardRepository")
+ * @ORM\Entity()
  */
 class ProductRouteCard
 {
@@ -57,12 +57,6 @@ class ProductRouteCard
      */
     protected $profession;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="moulds", type="string", length=255, nullable=true)
-     */
-    private $moulds;
 
     /**
      * @var string
@@ -93,9 +87,15 @@ class ProductRouteCard
      */
     protected $product;
 
-    protected $tariff;
+      /**
+     * @var integer
+     *
+     * @ORM\Column(name="route_card_price", type="integer")
+     */
+    protected $routeCardPrice = 0;
 
-    protected $routeCardPrice;
+    // set profession tariff in productRouteCard list and show
+    protected $tariff;
 
     /**
      * @return string
@@ -162,10 +162,8 @@ class ProductRouteCard
     }
 
     /**
-     * Set routeCardPrice
-     *
-     * @param string $routeCardPrice
-     * @return ProductRouteCard
+     * @param $routeCardPrice
+     * @return $this
      */
     public function setRouteCardPrice($routeCardPrice)
     {
@@ -174,6 +172,14 @@ class ProductRouteCard
         return $this;
     }
 
+    /**
+     * @return int
+     */
+
+    public function getRouteCardPrice()
+    {
+        return $this->routeCardPrice;
+    }
 
     /**
      * Set operationCode
@@ -242,29 +248,6 @@ class ProductRouteCard
     public function getEquipment()
     {
         return $this->equipment;
-    }
-
-    /**
-     * Set moulds
-     *
-     * @param string $moulds
-     * @return ProductRouteCard
-     */
-    public function setMoulds($moulds)
-    {
-        $this->moulds = $moulds;
-
-        return $this;
-    }
-
-    /**
-     * Get moulds
-     *
-     * @return string
-     */
-    public function getMoulds()
-    {
-        return $this->moulds;
     }
 
     /**

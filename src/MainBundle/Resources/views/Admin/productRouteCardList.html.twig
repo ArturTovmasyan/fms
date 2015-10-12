@@ -6,11 +6,7 @@
      <tbody>
      {% for object in admin.datagrid.results %}
 
-         {% if object.id is defined %}
-             {% set jobTime = object.jobTime %}
-             {% set professionTariff = admin.professionTariff[object.id]['hourSalary']  %}
-             {% set routeCardPrice =  jobTime * professionTariff %}
-         {% endif %}
+         {% set routeCardPrice = object.routeCardPrice %}
 
          {% set price = price + routeCardPrice %}
 
