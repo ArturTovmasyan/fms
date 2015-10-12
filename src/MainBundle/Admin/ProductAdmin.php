@@ -67,9 +67,6 @@ class ProductAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        //check exist product id for edit or create product
-        $productId = $this->getSubject()->getId();
-
         $formMapper
             ->add('name')
             ->add('client')
@@ -102,9 +99,7 @@ class ProductAdmin extends Admin
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))
 
-            ->end();
-        if($productId) {
-            $formMapper
+            ->end()
                 ->with('operationCard')
                 ->add('productRawExpense', 'sonata_type_collection', array(
                     'label' => 'product_expense',
@@ -125,7 +120,6 @@ class ProductAdmin extends Admin
                         'inline' => 'table'
                     ))
                 ->end();
-        };
     }
 
     // Fields to be shown on filter forms
@@ -168,26 +162,26 @@ class ProductAdmin extends Admin
         // get product route card
         $productRouteCards = $object->getProductRouteCard();
 
+        // if product route card is exist
         if($productRouteCards) {
 
             foreach($productRouteCards as $productRouteCard)
             {
-                if(!$productRouteCards->contains($object))
-                {
+                if(!$productRouteCard->getId() || !$productRouteCards->contains($object)) {
                     $productRouteCard->setProduct($object);
                 }
             }
         }
 
-        // get productRawExpenses
+        // get product raw expenses
         $productRawExpense = $object->getProductRawExpense();
 
+        // if product product raw expenses is exist
         if($productRawExpense) {
 
             foreach($productRawExpense as $productRawExpens)
             {
-                if(!$productRawExpense->contains($object))
-                {
+                if(!$productRawExpens->getId() || !$productRawExpense->contains($object)) {
                     $productRawExpens->setProduct($object);
                 }
             }

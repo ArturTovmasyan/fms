@@ -38,9 +38,9 @@ class ProductRouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $productWorkshop = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getWorkshop();
+//        $productWorkshop = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getWorkshop();
 
-        $editProductWorkshop = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getWorkshop() : null : null;
+//        $editProductWorkshop = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getWorkshop() : null : null;
 
         $formMapper
             ->add('productComponent')
@@ -52,10 +52,10 @@ class ProductRouteCardAdmin extends Admin
             ->add('professionCategory');
 
         // if product workshop is HAMATEX
-        if(($editProductWorkshop && $editProductWorkshop == 2) || $productWorkshop && $productWorkshop == 2) {
+//        if(($editProductWorkshop && $editProductWorkshop == 2) || $productWorkshop && $productWorkshop == 2) {
             $formMapper
                 ->add('mould');
-        }
+//        }
         $formMapper
             ->add('jobTime')
             ->add('specificPercent')

@@ -57,6 +57,17 @@ class UpdateTariffListener
                 $this->updatePrice($entity, $uow, $em);
             }
         }
+
+        //for create
+        foreach ($uow->getScheduledEntityInsertions() AS $entity)
+        {
+            if ($entity instanceof Product) {
+
+                $productCards = $entity->getProductRouteCard();
+
+                $this->getPrice($productCards, $uow, $em);
+            }
+        }
     }
 
     /**
@@ -68,7 +79,7 @@ class UpdateTariffListener
     {
         $changeSet = $uow->getEntityChangeSet($entity);
 
-        if(array_key_exists('hourSalary', $changeSet)){
+        if(array_key_exists('hourSalary', $changeSet)) {
 
             $routeCards = $entity->getProfession()->getProductRouteCard();
 
@@ -77,6 +88,7 @@ class UpdateTariffListener
     }
 
     /**
+     * This function is used to get profession tariff by id and category id
      * @param $productCards
      * @param $uow
      * @param $em
@@ -85,7 +97,7 @@ class UpdateTariffListener
     {
         //if product Cards exist
         if($productCards){
-            foreach($productCards as $productCard){
+            foreach($productCards as $productCard) {
 
                 //get profession
                 $profession = $productCard->getProfession();
