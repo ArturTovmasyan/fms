@@ -19,7 +19,7 @@ deployment: Տեղակայումը
 workshop: Թող.֊ող արտադրամաս
 price: Գինը
 #warehouse: Տեղը պահեստում
-raw_price: Հումքի գինը
+raw_price: Հումքի գումարը
 equipment: Թող.֊ող սարքավորումը
 mould: Թող.֊ող կաղապարը
 PartnersList: Գործընկերներ
@@ -79,7 +79,7 @@ raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ
 PositionsList: Հաստիքակազմ
 salaries_type: Գործավարձի տեսակը
-profession_category: Գործավարձի կարգը
+profession_category: Կարգը
 
 
 

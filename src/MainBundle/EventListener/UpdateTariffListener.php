@@ -155,7 +155,6 @@ class UpdateTariffListener
                     //get route card price
                     $price =  $jobTime * $hourSalary;
 
-//                    dump($price);exit;
                     //set route card price
                     $productCard->setRouteCardPrice($price);
                 }
