@@ -6,10 +6,39 @@ use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class ProductRouteCardAdmin extends Admin
 {
+    /**
+     * override list query
+     *
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+        // add selected
+        $query->addSelect('eq, pr, prc, ml');
+        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
+        $query->leftJoin($query->getRootAlias() . '.profession', 'pr');
+        $query->leftJoin($query->getRootAlias() . '.professionCategory', 'prc');
+        $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
+        return $query;
+
+    }
+
+    //hide remove and edit buttons
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->remove('delete');
+        $collection->remove('edit');
+    }
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -38,9 +67,10 @@ class ProductRouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-//        $productWorkshop = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getWorkshop();
 
-//        $editProductWorkshop = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getWorkshop() : null : null;
+        //get route card price
+        $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
+            $this->getSubject()->getRouteCardPrice() : null : null;
 
         $formMapper
             ->add('productComponent')
@@ -48,17 +78,18 @@ class ProductRouteCardAdmin extends Admin
             ->add('operationCode')
             ->add('dependency')
             ->add('equipment')
+            ->add('mould')
             ->add('profession')
-            ->add('professionCategory');
+            ->add('professionCategory')
+            ->add('jobTime');
+//            ->add('specificPercent');
 
-        // if product workshop is HAMATEX
-//        if(($editProductWorkshop && $editProductWorkshop == 2) || $productWorkshop && $productWorkshop == 2) {
-            $formMapper
-                ->add('mould');
-//        }
-        $formMapper
-            ->add('jobTime')
-            ->add('specificPercent')
+            if($routeCardPrice) {
+                $formMapper
+                    ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
+                        'readonly' => true,
+                        'disabled' => true)));
+            }
         ;
     }
 
@@ -69,6 +100,7 @@ class ProductRouteCardAdmin extends Admin
             ->add('id')
             ->add('product')
             ->add('productComponent')
+            ->add('profession')
         ;
     }
 

@@ -3,12 +3,18 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * ProductRouteCard
  *
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_route_card", columns={"profession_id", "profession_category_id", "product_id"})})
  * @ORM\Entity()
+ * @UniqueEntity(
+ *     fields={"profession", "professionCategory", "product"},
+ *     errorPath="profession",
+ *     message="Dublicate route card"
+ * )
  */
 class ProductRouteCard
 {
@@ -57,7 +63,6 @@ class ProductRouteCard
      */
     protected $profession;
 
-
     /**
      * @var string
      *
@@ -70,7 +75,7 @@ class ProductRouteCard
      *
      * @ORM\Column(name="specificPercent", type="integer")
      */
-    private $specificPercent;
+    private $specificPercent = 100;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductComponent", inversedBy="productRouteCard", cascade={"persist"})

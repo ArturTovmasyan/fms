@@ -21,10 +21,11 @@ class EquipmentAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('p, pe, s');
+        $query->addSelect('p, pe, s, ml');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
         $query->leftJoin($query->getRootAlias() . '.responsiblePersons', 'pe');
         $query->leftJoin($query->getRootAlias() . '.spares', 's');
+        $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
         return $query;
     }
 

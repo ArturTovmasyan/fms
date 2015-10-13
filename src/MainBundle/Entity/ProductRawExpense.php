@@ -3,14 +3,20 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * ProductRawExpense
  *
- * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_raw_expense", columns={"raw_materials_id", "product_id"})})
+ * @ORM\Entity()
+ * @UniqueEntity(
+ *     fields={"rawMaterials", "product"},
+ *     errorPath="rawMaterials",
+ *     message="Dublicate raw materials"
+ * )
  */
 class ProductRawExpense
 {

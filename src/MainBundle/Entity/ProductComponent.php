@@ -35,7 +35,6 @@ class ProductComponent
      */
     private $productRouteCard;
 
-
     /**
      * @var datetime $created
      *

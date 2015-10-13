@@ -3,17 +3,18 @@
 namespace MainBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\PersistentCollection;
 use MainBundle\Entity\Product;
+use MainBundle\Entity\ProductRouteCard;
 use MainBundle\Entity\SalariesType;
 use Symfony\Component\DependencyInjection\Container;
 
 
 /**
- * Listener for doctrine filter
- *
  * Class UpdateTariffListener
- * @package Ads\MainBundle\EventListener
+ * @package MainBundle\EventListener
  */
+
 class UpdateTariffListener
 {
     /**
@@ -30,7 +31,7 @@ class UpdateTariffListener
     }
 
     /**
-     * This function is used to set district to place address entity on flush event
+     * This function is used to update product route card price on flush event
      *
      * @param OnFlushEventArgs $args
      */
@@ -45,6 +46,7 @@ class UpdateTariffListener
         // for update
         foreach ($uow->getScheduledEntityUpdates() AS $entity)
         {
+            //if product object
             if ($entity instanceof Product) {
 
                 $productCards = $entity->getProductRouteCard();
@@ -52,6 +54,15 @@ class UpdateTariffListener
                 $this->getPrice($productCards, $uow, $em);
             }
 
+            //if product route card object
+            if ($entity instanceof ProductRouteCard) {
+
+                $productCards = $entity;
+
+                $this->getPrice($productCards, $uow, $em);
+            }
+
+            //if salaries type object
             if($entity instanceof SalariesType){
 
                 $this->updatePrice($entity, $uow, $em);
@@ -61,10 +72,26 @@ class UpdateTariffListener
         //for create
         foreach ($uow->getScheduledEntityInsertions() AS $entity)
         {
-            if ($entity instanceof Product) {
+            //if product object
+            if ($entity instanceof ProductRouteCard) {
 
-                $productCards = $entity->getProductRouteCard();
+                $productCards = $entity;
 
+                $this->getPrice($productCards, $uow, $em);
+            }
+        }
+
+        //for deletions
+        foreach ($uow->getScheduledEntityDeletions() AS $entity)
+        {
+            //if product object
+            if ($entity instanceof SalariesType) {
+
+                //TODO
+                //get product cards
+                $productCards = $entity->getProfession()->getProductRouteCard();
+
+                $productCards->count();
                 $this->getPrice($productCards, $uow, $em);
             }
         }
@@ -79,8 +106,9 @@ class UpdateTariffListener
     {
         $changeSet = $uow->getEntityChangeSet($entity);
 
-        if(array_key_exists('hourSalary', $changeSet)) {
+        if($changeSet) {
 
+            //get route card
             $routeCards = $entity->getProfession()->getProductRouteCard();
 
             $this->getPrice($routeCards, $uow, $em);
@@ -88,7 +116,7 @@ class UpdateTariffListener
     }
 
     /**
-     * This function is used to get profession tariff by id and category id
+     * This function is used to set route card price and get tariff by ids
      * @param $productCards
      * @param $uow
      * @param $em
@@ -97,6 +125,12 @@ class UpdateTariffListener
     {
         //if product Cards exist
         if($productCards){
+
+            //check if product cards is not persist collection
+            if(!($productCards instanceof PersistentCollection)){
+                $productCards = array($productCards);
+            }
+
             foreach($productCards as $productCard) {
 
                 //get profession
@@ -121,6 +155,7 @@ class UpdateTariffListener
                     //get route card price
                     $price =  $jobTime * $hourSalary;
 
+//                    dump($price);exit;
                     //set route card price
                     $productCard->setRouteCardPrice($price);
                 }

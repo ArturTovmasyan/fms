@@ -30,7 +30,14 @@ class ProductRawExpenseAdmin extends Admin
 
     }
 
-    public $supportsPreviewMode = true;
+    //hide remove and edit buttons
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->remove('delete');
+        $collection->remove('edit');
+    }
+
+//    public $supportsPreviewMode = true;
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -55,14 +62,13 @@ class ProductRawExpenseAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //get product id
-//        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
-//        $productId = $this->getDatagrid()->getResults()[0]->getProduct()->getId();
+        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
 
         //get product id for edit
-//        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
+        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
 
         $formMapper
-        ->add('rawMaterials', null, array(
+            ->add('rawMaterials', null, array(
 //            'query_builder' => function ($query) use ($productId, $editProductId) {
 //                $result = $query->createQueryBuilder('rm');
 //                if(!$editProductId){
@@ -75,11 +81,34 @@ class ProductRawExpenseAdmin extends Admin
 //                        ->setParameter('prodId', $productId);
 //                }
 //                return $result;}
-        ));
-
-        $formMapper
+            ))
             ->add('count')
         ;
+
+        //get materials actual cost
+        $actualCost = $this->getSubject() ? $this->getSubject()->getRawMaterials() ?
+            $this->getSubject()->getRawMaterials()->getActualCost() : null : null;
+
+        //check exist materials actual cost
+        if($actualCost) {
+
+            //get product raw price
+            $productRawPrice = $this->getSubject() ? $this->getSubject()->getProductRawPrice() ?
+                $this->getSubject()->getProductRawPrice() : null : null;
+
+            //check exist product raw price
+            if($productRawPrice) {
+
+                $formMapper
+                    ->add('rawMaterials.actualCost', null, array('label' => 'actual_price', 'attr' => array(
+                        'readonly' => true,
+                        'disabled' => true)))
+                    ->add('getProductRawPrice', 'integer', array('label' => 'raw_price', 'attr' => array(
+                        'readonly' => true,
+                        'disabled' => true)))
+                ;
+            }
+        }
     }
 
     // Fields to be shown on filter forms

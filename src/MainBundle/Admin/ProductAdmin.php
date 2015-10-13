@@ -10,6 +10,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ProductAdmin extends Admin
 {
+    protected $formOptions = array(
+        'cascade_validation' => true
+    );
+
     /**
      * override list query
      *
