@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ProductAdmin extends Admin
 {
+    //set fields option
     protected $formOptions = array(
         'cascade_validation' => true
     );

@@ -33,7 +33,7 @@ class ProductComponent
     /**
      * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="productComponent", cascade={"persist", "remove"})
      */
-    private $productRouteCard;
+    protected $productRouteCard;
 
     /**
      * @var datetime $created

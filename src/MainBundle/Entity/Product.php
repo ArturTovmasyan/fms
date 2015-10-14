@@ -728,30 +728,6 @@ class Product
         return $this->countInWarehouse;
     }
 
-
-    /**
-     * Set certificate
-     *
-     * @param \Application\MediaBundle\Entity\Gallery $certificate
-     * @return Product
-     */
-    public function setCertificate(\Application\MediaBundle\Entity\Gallery $certificate = null)
-    {
-        $this->certificate = $certificate;
-
-        return $this;
-    }
-
-    /**
-     * Get certificate
-     *
-     * @return \Application\MediaBundle\Entity\Gallery 
-     */
-    public function getCertificate()
-    {
-        return $this->certificate;
-    }
-
     /**
      * Add productRawExpense
      *
@@ -816,5 +792,28 @@ class Product
     public function getProductRouteCard()
     {
         return $this->productRouteCard;
+    }
+
+    /**
+     * Set certificate
+     *
+     * @param \Application\MediaBundle\Entity\Gallery $certificate
+     * @return Product
+     */
+    public function setCertificate(\Application\MediaBundle\Entity\Gallery $certificate = null)
+    {
+        $this->certificate = $certificate;
+
+        return $this;
+    }
+
+    /**
+     * Get certificate
+     *
+     * @return \Application\MediaBundle\Entity\Gallery 
+     */
+    public function getCertificate()
+    {
+        return $this->certificate;
     }
 }
