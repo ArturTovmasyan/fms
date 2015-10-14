@@ -6,13 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Context\ExecutionContext;
 
 /**
  * Product
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields={"name"}, errorPath="name", message="this name is already exist")
+ * @UniqueEntity(fields={"name"}, errorPath="name", message="This name is already exist")
+ * @Assert\Callback(methods={"validate"})
  */
 class Product
 {
@@ -815,5 +817,40 @@ class Product
     public function getCertificate()
     {
         return $this->certificate;
+    }
+
+    /**
+     * @param ExecutionContext $context
+     */
+    public function validate(ExecutionContext $context)
+    {
+        $routeCards = $this->getProductRouteCard();
+
+        foreach ($routeCards as $routeCard) {
+
+            //get profession
+            $profession = $routeCard->getProfession();
+
+            //get profession category
+            $professionCategory = $routeCard->getProfessionCategory();
+
+            $name =  $professionCategory->getName();
+
+            //get all salaries type by profession indexBy category id
+            $salariesTypeArray = $profession->getSalariesType();
+
+            //get salaries type by profession category id
+            $salariesType = $salariesTypeArray[$professionCategory->getId()];
+
+            //check if salariesType exist
+            if(!$salariesType) {
+                $context->addViolationAt(
+                    'productRouteCard',
+                    'This profession by category not exist "%category%"',
+                    array('%category%', $name),
+                    null
+                );
+            }
+        }
     }
 }
