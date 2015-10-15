@@ -62,10 +62,10 @@ class ProductRawExpenseAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //get product id
-        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
+//        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
 
         //get product id for edit
-        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
+//        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
 
         $formMapper
             ->add('rawMaterials', null, array(

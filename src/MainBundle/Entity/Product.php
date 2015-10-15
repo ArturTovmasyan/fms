@@ -824,32 +824,36 @@ class Product
      */
     public function validate(ExecutionContext $context)
     {
+        //get route card
         $routeCards = $this->getProductRouteCard();
 
-        foreach ($routeCards as $routeCard) {
+        if($routeCards) {
 
-            //get profession
-            $profession = $routeCard->getProfession();
+            foreach ($routeCards as $routeCard) {
 
-            //get profession category
-            $professionCategory = $routeCard->getProfessionCategory();
+                //get profession
+                $profession = $routeCard->getProfession();
 
-            $name =  $professionCategory->getName();
+                //get profession category
+                $professionCategory = $routeCard->getProfessionCategory();
 
-            //get all salaries type by profession indexBy category id
-            $salariesTypeArray = $profession->getSalariesType();
+                $name = $professionCategory->getName();
 
-            //get salaries type by profession category id
-            $salariesType = $salariesTypeArray[$professionCategory->getId()];
+                //get all salaries type by profession indexBy category id
+                $salariesTypeArray = $profession->getSalariesType();
 
-            //check if salariesType exist
-            if(!$salariesType) {
-                $context->addViolationAt(
-                    'productRouteCard',
-                    'This profession by category not exist "%category%"',
-                    array('%category%', $name),
-                    null
-                );
+                //get salaries type by profession category id
+                $salariesType = $salariesTypeArray[$professionCategory->getId()];
+
+                //check if salariesType exist
+                if (!$salariesType) {
+                    $context->addViolationAt(
+                        'productRouteCard',
+                        'This profession by category not exist "%category%"',
+                        array('%category%', $name),
+                        null
+                    );
+                }
             }
         }
     }

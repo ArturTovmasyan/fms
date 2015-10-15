@@ -158,9 +158,6 @@ class UpdateTariffListener
                     //set route card price
                     $productCard->setRouteCardPrice($price);
                 }
-                else {
-                    $productCard->setRouteCardPrice(0);
-                }
                 // persist changes
                 $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:ProductRouteCard'), $productCard);
             }

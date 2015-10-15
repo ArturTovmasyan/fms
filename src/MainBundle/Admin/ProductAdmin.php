@@ -72,6 +72,9 @@ class ProductAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //check exist product id for edit or create product
+//        $productId = $this->getSubject()->getId();
+
         $formMapper
             ->add('name')
             ->add('client')
@@ -104,27 +107,30 @@ class ProductAdmin extends Admin
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))
 
-            ->end()
-                ->with('operationCard')
-                ->add('productRawExpense', 'sonata_type_collection', array(
-                    'label' => 'product_expense',
-                    'by_reference' => false,
-                    'mapped'   => true,
-                    'required' => true),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table'
-                    ))
-                ->add('productRouteCard', 'sonata_type_collection', array(
-                    'label' => 'product_route_card',
-                    'by_reference' => false,
-                    'mapped'   => true,
-                    'required' => true),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table'
-                    ))
-                ->end();
+            ->end();
+//             if($productId) {
+                 $formMapper
+                 ->with('operationCard')
+                     ->add('productRawExpense', 'sonata_type_collection', array(
+                         'label' => 'product_expense',
+                         'by_reference' => false,
+                         'mapped' => true,
+                         'required' => true),
+                         array(
+                             'edit' => 'inline',
+                             'inline' => 'table'
+                         ))
+                     ->add('productRouteCard', 'sonata_type_collection', array(
+                         'label' => 'product_route_card',
+                         'by_reference' => false,
+                         'mapped' => true,
+                         'required' => true),
+                         array(
+                             'edit' => 'inline',
+                             'inline' => 'table'
+                         ))
+                     ->end();
+//             }
     }
 
     // Fields to be shown on filter forms

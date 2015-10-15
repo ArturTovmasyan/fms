@@ -67,29 +67,51 @@ class ProductRouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         //get route card price
         $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
-            $this->getSubject()->getRouteCardPrice() : null : null;
+        $this->getSubject()->getRouteCardPrice() : null : null;
+
+        //get product id
+        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
 
         $formMapper
             ->add('productComponent')
             ->add('operation')
             ->add('operationCode')
             ->add('dependency')
-            ->add('equipment')
-            ->add('mould')
+            ->add('equipment', null, array(
+                'query_builder' => function ($query) use ($productId) {
+                    $result = $query->createQueryBuilder('eq');
+                    $result
+                        ->select('eq')
+                        ->leftJoin('eq.product', 'pr')
+                        ->where('pr.id = :productId')
+                        ->setParameter('productId', $productId);
+                    return $result;
+                }
+            ))
+            ->add('mould', null, array(
+                'query_builder' => function ($query) use ($productId) {
+                    $result = $query->createQueryBuilder('ml');
+                    $result
+                        ->select('ml')
+                        ->leftJoin('ml.product', 'pr')
+                        ->where('pr.id = :productId')
+                        ->setParameter('productId', $productId);
+                    return $result;
+                }
+            ))
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime');
 //            ->add('specificPercent');
 
-            if($routeCardPrice) {
-                $formMapper
-                    ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
-                        'readonly' => true,
-                        'disabled' => true)));
-            }
+        if($routeCardPrice) {
+            $formMapper
+                ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
+                    'readonly' => true,
+                    'disabled' => true)));
+        }
         ;
     }
 
