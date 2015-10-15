@@ -34,13 +34,13 @@ fos_user_change_password:
 
 admin:
     resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
-    prefix: /
+    prefix: /admin
 #    schemes:  [https]
 
 _sonata_admin:
     resource: .
     type: sonata_admin
-    prefix: /
+    prefix: /admin
 #    schemes:  [https]
 
 sonata_user:
