@@ -26,14 +26,14 @@ class ProductAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('m, e, c, pw, pl, pre, prc, rm');
+        $query->addSelect('m, e, c, pw, pl, pre, rm');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'e');
         $query->leftJoin($query->getRootAlias() . '.client', 'c');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
         $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
         $query->leftJoin($query->getRootAlias() . '.productRawExpense', 'pre');
-        $query->leftJoin($query->getRootAlias() . '.productRouteCard', 'prc');
+//        $query->leftJoin($query->getRootAlias() . '.productRouteCard', 'prc');
         $query->leftJoin('pre.rawMaterials', 'rm');
         return $query;
 
@@ -120,7 +120,7 @@ class ProductAdmin extends Admin
                              'edit' => 'inline',
                              'inline' => 'table'
                          ))
-                     ->add('productRouteCard', 'sonata_type_collection', array(
+                     ->add('productComponent', 'sonata_type_collection', array(
                          'label' => 'product_route_card',
                          'by_reference' => false,
                          'mapped' => true,
@@ -171,15 +171,15 @@ class ProductAdmin extends Admin
     public function setRelations($object)
     {
         // get product route card
-        $productRouteCards = $object->getProductRouteCard();
+        $productComponents = $object->getProductComponent();
 
         // if product route card is exist
-        if($productRouteCards) {
+        if($productComponents) {
 
-            foreach($productRouteCards as $productRouteCard)
+            foreach($productComponents as $productComponent)
             {
-                if(!$productRouteCard->getId() || !$productRouteCards->contains($object)) {
-                    $productRouteCard->setProduct($object);
+                if(!$productComponent->getId() || !$productComponents->contains($object)) {
+                    $productComponent->setProduct($object);
                 }
             }
         }
@@ -202,10 +202,10 @@ class ProductAdmin extends Admin
     public function removeRelations($object)
     {
         // add productRouteCard
-        $productRouteCards = $object->getProductRouteCard();
+        $productComponents = $object->getProductComponent();
 
-        //get removed products in route card
-        $routeCardRemoved = $productRouteCards->getDeleteDiff();
+//        //get removed products in route card
+        $componentRemoved = $productComponents->getDeleteDiff();
 
         // get productRawExpenses
         $productRawExpense = $object->getProductRawExpense();
@@ -220,8 +220,8 @@ class ProductAdmin extends Admin
         $em = $container->get('doctrine')->getEntityManager();
 
         //removed raw expense
-        if($routeCardRemoved) {
-            foreach ($routeCardRemoved as $remove) {
+        if($componentRemoved) {
+            foreach ($componentRemoved as $remove) {
                 $em->remove($remove);
             }
         }

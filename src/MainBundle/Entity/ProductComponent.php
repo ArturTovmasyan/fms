@@ -36,6 +36,11 @@ class ProductComponent
     protected $productRouteCard;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productComponent", cascade={"persist"})
+     */
+    protected $product;
+
+    /**
      * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -179,4 +184,27 @@ class ProductComponent
         return $this->productRouteCard;
     }
 
+
+    /**
+     * Set product
+     *
+     * @param \MainBundle\Entity\Product $product
+     * @return ProductComponent
+     */
+    public function setProduct(\MainBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \MainBundle\Entity\Product 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
 }

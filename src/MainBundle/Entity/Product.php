@@ -126,11 +126,16 @@ class Product
      * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist", "remove"})
      */
     protected $productRawExpense;
+//
+//    /**
+//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="product", cascade={"persist", "remove"})
+//     */
+//    protected $productRouteCard;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ProductComponent", mappedBy="product", cascade={"persist", "remove"})
      */
-    protected $productRouteCard;
+    protected $productComponent;
 
 
 //relations
@@ -364,19 +369,19 @@ class Product
     public function getSumRouteCard()
     {
         //get product route cards
-        $productRouteCards = $this->getProductRouteCard();
-
-        //set sum expense
+//        $productRouteCards = $this->getProductRouteCard();
+//
+//        //set sum expense
         $sumRouteCard = 0;
-
-        foreach($productRouteCards as $productRouteCard)
-        {
-            //get product route card price
-            $routeCardPrice = $productRouteCard->getRouteCardPrice();
-
-            //sum routeCardPrice
-            $sumRouteCard += $routeCardPrice;
-        }
+//
+//        foreach($productRouteCards as $productRouteCard)
+//        {
+//            //get product route card price
+//            $routeCardPrice = $productRouteCard->getRouteCardPrice();
+//
+//            //sum routeCardPrice
+//            $sumRouteCard += $routeCardPrice;
+//        }
         return $sumRouteCard;
     }
 
@@ -763,38 +768,38 @@ class Product
         return $this->productRawExpense;
     }
 
-    /**
-     * Add productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     * @return Product
-     */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard[] = $productRouteCard;
-
-        return $this;
-    }
-
-    /**
-     * Remove productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard->removeElement($productRouteCard);
-    }
-
-    /**
-     * Get productRouteCard
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductRouteCard()
-    {
-        return $this->productRouteCard;
-    }
+//    /**
+//     * Add productRouteCard
+//     *
+//     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+//     * @return Product
+//     */
+//    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+//    {
+//        $this->productRouteCard[] = $productRouteCard;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove productRouteCard
+//     *
+//     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+//     */
+//    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+//    {
+//        $this->productRouteCard->removeElement($productRouteCard);
+//    }
+//
+//    /**
+//     * Get productRouteCard
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getProductRouteCard()
+//    {
+//        return $this->productRouteCard;
+//    }
 
     /**
      * Set certificate
@@ -824,37 +829,71 @@ class Product
      */
     public function validate(ExecutionContext $context)
     {
-        //get route card
-        $routeCards = $this->getProductRouteCard();
+//        //get route card
+//        $routeCards = $this->getProductRouteCard();
+//
+//        if($routeCards) {
+//
+//            foreach ($routeCards as $routeCard) {
+//
+//                //get profession
+//                $profession = $routeCard->getProfession();
+//
+//                //get profession category
+//                $professionCategory = $routeCard->getProfessionCategory();
+//
+//                $name = $professionCategory->getName();
+//
+//                //get all salaries type by profession indexBy category id
+//                $salariesTypeArray = $profession->getSalariesType();
+//
+//                //get salaries type by profession category id
+//                $salariesType = $salariesTypeArray[$professionCategory->getId()];
+//
+//                //check if salariesType exist
+//                if (!$salariesType) {
+//                    $context->addViolationAt(
+//                        'productRouteCard',
+//                        'This profession by category not exist "%category%"',
+//                        array('%category%', $name),
+//                        null
+//                    );
+//                }
+//            }
+//        }
+    }
 
-        if($routeCards) {
 
-            foreach ($routeCards as $routeCard) {
+    /**
+     * Add productComponent
+     *
+     * @param \MainBundle\Entity\ProductComponent $productComponent
+     * @return Product
+     */
+    public function addProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
+    {
+        $this->productComponent[] = $productComponent;
 
-                //get profession
-                $profession = $routeCard->getProfession();
+        return $this;
+    }
 
-                //get profession category
-                $professionCategory = $routeCard->getProfessionCategory();
+    /**
+     * Remove productComponent
+     *
+     * @param \MainBundle\Entity\ProductComponent $productComponent
+     */
+    public function removeProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
+    {
+        $this->productComponent->removeElement($productComponent);
+    }
 
-                $name = $professionCategory->getName();
-
-                //get all salaries type by profession indexBy category id
-                $salariesTypeArray = $profession->getSalariesType();
-
-                //get salaries type by profession category id
-                $salariesType = $salariesTypeArray[$professionCategory->getId()];
-
-                //check if salariesType exist
-                if (!$salariesType) {
-                    $context->addViolationAt(
-                        'productRouteCard',
-                        'This profession by category not exist "%category%"',
-                        array('%category%', $name),
-                        null
-                    );
-                }
-            }
-        }
+    /**
+     * Get productComponent
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProductComponent()
+    {
+        return $this->productComponent;
     }
 }

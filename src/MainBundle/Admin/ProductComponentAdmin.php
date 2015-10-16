@@ -27,7 +27,19 @@ class ProductComponentAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name')
+            ->add('name');
+            if (!$formMapper->getFormBuilder()->getForm()->getParent()) {
+                $formMapper
+                    ->add('productRouteCard', 'sonata_type_collection', array(
+                        'label' => 'product_route_card',
+                        'by_reference' => false,
+                        'mapped' => true,
+                        'required' => true),
+                        array(
+                            'edit' => 'table',
+                            'inline' => 'table',
+                        ));
+            }
         ;
     }
 
@@ -46,7 +58,6 @@ class ProductComponentAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-//            ->add('productRouteCard')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -95,7 +106,6 @@ class ProductComponentAdmin extends Admin
                 $em->remove($remove);
             }
         }
-
     }
 
     public function preUpdate($object)

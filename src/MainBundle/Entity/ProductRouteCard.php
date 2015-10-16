@@ -8,13 +8,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * ProductRouteCard
  *
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_route_card", columns={"profession_id", "profession_category_id", "product_id"})})
+ * @ORM\Table()
  * @ORM\Entity()
- * @UniqueEntity(
- *     fields={"profession", "professionCategory", "product"},
- *     errorPath="profession",
- *     message="Dublicate route card"
- * )
  */
 class ProductRouteCard
 {
@@ -87,10 +82,10 @@ class ProductRouteCard
      */
     protected $mould;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productRouteCard", cascade={"persist"})
-     */
-    protected $product;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productRouteCard", cascade={"persist"})
+//     */
+//    protected $product;
 
       /**
      * @var integer
@@ -347,28 +342,28 @@ class ProductRouteCard
         return $this->mould;
     }
 
-    /**
-     * Set product
-     *
-     * @param \MainBundle\Entity\Product $product
-     * @return ProductRouteCard
-     */
-    public function setProduct(\MainBundle\Entity\Product $product = null)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return \MainBundle\Entity\Product
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
+//    /**
+//     * Set product
+//     *
+//     * @param \MainBundle\Entity\Product $product
+//     * @return ProductRouteCard
+//     */
+//    public function setProduct(\MainBundle\Entity\Product $product = null)
+//    {
+//        $this->product = $product;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get product
+//     *
+//     * @return \MainBundle\Entity\Product
+//     */
+//    public function getProduct()
+//    {
+//        return $this->product;
+//    }
 
     /**
      * Set professionCategory
