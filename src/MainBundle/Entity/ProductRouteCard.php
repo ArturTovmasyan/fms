@@ -97,7 +97,7 @@ class ProductRouteCard
      *
      * @ORM\Column(name="route_card_price", type="integer")
      */
-    protected $routeCardPrice = 0;
+    protected $routeCardPrice;
 
     // set profession tariff in productRouteCard list and show
     protected $tariff;
