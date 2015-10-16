@@ -82,17 +82,12 @@ class ProductRouteCard
      */
     protected $mould;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productRouteCard", cascade={"persist"})
-//     */
-//    protected $product;
-
       /**
      * @var integer
      *
      * @ORM\Column(name="route_card_price", type="integer")
      */
-    protected $routeCardPrice;
+    protected $routeCardPrice = 0;
 
     // set profession tariff in productRouteCard list and show
     protected $tariff;
@@ -341,29 +336,6 @@ class ProductRouteCard
     {
         return $this->mould;
     }
-
-//    /**
-//     * Set product
-//     *
-//     * @param \MainBundle\Entity\Product $product
-//     * @return ProductRouteCard
-//     */
-//    public function setProduct(\MainBundle\Entity\Product $product = null)
-//    {
-//        $this->product = $product;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get product
-//     *
-//     * @return \MainBundle\Entity\Product
-//     */
-//    public function getProduct()
-//    {
-//        return $this->product;
-//    }
 
     /**
      * Set professionCategory

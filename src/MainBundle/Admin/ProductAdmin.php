@@ -33,7 +33,6 @@ class ProductAdmin extends Admin
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
         $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
         $query->leftJoin($query->getRootAlias() . '.productRawExpense', 'pre');
-//        $query->leftJoin($query->getRootAlias() . '.productRouteCard', 'prc');
         $query->leftJoin('pre.rawMaterials', 'rm');
         return $query;
 
@@ -72,9 +71,6 @@ class ProductAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        //check exist product id for edit or create product
-//        $productId = $this->getSubject()->getId();
-
         $formMapper
             ->add('name')
             ->add('client')
@@ -108,7 +104,6 @@ class ProductAdmin extends Admin
             ->add('mould', null, array('label' => 'mould'))
 
             ->end();
-//             if($productId) {
                  $formMapper
                  ->with('operationCard')
                      ->add('productRawExpense', 'sonata_type_collection', array(
@@ -130,7 +125,6 @@ class ProductAdmin extends Admin
                              'inline' => 'table'
                          ))
                      ->end();
-//             }
     }
 
     // Fields to be shown on filter forms
@@ -204,7 +198,7 @@ class ProductAdmin extends Admin
         // add productRouteCard
         $productComponents = $object->getProductComponent();
 
-//        //get removed products in route card
+        //get removed products in route card
         $componentRemoved = $productComponents->getDeleteDiff();
 
         // get productRawExpenses

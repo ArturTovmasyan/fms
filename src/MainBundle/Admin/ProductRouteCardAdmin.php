@@ -48,8 +48,6 @@ class ProductRouteCardAdmin extends Admin
     {
         $showMapper
             ->add('id')
-//            ->add('product')
-//            ->add('productComponent')
             ->add('operation')
             ->add('operationCode')
             ->add('dependency')
