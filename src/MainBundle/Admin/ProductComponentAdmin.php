@@ -36,7 +36,7 @@ class ProductComponentAdmin extends Admin
                         'mapped' => true,
                         'required' => true),
                         array(
-                            'edit' => 'table',
+                            'edit' => 'inline',
                             'inline' => 'table',
                         ));
             }
