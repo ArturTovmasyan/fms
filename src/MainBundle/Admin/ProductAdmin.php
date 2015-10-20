@@ -181,7 +181,7 @@ class ProductAdmin extends Admin
         // get product raw expenses
         $productRawExpense = $object->getProductRawExpense();
 
-        // if product product raw expenses is exist
+        // if product raw expenses is exist
         if($productRawExpense) {
 
             foreach($productRawExpense as $productRawExpens)
@@ -213,7 +213,7 @@ class ProductAdmin extends Admin
         //get entity manager
         $em = $container->get('doctrine')->getEntityManager();
 
-        //removed raw expense
+        //removed product components
         if($componentRemoved) {
             foreach ($componentRemoved as $remove) {
                 $em->remove($remove);
