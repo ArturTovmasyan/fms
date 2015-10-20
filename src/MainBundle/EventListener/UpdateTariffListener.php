@@ -47,12 +47,12 @@ class UpdateTariffListener
         foreach ($uow->getScheduledEntityUpdates() AS $entity)
         {
             //if product object
-            if ($entity instanceof Product) {
-
-                $productCards = $entity->getProductRouteCard();
-
-                $this->getPrice($productCards, $uow, $em);
-            }
+//            if ($entity instanceof Product) {
+//
+//                $productCards = $entity->getProductRouteCard();
+//
+//                $this->getPrice($productCards, $uow, $em);
+//            }
 
             //if product route card object
             if ($entity instanceof ProductRouteCard) {

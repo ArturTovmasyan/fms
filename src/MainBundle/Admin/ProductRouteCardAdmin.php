@@ -67,8 +67,8 @@ class ProductRouteCardAdmin extends Admin
     {
 
             //get route card price
-//        $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
-//        $this->getSubject()->getRouteCardPrice() : null : null;
+        $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
+        $this->getSubject()->getRouteCardPrice() : null : null;
 
         //get product id
 //        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
@@ -104,12 +104,12 @@ class ProductRouteCardAdmin extends Admin
             ->add('professionCategory')
             ->add('jobTime');
 
-//        if($routeCardPrice) {
-//            $formMapper
-//                ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
-//                    'readonly' => true,
-//                    'disabled' => true)));
-//        }
+        if($routeCardPrice) {
+            $formMapper
+                ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
+                    'readonly' => true,
+                    'disabled' => true)));
+        }
         ;
     }
 
