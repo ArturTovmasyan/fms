@@ -184,7 +184,6 @@ class ProductComponent
         return $this->productRouteCard;
     }
 
-
     /**
      * Set product
      *

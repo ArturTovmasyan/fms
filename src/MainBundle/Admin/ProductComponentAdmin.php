@@ -27,19 +27,8 @@ class ProductComponentAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name');
-            if (!$formMapper->getFormBuilder()->getForm()->getParent()) {
-                $formMapper
-                    ->add('productRouteCard', 'sonata_type_collection', array(
-                        'label' => 'product_route_card',
-                        'by_reference' => false,
-                        'mapped' => true,
-                        'required' => true),
-                        array(
-                            'edit' => 'inline',
-                            'inline' => 'table',
-                        ));
-            }
+            ->add('name')
+            ->add('productRouteCard', 'route_card_type')
         ;
     }
 

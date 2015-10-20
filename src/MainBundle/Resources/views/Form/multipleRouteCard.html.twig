@@ -1,0 +1,12 @@
+{% block route_card_type_widget %}
+    <ul class="tags" data-prototype="{{ _self.multiple_prototype(form.vars.prototype)|e }}">
+
+        {{ form_row(form) }}
+    </ul>
+
+{% endblock %}
+
+{% macro multiple_prototype(form) %}
+    {{ form_row(form) }}
+
+{% endmacro %}

@@ -11,6 +11,10 @@
             <argument/>
             <argument>MainBundle\Entity\Product</argument>
             <argument/>
+            <call method="setTemplate">
+                <argument>edit</argument>
+                <argument>MainBundle:Admin:productEdit.html.twig</argument>
+            </call>
         </service>
 
         <!--Mould-->

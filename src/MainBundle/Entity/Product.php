@@ -834,6 +834,8 @@ class Product
      */
     public function addProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
     {
+        exit;
+
         $this->productComponent[] = $productComponent;
 
         return $this;

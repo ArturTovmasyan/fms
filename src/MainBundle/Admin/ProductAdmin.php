@@ -104,27 +104,27 @@ class ProductAdmin extends Admin
             ->add('mould', null, array('label' => 'mould'))
 
             ->end();
-                 $formMapper
-                 ->with('operationCard')
-                     ->add('productRawExpense', 'sonata_type_collection', array(
-                         'label' => 'product_expense',
-                         'by_reference' => false,
-                         'mapped' => true,
-                         'required' => true),
-                         array(
-                             'edit' => 'inline',
-                             'inline' => 'table'
-                         ))
-                     ->add('productComponent', 'sonata_type_collection', array(
-                         'label' => 'product_route_card',
-                         'by_reference' => false,
-                         'mapped' => true,
-                         'required' => true),
-                         array(
-                             'edit' => 'inline',
-                             'inline' => 'table'
-                         ))
-                     ->end();
+        $formMapper
+            ->with('operationCard')
+            ->add('productRawExpense', 'sonata_type_collection', array(
+                'label' => 'product_expense',
+                'by_reference' => false,
+                'mapped' => true,
+                'required' => true),
+                array(
+                    'edit' => 'inline',
+                    'inline' => 'table'
+                ))
+            ->add('productComponent', 'sonata_type_collection', array(
+                'label' => 'product_route_card',
+                'by_reference' => false,
+                'mapped' => true,
+                'required' => true),
+                array(
+                    'edit' => 'inline',
+                    'inline' => 'table'
+                ))
+            ->end();
     }
 
     // Fields to be shown on filter forms
@@ -228,14 +228,45 @@ class ProductAdmin extends Admin
         }
     }
 
+    /**
+     * @param $object
+     */
+    private function updateComponents($object)
+    {
+        //get product components
+        $components = $object->getProductComponent();
+
+        //if components exist
+        if($components){
+
+            foreach($components as $component){
+
+                //get product route cards
+                $productCards = $component->getProductRouteCard();
+
+                //if product cards exist
+                if($productCards){
+
+                    foreach($productCards as $productCard){
+
+                        //set component in route card
+                        $productCard->setProductComponent($component);
+                    }
+                }
+            }
+        }
+    }
+
     public function preUpdate($object)
     {
+        $this->updateComponents($object);
         $this->setRelations($object);
         $this->removeRelations($object);
     }
 
     public function prePersist($object)
     {
+        $this->updateComponents($object);
         $this->setRelations($object);
     }
 }
