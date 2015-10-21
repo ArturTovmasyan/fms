@@ -791,38 +791,49 @@ class Product
      */
     public function validate(ExecutionContext $context)
     {
-//        //get route card
-//        $routeCards = $this->getProductRouteCard();
-//
-//        if($routeCards) {
-//
-//            foreach ($routeCards as $routeCard) {
-//
-//                //get profession
-//                $profession = $routeCard->getProfession();
-//
-//                //get profession category
-//                $professionCategory = $routeCard->getProfessionCategory();
-//
-//                $name = $professionCategory->getName();
-//
-//                //get all salaries type by profession indexBy category id
-//                $salariesTypeArray = $profession->getSalariesType();
-//
-//                //get salaries type by profession category id
-//                $salariesType = $salariesTypeArray[$professionCategory->getId()];
-//
-//                //check if salariesType exist
-//                if (!$salariesType) {
-//                    $context->addViolationAt(
-//                        'productRouteCard',
-//                        'This profession by category not exist "%category%"',
-//                        array('%category%', $name),
-//                        null
-//                    );
-//                }
-//            }
-//        }
+        //get components
+        $components = $this->getProductComponent();
+
+        //if components exist
+        if($components) {
+
+            foreach($components as $component)
+            {
+                //get route card
+                $routeCards = $component->getProductRouteCard();
+
+                //if route cards exist
+                if($routeCards) {
+
+                    foreach($routeCards as $routeCard) {
+
+                        //get profession
+                        $profession = $routeCard->getProfession();
+
+                        //get profession category
+                        $professionCategory = $routeCard->getProfessionCategory();
+
+                        $name = $professionCategory->getName();
+
+                        //get all salaries type by profession indexBy category id
+                        $salariesTypeArray = $profession->getSalariesType();
+
+                        //get salaries type by profession category id
+                        $salariesType = $salariesTypeArray[$professionCategory->getId()];
+
+                        //check if salariesType exist
+                        if (!$salariesType) {
+                            $context->addViolationAt(
+                                'productRouteCard',
+                                'This profession by category not exist "%category%"',
+                                array('%category%', $name),
+                                null
+                            );
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
