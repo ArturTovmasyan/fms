@@ -4,7 +4,6 @@ namespace MainBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
-use MainBundle\Entity\Product;
 use MainBundle\Entity\ProductRouteCard;
 use MainBundle\Entity\SalariesType;
 use Symfony\Component\DependencyInjection\Container;
