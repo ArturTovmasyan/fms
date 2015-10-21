@@ -114,15 +114,16 @@ class ProductAdmin extends Admin
                     'edit' => 'inline',
                     'inline' => 'table'
                 ))
-            ->add('productComponent', 'sonata_type_collection', array(
-                'label' => 'product_route_card',
-                'by_reference' => false,
-                'mapped' => true,
-                'required' => true),
-                array(
-                    'edit' => 'inline',
-                    'inline' => 'table'
-                ))
+            ->add('productComponent', 'component_type')
+//            ->add('productComponent', 'sonata_type_collection', array(
+//                'label' => 'product_route_card',
+//                'by_reference' => false,
+//                'mapped' => true,
+//                'required' => true),
+//                array(
+//                    'edit' => 'inline',
+//                    'inline' => 'table'
+//                ))
             ->end();
     }
 

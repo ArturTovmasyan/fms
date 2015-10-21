@@ -11,6 +11,11 @@
             <tag name="form.type" alias="route_card_type" />
         </service>
 
+        <!-- service for multiple component form -->
+        <service id="fmc.multiple.component" class="MainBundle\Form\Type\ProductComponentType">
+            <tag name="form.type" alias="component_type" />
+        </service>
+
         <!-- service for update route card sum  -->
         <service id="tariff_update_listener" class="MainBundle\EventListener\UpdateTariffListener">
             <argument type="service" id="service_container" />

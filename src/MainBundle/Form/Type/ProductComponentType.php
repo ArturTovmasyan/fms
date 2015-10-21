@@ -7,12 +7,13 @@
  */
 
 namespace MainBundle\Form\Type;
+use MainBundle\Form\ComponentType;
 use MainBundle\Form\RouteCardType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductRouteCardType extends AbstractType
+class ProductComponentType extends AbstractType
 {
     /**
      * @return null|string|\Symfony\Component\Form\FormTypeInterface
@@ -27,10 +28,9 @@ class ProductRouteCardType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'type' => new RouteCardType(),
+            'type' => new ComponentType(),
             'allow_add' => true,
             'allow_delete' => true,
-            'by_reference' => false
         ));
     }
     /**
@@ -38,6 +38,6 @@ class ProductRouteCardType extends AbstractType
      */
     public function getName()
     {
-        return 'route_card_type';
+        return 'component_type';
     }
 }

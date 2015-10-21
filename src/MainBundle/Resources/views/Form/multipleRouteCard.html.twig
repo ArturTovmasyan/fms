@@ -1,5 +1,5 @@
 {% block route_card_type_widget %}
-    <ul class="tags" data-prototype="{{ _self.multiple_prototype(form.vars.prototype)|e }}">
+    <ul class="route" data-prototype1="{{ _self.multiple_prototype(form.vars.prototype)|e }}">
 
         {{ form_row(form) }}
     </ul>
@@ -8,5 +8,4 @@
 
 {% macro multiple_prototype(form) %}
     {{ form_row(form) }}
-
 {% endmacro %}

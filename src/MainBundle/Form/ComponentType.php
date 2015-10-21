@@ -13,10 +13,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 /**
- * Class RouteCardType
+ * Class ComponentType
  * @package MainBundle\Form
  */
-class RouteCardType extends AbstractType
+
+class ComponentType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -25,14 +26,9 @@ class RouteCardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('operation')
-            ->add('operationCode')
-            ->add('dependency')
-            ->add('equipment')
-            ->add('mould')
-            ->add('profession')
-            ->add('professionCategory')
-            ->add('jobTime');
+            ->add('name')
+            ->add('productRouteCard', 'route_card_type', array('label' => false));
+
     }
     /**
      * @param OptionsResolver $resolver
@@ -40,7 +36,7 @@ class RouteCardType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'MainBundle\Entity\ProductRouteCard'
+            'data_class' => 'MainBundle\Entity\ProductComponent'
         ));
     }
     /**
@@ -48,6 +44,6 @@ class RouteCardType extends AbstractType
      */
     public function getName()
     {
-        return 'main_bundle_product_route_card';
+        return 'main_bundle_product_component';
     }
 }

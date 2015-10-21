@@ -37,7 +37,7 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form:
-            resources: [ 'MainBundle:Form:multipleRouteCard.html.twig']
+            resources: ['MainBundle:Form:multipleRouteCard.html.twig', 'MainBundle:Form:multipleComponent.html.twig']
 
 # Assetic Configuration
 assetic:
