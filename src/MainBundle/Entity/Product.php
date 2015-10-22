@@ -363,20 +363,26 @@ class Product
      */
     public function getSumRouteCard()
     {
-        //get product route cards
-//        $productRouteCards = $this->getProductRouteCard();
-//
-//        //set sum expense
+        //set sum expense
         $sumRouteCard = 0;
-//
-//        foreach($productRouteCards as $productRouteCard)
-//        {
-//            //get product route card price
-//            $routeCardPrice = $productRouteCard->getRouteCardPrice();
-//
-//            //sum routeCardPrice
-//            $sumRouteCard += $routeCardPrice;
-//        }
+
+        $productComponents = $this->getProductComponent();
+
+        foreach($productComponents as $productComponent)
+        {
+            //get product route cards
+            $productRouteCards = $productComponent->getProductRouteCard();
+
+            foreach($productRouteCards as $productRouteCard)
+            {
+                //get product route card price
+                $routeCardPrice = $productRouteCard->getRouteCardPrice();
+
+                //sum routeCardPrice
+                $sumRouteCard += $routeCardPrice;
+            }
+        }
+
         return $sumRouteCard;
     }
 
