@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -66,9 +67,9 @@ class ProductRouteCardAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
 
-            //get route card price
+        //get route card price
         $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
-        $this->getSubject()->getRouteCardPrice() : null : null;
+            $this->getSubject()->getRouteCardPrice() : null : null;
 
         //get product id
 //        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
@@ -118,6 +119,11 @@ class ProductRouteCardAdmin extends Admin
     {
         $datagridMapper
             ->add('id')
+//            ->add('productComponent.product', null, array('query_builder' => function(EntityRepository $er) {
+//                return $er->createQueryBuilder('pc, pp')
+//                    ->leftJoin('pc.product', 'pp');
+//            }))
+                ->add('productComponent.product')
             ->add('profession')
         ;
     }
@@ -127,6 +133,7 @@ class ProductRouteCardAdmin extends Admin
     {
         $listMapper
             ->add('id')
+            ->add('productComponent.product')
             ->add('operation')
             ->add('operationCode')
             ->add('dependency')
