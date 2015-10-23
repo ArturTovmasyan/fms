@@ -26,13 +26,14 @@ class ProductAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('m, e, c, pw, pl, pre, rm');
+        $query->addSelect('m, e, c, pw, pl, pre, pc, rm');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'e');
         $query->leftJoin($query->getRootAlias() . '.client', 'c');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
         $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
         $query->leftJoin($query->getRootAlias() . '.productRawExpense', 'pre');
+        $query->leftJoin($query->getRootAlias() . '.productComponent', 'pc');
         $query->leftJoin('pre.rawMaterials', 'rm');
         return $query;
 
@@ -115,15 +116,6 @@ class ProductAdmin extends Admin
                     'inline' => 'table'
                 ))
             ->add('productComponent', 'component_type')
-//            ->add('productComponent', 'sonata_type_collection', array(
-//                'label' => 'product_route_card',
-//                'by_reference' => false,
-//                'mapped' => true,
-//                'required' => true),
-//                array(
-//                    'edit' => 'inline',
-//                    'inline' => 'table'
-//                ))
             ->end();
     }
 
