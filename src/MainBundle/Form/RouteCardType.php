@@ -9,6 +9,8 @@
 namespace MainBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
@@ -32,7 +34,10 @@ class RouteCardType extends AbstractType
             ->add('mould')
             ->add('profession')
             ->add('professionCategory')
-            ->add('jobTime');
+            ->add('jobTime')
+            ->add('routeCardPrice', null, array('attr' => array(
+                'readonly' => true,
+                'disabled' => true)));
     }
     /**
      * @param OptionsResolver $resolver
