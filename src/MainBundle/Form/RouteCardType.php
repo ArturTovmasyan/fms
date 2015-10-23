@@ -29,6 +29,9 @@ class RouteCardType extends AbstractType
         $builder
             ->add('operation')
             ->add('operationCode')
+//            ->add('operationCode', null, array('attr' => array(
+//                'readonly' => true,
+//                'disabled' => true)))
             ->add('dependency')
             ->add('equipment')
             ->add('mould')

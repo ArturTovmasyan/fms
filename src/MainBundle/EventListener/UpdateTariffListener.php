@@ -74,6 +74,8 @@ class UpdateTariffListener
             //if product object
             if ($entity instanceof ProductRouteCard) {
 
+//                $this->setOperationCode($entity);
+
                 $productCards = $entity;
 
                 $this->getPrice($productCards, $uow, $em);
@@ -162,4 +164,23 @@ class UpdateTariffListener
             }
         }
     }
+
+//    private function setOperationCode($entity)
+//    {
+//        $componentIndex = array('K1', 'K2', 'K3', 'K4', 'K5', 'K6');
+//
+//        if($entity->getid() == null) {
+//
+//            $componentCount = $entity->getProductComponent()->getProduct()->getProductComponent()->count();
+//            $index = $componentCount - 1;
+//
+//            //get component code
+//            $componentCode = $componentIndex[$index];
+//            $operationCount = $entity->getProductComponent()->getProductRouteCard()->count();
+//            $operationCode = "O".$operationCount;
+//            $routeCardCode = $componentCode.$operationCode;
+//            $entity->setOperationCode($routeCardCode);
+//
+//        }
+//    }
 }
