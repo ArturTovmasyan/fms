@@ -85,7 +85,7 @@ class Product
     protected $equipment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Mould", inversedBy="product", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Mould", inversedBy="product", cascade={"persist"})
      * @ORM\JoinTable(name="product_mould")
      */
     protected $mould;

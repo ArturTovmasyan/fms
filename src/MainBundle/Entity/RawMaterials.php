@@ -90,9 +90,9 @@ abstract class RawMaterials
     protected $vendors;
 
     /**
-     * @ORM\Column(name="actual_cost", type="integer")
+     * @ORM\Column(name="actual_cost", type="integer", nullable=false)
      */
-    private $actualCost;
+    private $actualCost = 1;
 
     /**
      * @ORM\Column(name="balance_cost", type="integer")
