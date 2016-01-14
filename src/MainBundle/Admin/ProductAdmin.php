@@ -73,6 +73,9 @@ class ProductAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get product id for edit
+        $editProductId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+
         $formMapper
             ->add('name')
             ->add('client')
@@ -104,16 +107,34 @@ class ProductAdmin extends Admin
             ->add('weight')
             ->add('equipment', null, array(
                 'label' => 'equipment',
-//                'query_builder' => function(EntityRepository $er) {
-//                return $er->createQueryBuilder('eq')
-//                    ->select('eq')
-//                    ->from('MainBundle:Equipment','eq')
-//                    ->where('eq.product')
-//                    ->orderBy('u.id', 'ASC')
-//                    ->setParameters(array(1 => 'Commercial'));
-//            }
+                'query_builder' => function($query) use ($editProductId) {
+                    $result = $query->createQueryBuilder('p');
+                        if(!$editProductId) {
+                            $result
+                                ->select('eq')
+                                ->from('MainBundle:Equipment','eq')
+                                ->join('eq.product', 'ep')
+                                ->where('ep.id is null');
+                        }
+
+                    return $result;
+                }
             ))
-            ->add('mould', null, array('label' => 'mould'))
+            ->add('mould', null, array(
+                'label' => 'mould',
+                'query_builder' => function($query) use ($editProductId) {
+                    $result = $query->createQueryBuilder('p');
+                        if(!$editProductId) {
+                            $result
+                                ->select('m')
+                                ->from('MainBundle:Mould','m')
+                                ->join('m.product', 'mp')
+                                ->where('mp.id is null');
+                        }
+
+                    return $result;
+                }
+            ))
             ->end()
             ->with('operationCard')
             ->add('productRawExpense', 'sonata_type_collection', array(
