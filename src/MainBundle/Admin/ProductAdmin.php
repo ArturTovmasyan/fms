@@ -103,7 +103,6 @@ class ProductAdmin extends Admin
             ->add('weight')
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))
-
             ->end()
             ->with('operationCard')
             ->add('productRawExpense', 'sonata_type_collection', array(
