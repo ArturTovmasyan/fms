@@ -113,7 +113,7 @@ class ProductAdmin extends Admin
                             $result
                                 ->select('eq')
                                 ->from('MainBundle:Equipment','eq')
-                                ->join('eq.product', 'ep')
+                                ->leftJoin('eq.product', 'ep')
                                 ->where('ep.id is null');
                         }
 
@@ -128,7 +128,7 @@ class ProductAdmin extends Admin
                             $result
                                 ->select('m')
                                 ->from('MainBundle:Mould','m')
-                                ->join('m.product', 'mp')
+                                ->leftJoin('m.product', 'mp')
                                 ->where('mp.id is null');
                         }
 
