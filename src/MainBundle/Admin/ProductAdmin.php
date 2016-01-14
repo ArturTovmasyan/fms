@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -101,7 +102,17 @@ class ProductAdmin extends Admin
                 array('required' => false),
                 array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
             ->add('weight')
-            ->add('equipment', null, array('label' => 'equipment'))
+            ->add('equipment', null, array(
+                'label' => 'equipment',
+//                'query_builder' => function(EntityRepository $er) {
+//                return $er->createQueryBuilder('eq')
+//                    ->select('eq')
+//                    ->from('MainBundle:Equipment','eq')
+//                    ->where('eq.product')
+//                    ->orderBy('u.id', 'ASC')
+//                    ->setParameters(array(1 => 'Commercial'));
+//            }
+            ))
             ->add('mould', null, array('label' => 'mould'))
             ->end()
             ->with('operationCard')
