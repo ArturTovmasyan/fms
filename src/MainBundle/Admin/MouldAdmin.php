@@ -2,7 +2,8 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use /** @noinspection PhpDeprecationInspection */
+    Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -73,12 +74,6 @@ class MouldAdmin extends Admin
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('description')
             ->add('purposeList', null, array('label' => 'Purpose'))
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('sketch', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
             ->add('currentState', 'choice', array('label' => 'current_state', 'choices'=> array(
                 "Նորմալ",
                 "Վերանորոգման ենթակա",
