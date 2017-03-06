@@ -86,10 +86,6 @@ class Equipment
      */
     private $deployment;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $image;
 
     /**
      * @ORM\Column(name="state", type="smallint", length=255)
@@ -131,15 +127,6 @@ class Equipment
      */
     protected $spares;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
-     */
-    protected $chronologyFile;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
-     */
-    protected $technicalFile;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
@@ -613,30 +600,6 @@ class Equipment
     }
 
     /**
-     * Set image
-     *
-     * @param \Application\MediaBundle\Entity\Media $image
-     * @return Equipment
-     */
-    public function setImage(\Application\MediaBundle\Entity\Media $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-
-    /**
      * Set inspectionPeriod
      *
      * @param integer $inspectionPeriod
@@ -794,52 +757,6 @@ class Equipment
     public function getUpdated()
     {
         return $this->updated;
-    }
-
-    /**
-     * Set chronologyFile
-     *
-     * @param \Application\MediaBundle\Entity\Gallery $chronologyFile
-     * @return Equipment
-     */
-    public function setChronologyFile(\Application\MediaBundle\Entity\Gallery $chronologyFile = null)
-    {
-        $this->chronologyFile = $chronologyFile;
-
-        return $this;
-    }
-
-    /**
-     * Get chronologyFile
-     *
-     * @return \Application\MediaBundle\Entity\Gallery 
-     */
-    public function getChronologyFile()
-    {
-        return $this->chronologyFile;
-    }
-
-    /**
-     * Set technicalFile
-     *
-     * @param \Application\MediaBundle\Entity\Gallery $technicalFile
-     * @return Equipment
-     */
-    public function setTechnicalFile(\Application\MediaBundle\Entity\Gallery $technicalFile = null)
-    {
-        $this->technicalFile = $technicalFile;
-
-        return $this;
-    }
-
-    /**
-     * Get technicalFile
-     *
-     * @return \Application\MediaBundle\Entity\Gallery 
-     */
-    public function getTechnicalFile()
-    {
-        return $this->technicalFile;
     }
 
     /**

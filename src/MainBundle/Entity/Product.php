@@ -100,25 +100,12 @@ class Product
      */
     protected $client;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $image;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $sketch;
 
     /**
      * @ORM\ManyToOne(targetEntity="PurposeList", inversedBy="product", cascade={"persist"})
      */
     protected $purposeList;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
-     */
-    protected $certificate;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist", "remove"})
@@ -560,52 +547,6 @@ class Product
     }
 
     /**
-     * Set image
-     *
-     * @param \Application\MediaBundle\Entity\Media $image
-     * @return Product
-     */
-    public function setImage(\Application\MediaBundle\Entity\Media $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set sketch
-     *
-     * @param \Application\MediaBundle\Entity\Media $sketch
-     * @return Product
-     */
-    public function setSketch(\Application\MediaBundle\Entity\Media $sketch = null)
-    {
-        $this->sketch = $sketch;
-
-        return $this;
-    }
-
-    /**
-     * Get sketch
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getSketch()
-    {
-        return $this->sketch;
-    }
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -792,28 +733,5 @@ class Product
     public function getProductRouteCard()
     {
         return $this->productRouteCard;
-    }
-
-    /**
-     * Set certificate
-     *
-     * @param \Application\MediaBundle\Entity\Gallery $certificate
-     * @return Product
-     */
-    public function setCertificate(\Application\MediaBundle\Entity\Gallery $certificate = null)
-    {
-        $this->certificate = $certificate;
-
-        return $this;
-    }
-
-    /**
-     * Get certificate
-     *
-     * @return \Application\MediaBundle\Entity\Gallery 
-     */
-    public function getCertificate()
-    {
-        return $this->certificate;
     }
 }

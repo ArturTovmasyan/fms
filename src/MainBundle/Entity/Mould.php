@@ -94,16 +94,6 @@ class Mould
     private $overSize;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $image;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $sketch;
-
-    /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="mould")
      */
     private $product;
@@ -409,51 +399,6 @@ class Mould
         return $this->overSize;
     }
 
-    /**
-     * Set image
-     *
-     * @param \Application\MediaBundle\Entity\Media $image
-     * @return Mould
-     */
-    public function setImage(\Application\MediaBundle\Entity\Media $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set sketch
-     *
-     * @param \Application\MediaBundle\Entity\Media $sketch
-     * @return Mould
-     */
-    public function setSketch(\Application\MediaBundle\Entity\Media $sketch = null)
-    {
-        $this->sketch = $sketch;
-
-        return $this;
-    }
-
-    /**
-     * Get sketch
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getSketch()
-    {
-        return $this->sketch;
-    }
 
     /**
      * Add product

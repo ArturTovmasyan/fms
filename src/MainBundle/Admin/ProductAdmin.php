@@ -53,7 +53,6 @@ class ProductAdmin extends Admin
             ->add('getSumRouteCard', null, array('label' => 'route_card'))
             ->add('description','textarea')
             ->add('gost')
-            ->add('certificate')
             ->add('generalCount', null, array('label' => 'general_count'))
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('getStringSize', null, array('label' => 'size'))
@@ -61,8 +60,6 @@ class ProductAdmin extends Admin
             ->add('weight')
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('image')
-            ->add('sketch')
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))
             ->add('created', 'date', array('widget' => 'single_text'))
@@ -91,15 +88,6 @@ class ProductAdmin extends Admin
                 'Ռեզինե',
                 'Մեխանիկական',
                 'Համատեղ')))
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('sketch', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('certificate', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
             ->add('weight')
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))
@@ -132,7 +120,7 @@ class ProductAdmin extends Admin
     {
         $datagridMapper
             ->add('id', null, array('label' => 'code'))
-            ->add('name')
+            ->add('name', null, ['show_filter' => true])
             ->add('gost')
         ;
     }

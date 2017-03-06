@@ -79,11 +79,6 @@ abstract class RawMaterials
     private $countInWarehouse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    private $image;
-
-    /**
      * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="rawMaterials")
      * @ORM\JoinTable(name="raw_materials_partners")
      */
@@ -98,11 +93,6 @@ abstract class RawMaterials
      * @ORM\Column(name="balance_cost", type="integer")
      */
     private $balanceCost;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
-     */
-    protected $technicalFile;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist"})
@@ -250,28 +240,6 @@ abstract class RawMaterials
         return $this->countInWarehouse;
     }
 
-    /**
-     * Set image
-     *
-     * @param string $image
-     * @return RawMaterials
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
 
     /**
      * Set vendors
@@ -340,29 +308,6 @@ abstract class RawMaterials
     public function getBalanceCost()
     {
         return $this->balanceCost;
-    }
-
-    /**
-     * Set technicalFile
-     *
-     * @param string $technicalFile
-     * @return RawMaterials
-     */
-    public function setTechnicalFile($technicalFile)
-    {
-        $this->technicalFile = $technicalFile;
-
-        return $this;
-    }
-
-    /**
-     * Get technicalFile
-     *
-     * @return string 
-     */
-    public function getTechnicalFile()
-    {
-        return $this->technicalFile;
     }
 
     /**

@@ -131,51 +131,6 @@ sonata_user:
         user:
             class: Application\UserBundle\Admin\Model\UserAdmin
 
-#SONATA MEDIA BUNDLE CONFIGS
-sonata_media:
-    default_context: default
-    db_driver: doctrine_orm
-    class:
-          media:              Application\MediaBundle\Entity\Media
-          gallery:            Application\MediaBundle\Entity\Gallery
-          gallery_has_media:  Application\MediaBundle\Entity\GalleryHasMedia
-    contexts:
-        default: # the default context is mandatory
-            download:
-                strategy: sonata.media.security.superadmin_strategy
-                mode: http
-            providers:
-#                - sonata.media.provider.dailymotion
-#                - sonata.media.provider.youtube
-                - sonata.media.provider.image
-                - sonata.media.provider.file
-            formats:
-                list: { width: 200, height: 130, quality: 70}
-                homepage: { width: 225, height: 150, quality: 70}
-                lightbox: { width: 700 , height: 300, quality: 70}
-    cdn:
-        server:
-            path: /uploads/media
-    providers :
-        file:
-            allowed_extensions: ['pdf', 'txt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pttx', 'odt', 'odg', 'odp', 'ods', 'odc', 'odf', 'odb', 'csv', 'xml', 'zip', 'rar']
-
-        image:
-            service:    sonata.media.provider.image
-            resizer:    sonata.media.resizer.square
-            filesystem: sonata.media.filesystem.local
-            cdn:        sonata.media.cdn.server
-            generator:  sonata.media.generator.default
-            thumbnail:  sonata.media.thumbnail.format
-            allowed_extensions: ['jpg', 'png', 'jpeg']
-            allowed_mime_types: ['image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png']
-    filesystem:
-        local:
-            directory: %kernel.root_dir%/../web/uploads/media
-            create: false
-    buzz:
-        connector:  sonata.media.buzz.connector.file_get_contents # sonata.media.buzz.connector.curl
-
 # Check its existing or add
 stof_doctrine_extensions:
     default_locale: en_EN
