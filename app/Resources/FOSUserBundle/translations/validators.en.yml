@@ -1,0 +1,1 @@
+fos_user.password.conditions: Password must be one uppercase, one number and one symbol.

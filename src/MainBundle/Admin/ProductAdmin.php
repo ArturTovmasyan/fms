@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -26,14 +27,14 @@ class ProductAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('m, e, c, pw, pl, pre, prc, rm');
+        $query->addSelect('m, e, c, pw, pl, pre, pc, rm');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'e');
         $query->leftJoin($query->getRootAlias() . '.client', 'c');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
         $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
         $query->leftJoin($query->getRootAlias() . '.productRawExpense', 'pre');
-        $query->leftJoin($query->getRootAlias() . '.productRouteCard', 'prc');
+        $query->leftJoin($query->getRootAlias() . '.productComponent', 'pc');
         $query->leftJoin('pre.rawMaterials', 'rm');
         return $query;
 
@@ -69,6 +70,9 @@ class ProductAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get product id for edit
+        $editProductId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+
         $formMapper
             ->add('name')
             ->add('client')
@@ -89,30 +93,49 @@ class ProductAdmin extends Admin
                 'Մեխանիկական',
                 'Համատեղ')))
             ->add('weight')
-            ->add('equipment', null, array('label' => 'equipment'))
-            ->add('mould', null, array('label' => 'mould'))
+            ->add('equipment', null, array(
+                'label' => 'equipment',
+                'query_builder' => function($query) use ($editProductId) {
+                    $result = $query->createQueryBuilder('p');
+                        if(!$editProductId) {
+                            $result
+                                ->select('eq')
+                                ->from('MainBundle:Equipment','eq')
+                                ->leftJoin('eq.product', 'ep')
+                                ->where('ep.id is null');
+                        }
 
+                    return $result;
+                }
+            ))
+            ->add('mould', null, array(
+                'label' => 'mould',
+                'query_builder' => function($query) use ($editProductId) {
+                    $result = $query->createQueryBuilder('p');
+                        if(!$editProductId) {
+                            $result
+                                ->select('m')
+                                ->from('MainBundle:Mould','m')
+                                ->leftJoin('m.product', 'mp')
+                                ->where('mp.id is null');
+                        }
+
+                    return $result;
+                }
+            ))
             ->end()
-                ->with('operationCard')
-                ->add('productRawExpense', 'sonata_type_collection', array(
-                    'label' => 'product_expense',
-                    'by_reference' => false,
-                    'mapped'   => true,
-                    'required' => true),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table'
-                    ))
-                ->add('productRouteCard', 'sonata_type_collection', array(
-                    'label' => 'product_route_card',
-                    'by_reference' => false,
-                    'mapped'   => true,
-                    'required' => true),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table'
-                    ))
-                ->end();
+            ->with('operationCard')
+            ->add('productRawExpense', 'sonata_type_collection', array(
+                'label' => 'product_expense',
+                'by_reference' => false,
+                'mapped' => true,
+                'required' => true),
+                array(
+                    'edit' => 'inline',
+                    'inline' => 'table'
+                ))
+            ->add('productComponent', 'component_type')
+            ->end();
     }
 
     // Fields to be shown on filter forms
@@ -153,15 +176,15 @@ class ProductAdmin extends Admin
     public function setRelations($object)
     {
         // get product route card
-        $productRouteCards = $object->getProductRouteCard();
+        $productComponents = $object->getProductComponent();
 
         // if product route card is exist
-        if($productRouteCards) {
+        if($productComponents) {
 
-            foreach($productRouteCards as $productRouteCard)
+            foreach($productComponents as $productComponent)
             {
-                if(!$productRouteCard->getId() || !$productRouteCards->contains($object)) {
-                    $productRouteCard->setProduct($object);
+                if(!$productComponent->getId() || !$productComponents->contains($object)) {
+                    $productComponent->setProduct($object);
                 }
             }
         }
@@ -169,7 +192,7 @@ class ProductAdmin extends Admin
         // get product raw expenses
         $productRawExpense = $object->getProductRawExpense();
 
-        // if product product raw expenses is exist
+        // if product raw expenses is exist
         if($productRawExpense) {
 
             foreach($productRawExpense as $productRawExpens)
@@ -184,10 +207,10 @@ class ProductAdmin extends Admin
     public function removeRelations($object)
     {
         // add productRouteCard
-        $productRouteCards = $object->getProductRouteCard();
+        $productComponents = $object->getProductComponent();
 
         //get removed products in route card
-        $routeCardRemoved = $productRouteCards->getDeleteDiff();
+        $componentRemoved = $productComponents->getDeleteDiff();
 
         // get productRawExpenses
         $productRawExpense = $object->getProductRawExpense();
@@ -201,9 +224,9 @@ class ProductAdmin extends Admin
         //get entity manager
         $em = $container->get('doctrine')->getEntityManager();
 
-        //removed raw expense
-        if($routeCardRemoved) {
-            foreach ($routeCardRemoved as $remove) {
+        //removed product components
+        if($componentRemoved) {
+            foreach ($componentRemoved as $remove) {
                 $em->remove($remove);
             }
         }
@@ -216,14 +239,45 @@ class ProductAdmin extends Admin
         }
     }
 
+    /**
+     * @param $object
+     */
+    private function updateComponents($object)
+    {
+        //get product components
+        $components = $object->getProductComponent();
+
+        //if components exist
+        if($components){
+
+            foreach($components as $component){
+
+                //get product route cards
+                $productCards = $component->getProductRouteCard();
+
+                //if product cards exist
+                if($productCards){
+
+                    foreach($productCards as $productCard){
+
+                        //set component in route card
+                        $productCard->setProductComponent($component);
+                    }
+                }
+            }
+        }
+    }
+
     public function preUpdate($object)
     {
+        $this->updateComponents($object);
         $this->setRelations($object);
         $this->removeRelations($object);
     }
 
     public function prePersist($object)
     {
+        $this->updateComponents($object);
         $this->setRelations($object);
     }
 }

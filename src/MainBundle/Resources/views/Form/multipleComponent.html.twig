@@ -1,0 +1,12 @@
+{% block component_type_widget %}
+    <ul class="component" data-prototype="{{ _self.multiple_prototype_component(form.vars.prototype)|e }}">
+        {% for child in form.getIterator %}
+            {{ form_row(child) }}
+        {% endfor %}
+
+    </ul>
+{% endblock %}
+
+{% macro multiple_prototype_component(form) %}
+    {{ form_widget(form) }}
+{% endmacro %}

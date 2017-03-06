@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -48,8 +49,6 @@ class ProductRouteCardAdmin extends Admin
     {
         $showMapper
             ->add('id')
-            ->add('product')
-            ->add('productComponent')
             ->add('operation')
             ->add('operationCode')
             ->add('dependency')
@@ -72,24 +71,46 @@ class ProductRouteCardAdmin extends Admin
         $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
             $this->getSubject()->getRouteCardPrice() : null : null;
 
+        //get product id
+//        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
+
         $formMapper
-            ->add('productComponent')
+//            ->add('productComponent')
             ->add('operation')
             ->add('operationCode')
             ->add('dependency')
-            ->add('equipment')
-            ->add('mould')
+            ->add('equipment', null, array(
+//                'query_builder' => function ($query) use ($productId) {
+//                    $result = $query->createQueryBuilder('eq');
+//                    $result
+//                        ->select('eq')
+//                        ->leftJoin('eq.product', 'pr')
+//                        ->where('pr.id = :productId')
+//                        ->setParameter('productId', $productId);
+//                    return $result;
+//                }
+            ))
+            ->add('mould', null, array(
+//                'query_builder' => function ($query) use ($productId) {
+//                    $result = $query->createQueryBuilder('ml');
+//                    $result
+//                        ->select('ml')
+//                        ->leftJoin('ml.product', 'pr')
+//                        ->where('pr.id = :productId')
+//                        ->setParameter('productId', $productId);
+//                    return $result;
+//                }
+            ))
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime');
-//            ->add('specificPercent');
 
-            if($routeCardPrice) {
-                $formMapper
-                    ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
-                        'readonly' => true,
-                        'disabled' => true)));
-            }
+        if($routeCardPrice) {
+            $formMapper
+                ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
+                    'readonly' => true,
+                    'disabled' => true)));
+        }
         ;
     }
 
@@ -98,8 +119,11 @@ class ProductRouteCardAdmin extends Admin
     {
         $datagridMapper
             ->add('id')
-            ->add('product')
-            ->add('productComponent')
+//            ->add('productComponent.product', null, array('query_builder' => function(EntityRepository $er) {
+//                return $er->createQueryBuilder('pc, pp')
+//                    ->leftJoin('pc.product', 'pp');
+//            }))
+                ->add('productComponent.product')
             ->add('profession')
         ;
     }
@@ -109,8 +133,7 @@ class ProductRouteCardAdmin extends Admin
     {
         $listMapper
             ->add('id')
-            ->add('product')
-            ->add('productComponent')
+            ->add('productComponent.product')
             ->add('operation')
             ->add('operationCode')
             ->add('dependency')

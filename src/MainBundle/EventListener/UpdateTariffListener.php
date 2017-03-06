@@ -4,7 +4,6 @@ namespace MainBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
-use MainBundle\Entity\Product;
 use MainBundle\Entity\ProductRouteCard;
 use MainBundle\Entity\SalariesType;
 use Symfony\Component\DependencyInjection\Container;
@@ -47,12 +46,12 @@ class UpdateTariffListener
         foreach ($uow->getScheduledEntityUpdates() AS $entity)
         {
             //if product object
-            if ($entity instanceof Product) {
-
-                $productCards = $entity->getProductRouteCard();
-
-                $this->getPrice($productCards, $uow, $em);
-            }
+//            if ($entity instanceof Product) {
+//
+//                $productCards = $entity->getProductRouteCard();
+//
+//                $this->getPrice($productCards, $uow, $em);
+//            }
 
             //if product route card object
             if ($entity instanceof ProductRouteCard) {
@@ -74,6 +73,8 @@ class UpdateTariffListener
         {
             //if product object
             if ($entity instanceof ProductRouteCard) {
+
+//                $this->setOperationCode($entity);
 
                 $productCards = $entity;
 
@@ -158,12 +159,28 @@ class UpdateTariffListener
                     //set route card price
                     $productCard->setRouteCardPrice($price);
                 }
-                else {
-                    $productCard->setRouteCardPrice(0);
-                }
                 // persist changes
                 $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:ProductRouteCard'), $productCard);
             }
         }
     }
+
+//    private function setOperationCode($entity)
+//    {
+//        $componentIndex = array('K1', 'K2', 'K3', 'K4', 'K5', 'K6');
+//
+//        if($entity->getid() == null) {
+//
+//            $componentCount = $entity->getProductComponent()->getProduct()->getProductComponent()->count();
+//            $index = $componentCount - 1;
+//
+//            //get component code
+//            $componentCode = $componentIndex[$index];
+//            $operationCount = $entity->getProductComponent()->getProductRouteCard()->count();
+//            $operationCode = "O".$operationCount;
+//            $routeCardCode = $componentCode.$operationCode;
+//            $entity->setOperationCode($routeCardCode);
+//
+//        }
+//    }
 }

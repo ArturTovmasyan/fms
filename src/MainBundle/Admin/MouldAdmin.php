@@ -67,6 +67,7 @@ class MouldAdmin extends Admin
         $formMapper
             ->add('code')
             ->add('product')
+            ->add('equipment')
             ->add('mouldType')
             ->add('repairData', null, array('label' => 'repair_data'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
@@ -92,7 +93,6 @@ class MouldAdmin extends Admin
             ->add('accountingPrice', null, array('label' => 'accounting_price'))
             ->add('weight')
             ->add('overSize', null, array('label' => 'over_size'))
-            ->add('equipment')
         ;
     }
 

@@ -6,17 +6,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Context\ExecutionContext;
 
 /**
  * Product
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields={"name"}, errorPath="name", message="this name is already exist")
+ * @UniqueEntity(fields={"name"}, errorPath="name", message="This name is already exist")
+ * @Assert\Callback(methods={"validate"})
  */
 class Product
 {
-
     /**
      * @var integer
      *
@@ -83,7 +84,7 @@ class Product
     protected $equipment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Mould", inversedBy="product", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Mould", inversedBy="product", cascade={"persist"})
      * @ORM\JoinTable(name="product_mould")
      */
     protected $mould;
@@ -113,9 +114,9 @@ class Product
     protected $productRawExpense;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ProductComponent", mappedBy="product", cascade={"persist", "remove"})
      */
-    protected $productRouteCard;
+    protected $productComponent;
 
 
 //relations
@@ -348,20 +349,26 @@ class Product
      */
     public function getSumRouteCard()
     {
-        //get product route cards
-        $productRouteCards = $this->getProductRouteCard();
-
         //set sum expense
         $sumRouteCard = 0;
 
-        foreach($productRouteCards as $productRouteCard)
-        {
-            //get product route card price
-            $routeCardPrice = $productRouteCard->getRouteCardPrice();
+        $productComponents = $this->getProductComponent();
 
-            //sum routeCardPrice
-            $sumRouteCard += $routeCardPrice;
+        foreach($productComponents as $productComponent)
+        {
+            //get product route cards
+            $productRouteCards = $productComponent->getProductRouteCard();
+
+            foreach($productRouteCards as $productRouteCard)
+            {
+                //get product route card price
+                $routeCardPrice = $productRouteCard->getRouteCardPrice();
+
+                //sum routeCardPrice
+                $sumRouteCard += $routeCardPrice;
+            }
         }
+
         return $sumRouteCard;
     }
 
@@ -702,36 +709,86 @@ class Product
         return $this->productRawExpense;
     }
 
+//    /**
+//     * @param ExecutionContext $context
+//     */
+//    public function validate(ExecutionContext $context)
+//    {
+//        //get components
+//        $components = $this->getProductComponent();
+//
+//        //if components exist
+//        if($components) {
+//
+//            foreach($components as $component)
+//            {
+//                //get route card
+//                $routeCards = $component->getProductRouteCard();
+//
+//                //if route cards exist
+//                if($routeCards) {
+//
+//                    foreach($routeCards as $routeCard) {
+//
+//                        //get profession
+//                        $profession = $routeCard->getProfession();
+//
+//                        //get profession category
+//                        $professionCategory = $routeCard->getProfessionCategory();
+//
+//                        $name = $professionCategory->getName();
+//
+//                        //get all salaries type by profession indexBy category id
+//                        $salariesTypeArray = $profession->getSalariesType();
+//
+//                        //get salaries type by profession category id
+//                        $salariesType = $salariesTypeArray[$professionCategory->getId()];
+//
+//                        //check if salariesType exist
+//                        if (!$salariesType) {
+//                            $context->addViolationAt(
+//                                'productRouteCard',
+//                                'This profession by category not exist "%category%"',
+//                                array('%category%', $name),
+//                                null
+//                            );
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     /**
-     * Add productRouteCard
+     * Add productComponent
      *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @param \MainBundle\Entity\ProductComponent $productComponent
      * @return Product
      */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    public function addProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
     {
-        $this->productRouteCard[] = $productRouteCard;
+        $this->productComponent[] = $productComponent;
 
         return $this;
     }
 
     /**
-     * Remove productRouteCard
+     * Remove productComponent
      *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @param \MainBundle\Entity\ProductComponent $productComponent
      */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    public function removeProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
     {
-        $this->productRouteCard->removeElement($productRouteCard);
+        $this->productComponent->removeElement($productComponent);
     }
 
     /**
-     * Get productRouteCard
+     * Get productComponent
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProductRouteCard()
+    public function getProductComponent()
     {
-        return $this->productRouteCard;
+        return $this->productComponent;
     }
 }

@@ -1,16 +1,26 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
 
+        <!-- service for multiple route card form -->
+        <service id="fmc.multiple.route.card" class="MainBundle\Form\Type\ProductRouteCardType">
+            <tag name="form.type" alias="route_card_type" />
+        </service>
+
+        <!-- service for multiple component form -->
+        <service id="fmc.multiple.component" class="MainBundle\Form\Type\ProductComponentType">
+            <tag name="form.type" alias="component_type" />
+        </service>
+
+        <!-- service for update route card sum  -->
         <service id="tariff_update_listener" class="MainBundle\EventListener\UpdateTariffListener">
             <argument type="service" id="service_container" />
             <tag name="doctrine.event_listener" event = "onFlush" method = "onFlush"/>
         </service>
-
     </services>
 
 </container>
