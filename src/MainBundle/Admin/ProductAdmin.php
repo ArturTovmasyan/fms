@@ -3,7 +3,7 @@
 namespace MainBundle\Admin;
 
 use Doctrine\ORM\EntityRepository;
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -134,7 +134,7 @@ class ProductAdmin extends Admin
                     'edit' => 'inline',
                     'inline' => 'table'
                 ))
-            ->add('productComponent', 'component_type')
+//            ->add('productComponent', 'component_type')
             ->end();
     }
 

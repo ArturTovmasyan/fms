@@ -3,7 +3,7 @@
 namespace MainBundle\Admin;
 
 use /** @noinspection PhpDeprecationInspection */
-    Sonata\AdminBundle\Admin\Admin;
+    Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
