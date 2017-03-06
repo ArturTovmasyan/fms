@@ -14,11 +14,12 @@ use Symfony\Component\Validator\Context\ExecutionContext;
  * @ORM\Table()
  * @ORM\Entity
  * @UniqueEntity(fields={"name"}, errorPath="name", message="This name is already exist")
- * @Assert\Callback(methods={"validate"})
  */
 class Product
 {
-    /**
+//* @Assert\Callback(methods={"validate"})
+
+/**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
