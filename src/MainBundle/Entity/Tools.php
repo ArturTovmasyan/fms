@@ -3,26 +3,16 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * RawMaterials
+ * Tools
  *
- * @ORM\Table(name="raw_materials")
- * @ORM\Entity()
- * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="class_name", type="string")
- * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",
- *                        "rubberMaterials" = "RubberMaterials",
- *                        "metalMaterials" = "MetalMaterials",
- *                        "conductiveMaterials" = "ConductiveMaterials",
- *                        "illiquidMaterials" = "IlliquidMaterials",
- *                        "householdMaterials" = "HouseholdMaterials"})
+ * @ORM\Table()
+ * @ORM\Entity
  */
-abstract class RawMaterials
+class Tools
 {
     /**
      * @var integer
@@ -32,6 +22,16 @@ abstract class RawMaterials
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="ToolsCategory", inversedBy="tools", cascade={"persist"})
+     */
+    private $category;
+
+    //TODO
+//    private $repairs;
+//    private $repairChronology;
+//    private $image;
 
     /**
      * @var string
@@ -52,7 +52,7 @@ abstract class RawMaterials
      *
      * @ORM\Column(name="code", type="integer", unique=true)
      * @Assert\NotNull()
-     * @Assert\Length(min="4")
+     * @Assert\Length(min="6")
      */
     private $code;
 
@@ -63,10 +63,9 @@ abstract class RawMaterials
      */
     private $size;
 
-    //TODO
     /**
-     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rawMaterials", cascade={"persist"})
-     * @ORM\JoinTable(name="raw_place")
+     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="tools", cascade={"persist"})
+     * @ORM\JoinTable(name="tools_place")
      */
     protected $placeWarehouse;
 
@@ -78,8 +77,8 @@ abstract class RawMaterials
     private $countInWarehouse;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="rawMaterials")
-     * @ORM\JoinTable(name="raw_materials_partners")
+     * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="tools")
+     * @ORM\JoinTable(name="tools_partners_id")
      */
     protected $vendors;
 
@@ -114,12 +113,10 @@ abstract class RawMaterials
      */
     private $updated;
 
-//    private $images;
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -142,7 +139,7 @@ abstract class RawMaterials
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -165,7 +162,7 @@ abstract class RawMaterials
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -188,7 +185,7 @@ abstract class RawMaterials
     /**
      * Get code
      *
-     * @return integer 
+     * @return integer
      */
     public function getCode()
     {
@@ -211,7 +208,7 @@ abstract class RawMaterials
     /**
      * Get size
      *
-     * @return integer 
+     * @return integer
      */
     public function getSize()
     {
@@ -234,7 +231,7 @@ abstract class RawMaterials
     /**
      * Get countInWarehouse
      *
-     * @return string 
+     * @return string
      */
     public function getCountInWarehouse()
     {
@@ -258,7 +255,7 @@ abstract class RawMaterials
     /**
      * Get vendors
      *
-     * @return string 
+     * @return string
      */
     public function getVendors()
     {
@@ -281,7 +278,7 @@ abstract class RawMaterials
     /**
      * Get actualCost
      *
-     * @return string 
+     * @return string
      */
     public function getActualCost()
     {
@@ -304,7 +301,7 @@ abstract class RawMaterials
     /**
      * Get balanceCost
      *
-     * @return string 
+     * @return string
      */
     public function getBalanceCost()
     {
@@ -318,7 +315,6 @@ abstract class RawMaterials
      */
     public function getStringSize()
     {
-
         $stringSize = null;
 
         switch($this->getSize()) {
@@ -344,6 +340,7 @@ abstract class RawMaterials
 
         return $stringSize;
     }
+
     /**
      * Constructor
      */
@@ -387,7 +384,7 @@ abstract class RawMaterials
     /**
      * Get placeWarehouse
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPlaceWarehouse()
     {
@@ -433,7 +430,7 @@ abstract class RawMaterials
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -456,7 +453,7 @@ abstract class RawMaterials
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -490,10 +487,33 @@ abstract class RawMaterials
     /**
      * Get productRawExpense
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProductRawExpense()
     {
         return $this->productRawExpense;
+    }
+
+    /**
+     * Set category
+     *
+     * @param \MainBundle\Entity\ToolsCategory $category
+     * @return Tools
+     */
+    public function setCategory(\MainBundle\Entity\ToolsCategory $category = null)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get category
+     *
+     * @return \MainBundle\Entity\ToolsCategory 
+     */
+    public function getCategory()
+    {
+        return $this->category;
     }
 }

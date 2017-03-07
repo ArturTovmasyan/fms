@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class ConductiveMaterialsAdmin extends Admin
+class SparePartAdmin extends Admin
 {
     /**
      * override list query
@@ -21,9 +21,11 @@ class ConductiveMaterialsAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('v, pw');
+        $query->addSelect('v, pw, eq');
         $query->leftJoin($query->getRootAlias() . '.vendors', 'v');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
+        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
+
         return $query;
     }
 
@@ -37,10 +39,10 @@ class ConductiveMaterialsAdmin extends Admin
         $showMapper
             ->add('name')
             ->add('vendors')
+            ->add('equipment', null, array('label' => 'equipment'))
             ->add('description')
-            ->add('code')
-            ->add('actualCost')
-            ->add('balanceCost')
+            ->add('actualCost', null, array('label' => 'actual_cost'))
+            ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
@@ -51,22 +53,21 @@ class ConductiveMaterialsAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         $formMapper
             ->add('name')
             ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
+            ->add('equipment', null, array('label' => 'equipment'))
             ->add('description')
-            ->add('code')
+            ->add('actualCost', null, array('label' => 'actual_cost'))
+            ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('size', 'choice', array('label' => 'size', 'choices' => array(
-                "Կգ",
-                "Մետր",
-                "Հատ",
-                "Կոմպլեկտ",
-                "Լիտր")))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
+                    "Կգ",
+                    "Մետր",
+                    "Հատ",
+                    "Կոմպլեկտ",
+                    "Լիտր")))
         ;
     }
 
@@ -74,10 +75,13 @@ class ConductiveMaterialsAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
-            ->add('vendors')
-            ->add('code')
+            ->add('vendors.name', null, array('show_filters' => true))
+            ->add('equipment.id', null, array('label' => 'equipment', 'show_filters' => true))
+            ->add('description', null, array('show_filters' => true))
+            ->add('actualCost', null, array('label' => 'actual_cost', 'show_filters' => true))
+            ->add('balanceCost', null, array('label' => 'balance_cost', 'show_filters' => true))
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
         ;
     }
 
@@ -87,13 +91,19 @@ class ConductiveMaterialsAdmin extends Admin
         $listMapper
             ->add('name')
             ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
+            ->add('equipment', null, array('label' => 'equipment'))
             ->add('description')
-            ->add('code')
             ->add('getStringSize', null, array('label' => 'size'))
+            ->add('actualCost', null, array('label' => 'actual_cost'))
+            ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
+                "Կգ",
+                "Մետր",
+                "Հատ",
+                "Կոմպլեկտ",
+                "Լիտր")))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

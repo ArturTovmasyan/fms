@@ -29,9 +29,9 @@ class ToolsCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="ToolsMaterials", mappedBy="category", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Tools", mappedBy="category", cascade={"persist"})
      */
-    protected  $toolsMaterials;
+    private $tools;
 
     /**
      * Get id
@@ -73,45 +73,44 @@ class ToolsCategory
     {
         return ((string)$this->name) ? (string)$this->name : '';
     }
-
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->toolsMaterials = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tools = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add toolsMaterials
+     * Add tools
      *
-     * @param \MainBundle\Entity\ToolsMaterials $toolsMaterials
+     * @param \MainBundle\Entity\Tools $tools
      * @return ToolsCategory
      */
-    public function addToolsMaterial(\MainBundle\Entity\ToolsMaterials $toolsMaterials)
+    public function addTool(\MainBundle\Entity\Tools $tools)
     {
-        $this->toolsMaterials[] = $toolsMaterials;
+        $this->tools[] = $tools;
 
         return $this;
     }
 
     /**
-     * Remove toolsMaterials
+     * Remove tools
      *
-     * @param \MainBundle\Entity\ToolsMaterials $toolsMaterials
+     * @param \MainBundle\Entity\Tools $tools
      */
-    public function removeToolsMaterial(\MainBundle\Entity\ToolsMaterials $toolsMaterials)
+    public function removeTool(\MainBundle\Entity\Tools $tools)
     {
-        $this->toolsMaterials->removeElement($toolsMaterials);
+        $this->tools->removeElement($tools);
     }
 
     /**
-     * Get toolsMaterials
+     * Get tools
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getToolsMaterials()
+    public function getTools()
     {
-        return $this->toolsMaterials;
+        return $this->tools;
     }
 }

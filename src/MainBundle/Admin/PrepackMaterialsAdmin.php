@@ -8,22 +8,23 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class ToolsMaterialsAdmin extends Admin
+class PrepackMaterialsAdmin extends Admin
 {
     /**
      * override list query
      *
      * @param string $context
      * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
-
     public function createQuery($context = 'list')
     {
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('v, pw');
+        $query->addSelect('v, pw, p');
         $query->leftJoin($query->getRootAlias() . '.vendors', 'v');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
+        $query->leftJoin($query->getRootAlias() . '.product', 'p');
+
         return $query;
     }
 
@@ -36,45 +37,46 @@ class ToolsMaterialsAdmin extends Admin
     {
         $showMapper
             ->add('name')
-            ->add('category')
             ->add('vendors')
             ->add('description')
             ->add('code')
-//            ->add('chronology')
-//            ->add('repair')
-            ->add('actualCost')
-            ->add('balanceCost')
-            ->add('technicalFile')
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('workshop', 'choice', array('choices'=> array(
+                "Ռետինատեխնիկական",
+                "Մետաղամշակման",
+                "Լաբորատորիա",
+                "Այլ")))
+            ->add('product')
+            ->add('equipment')
+            ->add('weight')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('image')
+            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
+                "Կգ",
+                "Մետր",
+                "Հատ",
+                "Կոմպլեկտ",
+                "Լիտր")))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('created', 'date', array('widget' => 'single_text'));
         ;
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         $formMapper
             ->add('name')
-            ->add('category', null, array('required' => true))
             ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
             ->add('description')
             ->add('code')
-//            ->add('chronology')
-//            ->add('repair')
-            ->add('technicalFile', 'sonata_type_model_list',
-                array('label' => 'technical_file', 'required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
+            ->add('workshop', 'choice', array('choices'=> array(
+                "Ռետինատեխնիկական",
+                "Մետաղամշակման",
+                "Լաբորատորիա",
+                "Այլ")))
+            ->add('product')
+            ->add('equipment')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
+            ->add('weight')
             ->add('size', 'choice', array('label' => 'size', 'choices' => array(
                 "Կգ",
                 "Մետր",
@@ -89,11 +91,10 @@ class ToolsMaterialsAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-            ->add('name')
-            ->add('category')
-            ->add('vendors')
-            ->add('code')
+            ->add('id', null, array('show_filters' => true))
+            ->add('name', null, array('show_filters' => true))
+            ->add('code', null, array('show_filters' => true))
+            ->add('weight', null, array('show_filters' => true))
         ;
     }
 
@@ -102,19 +103,24 @@ class ToolsMaterialsAdmin extends Admin
     {
         $listMapper
             ->add('name')
-            ->add('category')
             ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
             ->add('description')
             ->add('code')
-//            ->add('chronology')
-//            ->add('repair')
-            ->add('technicalFile')
-            ->add('image')
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('workshop', 'choice', array('choices'=> array(
+                "Ռետինատեխնիկական",
+                "Մետաղամշակման",
+                "Լաբորատորիա",
+                "Այլ")))
+            ->add('product')
+            ->add('equipment')
+            ->add('weight')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
+            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
+                "Կգ",
+                "Մետր",
+                "Հատ",
+                "Կոմպլեկտ",
+                "Լիտր")))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('_action', 'actions', array(
                 'actions' => array(

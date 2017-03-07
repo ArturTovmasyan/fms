@@ -36,10 +36,14 @@ class PlaceWarehouse
     private $warehouse;
 
     /**
-     * @var
      * @ORM\ManyToMany(targetEntity="Mould", mappedBy="placeWarehouse", cascade={"persist"})
      */
     private $mould;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="SparePart", mappedBy="placeWarehouse", cascade={"persist"})
+     */
+    private $sparePart;
 
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="placeWarehouse", cascade={"persist"})
@@ -50,6 +54,16 @@ class PlaceWarehouse
      * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="placeWarehouse", cascade={"persist"})
      */
     private $rawMaterials;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="PrepackMaterials", mappedBy="placeWarehouse", cascade={"persist"})
+     */
+    private $prepackMaterials;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tools", mappedBy="placeWarehouse", cascade={"persist"})
+     */
+    private $tools;
 
     /**
      * @var datetime $created
@@ -285,5 +299,104 @@ class PlaceWarehouse
     public function getRawMaterials()
     {
         return $this->rawMaterials;
+    }
+
+    /**
+     * Add tools
+     *
+     * @param \MainBundle\Entity\Tools $tools
+     * @return PlaceWarehouse
+     */
+    public function addTool(\MainBundle\Entity\Tools $tools)
+    {
+        $this->tools[] = $tools;
+
+        return $this;
+    }
+
+    /**
+     * Remove tools
+     *
+     * @param \MainBundle\Entity\Tools $tools
+     */
+    public function removeTool(\MainBundle\Entity\Tools $tools)
+    {
+        $this->tools->removeElement($tools);
+    }
+
+    /**
+     * Get tools
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTools()
+    {
+        return $this->tools;
+    }
+
+    /**
+     * Add prepackMaterials
+     *
+     * @param \MainBundle\Entity\PrepackMaterials $prepackMaterials
+     * @return PlaceWarehouse
+     */
+    public function addPrepackMaterial(\MainBundle\Entity\PrepackMaterials $prepackMaterials)
+    {
+        $this->prepackMaterials[] = $prepackMaterials;
+
+        return $this;
+    }
+
+    /**
+     * Remove prepackMaterials
+     *
+     * @param \MainBundle\Entity\PrepackMaterials $prepackMaterials
+     */
+    public function removePrepackMaterial(\MainBundle\Entity\PrepackMaterials $prepackMaterials)
+    {
+        $this->prepackMaterials->removeElement($prepackMaterials);
+    }
+
+    /**
+     * Get prepackMaterials
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPrepackMaterials()
+    {
+        return $this->prepackMaterials;
+    }
+
+    /**
+     * Add sparePart
+     *
+     * @param \MainBundle\Entity\SparePart $sparePart
+     * @return PlaceWarehouse
+     */
+    public function addSparePart(\MainBundle\Entity\SparePart $sparePart)
+    {
+        $this->sparePart[] = $sparePart;
+
+        return $this;
+    }
+
+    /**
+     * Remove sparePart
+     *
+     * @param \MainBundle\Entity\SparePart $sparePart
+     */
+    public function removeSparePart(\MainBundle\Entity\SparePart $sparePart)
+    {
+        $this->sparePart->removeElement($sparePart);
+    }
+
+    /**
+     * Get sparePart
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSparePart()
+    {
+        return $this->sparePart;
     }
 }

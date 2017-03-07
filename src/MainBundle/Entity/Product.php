@@ -102,15 +102,13 @@ class Product
      */
     protected $client;
 
-
     /**
      * @ORM\ManyToOne(targetEntity="PurposeList", inversedBy="product", cascade={"persist"})
      */
     protected $purposeList;
 
-
     /**
-     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist"})
      */
     protected $productRawExpense;
 
@@ -119,12 +117,11 @@ class Product
      */
     protected $productComponent;
 
+    //relations
+    //private $price;
 
-//relations
-//    private $price;
-
-//relations
-//    private $currentOrder;
+    //relations
+    //private $currentOrder;
 
     /**
      * @var integer

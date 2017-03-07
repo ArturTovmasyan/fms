@@ -33,7 +33,7 @@ class ProductRawExpenseAdmin extends Admin
     //hide remove and edit buttons
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->remove('delete');
+//        $collection->remove('delete');
         $collection->remove('edit');
     }
 

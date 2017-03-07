@@ -43,10 +43,10 @@ class ProductRouteCard
      */
     private $dependency;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="productRouteCard", cascade={"persist"})
-     */
-    protected $equipment;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="productRouteCard", cascade={"persist"})
+//     */
+//    protected $equipment;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProfessionCategory", inversedBy="productRouteCard", cascade={"persist"})
@@ -222,28 +222,28 @@ class ProductRouteCard
         return $this->dependency;
     }
 
-    /**
-     * Set equipment
-     *
-     * @param string $equipment
-     * @return ProductRouteCard
-     */
-    public function setEquipment($equipment)
-    {
-        $this->equipment = $equipment;
-
-        return $this;
-    }
-
-    /**
-     * Get equipment
-     *
-     * @return string
-     */
-    public function getEquipment()
-    {
-        return $this->equipment;
-    }
+//    /**
+//     * Set equipment
+//     *
+//     * @param string $equipment
+//     * @return ProductRouteCard
+//     */
+//    public function setEquipment($equipment)
+//    {
+//        $this->equipment = $equipment;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get equipment
+//     *
+//     * @return string
+//     */
+//    public function getEquipment()
+//    {
+//        return $this->equipment;
+//    }
 
     /**
      * Set jobTime

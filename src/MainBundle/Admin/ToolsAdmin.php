@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class ConductiveMaterialsAdmin extends Admin
+class ToolsAdmin extends Admin
 {
     /**
      * override list query
@@ -36,11 +36,12 @@ class ConductiveMaterialsAdmin extends Admin
     {
         $showMapper
             ->add('name')
+            ->add('category')
             ->add('vendors')
             ->add('description')
             ->add('code')
-            ->add('actualCost')
-            ->add('balanceCost')
+            ->add('actualCost', null, array('label' => 'actual_cost'))
+            ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
@@ -51,12 +52,12 @@ class ConductiveMaterialsAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         $formMapper
             ->add('name')
+            ->add('category', null, array('required' => true))
             ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
+            ->add('actualCost', null, array('label' => 'actual_cost'))
+            ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('description')
             ->add('code')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
@@ -76,6 +77,7 @@ class ConductiveMaterialsAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
+            ->add('category')
             ->add('vendors')
             ->add('code')
         ;
@@ -86,9 +88,10 @@ class ConductiveMaterialsAdmin extends Admin
     {
         $listMapper
             ->add('name')
+            ->add('category')
             ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
+            ->add('actualCost', null, array('label' => 'actual_cost'))
+            ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('description')
             ->add('code')
             ->add('getStringSize', null, array('label' => 'size'))

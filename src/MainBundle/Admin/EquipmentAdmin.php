@@ -52,8 +52,8 @@ class EquipmentAdmin extends Admin
             ->add('spares')
             ->add('elPower')
             ->add('weight')
-            ->add('carryingPrice')
-            ->add('factualPrice')
+            ->add('carryingPrice', null, array('label'=>'balance_cost'))
+            ->add('factualPrice', null, array('label'=>'actual_cost'))
             ->add('inspectionPeriod')
             ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
             ->add('created', 'date', array('widget' => 'single_text'))
@@ -89,7 +89,6 @@ class EquipmentAdmin extends Admin
                 "KVARTAL",
                 "CHERMUSHKA",
                 "ERORDMAS")))
-            ->add('mould')// dinamic show by workshop selected data
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')

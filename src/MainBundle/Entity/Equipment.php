@@ -86,7 +86,6 @@ class Equipment
      */
     private $deployment;
 
-
     /**
      * @ORM\Column(name="state", type="smallint", length=255)
      */
@@ -127,11 +126,12 @@ class Equipment
      */
     protected $spares;
 
+//    private $equipmentType;
 
-    /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
-     */
-    protected $productRouteCard;
+//    /**
+//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
+//     */
+//    protected $productRouteCard;
 
     /**
      * @var datetime $created
@@ -153,13 +153,7 @@ class Equipment
 //    private $repairs;
 
     //relation
-//    private $currentOrder;
-
-    //relation
 //    private $chronology for SHOW ;
-
-    //repair chronology
-//    private $repairChronology;
 
     /**
      * @return string
@@ -759,36 +753,4 @@ class Equipment
         return $this->updated;
     }
 
-    /**
-     * Add productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     * @return Equipment
-     */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard[] = $productRouteCard;
-
-        return $this;
-    }
-
-    /**
-     * Remove productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard->removeElement($productRouteCard);
-    }
-
-    /**
-     * Get productRouteCard
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductRouteCard()
-    {
-        return $this->productRouteCard;
-    }
 }

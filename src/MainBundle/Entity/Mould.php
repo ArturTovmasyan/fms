@@ -62,13 +62,6 @@ class Mould
     private $lastRepair;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="repair_data", type="string", nullable=true, length=255)
-     */
-    private $repairData;
-
-    /**
      * @ORM\Column(name="cost", type="integer")
      */
     private $cost;
@@ -679,29 +672,6 @@ class Mould
     public function getLastRepair()
     {
         return $this->lastRepair;
-    }
-
-    /**
-     * Set repairData
-     *
-     * @param string $repairData
-     * @return Mould
-     */
-    public function setRepairData($repairData)
-    {
-        $this->repairData = $repairData;
-
-        return $this;
-    }
-
-    /**
-     * Get repairData
-     *
-     * @return string 
-     */
-    public function getRepairData()
-    {
-        return $this->repairData;
     }
 
     /**

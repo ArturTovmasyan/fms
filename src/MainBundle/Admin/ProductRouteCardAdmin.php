@@ -24,8 +24,8 @@ class ProductRouteCardAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('eq, pr, prc, ml');
-        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
+        $query->addSelect('pr, prc, ml');
+//        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
         $query->leftJoin($query->getRootAlias() . '.profession', 'pr');
         $query->leftJoin($query->getRootAlias() . '.professionCategory', 'prc');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');

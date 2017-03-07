@@ -25,7 +25,7 @@ mould: Թող.֊ող կաղապարը
 PartnersList: Գործընկերներ
 responsible_person: Պատասխանատու անձինք
 Created: Ստեղծվել է
-Spares: Պահեստամաս
+Spares: Սարք․-ն Պահեստամաս
 counts_in_warehouse: Քանակը Պահեստում
 place_warehouse: Տեղը պահեստում
 Images: Նկարները
@@ -62,7 +62,7 @@ Category: Կատեգորիան
 rubber_materials: Ռետ.-տեխ հումք
 raw_materials: Հումքեր
 RawMaterials: Բոլոր հումքերը
-ToolsCategory: Գործ.- հումքերի կատեգ․
+ToolsCategory: Գործ. կատեգ․
 ToolsMaterials: Գործ.-ի հումք
 MetalMaterials: Մեխ․֊ն հումք
 route_card: Երթուղային քարտ
@@ -75,12 +75,16 @@ ConductiveMaterials: Օժանդակ հումք
 Vendors: Մատակարար
 ProductRawExpense: Արտ․֊ի նյութածախս
 ProductComponent: Արտ․֊ի կոմպոնենտ
+Tools: Գործիքներ
 raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ
 PositionsList: Հաստիքակազմ
 salaries_type: Գործավարձի տեսակը
 profession_category: Կարգը
-
-
-
+actual_cost: Փաստացի արժեքը
+balance_cost: Հաշվեկշռային արժեքը
+prepack_materials: Կիսապատ.-ի հումք
+Warehouse: Պահեստ
+spare_parts: Պահեստամասեր
+mould_type: Տեղերի քանակը
 

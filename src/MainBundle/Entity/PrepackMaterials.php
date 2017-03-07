@@ -3,26 +3,16 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * RawMaterials
+ * PrepackMaterials
  *
- * @ORM\Table(name="raw_materials")
- * @ORM\Entity()
- * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="class_name", type="string")
- * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",
- *                        "rubberMaterials" = "RubberMaterials",
- *                        "metalMaterials" = "MetalMaterials",
- *                        "conductiveMaterials" = "ConductiveMaterials",
- *                        "illiquidMaterials" = "IlliquidMaterials",
- *                        "householdMaterials" = "HouseholdMaterials"})
+ * @ORM\Table()
+ * @ORM\Entity
  */
-abstract class RawMaterials
+class PrepackMaterials
 {
     /**
      * @var integer
@@ -65,8 +55,8 @@ abstract class RawMaterials
 
     //TODO
     /**
-     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rawMaterials", cascade={"persist"})
-     * @ORM\JoinTable(name="raw_place")
+     * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="prepackMaterials", cascade={"persist"})
+     * @ORM\JoinTable(name="prepack_place")
      */
     protected $placeWarehouse;
 
@@ -78,25 +68,34 @@ abstract class RawMaterials
     private $countInWarehouse;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="rawMaterials")
-     * @ORM\JoinTable(name="raw_materials_partners")
+     * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="prepackMaterials")
+     * @ORM\JoinTable(name="prepack_materials_partners")
      */
     protected $vendors;
 
     /**
-     * @ORM\Column(name="actual_cost", type="integer", nullable=false)
+     * @ORM\ManyToMany(targetEntity="Product")
      */
-    private $actualCost = 1;
+    private $product;
 
     /**
-     * @ORM\Column(name="balance_cost", type="integer")
+     * @ORM\ManyToMany(targetEntity="Equipment")
      */
-    private $balanceCost;
+    protected $equipment;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist"})
+     * @var integer
+     *
+     * @ORM\Column(name="workshop", type="smallint")
      */
-    protected $productRawExpense;
+    private $workshop;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="weight", type="integer", nullable=true)
+     */
+    private $weight;
 
     /**
      * @var datetime $created
@@ -119,7 +118,7 @@ abstract class RawMaterials
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -142,7 +141,7 @@ abstract class RawMaterials
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -165,7 +164,7 @@ abstract class RawMaterials
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -188,7 +187,7 @@ abstract class RawMaterials
     /**
      * Get code
      *
-     * @return integer 
+     * @return integer
      */
     public function getCode()
     {
@@ -211,7 +210,7 @@ abstract class RawMaterials
     /**
      * Get size
      *
-     * @return integer 
+     * @return integer
      */
     public function getSize()
     {
@@ -234,35 +233,11 @@ abstract class RawMaterials
     /**
      * Get countInWarehouse
      *
-     * @return string 
+     * @return string
      */
     public function getCountInWarehouse()
     {
         return $this->countInWarehouse;
-    }
-
-
-    /**
-     * Set vendors
-     *
-     * @param string $vendors
-     * @return RawMaterials
-     */
-    public function setVendors($vendors)
-    {
-        $this->vendors = $vendors;
-
-        return $this;
-    }
-
-    /**
-     * Get vendors
-     *
-     * @return string 
-     */
-    public function getVendors()
-    {
-        return $this->vendors;
     }
 
     /**
@@ -276,39 +251,6 @@ abstract class RawMaterials
         $this->actualCost = $actualCost;
 
         return $this;
-    }
-
-    /**
-     * Get actualCost
-     *
-     * @return string 
-     */
-    public function getActualCost()
-    {
-        return $this->actualCost;
-    }
-
-    /**
-     * Set balanceCost
-     *
-     * @param string $balanceCost
-     * @return RawMaterials
-     */
-    public function setBalanceCost($balanceCost)
-    {
-        $this->balanceCost = $balanceCost;
-
-        return $this;
-    }
-
-    /**
-     * Get balanceCost
-     *
-     * @return string 
-     */
-    public function getBalanceCost()
-    {
-        return $this->balanceCost;
     }
 
     /**
@@ -344,14 +286,6 @@ abstract class RawMaterials
 
         return $stringSize;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->placeWarehouse = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->vendors = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * @return string
@@ -361,11 +295,90 @@ abstract class RawMaterials
         return ((string)$this->name) ? (string)$this->name : '';
     }
 
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return RawMaterials
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return RawMaterials
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * @param $workshop
+     * @return $this
+     */
+    public function setWorkshop($workshop)
+    {
+        $this->workshop = $workshop;
+
+        return $this;
+    }
+
+    /**
+     * Get workshop
+     *
+     * @return integer 
+     */
+    public function getWorkshop()
+    {
+        return $this->workshop;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->placeWarehouse = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->vendors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->equipment = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Add placeWarehouse
      *
      * @param \MainBundle\Entity\PlaceWarehouse $placeWarehouse
-     * @return RawMaterials
+     * @return PrepackMaterials
      */
     public function addPlaceWarehouse(\MainBundle\Entity\PlaceWarehouse $placeWarehouse)
     {
@@ -398,7 +411,7 @@ abstract class RawMaterials
      * Add vendors
      *
      * @param \MainBundle\Entity\PartnersList $vendors
-     * @return RawMaterials
+     * @return PrepackMaterials
      */
     public function addVendor(\MainBundle\Entity\PartnersList $vendors)
     {
@@ -418,82 +431,101 @@ abstract class RawMaterials
     }
 
     /**
-     * Set created
-     *
-     * @param \DateTime $created
-     * @return RawMaterials
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime 
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set updated
-     *
-     * @param \DateTime $updated
-     * @return RawMaterials
-     */
-    public function setUpdated($updated)
-    {
-        $this->updated = $updated;
-
-        return $this;
-    }
-
-    /**
-     * Get updated
-     *
-     * @return \DateTime 
-     */
-    public function getUpdated()
-    {
-        return $this->updated;
-    }
-
-
-    /**
-     * Add productRawExpense
-     *
-     * @param \MainBundle\Entity\ProductRawExpense $productRawExpense
-     * @return RawMaterials
-     */
-    public function addProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
-    {
-        $this->productRawExpense[] = $productRawExpense;
-
-        return $this;
-    }
-
-    /**
-     * Remove productRawExpense
-     *
-     * @param \MainBundle\Entity\ProductRawExpense $productRawExpense
-     */
-    public function removeProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
-    {
-        $this->productRawExpense->removeElement($productRawExpense);
-    }
-
-    /**
-     * Get productRawExpense
+     * Get vendors
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProductRawExpense()
+    public function getVendors()
     {
-        return $this->productRawExpense;
+        return $this->vendors;
+    }
+
+    /**
+     * Add product
+     *
+     * @param \MainBundle\Entity\Product $product
+     * @return PrepackMaterials
+     */
+    public function addProduct(\MainBundle\Entity\Product $product)
+    {
+        $this->product[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \MainBundle\Entity\Product $product
+     */
+    public function removeProduct(\MainBundle\Entity\Product $product)
+    {
+        $this->product->removeElement($product);
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Add equipment
+     *
+     * @param \MainBundle\Entity\Equipment $equipment
+     * @return PrepackMaterials
+     */
+    public function addEquipment(\MainBundle\Entity\Equipment $equipment)
+    {
+        $this->equipment[] = $equipment;
+
+        return $this;
+    }
+
+    /**
+     * Remove equipment
+     *
+     * @param \MainBundle\Entity\Equipment $equipment
+     */
+    public function removeEquipment(\MainBundle\Entity\Equipment $equipment)
+    {
+        $this->equipment->removeElement($equipment);
+    }
+
+    /**
+     * Get equipment
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEquipment()
+    {
+        return $this->equipment;
+    }
+
+    /**
+     * Set weight
+     *
+     * @param integer $weight
+     * @return PrepackMaterials
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    /**
+     * Get weight
+     *
+     * @return integer 
+     */
+    public function getWeight()
+    {
+        return $this->weight;
     }
 }

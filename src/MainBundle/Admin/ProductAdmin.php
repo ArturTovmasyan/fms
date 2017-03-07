@@ -123,19 +123,24 @@ class ProductAdmin extends Admin
                     return $result;
                 }
             ))
-            ->end()
-            ->with('operationCard')
-            ->add('productRawExpense', 'sonata_type_collection', array(
-                'label' => 'product_expense',
-                'by_reference' => false,
-                'mapped' => true,
-                'required' => true),
-                array(
-                    'edit' => 'inline',
-                    'inline' => 'table'
-                ))
-//            ->add('productComponent', 'component_type')
             ->end();
+//            ->with('operationCard')
+//            ->add('productRawExpense', 'sonata_type_collection', array(
+//                'label' => 'product_expense',
+//                'by_reference' => false,
+//                'mapped' => true,
+//                'required' => true,
+//                'type_options' => array(
+//                    'delete' => false)
+//                ),
+//                array(
+//                    'edit' => 'inline',
+//                    'inline' => 'table'
+//                ))
+
+//            ->add('productComponent', 'component_type')
+
+//            ->end();
     }
 
     // Fields to be shown on filter forms
@@ -222,7 +227,7 @@ class ProductAdmin extends Admin
         $container = $this->getConfigurationPool()->getContainer();
 
         //get entity manager
-        $em = $container->get('doctrine')->getEntityManager();
+        $em = $container->get('doctrine')->getManager();
 
         //removed product components
         if($componentRemoved) {
