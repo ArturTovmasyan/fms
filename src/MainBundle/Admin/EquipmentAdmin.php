@@ -29,6 +29,21 @@ class EquipmentAdmin extends Admin
         return $query;
     }
 
+    /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin:equipment_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -47,6 +62,7 @@ class EquipmentAdmin extends Admin
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
             ->add('mould')
+            ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('getStringDeployment', null, array('label' => 'deployment'))
             ->add('spares')
@@ -68,6 +84,9 @@ class EquipmentAdmin extends Admin
         //get subject
         $subject = $this->getSubject();
 
+        //get equipment type
+        $type = $subject ? $subject->getEquipmentType() : null;
+
         //get inspection period in database
         $this->time = $subject->getInspectionPeriod();
 
@@ -84,6 +103,24 @@ class EquipmentAdmin extends Admin
                 "Մետաղամշակման",
                 "Լաբորատորիա",
                 "Այլ")))
+
+            ->add('type1', 'choice', ['attr' => ["class" => "hidden-field"], 'data' => ($type && $type < 5 ? $type : null),
+                'required' => false, 'mapped' => false,
+                'label' => 'equipment_type', 'choices'=> array(
+                0 => "",
+                1 => "Մամլիչ հաստոց (Пресс)",
+                2 => "Գրտնակահաստոց",
+                3 => "Շնեկ",
+                4 => "Կաթսա"
+            )])
+
+            ->add('type2', 'choice', ['attr' => ["class" => "hidden-field"], 'data' => ($type && $type > 4 ? $type : null),
+                'required' => false, 'mapped' => false,
+                'label' => 'equipment_type', 'choices'=> array(
+                5 => "Խառատային",
+                6 => "Ֆրեզերային",
+            )])
+
             ->add('deployment', 'choice', array('label' => 'deployment', 'choices'=> array(
                 "BNGO",
                 "KVARTAL",
@@ -123,10 +160,11 @@ class EquipmentAdmin extends Admin
             ->add('name')
             ->add('code')
             ->add('getStringWorkshop', null, array('label'=>'equipment_workshop'))
-            ->add('getStringState', null, array('label'=>'state'))
+            ->add('getStringState', null, array('label'=>'State'))
             ->add('product')
             ->add('mould')
             ->add('getStringDeployment')
+            ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('spares')
             ->add('carryingPrice')
             ->add('factualPrice')
@@ -253,12 +291,27 @@ class EquipmentAdmin extends Admin
             $object->setInspectionNextDate(date_add($date, date_interval_create_from_date_string($inspectionPeriod . 'day')));
         }
 
-        $this->setRelations($object);
+        $this->prePersist($object);
         $this->removeRelations($object);
     }
 
     public function prePersist($object)
     {
         $this->setRelations($object);
+
+        //get selected equipment type and set it
+        $request = $this->getRequest();
+        $formName = $this->getFormBuilder()->getName();
+        $data = $request->request->get($formName);
+        $type1 = $data['type1'];
+        $type2 = $data['type2'];
+
+        $type = $type1;
+
+        if(!$type) {
+            $type = $type2 ? $type2 : 0;
+        }
+
+        $object->setEquipmentType($type);
     }
 }

@@ -62,7 +62,6 @@ file that was distributed with this source code.
         {% for javascript in sonata_admin.adminPool.getOption('javascripts', []) %}
         <script src="{{ asset(javascript) }}"></script>
         {% endfor %}
-        <script src="{{ asset('bundles/main/js/main.js') }}"></script>
     {% endblock %}
 
         {% set locale = app.request.locale %}

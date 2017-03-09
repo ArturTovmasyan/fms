@@ -97,13 +97,14 @@ class ProductAdmin extends Admin
                 'label' => 'equipment',
                 'query_builder' => function($query) use ($editProductId) {
                     $result = $query->createQueryBuilder('p');
-                        if(!$editProductId) {
+//                        if(!$editProductId) {
                             $result
                                 ->select('eq')
                                 ->from('MainBundle:Equipment','eq')
                                 ->leftJoin('eq.product', 'ep')
-                                ->where('ep.id is null');
-                        }
+                                ->where('ep.id is null AND eq.equipmentType = :type')
+                                ->setParameter(':type', 1);
+//                        }
 
                     return $result;
                 }
@@ -112,18 +113,21 @@ class ProductAdmin extends Admin
                 'label' => 'mould',
                 'query_builder' => function($query) use ($editProductId) {
                     $result = $query->createQueryBuilder('p');
-                        if(!$editProductId) {
+//                        if(!$editProductId) {
                             $result
                                 ->select('m')
-                                ->from('MainBundle:Mould','m')
+                                ->from('MainBundle:Mould', 'm')
                                 ->leftJoin('m.product', 'mp')
-                                ->where('mp.id is null');
-                        }
+                                ->where('mp.id is null')
+                                ->having('COUNT(mp.id) < m.mouldType');
+//                        }
 
                     return $result;
                 }
             ))
             ->end();
+
+
 //            ->with('operationCard')
 //            ->add('productRawExpense', 'sonata_type_collection', array(
 //                'label' => 'product_expense',

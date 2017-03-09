@@ -117,6 +117,11 @@ class Equipment
     private $inspectionPeriod;
 
     /**
+     * @ORM\Column(name="equipment_type", type="integer")
+     */
+    private $equipmentType;
+
+    /**
      * @ORM\Column(name="inspection_next_date", type="datetime")
      */
     private $inspectionNextDate;
@@ -126,7 +131,6 @@ class Equipment
      */
     protected $spares;
 
-//    private $equipmentType;
 
 //    /**
 //     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
@@ -679,6 +683,41 @@ class Equipment
     }
 
     /**
+     * This function is used to get equipment type string
+     *
+     * @return null|string
+     */
+    public function getTypeString()
+    {
+        $stringSize = null;
+
+        switch($this->equipmentType) {
+            case 1:
+                $stringSize = "Մամլիչ հաստոց (Пресс)";
+                break;
+            case 2:
+                $stringSize = "Գրտնակահաստոց";
+                break;
+            case 3:
+                $stringSize = "Շնեկ";
+                break;
+            case 4:
+                $stringSize = "Կաթսա";
+                break;
+            case 5:
+                $stringSize = "Խառատային";
+                break;
+            case 6:
+                $stringSize = "Ֆրեզերային";
+                break;
+            default:
+                echo "";
+        }
+
+        return $stringSize;
+    }
+
+    /**
      * This function is used to get equipment deployment string name
      *
      * @return null|string
@@ -753,4 +792,27 @@ class Equipment
         return $this->updated;
     }
 
+
+    /**
+     * Set equipmentType
+     *
+     * @param integer $equipmentType
+     * @return Equipment
+     */
+    public function setEquipmentType($equipmentType)
+    {
+        $this->equipmentType = $equipmentType;
+
+        return $this;
+    }
+
+    /**
+     * Get equipmentType
+     *
+     * @return integer 
+     */
+    public function getEquipmentType()
+    {
+        return $this->equipmentType;
+    }
 }
