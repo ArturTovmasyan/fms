@@ -145,7 +145,6 @@ class MouldAdmin extends Admin
             }
         }
 
-
         //get removed products in mould
         $removed = $products->getDeleteDiff();
 

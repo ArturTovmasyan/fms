@@ -50,8 +50,8 @@ class ProductAdmin extends Admin
         $showMapper
             ->add('id', null, array('label' => 'code'))
             ->add('name')
-            ->add('getSumRawExpense', null, array('label' => 'raw_expense'))
-            ->add('getSumRouteCard', null, array('label' => 'route_card'))
+//            ->add('getSumRawExpense', null, array('label' => 'raw_expense'))
+//            ->add('getSumRouteCard', null, array('label' => 'route_card'))
             ->add('description','textarea')
             ->add('gost')
             ->add('generalCount', null, array('label' => 'general_count'))
@@ -159,8 +159,8 @@ class ProductAdmin extends Admin
         $listMapper
             ->add('id', null, array('label' => 'code'))
             ->add('name')
-            ->addIdentifier('getSumRawExpense', null, array('label' => 'raw_expense'))
-            ->addIdentifier('getSumRouteCard', null, array('label' => 'route_card'))
+//            ->addIdentifier('getSumRawExpense', null, array('label' => 'raw_expense'))
+//            ->addIdentifier('getSumRouteCard', null, array('label' => 'route_card'))
             ->add('client')
             ->add('gost')
             ->add('getStringSize', null, array('label' => 'size'))
