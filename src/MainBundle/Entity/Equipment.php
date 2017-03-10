@@ -2,7 +2,9 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MainBundle\Model\MultipleFileInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
  */
-class Equipment
+class Equipment implements MultipleFileInterface
 {
     /**
      * @var integer
@@ -129,6 +131,11 @@ class Equipment
      */
     protected $spares;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EquipmentImage", mappedBy="equipment", cascade={"persist", "remove"})
+     * @Assert\Valid()
+     */
+    protected $images;
 
 //    /**
 //     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
@@ -170,6 +177,23 @@ class Equipment
     }
 
     /**
+     * @return bool|mixed
+     */
+    public function getFiles()
+    {
+        // get images
+        $images = $this->getImages();
+
+        // check images
+        if($images){
+
+            return $images;
+        }
+
+        return null;
+    }
+
+    /**
      * Set name
      *
      * @param string $name
@@ -201,6 +225,7 @@ class Equipment
         $this->mould = new \Doctrine\Common\Collections\ArrayCollection();
         $this->responsiblePersons = new \Doctrine\Common\Collections\ArrayCollection();
         $this->spares = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -775,5 +800,64 @@ class Equipment
     public function getDeployment()
     {
         return $this->deployment;
+    }
+
+    /**
+     * @return array
+     */
+    public function  getFmsMultipleFile()
+    {
+        // check images and return array
+        if($this->images){
+
+            return $this->images->toArray();
+        }
+        return array();
+    }
+
+    /**
+     * @param $multipleFile
+     */
+    public function  setFmsMultipleFile($multipleFile)
+    {
+        // check added images
+        if(count($multipleFile) > 0){
+
+            $this->images = new ArrayCollection($multipleFile);
+        }
+    }
+
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\EquipmentImage $images
+     * @return Equipment
+     */
+    public function addImage(\MainBundle\Entity\EquipmentImage $images)
+    {
+        $this->images[] = $images;
+        $images->setEquipment($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\EquipmentImage $images
+     */
+    public function removeImage(\MainBundle\Entity\EquipmentImage $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

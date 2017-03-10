@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Form\Type\FmsMultipleFileType;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -134,6 +135,26 @@ class EquipmentAdmin extends Admin
             ->add('carryingPrice')
             ->add('factualPrice')
             ->add('inspectionPeriod');
+
+//          // get the current Image instance
+//          $image = $this->getSubject();
+//
+//            // use $fileFieldOptions so we can add other options to the field
+//            $fileFieldOptions = ['label'=>'admin.label.name.blog_images', 'required' => false];
+//
+//            if ($image && ($webPath = $image->getDownloadLink())) {
+//
+//                // get the container so the full path to the image can be set
+//                $container = $this->getConfigurationPool()->getContainer();
+//                $fullPath = $container->get('request')->getSchemeAndHttpHost().$webPath;
+//
+//                // add a 'help' option containing the preview's img tag
+//                $fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" />';
+//            }
+
+        $formMapper
+            // ... other fields ...
+         ->add('fms_multiple_file', FmsMultipleFileType::class);
     }
 
     // Fields to be shown on filter forms
@@ -163,6 +184,7 @@ class EquipmentAdmin extends Admin
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('spares')
+            ->add('getFiles', null, ['template' => 'MainBundle:Admin:equipment_image.html.twig', 'label'=>'Image'])
             ->add('carryingPrice')
             ->add('factualPrice')
             ->add('inspectionPeriod')
