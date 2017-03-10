@@ -20,10 +20,11 @@ class PrepackMaterialsAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('v, pw, p');
+        $query->addSelect('v, pw');
         $query->leftJoin($query->getRootAlias() . '.vendors', 'v');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
+        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
 
         return $query;
     }
@@ -40,21 +41,12 @@ class PrepackMaterialsAdmin extends Admin
             ->add('vendors')
             ->add('description')
             ->add('code')
-            ->add('workshop', 'choice', array('choices'=> array(
-                "Ռետինատեխնիկական",
-                "Մետաղամշակման",
-                "Լաբորատորիա",
-                "Այլ")))
+            ->add('getStringWorkshop', null, array('label' => 'workshop'))
             ->add('product')
             ->add('equipment')
             ->add('weight')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
-                "Կգ",
-                "Մետր",
-                "Հատ",
-                "Կոմպլեկտ",
-                "Լիտր")))
+            ->add('getStringSize', null, array('label' => 'size'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('created', 'date', array('widget' => 'single_text'));
         ;
@@ -106,21 +98,12 @@ class PrepackMaterialsAdmin extends Admin
             ->add('vendors')
             ->add('description')
             ->add('code')
-            ->add('workshop', 'choice', array('choices'=> array(
-                "Ռետինատեխնիկական",
-                "Մետաղամշակման",
-                "Լաբորատորիա",
-                "Այլ")))
+            ->add('getStringWorkshop', null, array('label' => 'workshop'))
             ->add('product')
             ->add('equipment')
             ->add('weight')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
-                "Կգ",
-                "Մետր",
-                "Հատ",
-                "Կոմպլեկտ",
-                "Լիտր")))
+            ->add('getStringSize', null, array('label' => 'size'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('_action', 'actions', array(
                 'actions' => array(

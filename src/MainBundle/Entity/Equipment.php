@@ -62,7 +62,6 @@ class Equipment
      */
     private $workshop;
 
-    //TODO
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="equipment")
      */
@@ -80,9 +79,8 @@ class Equipment
     protected $responsiblePersons;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="deployment", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="MainBundle\Entity\Deployment")
      */
     private $deployment;
 
@@ -152,12 +150,6 @@ class Equipment
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
-
-    // relations with ORDER
-//    private $repairs;
-
-    //relation
-//    private $chronology for SHOW ;
 
     /**
      * @return string
@@ -380,29 +372,6 @@ class Equipment
     }
 
     /**
-     * Set deployment
-     *
-     * @param string $deployment
-     * @return Equipment
-     */
-    public function setDeployment($deployment)
-    {
-        $this->deployment = $deployment;
-
-        return $this;
-    }
-
-    /**
-     * Get deployment
-     *
-     * @return string 
-     */
-    public function getDeployment()
-    {
-        return $this->deployment;
-    }
-
-    /**
      * Set state
      *
      * @param integer $state
@@ -540,7 +509,6 @@ class Equipment
         return $this->factualPrice;
     }
 
-
     /**
      * Set inspectionNextDate
      *
@@ -644,7 +612,7 @@ class Equipment
                 $stringWorkshop = "Լաբորատորիա";
                 break;
             case 3:
-                $stringWorkshop = "Այլ";
+                $stringWorkshop = "Ընդ․ օգտագործման";
                 break;
             default:
                 $stringWorkshop= "";
@@ -718,35 +686,6 @@ class Equipment
     }
 
     /**
-     * This function is used to get equipment deployment string name
-     *
-     * @return null|string
-     */
-    public  function getStringDeployment()
-    {
-        $stringDeployment = null;
-
-        switch($this->deployment) {
-            case 0:
-                $stringDeployment = "BANGLADESH";
-                break;
-            case 1:
-                $stringDeployment = "KVARTAL";
-                break;
-            case 2:
-                $stringDeployment = "CHEREMUSHKA";
-                break;
-            case 3:
-                $stringDeployment = "ERORDMAS";
-                break;
-            default:
-                $stringDeployment= "";
-        }
-
-        return $stringDeployment;
-    }
-
-    /**
      * Set created
      *
      * @param \DateTime $created
@@ -792,7 +731,6 @@ class Equipment
         return $this->updated;
     }
 
-
     /**
      * Set equipmentType
      *
@@ -814,5 +752,28 @@ class Equipment
     public function getEquipmentType()
     {
         return $this->equipmentType;
+    }
+
+    /**
+     * Set deployment
+     *
+     * @param \MainBundle\Entity\Deployment $deployment
+     * @return Equipment
+     */
+    public function setDeployment(\MainBundle\Entity\Deployment $deployment = null)
+    {
+        $this->deployment = $deployment;
+
+        return $this;
+    }
+
+    /**
+     * Get deployment
+     *
+     * @return \MainBundle\Entity\Deployment 
+     */
+    public function getDeployment()
+    {
+        return $this->deployment;
     }
 }

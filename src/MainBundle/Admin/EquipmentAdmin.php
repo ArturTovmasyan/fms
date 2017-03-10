@@ -64,7 +64,7 @@ class EquipmentAdmin extends Admin
             ->add('mould')
             ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
-            ->add('getStringDeployment', null, array('label' => 'deployment'))
+            ->add('deployment', null, ['label' => 'Deployment'])
             ->add('spares')
             ->add('elPower')
             ->add('weight')
@@ -102,8 +102,9 @@ class EquipmentAdmin extends Admin
                 "Ռետինատեխնիկական",
                 "Մետաղամշակման",
                 "Լաբորատորիա",
-                "Այլ")))
+                "Ընդ․ օգտագործման")))
 
+            //TODO create relation intanseof array
             ->add('type1', 'choice', ['attr' => ["class" => "hidden-field"], 'data' => ($type && $type < 5 ? $type : null),
                 'required' => false, 'mapped' => false,
                 'label' => 'equipment_type', 'choices'=> array(
@@ -116,16 +117,12 @@ class EquipmentAdmin extends Admin
 
             ->add('type2', 'choice', ['attr' => ["class" => "hidden-field"], 'data' => ($type && $type > 4 ? $type : null),
                 'required' => false, 'mapped' => false,
-                'label' => 'equipment_type', 'choices'=> array(
+                'label' => false, 'choices'=> array(
                 5 => "Խառատային",
                 6 => "Ֆրեզերային",
             )])
 
-            ->add('deployment', 'choice', array('label' => 'deployment', 'choices'=> array(
-                "BNGO",
-                "KVARTAL",
-                "CHERMUSHKA",
-                "ERORDMAS")))
+            ->add('deployment', null, ['label' => 'Deployment'])
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
@@ -163,7 +160,7 @@ class EquipmentAdmin extends Admin
             ->add('getStringState', null, array('label'=>'State'))
             ->add('product')
             ->add('mould')
-            ->add('getStringDeployment')
+            ->add('deployment', null, ['label' => 'Deployment'])
             ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('spares')
             ->add('carryingPrice')

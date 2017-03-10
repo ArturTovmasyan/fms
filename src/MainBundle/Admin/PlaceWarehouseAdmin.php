@@ -144,22 +144,6 @@ class PlaceWarehouseAdmin extends Admin
             }
         }
 
-        //get prepack
-        $prepacks = $object->getPrepackMaterials();
-
-        if($prepacks) {
-
-            foreach($prepacks as $prepack)
-            {
-                $prepackMould = $prepack->getPlaceWarehouse();
-
-                if(!$prepackMould->contains($object))
-                {
-                    $prepack->addPlaceWarehouse($object);
-                }
-            }
-        }
-
         //get spareParts
         $spareParts = $object->getSparePart();
 
@@ -203,9 +187,6 @@ class PlaceWarehouseAdmin extends Admin
         //get removed mould in placeWarehouse
         $removedMoulds = $moulds->getDeleteDiff();
 
-        //get removed prepack in placeWarehouse
-        $removedPrepacks = $prepacks->getDeleteDiff();
-
         //get removed spareParts in placeWarehouse
         $removedSpareParts = $spareParts->getDeleteDiff();
 
@@ -227,13 +208,6 @@ class PlaceWarehouseAdmin extends Admin
             foreach($removedMoulds as $removedMould)
             {
                 $removedMould->removePlaceWarehouse($object);
-            }
-        }
-
-        if($removedPrepacks) {
-            foreach($removedPrepacks as $removedPrepack)
-            {
-                $removedPrepack->removePlaceWarehouse($object);
             }
         }
 

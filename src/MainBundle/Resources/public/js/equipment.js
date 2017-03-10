@@ -2,16 +2,11 @@ $( document ).ready(function() {
 
     const rubber = 0;
     const gland = 1;
-    const other = 2;
 
     var fieldId = $("input[id$='_token']").attr("id");
 
     var pos = fieldId.indexOf("_token");
     var fieldToken = fieldId.slice(0, pos);
-
-    // var divToken = 'sonata-ba-field-container-';
-    // var divType1 =  divToken+fieldToken+'type1';
-    // var divType2 =  divToken+fieldToken+'type2';
 
     var type1 = "#"+fieldToken+"type1";
     var type2 = "#"+fieldToken+"type2";

@@ -54,4 +54,9 @@ $( document ).ready(function() {
             );
         }
     }
+
+    $(document).submit(function() {
+        $(productSelector).prop('disabled', false);
+    });
+
 });

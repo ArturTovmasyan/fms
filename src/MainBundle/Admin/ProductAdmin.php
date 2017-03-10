@@ -97,14 +97,14 @@ class ProductAdmin extends Admin
                 'label' => 'equipment',
                 'query_builder' => function($query) use ($editProductId) {
                     $result = $query->createQueryBuilder('p');
-//                        if(!$editProductId) {
+                        if(!$editProductId) {
                             $result
                                 ->select('eq')
                                 ->from('MainBundle:Equipment','eq')
                                 ->leftJoin('eq.product', 'ep')
-                                ->where('ep.id is null AND eq.equipmentType = :type')
+                                ->where('eq.equipmentType = :type')
                                 ->setParameter(':type', 1);
-//                        }
+                        }
 
                     return $result;
                 }
@@ -113,25 +113,26 @@ class ProductAdmin extends Admin
                 'label' => 'mould',
                 'query_builder' => function($query) use ($editProductId) {
                     $result = $query->createQueryBuilder('p');
-//                        if(!$editProductId) {
+                        if(!$editProductId) {
                             $result
                                 ->select('m')
                                 ->from('MainBundle:Mould', 'm')
                                 ->leftJoin('m.product', 'mp')
+                                ->groupBy('m.id')
                                 ->where('mp.id is null')
                                 ->having('COUNT(mp.id) < m.mouldType');
-//                        }
+                        }
 
                     return $result;
                 }
             ))
             ->end();
 
-
+        //TODO OPERATION CARD PART
 //            ->with('operationCard')
 //            ->add('productRawExpense', 'sonata_type_collection', array(
 //                'label' => 'product_expense',
-//                'by_reference' => false,
+//                'by_reference' => true,
 //                'mapped' => true,
 //                'required' => true,
 //                'type_options' => array(
@@ -141,9 +142,7 @@ class ProductAdmin extends Admin
 //                    'edit' => 'inline',
 //                    'inline' => 'table'
 //                ))
-
 //            ->add('productComponent', 'component_type')
-
 //            ->end();
     }
 

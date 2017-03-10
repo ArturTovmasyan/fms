@@ -17,6 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",
  *                        "rubberMaterials" = "RubberMaterials",
+ *                        "prepackMaterials" = "PrepackMaterials",
  *                        "metalMaterials" = "MetalMaterials",
  *                        "conductiveMaterials" = "ConductiveMaterials",
  *                        "illiquidMaterials" = "IlliquidMaterials",
@@ -84,14 +85,14 @@ abstract class RawMaterials
     protected $vendors;
 
     /**
-     * @ORM\Column(name="actual_cost", type="integer", nullable=false)
+     * @ORM\Column(name="actual_cost", type="integer")
      */
-    private $actualCost = 1;
+    private $actualCost = 0;
 
     /**
      * @ORM\Column(name="balance_cost", type="integer")
      */
-    private $balanceCost;
+    private $balanceCost = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist"})
@@ -113,8 +114,6 @@ abstract class RawMaterials
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
-
-//    private $images;
 
     /**
      * Get id

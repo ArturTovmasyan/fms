@@ -43,11 +43,6 @@ class PartnersList
     private $product;
 
     /**
-     * @ORM\ManyToMany(targetEntity="PrepackMaterials", mappedBy="vendors", cascade={"persist"})
-     */
-    private $prepackMaterials;
-
-    /**
      * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="vendors", cascade={"persist"})
      */
     private $rawMaterials;
@@ -289,39 +284,6 @@ class PartnersList
     public function getTools()
     {
         return $this->tools;
-    }
-
-    /**
-     * Add prepackMaterials
-     *
-     * @param \MainBundle\Entity\PrepackMaterials $prepackMaterials
-     * @return PartnersList
-     */
-    public function addPrepackMaterial(\MainBundle\Entity\PrepackMaterials $prepackMaterials)
-    {
-        $this->prepackMaterials[] = $prepackMaterials;
-
-        return $this;
-    }
-
-    /**
-     * Remove prepackMaterials
-     *
-     * @param \MainBundle\Entity\PrepackMaterials $prepackMaterials
-     */
-    public function removePrepackMaterial(\MainBundle\Entity\PrepackMaterials $prepackMaterials)
-    {
-        $this->prepackMaterials->removeElement($prepackMaterials);
-    }
-
-    /**
-     * Get prepackMaterials
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getPrepackMaterials()
-    {
-        return $this->prepackMaterials;
     }
 
     /**
