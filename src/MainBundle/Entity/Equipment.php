@@ -39,8 +39,8 @@ class Equipment implements MultipleFileInterface
      *
      * @ORM\Column(name="code", type="integer", unique=true)
      * @Assert\NotNull()
-     * @Assert\Length(
-     *      min = 3)
+     * @Assert\Length(min = 3, max=3)
+     *
      */
     private $code;
 
@@ -133,7 +133,6 @@ class Equipment implements MultipleFileInterface
 
     /**
      * @ORM\OneToMany(targetEntity="EquipmentImage", mappedBy="equipment", cascade={"persist", "remove"})
-     * @Assert\Valid()
      */
     protected $images;
 
@@ -179,15 +178,15 @@ class Equipment implements MultipleFileInterface
     /**
      * @return bool|mixed
      */
-    public function getFiles()
+    public function getEquipmentImages()
     {
         // get images
-        $images = $this->getImages();
+        $files = $this->getImages();
 
         // check images
-        if($images){
+        if($files){
 
-            return $images;
+            return $files;
         }
 
         return null;

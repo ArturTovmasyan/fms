@@ -15,7 +15,7 @@ client: Պատվիրատու
 Personnel: Անձնակազմ
 Weight: Քաշը
 Count: Քանակը
-deployment: Տեղակայումը
+deployment: Սարք.-ն Տեղակայումը
 workshop: Թող.֊ող արտադրամաս
 price: Գինը
 #warehouse: Տեղը պահեստում
@@ -44,7 +44,7 @@ Image: Նկարներ
 Sketch: Էսքիզներ
 lastName: Ազգանուն
 Bandwidth: Թողունակությունը
-Deployment: Տեղակայումը
+Deployment: Սարք.-ն Տեղակայումը
 over_size: Գաբարիտային չափսերը
 current_state: Ընթացիկ վիճակը
 State: Վիճակը
@@ -89,4 +89,11 @@ Warehouse: Պահեստ
 spare_parts: Պահեստամասեր
 mould_type: Տեղերի քանակը
 equipment_type: Սարքավորման տիպը
+btn_delete: Remove
+files: Ֆայլեր
 
+file:
+    max_extension: The minimum file size is 400x400 px
+    min_extension: The minimum file size is 400x400 px
+    extension_error: Wrong format of file
+    size_error: Wrong size of file

@@ -3,10 +3,7 @@
 namespace MainBundle\Traits;
 
 use JMS\Serializer\Annotation as Serializer;
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\VirtualProperty;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 
 /**
  * Class File
@@ -16,22 +13,25 @@ trait File
 {
     /**
      * @Assert\Image(
-     *     maxSize="16000000",
+     *     maxSize="1000000",
      *     mimeTypes = {
-     *         "image/png",
+     *              "image/png",
      *              "image/jpeg",
      *              "image/jpg",
      *              "image/gif",
      *              "application/pdf",
      *              "application/x-pdf",
-     *              "image/vnd-wap-wbmp"
+     *              "image/vnd-wap-wbmp",
+     *              "application/msword",
+     *              "application/vnd.oasis.opendocument.text",
+     *              "application/doc"
      *          },
-     *     minWidthMessage = "file.goal_image_min_width_extension",
-     *     minHeightMessage = "file.goal_image_min_height_extension",
+     *     minWidthMessage = "file.max_extension",
+     *     minHeightMessage = "file.min_extension",
      *     mimeTypesMessage = "file.extension_error",
      * )
      */
-    protected  $file;
+    protected $file;
 
     /**
      * @ORM\Column(name="file_original_name", type="string", length=160, nullable=true)
@@ -48,6 +48,32 @@ trait File
      * @ORM\Column(name="file_size", type="integer", nullable=true)
      */
     protected $fileSize;
+
+    /**
+     * @ORM\Column(name="type", type="string")
+     */
+    protected $type;
+
+    /**
+     * @param $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
     /**
      * Sets file.
@@ -199,7 +225,7 @@ trait File
     }
 
     /**
-     * @VirtualProperty()
+     * @return array
      */
     public function getImageSize()
     {

@@ -6,6 +6,12 @@
 
     <services>
 
+        <!--  FMS Service -->
+        <service id="fms_service" class="MainBundle\Services\FmsService">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
         <!-- service for multiple route card form -->
         <service id="fmc.multiple.route.card" class="MainBundle\Form\Type\ProductRouteCardType">
             <tag name="form.type" alias="route_card_type" />

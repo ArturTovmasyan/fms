@@ -1,6 +1,7 @@
 <?php
 namespace MainBundle\Entity;
 
+use MainBundle\Model\ImageableInterface;
 use MainBundle\Traits\File;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Table(name="equipment_image")
  * @ORM\HasLifecycleCallbacks()
  */
-class EquipmentImage
+class EquipmentImage implements ImageableInterface
 {
     // use file trait
     use File;
@@ -76,7 +77,7 @@ class EquipmentImage
      */
     protected function getPath()
     {
-        return 'images';
+        return 'equipment';
     }
 
     /**

@@ -82,7 +82,20 @@ class MouldAdmin extends Admin
         $formMapper
             ->add('code')
             ->add('product')
-            ->add('equipment')
+            ->add('equipment', null, array(
+                'label' => 'equipment',
+                'query_builder' => function($query) {
+                    $result = $query->createQueryBuilder('m');
+                    $result
+                        ->select('eq', 'ml')
+                        ->from('MainBundle:Equipment','eq')
+                        ->leftJoin('eq.mould', 'ml')
+                        ->where('eq.equipmentType = :type')
+                        ->setParameter(':type', 1);
+
+                    return $result;
+                }
+            ))
             ->add('mouldType', null, array('label' => 'mould_type'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('description')
@@ -142,23 +155,10 @@ class MouldAdmin extends Admin
         ;
     }
 
-    public function preUpdate($object)
+    public function removeRelations($object)
     {
         //get products
         $products = $object->getProduct();
-
-        if($products) {
-
-            foreach($products as $product)
-            {
-                $productMoulds = $product->getMould();
-
-                if(!$productMoulds->contains($object))
-                {
-                    $product->addMould($object);
-                }
-            }
-        }
 
         //get removed products in mould
         $removed = $products->getDeleteDiff();
@@ -170,9 +170,10 @@ class MouldAdmin extends Admin
                 $remove->removeMould($object);
             }
         }
-    }
 
-    public function prePersist($object)
+    }
+    //set relations for Equipment
+    public function setRelations($object)
     {
         //get products
         $products = $object->getProduct();
@@ -189,6 +190,17 @@ class MouldAdmin extends Admin
                 }
             }
         }
+    }
+
+    public function preUpdate($object)
+    {
+        $this->prePersist($object);
+        $this->removeRelations($object);
+    }
+
+    public function prePersist($object)
+    {
+       $this->setRelations($object);
     }
 }
 

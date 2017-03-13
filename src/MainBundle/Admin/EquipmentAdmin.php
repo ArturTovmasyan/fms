@@ -3,6 +3,7 @@
 namespace MainBundle\Admin;
 
 use MainBundle\Form\Type\FmsMultipleFileType;
+use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -11,6 +12,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class EquipmentAdmin extends Admin
 {
+    use FmsAdmin;
+
     /**
      * override list query
      *
@@ -22,11 +25,12 @@ class EquipmentAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('p, pe, s, ml');
+        $query->addSelect('p, pe, s, ml, im');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
         $query->leftJoin($query->getRootAlias() . '.responsiblePersons', 'pe');
         $query->leftJoin($query->getRootAlias() . '.spares', 's');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
+        $query->leftJoin($query->getRootAlias() . '.images', 'im');
         return $query;
     }
 
@@ -63,6 +67,7 @@ class EquipmentAdmin extends Admin
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
             ->add('mould')
+            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'Images'])
             ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('deployment', null, ['label' => 'Deployment'])
@@ -85,6 +90,17 @@ class EquipmentAdmin extends Admin
         //get subject
         $subject = $this->getSubject();
 
+        //get product id for edit
+        $editMouldId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+
+        $moulds = $this->getSubject()->getMould();
+        $mouldIds = [];
+
+        foreach ($moulds as $mould)
+        {
+            $mouldIds[] = $mould->getId();
+        }
+
         //get equipment type
         $type = $subject ? $subject->getEquipmentType() : null;
 
@@ -105,7 +121,6 @@ class EquipmentAdmin extends Admin
                 "Լաբորատորիա",
                 "Ընդ․ օգտագործման")))
 
-            //TODO create relation intanseof array
             ->add('type1', 'choice', ['attr' => ["class" => "hidden-field"], 'data' => ($type && $type < 5 ? $type : null),
                 'required' => false, 'mapped' => false,
                 'label' => 'equipment_type', 'choices'=> array(
@@ -127,34 +142,34 @@ class EquipmentAdmin extends Admin
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text'))
             ->add('product')
-            ->add('mould')
+            ->add('mould', null, array(
+                'label' => 'mould',
+                'query_builder' => function($query) use ($editMouldId, $mouldIds) {
+                    $result = $query->createQueryBuilder('p');
+                    $result
+                        ->select('m', 'mp')
+                        ->from('MainBundle:Mould', 'm')
+                        ->leftJoin('m.product', 'mp')
+                        ->groupBy('m.id')
+                        ->where('mp.id is null')
+                        ->having('COUNT(mp.id) < m.mouldType');
+                    if($editMouldId) {
+                        $result
+                            ->orWhere('m.id IN (:ids)')
+                            ->setParameter(':ids', $mouldIds);
+                    }
+
+                    return $result;
+                }
+            ))
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('spares')
             ->add('elPower')
             ->add('weight')
             ->add('carryingPrice')
             ->add('factualPrice')
-            ->add('inspectionPeriod');
-
-//          // get the current Image instance
-//          $image = $this->getSubject();
-//
-//            // use $fileFieldOptions so we can add other options to the field
-//            $fileFieldOptions = ['label'=>'admin.label.name.blog_images', 'required' => false];
-//
-//            if ($image && ($webPath = $image->getDownloadLink())) {
-//
-//                // get the container so the full path to the image can be set
-//                $container = $this->getConfigurationPool()->getContainer();
-//                $fullPath = $container->get('request')->getSchemeAndHttpHost().$webPath;
-//
-//                // add a 'help' option containing the preview's img tag
-//                $fileFieldOptions['help'] = '<img src="'.$fullPath.'" class="admin-preview" />';
-//            }
-
-        $formMapper
-            // ... other fields ...
-         ->add('fms_multiple_file', FmsMultipleFileType::class);
+            ->add('inspectionPeriod')
+            ->add('fms_multiple_file', FmsMultipleFileType::class, ['label'=>'files']);
     }
 
     // Fields to be shown on filter forms
@@ -184,7 +199,7 @@ class EquipmentAdmin extends Admin
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('spares')
-            ->add('getFiles', null, ['template' => 'MainBundle:Admin:equipment_image.html.twig', 'label'=>'Image'])
+            ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'Images'])
             ->add('carryingPrice')
             ->add('factualPrice')
             ->add('inspectionPeriod')
@@ -316,6 +331,7 @@ class EquipmentAdmin extends Admin
 
     public function prePersist($object)
     {
+        $this->addImages($object);
         $this->setRelations($object);
 
         //get selected equipment type and set it

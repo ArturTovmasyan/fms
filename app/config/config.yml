@@ -96,6 +96,19 @@ fos_user:
     service:
             user_manager: sonata.user.orm.user_manager
 
+# fos rest bundle
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: false
+    body_converter:
+                enabled: true
+    format_listener: false
+    view:
+        view_response_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false
+
 sonata_block:
     default_contexts: [cms]
     blocks:

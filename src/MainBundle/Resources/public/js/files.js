@@ -1,18 +1,11 @@
 var $collectionHolder;
 
 // setup an "add a tag" link
-var $addTagLink = $('<div class=" btn-group btn-group-sm"><button type="button" class="btn btn-xs add-button">Add Image</button></div>');
+var $addTagLink = $('<div class="btn-group btn-group-sm"><button type="button" class="btn btn-xs add-button">Add File</button></div>');
 var $newLinkLi = $('<p class="add-image"></p>').append($addTagLink);
 
 
 jQuery(document).ready(function() {
-
-    // remove 'checked' state
-
-    if ($('.bl-radio').length > 0) {
-        // it exists
-        $('.bl-radio').iCheck('destroy');
-    }
 
     // Get the ul that holds the collection of tags
     $collectionHolder = $('ul.images');
@@ -22,7 +15,7 @@ jQuery(document).ready(function() {
 
     // count the current form inputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    $collectionHolder.data('index', $collectionHolder.find('.col-sm-1').length);
 
     $addTagLink.on('click', function(e) {
         // prevent the link from creating a "#" on the URL
@@ -43,8 +36,6 @@ function addTagForm($collectionHolder, $newLinkLi) {
     // Replace '__name__' in the prototype's HTML to
     // instead be a number based on how many items we have
     var newForm = prototype.replace(/__name__/g, index);
-
-    //console.log(newForm);
 
     // increase the index with one for the next item
     $collectionHolder.data('index', index + 1);
@@ -67,18 +58,4 @@ function addTagFormDeleteLink($newFormLi)
         // remove the li for the tag form
         $newFormLi.remove();
     });
-}
-
-function toHiddenList(hiddenId)
-{
-    console.log(hiddenId);
-    $(".bl_list_hidden").val(0);
-    $("#"+hiddenId).val(1);
-}
-
-function toHiddenCover(hiddenId)
-{
-    console.log(hiddenId);
-    $(".bl_cover_hidden").val(0);
-    $("#"+hiddenId).val(1);
 }
