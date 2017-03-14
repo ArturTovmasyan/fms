@@ -135,6 +135,11 @@ class Equipment
     protected $spares;
 
     /**
+     * @ORM\OneToOne(targetEntity="EquipmentReport")
+     */
+    protected $report;
+
+    /**
      * @ORM\OneToMany(targetEntity="EquipmentImage", mappedBy="equipment", cascade={"persist", "remove"})
      */
     protected $images;
@@ -820,5 +825,28 @@ class Equipment
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Set report
+     *
+     * @param \MainBundle\Entity\EquipmentReport $report
+     * @return Equipment
+     */
+    public function setReport(\MainBundle\Entity\EquipmentReport $report = null)
+    {
+        $this->report = $report;
+
+        return $this;
+    }
+
+    /**
+     * Get report
+     *
+     * @return \MainBundle\Entity\EquipmentReport 
+     */
+    public function getReport()
+    {
+        return $this->report;
     }
 }

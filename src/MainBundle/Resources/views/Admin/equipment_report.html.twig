@@ -36,24 +36,31 @@
                     <div class="col-sm-8">
 
                         <div>
-                            {{ form_row(form.tags) }}
+                            {{ form_row(form.number) }}
                         </div>
                         <div>
-                            {{ form_row(form.successStory) }}
+                            {{ form_row(form.mechanicState) }}
                         </div>
                         <div>
-                            {{ form_row(form.comment) }}
+                            {{ form_row(form.electricState) }}
                         </div>
-
                         <div>
-                            {{ form_row(form.user) }}
+                            {{ form_row(form.hidravlik) }}
+                        </div>
+                        <div>
+                            {{ form_row(form.mechanic) }}
+                        </div>
+                        <div>
+                            {{ form_row(form.electric) }}
+                        </div>
+                        <div>
+                            {{ form_row(form.accept) }}
                         </div>
 
                         {{ form_widget(form._token) }}
 
                         {#{{ form_stylesheet(form) }}#}
                         {#{{ form_javascript(form) }}#}
-
                     </div>
 
                     <div class="col-sm-4">

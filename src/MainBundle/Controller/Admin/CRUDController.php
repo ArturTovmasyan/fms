@@ -6,6 +6,7 @@ use MainBundle\Form\EquipmentReportType;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -14,16 +15,19 @@ class CRUDController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function equipmentReportAction(\Symfony\Component\HttpFoundation\Request $request)
+    public function equipmentReportAction(Request $request)
     {
+        //get entity manager
+        $em = $this->get('doctrine')->getManager();
+
+//        $x = $request;
+
+//        $data =
         // create form
         $form = $this->createForm(new EquipmentReportType());
 
         //check if method post
         if ($request->isMethod('POST')) {
-
-            //get entity manager
-            $em = $this->get('doctrine')->getManager();
 
             // get data from request
             $form->handleRequest($request);
