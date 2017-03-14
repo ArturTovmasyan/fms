@@ -2,6 +2,7 @@
 
 namespace MainBundle\Controller\Admin;
 
+use MainBundle\Form\EquipmentReportType;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
 use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -10,6 +11,40 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CRUDController extends Controller
 {
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function equipmentReportAction(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        // create form
+        $form = $this->createForm(new EquipmentReportType());
+
+        //check if method post
+        if ($request->isMethod('POST')) {
+
+            //get entity manager
+            $em = $this->get('doctrine')->getManager();
+
+            // get data from request
+            $form->handleRequest($request);
+
+            if ($form->isValid() && $form->isSubmitted()) {
+
+//                $em->flush();
+
+                //set flush messages
+                $this->addFlash('sonata_flash_success', 'TEST TEST TEST TEST');
+                $this->addFlash('EquipmentReport', 'REPORT FOR EQUIPMENT CREATED');
+
+                return new RedirectResponse($this->admin->generateUrl('list'));
+            }
+        }
+
+        return $this->render('MainBundle:Admin:equipment_report.html.twig', array(
+           'form' => $form->createView(),
+        ));
+    }
+
     /**
      * Edit action.
      *

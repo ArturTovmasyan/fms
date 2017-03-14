@@ -16,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
  */
-class Equipment 
+class Equipment
 {
     /**
      * @var integer
@@ -58,11 +58,14 @@ class Equipment
     private $purchaseDate;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="exploiter_workshop", type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Workshop")
      */
     private $workshop;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="WorkshopType")
+     */
+    private $type;
 
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="equipment")
@@ -120,11 +123,6 @@ class Equipment
      * @ORM\Column(name="repair_job", type="string")
      */
     private $repairJob;
-
-    /**
-     * @ORM\Column(name="equipment_type", type="integer")
-     */
-    private $equipmentType;
 
     /**
      * @ORM\Column(name="inspection_next_date", type="datetime")
@@ -342,29 +340,6 @@ class Equipment
     public function getPurchaseDate()
     {
         return $this->purchaseDate;
-    }
-
-    /**
-     * Set workshop
-     *
-     * @param integer $workshop
-     * @return Equipment
-     */
-    public function setWorkshop($workshop)
-    {
-        $this->workshop = $workshop;
-
-        return $this;
-    }
-
-    /**
-     * Get workshop
-     *
-     * @return integer 
-     */
-    public function getWorkshop()
-    {
-        return $this->workshop;
     }
 
     /**
@@ -626,35 +601,6 @@ class Equipment
      *
      * @return null|string
      */
-    public  function getStringWorkshop()
-    {
-        $stringWorkshop = null;
-
-        switch($this->workshop) {
-            case 0:
-                $stringWorkshop = "Ռետինատեխնիկական";
-                break;
-            case 1:
-                $stringWorkshop = "Մետաղամշակման";
-                break;
-            case 2:
-                $stringWorkshop = "Լաբորատորիա";
-                break;
-            case 3:
-                $stringWorkshop = "Ընդ․ օգտագործման";
-                break;
-            default:
-                $stringWorkshop= "";
-        }
-
-        return $stringWorkshop;
-    }
-
-    /**
-     * This function is used to get equipment workshop string name
-     *
-     * @return null|string
-     */
     public  function getStringState()
     {
         $stringState = null;
@@ -677,41 +623,6 @@ class Equipment
         }
 
         return $stringState;
-    }
-
-    /**
-     * This function is used to get equipment type string
-     *
-     * @return null|string
-     */
-    public function getTypeString()
-    {
-        $stringSize = null;
-
-        switch($this->equipmentType) {
-            case 1:
-                $stringSize = "Մամլիչ հաստոց (Пресс)";
-                break;
-            case 2:
-                $stringSize = "Գրտնակահաստոց";
-                break;
-            case 3:
-                $stringSize = "Շնեկ";
-                break;
-            case 4:
-                $stringSize = "Կաթսա";
-                break;
-            case 5:
-                $stringSize = "Խառատային";
-                break;
-            case 6:
-                $stringSize = "Ֆրեզերային";
-                break;
-            default:
-                echo "";
-        }
-
-        return $stringSize;
     }
 
     /**
@@ -758,29 +669,6 @@ class Equipment
     public function getUpdated()
     {
         return $this->updated;
-    }
-
-    /**
-     * Set equipmentType
-     *
-     * @param integer $equipmentType
-     * @return Equipment
-     */
-    public function setEquipmentType($equipmentType)
-    {
-        $this->equipmentType = $equipmentType;
-
-        return $this;
-    }
-
-    /**
-     * Get equipmentType
-     *
-     * @return integer 
-     */
-    public function getEquipmentType()
-    {
-        return $this->equipmentType;
     }
 
     /**
@@ -886,5 +774,51 @@ class Equipment
     public function getRepairJob()
     {
         return $this->repairJob;
+    }
+
+    /**
+     * Set workshop
+     *
+     * @param \MainBundle\Entity\Workshop $workshop
+     * @return Equipment
+     */
+    public function setWorkshop(\MainBundle\Entity\Workshop $workshop = null)
+    {
+        $this->workshop = $workshop;
+
+        return $this;
+    }
+
+    /**
+     * Get workshop
+     *
+     * @return \MainBundle\Entity\Workshop
+     */
+    public function getWorkshop()
+    {
+        return $this->workshop;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \MainBundle\Entity\WorkshopType $type
+     * @return Equipment
+     */
+    public function setType(\MainBundle\Entity\WorkshopType $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \MainBundle\Entity\WorkshopType 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

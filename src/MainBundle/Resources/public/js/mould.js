@@ -41,7 +41,7 @@ $( document ).ready(function() {
         if (productCount >= mouldTypeCount) {
             $(productSelector).attr ('disabled', 'disabled');
         } else {
-            $(productSelector).removeAttr ('disabled');
+            $(productSelector).removeAttr('disabled');
         }
 
         if(productCount && productCount > mouldTypeCount && mouldTypeCount>0) {

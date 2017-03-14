@@ -134,6 +134,7 @@
             <tag name="sonata.admin" manager_type="orm" group="Resource" label="Equipment"/>
             <argument/>
             <argument>MainBundle\Entity\Equipment</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -246,6 +247,22 @@
             <tag name="sonata.admin" manager_type="orm" group="Resource" label="spare_parts"/>
             <argument/>
             <argument>MainBundle\Entity\SparePart</argument>
+            <argument/>
+        </service>
+
+        <!--WorkShopAdmin-->
+        <service id="sonata.admin.workshop" class="MainBundle\Admin\WorkshopAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="workshop"/>
+            <argument/>
+            <argument>MainBundle\Entity\Workshop</argument>
+            <argument/>
+        </service>
+
+        <!--WorkShopTypeAdmin-->
+        <service id="sonata.admin.workshop.type" class="MainBundle\Admin\WorkshopTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="equipment_type"/>
+            <argument/>
+            <argument>MainBundle\Entity\WorkshopType</argument>
             <argument/>
         </service>
 

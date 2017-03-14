@@ -28,7 +28,7 @@ class MainRestController extends FOSRestController
      *  },
      * )
      *
-     * @Rest\Get("/equipment/remove-file/{id}", requirements={"id"="\d+"}, name="main_rest_mainrest_removefile", options={"method_prefix"=false})
+     * @Rest\Get("/remove-file/{id}", requirements={"id"="\d+"}, name="main_rest_mainrest_removefile", options={"method_prefix"=false})
      *
      * @param EquipmentImage $equipmentImage
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -52,5 +52,34 @@ class MainRestController extends FOSRestController
         }
 
         return new Response('', Response::HTTP_OK);
+    }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get workshop type by workshop id",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         403="Forbidden",
+     *  },
+     * )
+     *
+     * @Rest\Get("/equipment/type/{workshopId}", requirements={"workshopId"="\d+"}, name="main_rest_mainrest_getequipmenttype", options={"method_prefix"=false})
+     * @Rest\View()
+     * @param $workshopId
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
+     */
+    public function getEquipmentTypeAction($workshopId)
+    {
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get workshop types
+        $workshopTypes = $em->getRepository('MainBundle:WorkshopType')->findByWorkshopId($workshopId);
+
+        return $workshopTypes;
     }
 }

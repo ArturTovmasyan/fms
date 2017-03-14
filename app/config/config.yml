@@ -94,14 +94,14 @@ fos_user:
     group:
           group_class: Application\UserBundle\Entity\Group
     service:
-            user_manager: sonata.user.orm.user_manager
+          user_manager: sonata.user.orm.user_manager
 
 # fos rest bundle
 fos_rest:
     param_fetcher_listener: true
     body_listener: false
     body_converter:
-                enabled: true
+        enabled: false
     format_listener: false
     view:
         view_response_listener: true

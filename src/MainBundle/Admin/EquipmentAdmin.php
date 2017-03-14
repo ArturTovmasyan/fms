@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class EquipmentAdmin extends Admin
@@ -51,6 +52,14 @@ class EquipmentAdmin extends Admin
     }
 
     /**
+     * @param RouteCollection $collection
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('equipment-report', $this->getRouterIdParameter().'/equipment-report');
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
@@ -61,14 +70,14 @@ class EquipmentAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('code')
-            ->add('getStringWorkshop', null, array('label' => 'equipment_workshop'))
+            ->add('workshop', null, array('label'=>'equipment_workshop'))
             ->add('getStringState', null, array('label'=>'State'))
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
             ->add('mould')
             ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'files'])
-            ->add('getTypeString', null, ['label' => 'equipment_type'])
+            ->add('type', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('spares')
@@ -102,43 +111,19 @@ class EquipmentAdmin extends Admin
             $mouldIds[] = $mould->getId();
         }
 
-        //get equipment type
-        $type = $subject ? $subject->getEquipmentType() : null;
-
         //get inspection period in database
         $this->time = $subject->getInspectionPeriod();
 
         $formMapper
             ->add('name')
             ->add('code')
-            ->add('state','choice', array('choices'=> array(
+            ->add('state', 'choice', array('choices'=> array(
                 "Սարքին` բարվոք վիճակում",
                 "Աշխատող` վերանորոգման ենթակա",
                 "Չաշխատող` վերանորոգման ենթակա",
                 "Անհուսալի")))
-            ->add('workshop', 'choice', array('choices'=> array(
-                "Ռետինատեխնիկական",
-                "Մետաղամշակման",
-                "Լաբորատորիա",
-                "Ընդ․ օգտագործման")))
-
-            ->add('type1', 'choice', ['attr' => ["class" => "hidden-field"], 'data' => ($type && $type < 5 ? $type : null),
-                'required' => false, 'mapped' => false,
-                'label' => 'equipment_type', 'choices'=> array(
-                0 => "",
-                1 => "Մամլիչ հաստոց (Пресс)",
-                2 => "Գրտնակահաստոց",
-                3 => "Շնեկ",
-                4 => "Կաթսա"
-            )])
-
-            ->add('type2', 'choice', ['attr' => ["class" => "hidden-field"], 'data' => ($type && $type > 4 ? $type : null),
-                'required' => false, 'mapped' => false,
-                'label' => false, 'choices'=> array(
-                5 => "Խառատային",
-                6 => "Ֆրեզերային",
-            )])
-
+            ->add('workshop', 'sonata_type_model', ['label'=>'equipment_workshop'])
+            ->add('type', null, ['attr' => ['class' => 'hidden-field'], 'label'=>false])
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('description')
             ->add('repairJob', null, ['label' => 'repair_job'])
@@ -194,12 +179,12 @@ class EquipmentAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('code')
-            ->add('getStringWorkshop', null, array('label'=>'equipment_workshop'))
+            ->add('workshop', null, array('label'=>'equipment_workshop'))
             ->add('getStringState', null, array('label'=>'State'))
             ->add('product')
             ->add('mould')
             ->add('deployment', null, ['label' => 'Deployment'])
-            ->add('getTypeString', null, ['label' => 'equipment_type'])
+            ->add('type', null, ['label' => 'equipment_type'])
             ->add('spares')
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('elPower', null, ['label'=>'el_power'])
@@ -214,6 +199,7 @@ class EquipmentAdmin extends Admin
                     'show' => array(),
                     'edit' => array(),
                     'delete' => array(),
+                    'report' => ['template' => 'MainBundle:Admin:equipment_report_action.html.twig']
                 )
             ))
         ;
@@ -338,20 +324,5 @@ class EquipmentAdmin extends Admin
     {
         $this->addImages($object);
         $this->setRelations($object);
-
-        //get selected equipment type and set it
-        $request = $this->getRequest();
-        $formName = $this->getFormBuilder()->getName();
-        $data = $request->request->get($formName);
-        $type1 = $data['type1'];
-        $type2 = $data['type2'];
-
-        $type = $type1;
-
-        if(!$type) {
-            $type = $type2 ? $type2 : 0;
-        }
-
-        $object->setEquipmentType($type);
     }
 }

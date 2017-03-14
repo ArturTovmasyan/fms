@@ -1,45 +1,57 @@
 $( document ).ready(function() {
 
-    const rubber = 0;
-    const gland = 1;
+    const rubber = 1;
+    const ferum = 2;
 
     var fieldId = $("input[id$='_token']").attr("id");
 
     var pos = fieldId.indexOf("_token");
+
     var fieldToken = fieldId.slice(0, pos);
 
-    var type1 = "#"+fieldToken+"type1";
-    var type2 = "#"+fieldToken+"type2";
+    var typeSelector = "#"+fieldToken+"type";
 
     var workshopSelector = "#"+fieldToken+"workshop";
+
     var workshopValue = $(workshopSelector).val();
 
-    selectType(workshopValue);
+    if (workshopValue == rubber || workshopValue == ferum) {
+        getTypes();
+    }
+
+    var option = '<option value="id">name</option>';
 
     $(workshopSelector).change(function () {
+
         workshopValue = $(this).val();
-        selectType(workshopValue);
+
+        $(typeSelector).val(null);
+
+        if (workshopValue == rubber || workshopValue == ferum) {
+             getTypes();
+        }
+        else{
+            $(typeSelector).addClass('hidden-field');
+            $(typeSelector).html('<option value=""></option>');
+        }
     });
 
-    function selectType(workshopValue) {
 
-        if(workshopValue == rubber) {
-            $(type2).addClass("hidden-field");
-            $(type2).val(null);
-            $(type1).removeClass("hidden-field");
-        }
+    function getTypes() {
 
-        if(workshopValue == gland) {
-            $(type1).addClass("hidden-field");
-            $(type1).val(null);
-            $(type2).removeClass("hidden-field");
-        }
+        $(typeSelector).removeClass('hidden-field');
 
-        if(workshopValue != rubber && workshopValue != gland) {
-            $(type1).addClass("hidden-field");
-            $(type1).val(null);
-            $(type2).addClass("hidden-field");
-            $(type2).val(null);
-        }
+        $.get("/api/v1.0/equipment/type/"+workshopValue, function(data) {
+
+            var options = '';
+
+            for(var i = 0; i< data.length;i++)
+            {
+                options += (option.replace('id', data[i].id).replace('name',data[i].name))
+            }
+
+            $(typeSelector).html(options);
+
+        });
     }
 });

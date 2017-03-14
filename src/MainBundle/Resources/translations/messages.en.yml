@@ -48,7 +48,7 @@ Deployment: Սարք.-ն Տեղակայումը
 over_size: Գաբարիտային չափսերը
 current_state: Ընթացիկ վիճակը
 State: Վիճակը
-equipment_workshop: Շահագործող արտադրամասը
+equipment_workshop: Թող․ արտադ․
 Workshop: Արտադրամասը
 preparation_time: Հանձնման ժամկետը
 ProfessionCategory: Գործավարձի կարգը
@@ -96,6 +96,7 @@ inspection_period: Տեխզ․ պարբ.
 inspection_next_date: Տեխզ․ հերթ. ժամ.
 purchase_date: Ձեռքբ. ժամ.
 el_power: Էլ. հզ.
+report_create: ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ
 
 
 
