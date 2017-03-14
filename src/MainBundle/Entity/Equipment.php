@@ -16,7 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\Entity
  * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
  */
-class Equipment implements MultipleFileInterface
+class Equipment 
 {
     /**
      * @var integer
@@ -115,6 +115,11 @@ class Equipment implements MultipleFileInterface
      * @ORM\Column(name="inspection_period", type="integer")
      */
     private $inspectionPeriod;
+
+    /**
+     * @ORM\Column(name="repair_job", type="string")
+     */
+    private $repairJob;
 
     /**
      * @ORM\Column(name="equipment_type", type="integer")
@@ -804,7 +809,7 @@ class Equipment implements MultipleFileInterface
     /**
      * @return array
      */
-    public function  getFmsMultipleFile()
+    public function  getEqMultipleFile()
     {
         // check images and return array
         if($this->images){
@@ -817,7 +822,7 @@ class Equipment implements MultipleFileInterface
     /**
      * @param $multipleFile
      */
-    public function  setFmsMultipleFile($multipleFile)
+    public function  setEqMultipleFile($multipleFile)
     {
         // check added images
         if(count($multipleFile) > 0){
@@ -858,5 +863,28 @@ class Equipment implements MultipleFileInterface
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set repairJob
+     *
+     * @param string $repairJob
+     * @return Equipment
+     */
+    public function setRepairJob($repairJob)
+    {
+        $this->repairJob = $repairJob;
+
+        return $this;
+    }
+
+    /**
+     * Get repairJob
+     *
+     * @return string 
+     */
+    public function getRepairJob()
+    {
+        return $this->repairJob;
     }
 }

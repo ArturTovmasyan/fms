@@ -2,7 +2,7 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Form\Type\FmsMultipleFileType;
+use MainBundle\Form\Type\EqMultipleFileType;
 use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -64,20 +64,21 @@ class EquipmentAdmin extends Admin
             ->add('getStringWorkshop', null, array('label' => 'equipment_workshop'))
             ->add('getStringState', null, array('label'=>'State'))
             ->add('description')
-            ->add('purchaseDate', 'date', array('widget'=>'single_text'))
+            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
             ->add('mould')
-            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'Images'])
+            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'files'])
             ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('spares')
-            ->add('elPower')
+            ->add('elPower', null, ['label'=>'el_power'])
+            ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('weight')
             ->add('carryingPrice', null, array('label'=>'balance_cost'))
             ->add('factualPrice', null, array('label'=>'actual_cost'))
-            ->add('inspectionPeriod')
-            ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
+            ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
@@ -140,7 +141,8 @@ class EquipmentAdmin extends Admin
 
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('description')
-            ->add('purchaseDate', 'date', array('widget'=>'single_text'))
+            ->add('repairJob', null, ['label' => 'repair_job'])
+            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
             ->add('mould', null, array(
                 'label' => 'mould',
@@ -164,12 +166,12 @@ class EquipmentAdmin extends Admin
             ))
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('spares')
-            ->add('elPower')
+            ->add('elPower', null, ['label'=>'el_power'])
             ->add('weight')
-            ->add('carryingPrice')
-            ->add('factualPrice')
-            ->add('inspectionPeriod')
-            ->add('fms_multiple_file', FmsMultipleFileType::class, ['label'=>'files']);
+            ->add('carryingPrice', null, array('label'=>'balance_cost'))
+            ->add('factualPrice', null, array('label'=>'actual_cost'))
+            ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->add('eq_multiple_file', EqMultipleFileType::class, ['label'=>'files']);
     }
 
     // Fields to be shown on filter forms
@@ -199,11 +201,14 @@ class EquipmentAdmin extends Admin
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('getTypeString', null, ['label' => 'equipment_type'])
             ->add('spares')
-            ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'Images'])
-            ->add('carryingPrice')
-            ->add('factualPrice')
-            ->add('inspectionPeriod')
-            ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
+            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
+            ->add('elPower', null, ['label'=>'el_power'])
+            ->add('repairJob', null, ['label' => 'repair_job'])
+            ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'files'])
+            ->add('carryingPrice', null, array('label'=>'balance_cost'))
+            ->add('factualPrice', null, array('label'=>'actual_cost'))
+            ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

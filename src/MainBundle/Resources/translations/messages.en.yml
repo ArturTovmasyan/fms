@@ -91,6 +91,13 @@ mould_type: Տեղերի քանակը
 equipment_type: Սարքավորման տիպը
 btn_delete: Remove
 files: Ֆայլեր
+repair_job: Վերանորոգման աշխ․
+inspection_period: Տեխզ․ պարբ.
+inspection_next_date: Տեխզ․ հերթ. ժամ.
+purchase_date: Ձեռքբ. ժամ.
+el_power: Էլ. հզ.
+
+
 
 file:
     max_extension: The minimum file size is 400x400 px

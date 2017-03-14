@@ -7,10 +7,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class FmsMultipleFileType
+ * Class EqMultipleFileType
  * @package MainBundle\Form\Type
  */
-class FmsMultipleFileType extends AbstractType
+class EqMultipleFileType extends AbstractType
 {
     /**
      * @return null|string|\Symfony\Component\Form\FormTypeInterface
@@ -37,6 +37,6 @@ class FmsMultipleFileType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'fms_multiple_file';
+        return 'eq_multiple_file';
     }
 }
