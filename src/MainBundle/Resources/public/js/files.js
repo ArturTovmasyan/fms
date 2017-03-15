@@ -44,11 +44,14 @@ function addTagForm($collectionHolder, $newLinkLi) {
     var $newFormLi = $('<li class="file-list col-sm-3"></li>').append(newForm);
     addTagFormDeleteLink($newFormLi);
     $newLinkLi.after($newFormLi);
+
+    imageView();
+
 }
 
 function addTagFormDeleteLink($newFormLi)
 {
-    var $removeFormA = $('<a class="delete-link" href="#">Delete</a>');
+    var $removeFormA = $('<a class="glyphicon glyphicon-remove" href="#"></a>');
     $newFormLi.append($removeFormA);
 
     $removeFormA.on('click', function(e) {
@@ -58,4 +61,31 @@ function addTagFormDeleteLink($newFormLi)
         // remove the li for the tag form
         $newFormLi.remove();
     });
+}
+
+function imageView() {
+
+    $('input[type=file]').first().on('change', function (event) {
+        var input = event.target;
+
+        if (input.files && input.files[0]) {
+
+            var file = input.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function (e){
+
+                if(e && e.target){
+                    var image = e.target.result;
+                    var fileType = $('input[type=file]').val().split('.').pop().toLowerCase();
+
+                    if($.inArray(fileType, ['gif','png','jpg','jpeg']) != -1) {
+                        $('input[type=file]').first().parent().append('<img height="100" width="100" src="'+image+'">');
+                    }
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+    })
 }

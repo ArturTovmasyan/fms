@@ -19,7 +19,7 @@
                         <br />
                         <br />
                         <div class="row col-sm-12">
-                            <a class="delete-link" href="{{ path("main_rest_mainrest_removefile", {'id' : child.vars.value.id } ) }}" >{{ 'btn_delete'|trans }}</a>
+                            <a href="{{ path("main_rest_mainrest_removefile", {'id' : child.vars.value.id } ) }}" ><i class="glyphicon glyphicon-remove"></i></a>
                         </div>
                     </li>
                 {% endif %}
