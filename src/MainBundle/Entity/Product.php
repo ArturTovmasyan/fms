@@ -6,18 +6,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Context\ExecutionContext;
 
 /**
  * Product
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields={"name"}, errorPath="name", message="this name is already exist")
+ * @UniqueEntity(fields={"name"}, errorPath="name", message="This name is already exist")
  */
 class Product
 {
+//* @Assert\Callback(methods={"validate"})
 
-    /**
+/**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -83,7 +85,7 @@ class Product
     protected $equipment;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Mould", inversedBy="product", cascade={"persist", "remove"})
+     * @ORM\ManyToMany(targetEntity="Mould", inversedBy="product", cascade={"persist"})
      * @ORM\JoinTable(name="product_mould")
      */
     protected $mould;
@@ -101,41 +103,25 @@ class Product
     protected $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $image;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $sketch;
-
-    /**
      * @ORM\ManyToOne(targetEntity="PurposeList", inversedBy="product", cascade={"persist"})
      */
     protected $purposeList;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
-     */
-    protected $certificate;
-
-    /**
-     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist"})
      */
     protected $productRawExpense;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="ProductComponent", mappedBy="product", cascade={"persist", "remove"})
      */
-    protected $productRouteCard;
+    protected $productComponent;
 
+    //relations
+    //private $price;
 
-//relations
-//    private $price;
-
-//relations
-//    private $currentOrder;
+    //relations
+    //private $currentOrder;
 
     /**
      * @var integer
@@ -361,20 +347,26 @@ class Product
      */
     public function getSumRouteCard()
     {
-        //get product route cards
-        $productRouteCards = $this->getProductRouteCard();
-
         //set sum expense
         $sumRouteCard = 0;
 
-        foreach($productRouteCards as $productRouteCard)
-        {
-            //get product route card price
-            $routeCardPrice = $productRouteCard->getRouteCardPrice();
+        $productComponents = $this->getProductComponent();
 
-            //sum routeCardPrice
-            $sumRouteCard += $routeCardPrice;
+        foreach($productComponents as $productComponent)
+        {
+            //get product route cards
+            $productRouteCards = $productComponent->getProductRouteCard();
+
+            foreach($productRouteCards as $productRouteCard)
+            {
+                //get product route card price
+                $routeCardPrice = $productRouteCard->getRouteCardPrice();
+
+                //sum routeCardPrice
+                $sumRouteCard += $routeCardPrice;
+            }
         }
+
         return $sumRouteCard;
     }
 
@@ -560,52 +552,6 @@ class Product
     }
 
     /**
-     * Set image
-     *
-     * @param \Application\MediaBundle\Entity\Media $image
-     * @return Product
-     */
-    public function setImage(\Application\MediaBundle\Entity\Media $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set sketch
-     *
-     * @param \Application\MediaBundle\Entity\Media $sketch
-     * @return Product
-     */
-    public function setSketch(\Application\MediaBundle\Entity\Media $sketch = null)
-    {
-        $this->sketch = $sketch;
-
-        return $this;
-    }
-
-    /**
-     * Get sketch
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getSketch()
-    {
-        return $this->sketch;
-    }
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -761,59 +707,86 @@ class Product
         return $this->productRawExpense;
     }
 
+//    /**
+//     * @param ExecutionContext $context
+//     */
+//    public function validate(ExecutionContext $context)
+//    {
+//        //get components
+//        $components = $this->getProductComponent();
+//
+//        //if components exist
+//        if($components) {
+//
+//            foreach($components as $component)
+//            {
+//                //get route card
+//                $routeCards = $component->getProductRouteCard();
+//
+//                //if route cards exist
+//                if($routeCards) {
+//
+//                    foreach($routeCards as $routeCard) {
+//
+//                        //get profession
+//                        $profession = $routeCard->getProfession();
+//
+//                        //get profession category
+//                        $professionCategory = $routeCard->getProfessionCategory();
+//
+//                        $name = $professionCategory->getName();
+//
+//                        //get all salaries type by profession indexBy category id
+//                        $salariesTypeArray = $profession->getSalariesType();
+//
+//                        //get salaries type by profession category id
+//                        $salariesType = $salariesTypeArray[$professionCategory->getId()];
+//
+//                        //check if salariesType exist
+//                        if (!$salariesType) {
+//                            $context->addViolationAt(
+//                                'productRouteCard',
+//                                'This profession by category not exist "%category%"',
+//                                array('%category%', $name),
+//                                null
+//                            );
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+
     /**
-     * Add productRouteCard
+     * Add productComponent
      *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @param \MainBundle\Entity\ProductComponent $productComponent
      * @return Product
      */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    public function addProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
     {
-        $this->productRouteCard[] = $productRouteCard;
+        $this->productComponent[] = $productComponent;
 
         return $this;
     }
 
     /**
-     * Remove productRouteCard
+     * Remove productComponent
      *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @param \MainBundle\Entity\ProductComponent $productComponent
      */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    public function removeProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
     {
-        $this->productRouteCard->removeElement($productRouteCard);
+        $this->productComponent->removeElement($productComponent);
     }
 
     /**
-     * Get productRouteCard
+     * Get productComponent
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProductRouteCard()
+    public function getProductComponent()
     {
-        return $this->productRouteCard;
-    }
-
-    /**
-     * Set certificate
-     *
-     * @param \Application\MediaBundle\Entity\Gallery $certificate
-     * @return Product
-     */
-    public function setCertificate(\Application\MediaBundle\Entity\Gallery $certificate = null)
-    {
-        $this->certificate = $certificate;
-
-        return $this;
-    }
-
-    /**
-     * Get certificate
-     *
-     * @return \Application\MediaBundle\Entity\Gallery 
-     */
-    public function getCertificate()
-    {
-        return $this->certificate;
+        return $this->productComponent;
     }
 }

@@ -8,13 +8,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * ProductRouteCard
  *
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_route_card", columns={"profession_id", "profession_category_id", "product_id"})})
+ * @ORM\Table()
  * @ORM\Entity()
- * @UniqueEntity(
- *     fields={"profession", "professionCategory", "product"},
- *     errorPath="profession",
- *     message="Dublicate route card"
- * )
  */
 class ProductRouteCard
 {
@@ -48,10 +43,10 @@ class ProductRouteCard
      */
     private $dependency;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="productRouteCard", cascade={"persist"})
-     */
-    protected $equipment;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="productRouteCard", cascade={"persist"})
+//     */
+//    protected $equipment;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProfessionCategory", inversedBy="productRouteCard", cascade={"persist"})
@@ -86,11 +81,6 @@ class ProductRouteCard
      * @ORM\ManyToOne(targetEntity="Mould", inversedBy="productRouteCard", cascade={"persist"})
      */
     protected $mould;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productRouteCard", cascade={"persist"})
-     */
-    protected $product;
 
       /**
      * @var integer
@@ -232,28 +222,28 @@ class ProductRouteCard
         return $this->dependency;
     }
 
-    /**
-     * Set equipment
-     *
-     * @param string $equipment
-     * @return ProductRouteCard
-     */
-    public function setEquipment($equipment)
-    {
-        $this->equipment = $equipment;
-
-        return $this;
-    }
-
-    /**
-     * Get equipment
-     *
-     * @return string
-     */
-    public function getEquipment()
-    {
-        return $this->equipment;
-    }
+//    /**
+//     * Set equipment
+//     *
+//     * @param string $equipment
+//     * @return ProductRouteCard
+//     */
+//    public function setEquipment($equipment)
+//    {
+//        $this->equipment = $equipment;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get equipment
+//     *
+//     * @return string
+//     */
+//    public function getEquipment()
+//    {
+//        return $this->equipment;
+//    }
 
     /**
      * Set jobTime
@@ -345,29 +335,6 @@ class ProductRouteCard
     public function getMould()
     {
         return $this->mould;
-    }
-
-    /**
-     * Set product
-     *
-     * @param \MainBundle\Entity\Product $product
-     * @return ProductRouteCard
-     */
-    public function setProduct(\MainBundle\Entity\Product $product = null)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return \MainBundle\Entity\Product
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 
     /**

@@ -17,7 +17,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",
  *                        "rubberMaterials" = "RubberMaterials",
- *                        "toolsMaterials" = "ToolsMaterials",
+ *                        "prepackMaterials" = "PrepackMaterials",
  *                        "metalMaterials" = "MetalMaterials",
  *                        "conductiveMaterials" = "ConductiveMaterials",
  *                        "illiquidMaterials" = "IlliquidMaterials",
@@ -53,7 +53,7 @@ abstract class RawMaterials
      *
      * @ORM\Column(name="code", type="integer", unique=true)
      * @Assert\NotNull()
-     * @Assert\Length(min = 4)
+     * @Assert\Length(min="4")
      */
     private $code;
 
@@ -79,11 +79,6 @@ abstract class RawMaterials
     private $countInWarehouse;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    private $image;
-
-    /**
      * @ORM\ManyToMany(targetEntity="PartnersList", cascade={"persist"}, inversedBy="rawMaterials")
      * @ORM\JoinTable(name="raw_materials_partners")
      */
@@ -92,17 +87,12 @@ abstract class RawMaterials
     /**
      * @ORM\Column(name="actual_cost", type="integer")
      */
-    private $actualCost;
+    private $actualCost = 0;
 
     /**
      * @ORM\Column(name="balance_cost", type="integer")
      */
-    private $balanceCost;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
-     */
-    protected $technicalFile;
+    private $balanceCost = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist"})
@@ -250,28 +240,6 @@ abstract class RawMaterials
         return $this->countInWarehouse;
     }
 
-    /**
-     * Set image
-     *
-     * @param string $image
-     * @return RawMaterials
-     */
-    public function setImage($image)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
 
     /**
      * Set vendors
@@ -340,29 +308,6 @@ abstract class RawMaterials
     public function getBalanceCost()
     {
         return $this->balanceCost;
-    }
-
-    /**
-     * Set technicalFile
-     *
-     * @param string $technicalFile
-     * @return RawMaterials
-     */
-    public function setTechnicalFile($technicalFile)
-    {
-        $this->technicalFile = $technicalFile;
-
-        return $this;
-    }
-
-    /**
-     * Get technicalFile
-     *
-     * @return string 
-     */
-    public function getTechnicalFile()
-    {
-        return $this->technicalFile;
     }
 
     /**

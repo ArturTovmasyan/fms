@@ -2,7 +2,9 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MainBundle\Model\MultipleFileInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -37,8 +39,8 @@ class Equipment
      *
      * @ORM\Column(name="code", type="integer", unique=true)
      * @Assert\NotNull()
-     * @Assert\Length(
-     *      min = 3)
+     * @Assert\Length(min = 3, max=3)
+     *
      */
     private $code;
 
@@ -56,13 +58,15 @@ class Equipment
     private $purchaseDate;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="exploiter_workshop", type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Workshop")
      */
     private $workshop;
 
-    //TODO
+    /**
+     * @ORM\ManyToOne(targetEntity="WorkshopType")
+     */
+    private $type;
+
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="equipment")
      */
@@ -80,19 +84,13 @@ class Equipment
     protected $responsiblePersons;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="deployment", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="MainBundle\Entity\Deployment")
      */
     private $deployment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $image;
-
-    /**
-     * @ORM\Column(name="state", type="smallint", length=255)
+     * @ORM\Column(name="state", type="smallint")
      */
     private $state;
 
@@ -122,6 +120,11 @@ class Equipment
     private $inspectionPeriod;
 
     /**
+     * @ORM\Column(name="repair_job", type="string")
+     */
+    private $repairJob;
+
+    /**
      * @ORM\Column(name="inspection_next_date", type="datetime")
      */
     private $inspectionNextDate;
@@ -132,19 +135,19 @@ class Equipment
     protected $spares;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
+     * @ORM\OneToOne(targetEntity="EquipmentReport", cascade={"persist", "remove"})
      */
-    protected $chronologyFile;
+    protected $report;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Gallery", cascade={"remove","persist"})
+     * @ORM\OneToMany(targetEntity="EquipmentImage", mappedBy="equipment", cascade={"persist", "remove"})
      */
-    protected $technicalFile;
+    protected $images;
 
-    /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
-     */
-    protected $productRouteCard;
+//    /**
+//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
+//     */
+//    protected $productRouteCard;
 
     /**
      * @var datetime $created
@@ -162,18 +165,6 @@ class Equipment
      */
     private $updated;
 
-    // relations with ORDER
-//    private $repairs;
-
-    //relation
-//    private $currentOrder;
-
-    //relation
-//    private $chronology for SHOW ;
-
-    //repair chronology
-//    private $repairChronology;
-
     /**
      * @return string
      */
@@ -190,6 +181,23 @@ class Equipment
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getEquipmentImages()
+    {
+        // get images
+        $files = $this->getImages();
+
+        // check images
+        if($files){
+
+            return $files;
+        }
+
+        return null;
     }
 
     /**
@@ -224,6 +232,7 @@ class Equipment
         $this->mould = new \Doctrine\Common\Collections\ArrayCollection();
         $this->responsiblePersons = new \Doctrine\Common\Collections\ArrayCollection();
         $this->spares = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -339,29 +348,6 @@ class Equipment
     }
 
     /**
-     * Set workshop
-     *
-     * @param integer $workshop
-     * @return Equipment
-     */
-    public function setWorkshop($workshop)
-    {
-        $this->workshop = $workshop;
-
-        return $this;
-    }
-
-    /**
-     * Get workshop
-     *
-     * @return integer 
-     */
-    public function getWorkshop()
-    {
-        return $this->workshop;
-    }
-
-    /**
      * Add responsiblePersons
      *
      * @param \MainBundle\Entity\Personnel $responsiblePersons
@@ -392,29 +378,6 @@ class Equipment
     public function getResponsiblePersons()
     {
         return $this->responsiblePersons;
-    }
-
-    /**
-     * Set deployment
-     *
-     * @param string $deployment
-     * @return Equipment
-     */
-    public function setDeployment($deployment)
-    {
-        $this->deployment = $deployment;
-
-        return $this;
-    }
-
-    /**
-     * Get deployment
-     *
-     * @return string 
-     */
-    public function getDeployment()
-    {
-        return $this->deployment;
     }
 
     /**
@@ -555,7 +518,6 @@ class Equipment
         return $this->factualPrice;
     }
 
-
     /**
      * Set inspectionNextDate
      *
@@ -613,30 +575,6 @@ class Equipment
     }
 
     /**
-     * Set image
-     *
-     * @param \Application\MediaBundle\Entity\Media $image
-     * @return Equipment
-     */
-    public function setImage(\Application\MediaBundle\Entity\Media $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-
-    /**
      * Set inspectionPeriod
      *
      * @param integer $inspectionPeriod
@@ -668,35 +606,6 @@ class Equipment
      *
      * @return null|string
      */
-    public  function getStringWorkshop()
-    {
-        $stringWorkshop = null;
-
-        switch($this->workshop) {
-            case 0:
-                $stringWorkshop = "Ռետինատեխնիկական";
-                break;
-            case 1:
-                $stringWorkshop = "Մետաղամշակման";
-                break;
-            case 2:
-                $stringWorkshop = "Լաբորատորիա";
-                break;
-            case 3:
-                $stringWorkshop = "Այլ";
-                break;
-            default:
-                $stringWorkshop= "";
-        }
-
-        return $stringWorkshop;
-    }
-
-    /**
-     * This function is used to get equipment workshop string name
-     *
-     * @return null|string
-     */
     public  function getStringState()
     {
         $stringState = null;
@@ -719,35 +628,6 @@ class Equipment
         }
 
         return $stringState;
-    }
-
-    /**
-     * This function is used to get equipment deployment string name
-     *
-     * @return null|string
-     */
-    public  function getStringDeployment()
-    {
-        $stringDeployment = null;
-
-        switch($this->deployment) {
-            case 0:
-                $stringDeployment = "BANGLADESH";
-                break;
-            case 1:
-                $stringDeployment = "KVARTAL";
-                break;
-            case 2:
-                $stringDeployment = "CHEREMUSHKA";
-                break;
-            case 3:
-                $stringDeployment = "ERORDMAS";
-                break;
-            default:
-                $stringDeployment= "";
-        }
-
-        return $stringDeployment;
     }
 
     /**
@@ -797,81 +677,176 @@ class Equipment
     }
 
     /**
-     * Set chronologyFile
+     * Set deployment
      *
-     * @param \Application\MediaBundle\Entity\Gallery $chronologyFile
+     * @param \MainBundle\Entity\Deployment $deployment
      * @return Equipment
      */
-    public function setChronologyFile(\Application\MediaBundle\Entity\Gallery $chronologyFile = null)
+    public function setDeployment(\MainBundle\Entity\Deployment $deployment = null)
     {
-        $this->chronologyFile = $chronologyFile;
+        $this->deployment = $deployment;
 
         return $this;
     }
 
     /**
-     * Get chronologyFile
+     * Get deployment
      *
-     * @return \Application\MediaBundle\Entity\Gallery 
+     * @return \MainBundle\Entity\Deployment 
      */
-    public function getChronologyFile()
+    public function getDeployment()
     {
-        return $this->chronologyFile;
+        return $this->deployment;
     }
 
     /**
-     * Set technicalFile
+     * @return array
+     */
+    public function  getEqMultipleFile()
+    {
+        // check images and return array
+        if($this->images){
+
+            return $this->images->toArray();
+        }
+        return array();
+    }
+
+    /**
+     * @param $multipleFile
+     */
+    public function  setEqMultipleFile($multipleFile)
+    {
+        // check added images
+        if(count($multipleFile) > 0){
+
+            $this->images = new ArrayCollection($multipleFile);
+        }
+    }
+
+    /**
+     * Add images
      *
-     * @param \Application\MediaBundle\Entity\Gallery $technicalFile
+     * @param \MainBundle\Entity\EquipmentImage $images
      * @return Equipment
      */
-    public function setTechnicalFile(\Application\MediaBundle\Entity\Gallery $technicalFile = null)
+    public function addImage(\MainBundle\Entity\EquipmentImage $images)
     {
-        $this->technicalFile = $technicalFile;
+        $this->images[] = $images;
+        $images->setEquipment($this);
 
         return $this;
     }
 
     /**
-     * Get technicalFile
+     * Remove images
      *
-     * @return \Application\MediaBundle\Entity\Gallery 
+     * @param \MainBundle\Entity\EquipmentImage $images
      */
-    public function getTechnicalFile()
+    public function removeImage(\MainBundle\Entity\EquipmentImage $images)
     {
-        return $this->technicalFile;
+        $this->images->removeElement($images);
     }
 
     /**
-     * Add productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     * @return Equipment
-     */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard[] = $productRouteCard;
-
-        return $this;
-    }
-
-    /**
-     * Remove productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard->removeElement($productRouteCard);
-    }
-
-    /**
-     * Get productRouteCard
+     * Get images
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProductRouteCard()
+    public function getImages()
     {
-        return $this->productRouteCard;
+        return $this->images;
+    }
+
+    /**
+     * Set repairJob
+     *
+     * @param string $repairJob
+     * @return Equipment
+     */
+    public function setRepairJob($repairJob)
+    {
+        $this->repairJob = $repairJob;
+
+        return $this;
+    }
+
+    /**
+     * Get repairJob
+     *
+     * @return string 
+     */
+    public function getRepairJob()
+    {
+        return $this->repairJob;
+    }
+
+    /**
+     * Set workshop
+     *
+     * @param \MainBundle\Entity\Workshop $workshop
+     * @return Equipment
+     */
+    public function setWorkshop(\MainBundle\Entity\Workshop $workshop = null)
+    {
+        $this->workshop = $workshop;
+
+        return $this;
+    }
+
+    /**
+     * Get workshop
+     *
+     * @return \MainBundle\Entity\Workshop
+     */
+    public function getWorkshop()
+    {
+        return $this->workshop;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \MainBundle\Entity\WorkshopType $type
+     * @return Equipment
+     */
+    public function setType(\MainBundle\Entity\WorkshopType $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \MainBundle\Entity\WorkshopType 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set report
+     *
+     * @param \MainBundle\Entity\EquipmentReport $report
+     * @return Equipment
+     */
+    public function setReport(\MainBundle\Entity\EquipmentReport $report = null)
+    {
+        $this->report = $report;
+
+        return $this;
+    }
+
+    /**
+     * Get report
+     *
+     * @return \MainBundle\Entity\EquipmentReport 
+     */
+    public function getReport()
+    {
+        return $this->report;
     }
 }

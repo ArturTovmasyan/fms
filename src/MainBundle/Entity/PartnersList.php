@@ -14,7 +14,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class PartnersList
 {
-
     /**
      * @var integer
      *
@@ -47,6 +46,16 @@ class PartnersList
      * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="vendors", cascade={"persist"})
      */
     private $rawMaterials;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="SparePart", mappedBy="vendors", cascade={"persist"})
+     */
+    private $sparePart;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tools", mappedBy="vendors", cascade={"persist"})
+     */
+    private $tools;
 
     /**
      * @var datetime $created
@@ -183,9 +192,7 @@ class PartnersList
     }
 
     /**
-     * Get created
-     *
-     * @return \DateTime 
+     * @return datetime
      */
     public function getCreated()
     {
@@ -206,15 +213,12 @@ class PartnersList
     }
 
     /**
-     * Get updated
-     *
-     * @return \DateTime 
+     * @return datetime
      */
     public function getUpdated()
     {
         return $this->updated;
     }
-
 
     /**
      * Add rawMaterials
@@ -247,5 +251,71 @@ class PartnersList
     public function getRawMaterials()
     {
         return $this->rawMaterials;
+    }
+
+    /**
+     * Add tools
+     *
+     * @param \MainBundle\Entity\Tools $tools
+     * @return PartnersList
+     */
+    public function addTool(\MainBundle\Entity\Tools $tools)
+    {
+        $this->tools[] = $tools;
+
+        return $this;
+    }
+
+    /**
+     * Remove tools
+     *
+     * @param \MainBundle\Entity\Tools $tools
+     */
+    public function removeTool(\MainBundle\Entity\Tools $tools)
+    {
+        $this->tools->removeElement($tools);
+    }
+
+    /**
+     * Get tools
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTools()
+    {
+        return $this->tools;
+    }
+
+    /**
+     * Add sparePart
+     *
+     * @param \MainBundle\Entity\SparePart $sparePart
+     * @return PartnersList
+     */
+    public function addSparePart(\MainBundle\Entity\SparePart $sparePart)
+    {
+        $this->sparePart[] = $sparePart;
+
+        return $this;
+    }
+
+    /**
+     * Remove sparePart
+     *
+     * @param \MainBundle\Entity\SparePart $sparePart
+     */
+    public function removeSparePart(\MainBundle\Entity\SparePart $sparePart)
+    {
+        $this->sparePart->removeElement($sparePart);
+    }
+
+    /**
+     * Get sparePart
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSparePart()
+    {
+        return $this->sparePart;
     }
 }

@@ -1,0 +1,38 @@
+{% block eq_multiple_file_widget %}
+    <div class="form-group clearfix">
+        <ul class="images  control-label" data-prototype="{{ _self.multiple_prototype(form.vars.prototype)|e }}">
+            {% for child in form %}
+
+                {% if child.vars.value is not null and child.vars.value.filename is not null %}
+
+                    <li class="col-sm-1">
+                            <a href="{{ child.vars.value.downloadLink }}" target="_blank">
+                                {% if child.vars.value.getType() == 'jpg'
+                                or child.vars.value.getType() == 'jpeg'
+                                or child.vars.value.getType() == 'gif'
+                                or child.vars.value.getType() == 'png' %}
+                                    <img class="img-responsive" width="100px" height="100px" src="{{asset(child.vars.value.downloadLink)}}" alt="child.vars.value.filename">
+                                {% else %}
+                                   <div style="width:100px; word-wrap: break-word;">{{ child.vars.value.getFileOriginalName() }}</div>
+                                {% endif %}
+                            </a>
+                        <br />
+                        <br />
+                        <div class="row col-sm-12">
+                            <a class="delete-link" href="{{ path("main_rest_mainrest_removefile", {'id' : child.vars.value.id } ) }}" >{{ 'btn_delete'|trans }}</a>
+                        </div>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+        </ul>
+    </div>
+
+{% endblock %}
+
+{% macro multiple_prototype(form) %}
+    {{ form_widget(form.file) }}
+{% endmacro %}
+
+
+

@@ -3,7 +3,7 @@
 namespace MainBundle\Admin;
 
 use MainBundle\Entity\Product;
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -33,11 +33,11 @@ class ProductRawExpenseAdmin extends Admin
     //hide remove and edit buttons
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->remove('delete');
+//        $collection->remove('delete');
         $collection->remove('edit');
     }
 
-//    public $supportsPreviewMode = true;
+    public $supportsPreviewMode = true;
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -62,10 +62,10 @@ class ProductRawExpenseAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //get product id
-        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
+//        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
 
         //get product id for edit
-        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
+//        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
 
         $formMapper
             ->add('rawMaterials', null, array(

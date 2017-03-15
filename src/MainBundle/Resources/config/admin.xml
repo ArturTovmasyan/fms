@@ -11,6 +11,10 @@
             <argument/>
             <argument>MainBundle\Entity\Product</argument>
             <argument/>
+            <call method="setTemplate">
+                <argument>edit</argument>
+                <argument>MainBundle:Admin:productEdit.html.twig</argument>
+            </call>
         </service>
 
         <!--Mould-->
@@ -37,17 +41,25 @@
             <argument/>
         </service>
 
-        <!--ToolsMaterials-->
-        <service id="sonata.admin.main.tools.materials" class="MainBundle\Admin\ToolsMaterialsAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="ToolsMaterials"/>
+        <!--Deployment-->
+        <service id="sonata.admin.main.deployment" class="MainBundle\Admin\DeploymentAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="Deployment"/>
             <argument/>
-            <argument>MainBundle\Entity\ToolsMaterials</argument>
+            <argument>MainBundle\Entity\Deployment</argument>
+            <argument/>
+        </service>
+
+        <!--Tools-->
+        <service id="sonata.admin.main.tools.materials" class="MainBundle\Admin\ToolsAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="Resource" label="Tools"/>
+            <argument/>
+            <argument>MainBundle\Entity\Tools</argument>
             <argument/>
         </service>
 
         <!--ToolsCategory-->
         <service id="sonata.admin.main.tools.category" class="MainBundle\Admin\ToolsCategoryAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="ToolsCategory"/>
+            <tag name="sonata.admin" manager_type="orm"  group="Resource" label="ToolsCategory"/>
             <argument/>
             <argument>MainBundle\Entity\ToolsCategory</argument>
             <argument/>
@@ -122,6 +134,7 @@
             <tag name="sonata.admin" manager_type="orm" group="Resource" label="Equipment"/>
             <argument/>
             <argument>MainBundle\Entity\Equipment</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -210,6 +223,46 @@
             <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductComponent"/>
             <argument/>
             <argument>MainBundle\Entity\ProductComponent</argument>
+            <argument/>
+        </service>
+
+        <!--PrepackMaterials-->
+        <service id="sonata.admin.main.prepack.materials" class="MainBundle\Admin\PrepackMaterialsAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="prepack_materials"/>
+            <argument/>
+            <argument>MainBundle\Entity\PrepackMaterials</argument>
+            <argument/>
+        </service>
+
+        <!--Warehouse-->
+        <service id="sonata.admin.main.warehouse" class="MainBundle\Admin\WarehouseAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="Warehouse"/>
+            <argument/>
+            <argument>MainBundle\Entity\Warehouse</argument>
+            <argument/>
+        </service>
+
+        <!--SpareParts-->
+        <service id="sonata.admin.main.sparepart" class="MainBundle\Admin\SparePartAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="spare_parts"/>
+            <argument/>
+            <argument>MainBundle\Entity\SparePart</argument>
+            <argument/>
+        </service>
+
+        <!--WorkShopAdmin-->
+        <service id="sonata.admin.workshop" class="MainBundle\Admin\WorkshopAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="workshop"/>
+            <argument/>
+            <argument>MainBundle\Entity\Workshop</argument>
+            <argument/>
+        </service>
+
+        <!--WorkShopTypeAdmin-->
+        <service id="sonata.admin.workshop.type" class="MainBundle\Admin\WorkshopTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="equipment_type"/>
+            <argument/>
+            <argument>MainBundle\Entity\WorkshopType</argument>
             <argument/>
         </service>
 

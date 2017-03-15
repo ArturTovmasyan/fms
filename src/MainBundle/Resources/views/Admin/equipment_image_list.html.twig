@@ -1,0 +1,17 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    <ul>
+        {% for file in value %}
+            <li>
+                <a href="{{ file.downloadLink }}" target="_blank">
+                    {{ file.getFileOriginalName() }} <br />
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock -%}
+
+
+
+

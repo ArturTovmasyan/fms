@@ -122,7 +122,8 @@ class UserAdmin extends Admin
                 ->add('groups', 'sonata_type_model', array(
                     'required' => false,
                     'expanded' => true,
-                    'multiple' => true
+                    'multiple' => true,
+                    'choices' => array()
                 ))
             ->end()
             ->with('Profile')

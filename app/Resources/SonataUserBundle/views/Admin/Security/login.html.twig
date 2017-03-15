@@ -5,7 +5,7 @@
         <form action="{{ path("sonata_user_admin_security_check") }}" method="post">
 
             {% if error %}
-                <div class="alert alert-error">{{ error|trans({}, 'SonataUserBundle') }}</div>
+                <div class="alert alert-error" style="color: red">{{ error|trans({}, 'FOSUserBundle') }}</div>
             {% endif %}
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />

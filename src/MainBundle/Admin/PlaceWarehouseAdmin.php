@@ -2,7 +2,7 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -42,6 +42,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('mould')
             ->add('rawMaterials', null, array('label' => 'raw_materials'))
             ->add('product')
+            ->add('sparePart', null, array('label' => 'spare_parts'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
@@ -55,6 +56,8 @@ class PlaceWarehouseAdmin extends Admin
             ->add('mould')
             ->add('product')
             ->add('rawMaterials')
+            ->add('prepackMaterials', null, ['label' => 'prepack_materials'])
+            ->add('sparePart', null, array('label' => 'spare_parts'))
         ;
     }
 
@@ -76,7 +79,9 @@ class PlaceWarehouseAdmin extends Admin
             ->add('warehouse')
             ->add('mould')
             ->add('product')
+            ->add('prepackMaterials', null, array('label' => 'prepack_materials'))
             ->add('rawMaterials', null, array('label' => 'raw_materials'))
+            ->add('sparePart', null, array('label' => 'spare_parts'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -138,6 +143,22 @@ class PlaceWarehouseAdmin extends Admin
                 }
             }
         }
+
+        //get spareParts
+        $spareParts = $object->getSparePart();
+
+        if($spareParts) {
+
+            foreach($spareParts as $sparePart)
+            {
+                $sparePlace = $sparePart->getPlaceWarehouse();
+
+                if(!$sparePlace->contains($object))
+                {
+                    $sparePart->addPlaceWarehouse($object);
+                }
+            }
+        }
     }
 
     public function removeRelations($object)
@@ -151,6 +172,12 @@ class PlaceWarehouseAdmin extends Admin
         //get moulds
         $moulds = $object->getMould();
 
+        //get prepack
+        $prepacks = $object->getPrepackMaterials();
+
+        //get spareParts
+        $spareParts = $object->getSparePart();
+
         //get removed rawMaterials in placeWarehouse
         $removedMaterials = $rawMaterials->getDeleteDiff();
 
@@ -159,6 +186,9 @@ class PlaceWarehouseAdmin extends Admin
 
         //get removed mould in placeWarehouse
         $removedMoulds = $moulds->getDeleteDiff();
+
+        //get removed spareParts in placeWarehouse
+        $removedSpareParts = $spareParts->getDeleteDiff();
 
         if($removedMaterials) {
             foreach($removedMaterials as $removedMaterial)
@@ -178,6 +208,13 @@ class PlaceWarehouseAdmin extends Admin
             foreach($removedMoulds as $removedMould)
             {
                 $removedMould->removePlaceWarehouse($object);
+            }
+        }
+
+        if($removedSpareParts) {
+            foreach($removedSpareParts as $removedSparePart)
+            {
+                $removedSparePart->removePlaceWarehouse($object);
             }
         }
     }

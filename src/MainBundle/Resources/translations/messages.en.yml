@@ -15,7 +15,7 @@ client: Պատվիրատու
 Personnel: Անձնակազմ
 Weight: Քաշը
 Count: Քանակը
-deployment: Տեղակայումը
+deployment: Սարք.-ն Տեղակայումը
 workshop: Թող.֊ող արտադրամաս
 price: Գինը
 #warehouse: Տեղը պահեստում
@@ -25,7 +25,7 @@ mould: Թող.֊ող կաղապարը
 PartnersList: Գործընկերներ
 responsible_person: Պատասխանատու անձինք
 Created: Ստեղծվել է
-Spares: Պահեստամաս
+Spares: Սարք․-ն Պահեստամաս
 counts_in_warehouse: Քանակը Պահեստում
 place_warehouse: Տեղը պահեստում
 Images: Նկարները
@@ -44,10 +44,11 @@ Image: Նկարներ
 Sketch: Էսքիզներ
 lastName: Ազգանուն
 Bandwidth: Թողունակությունը
+Deployment: Սարք.-ն Տեղակայումը
 over_size: Գաբարիտային չափսերը
 current_state: Ընթացիկ վիճակը
 State: Վիճակը
-equipment_workshop: Շահագործող արտադրամասը
+equipment_workshop: Թող․ արտադ․
 Workshop: Արտադրամասը
 preparation_time: Հանձնման ժամկետը
 ProfessionCategory: Գործավարձի կարգը
@@ -62,7 +63,7 @@ Category: Կատեգորիան
 rubber_materials: Ռետ.-տեխ հումք
 raw_materials: Հումքեր
 RawMaterials: Բոլոր հումքերը
-ToolsCategory: Գործ.- հումքերի կատեգ․
+ToolsCategory: Գործ. կատեգ․
 ToolsMaterials: Գործ.-ի հումք
 MetalMaterials: Մեխ․֊ն հումք
 route_card: Երթուղային քարտ
@@ -75,12 +76,35 @@ ConductiveMaterials: Օժանդակ հումք
 Vendors: Մատակարար
 ProductRawExpense: Արտ․֊ի նյութածախս
 ProductComponent: Արտ․֊ի կոմպոնենտ
+Tools: Գործիքներ
 raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ
 PositionsList: Հաստիքակազմ
 salaries_type: Գործավարձի տեսակը
 profession_category: Կարգը
+actual_cost: Փաստացի արժեքը
+balance_cost: Հաշվեկշռային արժեքը
+prepack_materials: Կիսապատ.-ի հումք
+Warehouse: Պահեստ
+spare_parts: Պահեստամասեր
+mould_type: Տեղերի քանակը
+equipment_type: Սարքավորման տիպը
+btn_delete: Remove
+files: Ֆայլեր
+repair_job: Վերանորոգման աշխ․
+inspection_period: Տեխզ․ պարբ.
+inspection_next_date: Տեխզ․ հերթ. ժամ.
+purchase_date: Ձեռքբ. ժամ.
+el_power: Էլ. հզ.
+report_create: ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ
+hidravlik: հիդրավլիկ
+mechanic: մեխանիկական
+electric: էլեկտրատեխնիկական
+report_text: Հաշվետվությունը հաջողությամբ ստեղծված է
 
 
-
-
+file:
+    max_extension: The minimum file size is 400x400 px
+    min_extension: The minimum file size is 400x400 px
+    extension_error: Wrong format of file
+    size_error: Wrong size of file

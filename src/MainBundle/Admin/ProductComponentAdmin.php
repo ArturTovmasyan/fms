@@ -2,7 +2,7 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -28,6 +28,7 @@ class ProductComponentAdmin extends Admin
     {
         $formMapper
             ->add('name')
+            ->add('productRouteCard', 'route_card_type')
         ;
     }
 
@@ -46,7 +47,6 @@ class ProductComponentAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-//            ->add('productRouteCard')
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -55,57 +55,5 @@ class ProductComponentAdmin extends Admin
                 )
             ))
         ;
-    }
-
-    //set rawMaterial in rawExpense
-    public function setRelations($object)
-    {
-        // add productRawExpenses
-        $productRouteCards = $object->getProductRouteCard();
-
-        if($productRouteCards) {
-
-            foreach($productRouteCards as $productRouteCard)
-            {
-                if(!$productRouteCards->contains($object))
-                {
-                    $productRouteCard->setProductComponent($object);
-                }
-            }
-        }
-    }
-
-    public function removeRelations($object)
-    {
-        // add productRawExpenses
-        $productRouteCards = $object->getProductRouteCard();
-
-        //get removed products in Equipment
-        $removed = $productRouteCards->getDeleteDiff();
-
-        //get container
-        $container = $this->getConfigurationPool()->getContainer();
-
-        //get entity manager
-        $em = $container->get('doctrine')->getEntityManager();
-
-        //removed raw expense
-        if($removed) {
-            foreach ($removed as $remove) {
-                $em->remove($remove);
-            }
-        }
-
-    }
-
-    public function preUpdate($object)
-    {
-        $this->setRelations($object);
-        $this->removeRelations($object);
-    }
-
-    public function prePersist($object)
-    {
-        $this->setRelations($object);
     }
 }

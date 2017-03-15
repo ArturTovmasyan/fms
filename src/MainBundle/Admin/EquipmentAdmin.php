@@ -2,14 +2,19 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use MainBundle\Form\Type\EqMultipleFileType;
+use MainBundle\Traits\FmsAdmin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class EquipmentAdmin extends Admin
 {
+    use FmsAdmin;
+
     /**
      * override list query
      *
@@ -21,14 +26,38 @@ class EquipmentAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('p, pe, s, ml');
+        $query->addSelect('p, pe, s, ml, im');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
         $query->leftJoin($query->getRootAlias() . '.responsiblePersons', 'pe');
         $query->leftJoin($query->getRootAlias() . '.spares', 's');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
+        $query->leftJoin($query->getRootAlias() . '.images', 'im');
         return $query;
     }
 
+    /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin:equipment_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
+    /**
+     * @param RouteCollection $collection
+     */
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->add('equipment-report', $this->getRouterIdParameter().'/equipment-report');
+    }
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -41,24 +70,24 @@ class EquipmentAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('code')
-            ->add('getStringWorkshop', null, array('label' => 'equipment_workshop'))
+            ->add('workshop', null, array('label'=>'equipment_workshop'))
             ->add('getStringState', null, array('label'=>'State'))
             ->add('description')
-            ->add('purchaseDate', 'date', array('widget'=>'single_text'))
+            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
             ->add('mould')
+            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'files'])
+            ->add('type', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
-            ->add('getStringDeployment', null, array('label' => 'deployment'))
+            ->add('deployment', null, ['label' => 'Deployment'])
             ->add('spares')
-            ->add('image')
-            ->add('chronologyFile')
-            ->add('technicalFile')
-            ->add('elPower')
+            ->add('elPower', null, ['label'=>'el_power'])
+            ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('weight')
-            ->add('carryingPrice')
-            ->add('factualPrice')
-            ->add('inspectionPeriod')
-            ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
+            ->add('carryingPrice', null, array('label'=>'balance_cost'))
+            ->add('factualPrice', null, array('label'=>'actual_cost'))
+            ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
     }
@@ -71,48 +100,63 @@ class EquipmentAdmin extends Admin
         //get subject
         $subject = $this->getSubject();
 
+        //get product id for edit
+        $editMouldId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+
+        $moulds = $this->getSubject()->getMould();
+        $mouldIds = [];
+
+        foreach ($moulds as $mould)
+        {
+            $mouldIds[] = $mould->getId();
+        }
+
         //get inspection period in database
         $this->time = $subject->getInspectionPeriod();
 
         $formMapper
             ->add('name')
             ->add('code')
-            ->add('state','choice', array('choices'=> array(
+            ->add('state', 'choice', array('choices'=> array(
                 "Սարքին` բարվոք վիճակում",
                 "Աշխատող` վերանորոգման ենթակա",
                 "Չաշխատող` վերանորոգման ենթակա",
                 "Անհուսալի")))
-            ->add('workshop', 'choice', array('choices'=> array(
-                "Ռետինատեխնիկական",
-                "Մետաղամշակման",
-                "Լաբորատորիա",
-                "Այլ")))
-            ->add('deployment', 'choice', array('label' => 'deployment', 'choices'=> array(
-                "BNGO",
-                "KVARTAL",
-                "CHERMUSHKA",
-                "ERORDMAS")))
-            ->add('mould')// dinamic show by workshop selected data
+            ->add('workshop', 'sonata_type_model', ['label'=>'equipment_workshop'])
+            ->add('type', null, ['attr' => ['class' => 'hidden-field'], 'label'=>false])
+            ->add('deployment', null, ['label' => 'Deployment'])
             ->add('description')
-            ->add('purchaseDate', 'date', array('widget'=>'single_text'))
+            ->add('repairJob', null, ['label' => 'repair_job'])
+            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
-            ->add('mould')
+            ->add('mould', null, array(
+                'label' => 'mould',
+                'query_builder' => function($query) use ($editMouldId, $mouldIds) {
+                    $result = $query->createQueryBuilder('p');
+                    $result
+                        ->select('m', 'mp')
+                        ->from('MainBundle:Mould', 'm')
+                        ->leftJoin('m.product', 'mp')
+                        ->groupBy('m.id')
+                        ->where('mp.id is null')
+                        ->having('COUNT(mp.id) < m.mouldType');
+                    if($editMouldId) {
+                        $result
+                            ->orWhere('m.id IN (:ids)')
+                            ->setParameter(':ids', $mouldIds);
+                    }
+
+                    return $result;
+                }
+            ))
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('spares')
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context'  => 'default')))
-            ->add('chronologyFile', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context'  => 'default')))
-            ->add('technicalFile', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context'  => 'default')))
-            ->add('elPower')
+            ->add('elPower', null, ['label'=>'el_power'])
             ->add('weight')
-            ->add('carryingPrice')
-            ->add('factualPrice')
-            ->add('inspectionPeriod');
+            ->add('carryingPrice', null, array('label'=>'balance_cost'))
+            ->add('factualPrice', null, array('label'=>'actual_cost'))
+            ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->add('eq_multiple_file', EqMultipleFileType::class, ['label'=>'files']);
     }
 
     // Fields to be shown on filter forms
@@ -135,21 +179,27 @@ class EquipmentAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('code')
-            ->add('getStringWorkshop', null, array('label'=>'equipment_workshop'))
-            ->add('getStringState', null, array('label'=>'state'))
+            ->add('workshop', null, array('label'=>'equipment_workshop'))
+            ->add('getStringState', null, array('label'=>'State'))
             ->add('product')
             ->add('mould')
-            ->add('getStringDeployment')
+            ->add('deployment', null, ['label' => 'Deployment'])
+            ->add('type', null, ['label' => 'equipment_type'])
             ->add('spares')
-            ->add('carryingPrice')
-            ->add('factualPrice')
-            ->add('inspectionPeriod')
-            ->add('inspectionNextDate', 'date', array('widget'=>'single_text'))
+            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
+            ->add('elPower', null, ['label'=>'el_power'])
+            ->add('repairJob', null, ['label' => 'repair_job'])
+            ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'files'])
+            ->add('carryingPrice', null, array('label'=>'balance_cost'))
+            ->add('factualPrice', null, array('label'=>'actual_cost'))
+            ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
                     'edit' => array(),
                     'delete' => array(),
+                    'report' => ['template' => 'MainBundle:Admin:equipment_report_action.html.twig']
                 )
             ))
         ;
@@ -266,12 +316,13 @@ class EquipmentAdmin extends Admin
             $object->setInspectionNextDate(date_add($date, date_interval_create_from_date_string($inspectionPeriod . 'day')));
         }
 
-        $this->setRelations($object);
+        $this->prePersist($object);
         $this->removeRelations($object);
     }
 
     public function prePersist($object)
     {
+        $this->addImages($object);
         $this->setRelations($object);
     }
 }

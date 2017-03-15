@@ -62,13 +62,6 @@ class Mould
     private $lastRepair;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="repair_data", type="string", nullable=true, length=255)
-     */
-    private $repairData;
-
-    /**
      * @ORM\Column(name="cost", type="integer")
      */
     private $cost;
@@ -92,16 +85,6 @@ class Mould
      * @ORM\Column(name="over_size", type="integer")
      */
     private $overSize;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $image;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\MediaBundle\Entity\Media", cascade={"remove","persist"})
-     */
-    protected $sketch;
 
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="mould")
@@ -409,51 +392,6 @@ class Mould
         return $this->overSize;
     }
 
-    /**
-     * Set image
-     *
-     * @param \Application\MediaBundle\Entity\Media $image
-     * @return Mould
-     */
-    public function setImage(\Application\MediaBundle\Entity\Media $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set sketch
-     *
-     * @param \Application\MediaBundle\Entity\Media $sketch
-     * @return Mould
-     */
-    public function setSketch(\Application\MediaBundle\Entity\Media $sketch = null)
-    {
-        $this->sketch = $sketch;
-
-        return $this;
-    }
-
-    /**
-     * Get sketch
-     *
-     * @return \Application\MediaBundle\Entity\Media 
-     */
-    public function getSketch()
-    {
-        return $this->sketch;
-    }
 
     /**
      * Add product
@@ -734,29 +672,6 @@ class Mould
     public function getLastRepair()
     {
         return $this->lastRepair;
-    }
-
-    /**
-     * Set repairData
-     *
-     * @param string $repairData
-     * @return Mould
-     */
-    public function setRepairData($repairData)
-    {
-        $this->repairData = $repairData;
-
-        return $this;
-    }
-
-    /**
-     * Get repairData
-     *
-     * @return string 
-     */
-    public function getRepairData()
-    {
-        return $this->repairData;
     }
 
     /**

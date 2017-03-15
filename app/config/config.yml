@@ -36,6 +36,11 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form:
+        resources:
+        - 'MainBundle:Form:multipleRouteCard.html.twig'
+        - 'MainBundle:Form:multipleComponent.html.twig'
+        - 'MainBundle:Form:multipleFile.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -89,7 +94,20 @@ fos_user:
     group:
           group_class: Application\UserBundle\Entity\Group
     service:
-            user_manager: sonata.user.orm.user_manager
+          user_manager: sonata.user.orm.user_manager
+
+# fos rest bundle
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: false
+    body_converter:
+        enabled: false
+    format_listener: false
+    view:
+        view_response_listener: true
+    routing_loader:
+        default_format: json
+        include_format: false
 
 sonata_block:
     default_contexts: [cms]
@@ -117,9 +135,9 @@ sonata_admin:
         blocks:
             # display a dashboard block
             - { position: left, type: sonata.admin.block.admin_list }
-
-            # Customize this part to add new block configuration
-            - { position: right, type: sonata.block.service.text, settings: { content: "" } }
+    show_mosaic_button: true
+    security:
+        handler: sonata.admin.security.handler.role
 
 sonata_user:
     security_acl:     false
@@ -130,51 +148,6 @@ sonata_user:
     admin:
         user:
             class: Application\UserBundle\Admin\Model\UserAdmin
-
-#SONATA MEDIA BUNDLE CONFIGS
-sonata_media:
-    default_context: default
-    db_driver: doctrine_orm
-    class:
-          media:              Application\MediaBundle\Entity\Media
-          gallery:            Application\MediaBundle\Entity\Gallery
-          gallery_has_media:  Application\MediaBundle\Entity\GalleryHasMedia
-    contexts:
-        default: # the default context is mandatory
-            download:
-                strategy: sonata.media.security.superadmin_strategy
-                mode: http
-            providers:
-#                - sonata.media.provider.dailymotion
-#                - sonata.media.provider.youtube
-                - sonata.media.provider.image
-                - sonata.media.provider.file
-            formats:
-                list: { width: 200, height: 130, quality: 70}
-                homepage: { width: 225, height: 150, quality: 70}
-                lightbox: { width: 700 , height: 300, quality: 70}
-    cdn:
-        server:
-            path: /uploads/media
-    providers :
-        file:
-            allowed_extensions: ['pdf', 'txt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pttx', 'odt', 'odg', 'odp', 'ods', 'odc', 'odf', 'odb', 'csv', 'xml', 'zip', 'rar']
-
-        image:
-            service:    sonata.media.provider.image
-            resizer:    sonata.media.resizer.square
-            filesystem: sonata.media.filesystem.local
-            cdn:        sonata.media.cdn.server
-            generator:  sonata.media.generator.default
-            thumbnail:  sonata.media.thumbnail.format
-            allowed_extensions: ['jpg', 'png', 'jpeg']
-            allowed_mime_types: ['image/pjpeg', 'image/jpeg', 'image/png', 'image/x-png']
-    filesystem:
-        local:
-            directory: %kernel.root_dir%/../web/uploads/media
-            create: false
-    buzz:
-        connector:  sonata.media.buzz.connector.file_get_contents # sonata.media.buzz.connector.curl
 
 # Check its existing or add
 stof_doctrine_extensions:

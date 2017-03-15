@@ -2,7 +2,8 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use /** @noinspection PhpDeprecationInspection */
+    Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -29,6 +30,22 @@ class MouldAdmin extends Admin
     }
 
     /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin:mould_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
@@ -49,9 +66,8 @@ class MouldAdmin extends Admin
             ->add('created', 'datetime', array('widget' => 'single_text'))
             ->add('product')
             ->add('bandwidth')
-            ->add('mouldType')
+            ->add('mouldType', null, array('label' => 'mould_type'))
             ->add('equipment')
-            ->add('repairData', null, array('label' => 'repair_data'))
             ->add('description')
             ->add('image')
             ->add('sketch')
@@ -63,21 +79,27 @@ class MouldAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-
         $formMapper
             ->add('code')
             ->add('product')
-            ->add('mouldType')
-            ->add('repairData', null, array('label' => 'repair_data'))
+            ->add('equipment', null, array(
+                'label' => 'equipment',
+                'query_builder' => function($query) {
+                    $result = $query->createQueryBuilder('m');
+                    $result
+                        ->select('eq', 'ml')
+                        ->from('MainBundle:Equipment','eq')
+                        ->leftJoin('eq.mould', 'ml')
+                        ->where('eq.type = :type')
+                        ->setParameter(':type', 1);
+
+                    return $result;
+                }
+            ))
+            ->add('mouldType', null, array('label' => 'mould_type'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('description')
             ->add('purposeList', null, array('label' => 'Purpose'))
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('sketch', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
             ->add('currentState', 'choice', array('label' => 'current_state', 'choices'=> array(
                 "Նորմալ",
                 "Վերանորոգման ենթակա",
@@ -92,7 +114,6 @@ class MouldAdmin extends Admin
             ->add('accountingPrice', null, array('label' => 'accounting_price'))
             ->add('weight')
             ->add('overSize', null, array('label' => 'over_size'))
-            ->add('equipment')
         ;
     }
 
@@ -102,8 +123,7 @@ class MouldAdmin extends Admin
         $datagridMapper
             ->add('id', null, array('label' => 'code'))
             ->add('placeWarehouse')
-            ->add('mouldType')
-            ->add('repairData', null, array('label' => 'repair_data'))
+            ->add('mouldType', null, array('label' => 'mould_type'))
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('code')
         ;
@@ -116,7 +136,7 @@ class MouldAdmin extends Admin
             ->add('id')
             ->add('code')
             ->add('product')
-            ->add('mouldType')
+            ->add('mouldType', null, array('label' => 'mould_type'))
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('equipment')
@@ -135,24 +155,10 @@ class MouldAdmin extends Admin
         ;
     }
 
-    public function preUpdate($object)
+    public function removeRelations($object)
     {
         //get products
         $products = $object->getProduct();
-
-        if($products) {
-
-            foreach($products as $product)
-            {
-                $productMoulds = $product->getMould();
-
-                if(!$productMoulds->contains($object))
-                {
-                    $product->addMould($object);
-                }
-            }
-        }
-
 
         //get removed products in mould
         $removed = $products->getDeleteDiff();
@@ -164,9 +170,10 @@ class MouldAdmin extends Admin
                 $remove->removeMould($object);
             }
         }
-    }
 
-    public function prePersist($object)
+    }
+    //set relations for Equipment
+    public function setRelations($object)
     {
         //get products
         $products = $object->getProduct();
@@ -183,6 +190,17 @@ class MouldAdmin extends Admin
                 }
             }
         }
+    }
+
+    public function preUpdate($object)
+    {
+        $this->prePersist($object);
+        $this->removeRelations($object);
+    }
+
+    public function prePersist($object)
+    {
+       $this->setRelations($object);
     }
 }
 

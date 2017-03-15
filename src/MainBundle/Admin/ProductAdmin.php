@@ -2,7 +2,8 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Doctrine\ORM\EntityRepository;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -26,14 +27,14 @@ class ProductAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('m, e, c, pw, pl, pre, prc, rm');
+        $query->addSelect('m, e, c, pw, pl, pre, pc, rm');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'e');
         $query->leftJoin($query->getRootAlias() . '.client', 'c');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
         $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
         $query->leftJoin($query->getRootAlias() . '.productRawExpense', 'pre');
-        $query->leftJoin($query->getRootAlias() . '.productRouteCard', 'prc');
+        $query->leftJoin($query->getRootAlias() . '.productComponent', 'pc');
         $query->leftJoin('pre.rawMaterials', 'rm');
         return $query;
 
@@ -49,11 +50,10 @@ class ProductAdmin extends Admin
         $showMapper
             ->add('id', null, array('label' => 'code'))
             ->add('name')
-            ->add('getSumRawExpense', null, array('label' => 'raw_expense'))
-            ->add('getSumRouteCard', null, array('label' => 'route_card'))
+//            ->add('getSumRawExpense', null, array('label' => 'raw_expense'))
+//            ->add('getSumRouteCard', null, array('label' => 'route_card'))
             ->add('description','textarea')
             ->add('gost')
-            ->add('certificate')
             ->add('generalCount', null, array('label' => 'general_count'))
             ->add('purposeList', null, array('label' => 'Purpose'))
             ->add('getStringSize', null, array('label' => 'size'))
@@ -61,8 +61,6 @@ class ProductAdmin extends Admin
             ->add('weight')
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('image')
-            ->add('sketch')
             ->add('equipment', null, array('label' => 'equipment'))
             ->add('mould', null, array('label' => 'mould'))
             ->add('created', 'date', array('widget' => 'single_text'))
@@ -72,9 +70,55 @@ class ProductAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get product id for edit
+        $editProductId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+
+        $mouldIds = [];
+
+        $moulds = $this->getSubject()->getMould();
+
+        foreach ($moulds as $mould)
+        {
+            $mouldIds[] = $mould->getId();
+        }
+
         $formMapper
             ->add('name')
             ->add('client')
+            ->add('equipment', null, array(
+                'label' => 'equipment',
+                'query_builder' => function($query)  {
+                    $result = $query->createQueryBuilder('p');
+                        $result
+                            ->select('eq', 'ep')
+                            ->from('MainBundle:Equipment','eq')
+                            ->leftJoin('eq.product', 'ep')
+                            ->where('eq.type = :type')
+                            ->setParameter(':type', 1);
+
+                    return $result;
+                }
+            ))
+            ->add('mould', null, array(
+                'label' => 'mould',
+                'query_builder' => function($query) use ($editProductId, $mouldIds) {
+                    $result = $query->createQueryBuilder('p');
+                        $result
+                            ->select('m', 'mp')
+                            ->from('MainBundle:Mould', 'm')
+                            ->leftJoin('m.product', 'mp')
+                            ->groupBy('m.id')
+                            ->where('mp.id is null')
+                            ->having('COUNT(mp.id) < m.mouldType');
+                    if($editProductId) {
+                        $result
+                            ->orWhere('m.id IN (:ids)')
+                            ->setParameter(':ids', $mouldIds);
+                    }
+
+                    return $result;
+                }
+            ))
             ->add('description','textarea', array('required' => false))
             ->add('gost')
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
@@ -91,40 +135,26 @@ class ProductAdmin extends Admin
                 'Ռեզինե',
                 'Մեխանիկական',
                 'Համատեղ')))
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('sketch', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
-            ->add('certificate', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
             ->add('weight')
-            ->add('equipment', null, array('label' => 'equipment'))
-            ->add('mould', null, array('label' => 'mould'))
 
-            ->end()
-                ->with('operationCard')
-                ->add('productRawExpense', 'sonata_type_collection', array(
-                    'label' => 'product_expense',
-                    'by_reference' => false,
-                    'mapped'   => true,
-                    'required' => true),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table'
-                    ))
-                ->add('productRouteCard', 'sonata_type_collection', array(
-                    'label' => 'product_route_card',
-                    'by_reference' => false,
-                    'mapped'   => true,
-                    'required' => true),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table'
-                    ))
-                ->end();
+            ->end();
+
+        //TODO OPERATION CARD PART
+//            ->with('operationCard')
+//            ->add('productRawExpense', 'sonata_type_collection', array(
+//                'label' => 'product_expense',
+//                'by_reference' => true,
+//                'mapped' => true,
+//                'required' => true,
+//                'type_options' => array(
+//                    'delete' => false)
+//                ),
+//                array(
+//                    'edit' => 'inline',
+//                    'inline' => 'table'
+//                ))
+//            ->add('productComponent', 'component_type')
+//            ->end();
     }
 
     // Fields to be shown on filter forms
@@ -132,7 +162,7 @@ class ProductAdmin extends Admin
     {
         $datagridMapper
             ->add('id', null, array('label' => 'code'))
-            ->add('name')
+            ->add('name', null, ['show_filter' => true])
             ->add('gost')
         ;
     }
@@ -143,8 +173,8 @@ class ProductAdmin extends Admin
         $listMapper
             ->add('id', null, array('label' => 'code'))
             ->add('name')
-            ->addIdentifier('getSumRawExpense', null, array('label' => 'raw_expense'))
-            ->addIdentifier('getSumRouteCard', null, array('label' => 'route_card'))
+//            ->addIdentifier('getSumRawExpense', null, array('label' => 'raw_expense'))
+//            ->addIdentifier('getSumRouteCard', null, array('label' => 'route_card'))
             ->add('client')
             ->add('gost')
             ->add('getStringSize', null, array('label' => 'size'))
@@ -165,15 +195,15 @@ class ProductAdmin extends Admin
     public function setRelations($object)
     {
         // get product route card
-        $productRouteCards = $object->getProductRouteCard();
+        $productComponents = $object->getProductComponent();
 
         // if product route card is exist
-        if($productRouteCards) {
+        if($productComponents) {
 
-            foreach($productRouteCards as $productRouteCard)
+            foreach($productComponents as $productComponent)
             {
-                if(!$productRouteCard->getId() || !$productRouteCards->contains($object)) {
-                    $productRouteCard->setProduct($object);
+                if(!$productComponent->getId() || !$productComponents->contains($object)) {
+                    $productComponent->setProduct($object);
                 }
             }
         }
@@ -181,7 +211,7 @@ class ProductAdmin extends Admin
         // get product raw expenses
         $productRawExpense = $object->getProductRawExpense();
 
-        // if product product raw expenses is exist
+        // if product raw expenses is exist
         if($productRawExpense) {
 
             foreach($productRawExpense as $productRawExpens)
@@ -193,49 +223,80 @@ class ProductAdmin extends Admin
         }
     }
 
-    public function removeRelations($object)
-    {
-        // add productRouteCard
-        $productRouteCards = $object->getProductRouteCard();
+//    public function removeRelations($object)
+//    {
+//        // add productRouteCard
+//        $productComponents = $object->getProductComponent();
+//
+//        //get removed products in route card
+//        $componentRemoved = $productComponents->getDeleteDiff();
+//
+//        // get productRawExpenses
+//        $productRawExpense = $object->getProductRawExpense();
+//
+//        //get delete diff
+//        $rawExpenseRemoved = $productRawExpense->getDeleteDiff();
+//
+//        //get container
+//        $container = $this->getConfigurationPool()->getContainer();
+//
+//        //get entity manager
+//        $em = $container->get('doctrine')->getManager();
+//
+//        //removed product components
+//        if($componentRemoved) {
+//            foreach ($componentRemoved as $remove) {
+//                $em->remove($remove);
+//            }
+//        }
+//
+//        //removed raw expense
+//        if($rawExpenseRemoved) {
+//            foreach ($rawExpenseRemoved as $remove) {
+//                $em->remove($remove);
+//            }
+//        }
+//    }
 
-        //get removed products in route card
-        $routeCardRemoved = $productRouteCards->getDeleteDiff();
-
-        // get productRawExpenses
-        $productRawExpense = $object->getProductRawExpense();
-
-        //get delete diff
-        $rawExpenseRemoved = $productRawExpense->getDeleteDiff();
-
-        //get container
-        $container = $this->getConfigurationPool()->getContainer();
-
-        //get entity manager
-        $em = $container->get('doctrine')->getEntityManager();
-
-        //removed raw expense
-        if($routeCardRemoved) {
-            foreach ($routeCardRemoved as $remove) {
-                $em->remove($remove);
-            }
-        }
-
-        //removed raw expense
-        if($rawExpenseRemoved) {
-            foreach ($rawExpenseRemoved as $remove) {
-                $em->remove($remove);
-            }
-        }
-    }
+//    /**
+//     * @param $object
+//     */
+//    private function updateComponents($object)
+//    {
+//        //get product components
+//        $components = $object->getProductComponent();
+//
+//        //if components exist
+//        if($components){
+//
+//            foreach($components as $component){
+//
+//                //get product route cards
+//                $productCards = $component->getProductRouteCard();
+//
+//                //if product cards exist
+//                if($productCards){
+//
+//                    foreach($productCards as $productCard){
+//
+//                        //set component in route card
+//                        $productCard->setProductComponent($component);
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     public function preUpdate($object)
     {
-        $this->setRelations($object);
-        $this->removeRelations($object);
+//        $this->updateComponents($object);
+//        $this->setRelations($object);
+//        $this->removeRelations($object);
     }
 
     public function prePersist($object)
     {
-        $this->setRelations($object);
+//        $this->updateComponents($object);
+//        $this->setRelations($object);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
+use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -43,11 +43,9 @@ class RubberMaterialsAdmin extends Admin
             ->add('code')
             ->add('actualCost')
             ->add('balanceCost')
-            ->add('technicalFile')
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('image')
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
@@ -66,14 +64,8 @@ class RubberMaterialsAdmin extends Admin
             ->add('balanceCost')
             ->add('description')
             ->add('code')
-            ->add('technicalFile', 'sonata_type_model_list',
-                array('label' => 'technical_file', 'required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.file', 'context' => 'default')))
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('image', 'sonata_type_model_list',
-                array('required' => false),
-                array('link_parameters' => array('provider' => 'sonata.media.provider.image', 'context' => 'default')))
             ->add('size', 'choice', array('label' => 'size', 'choices' => array(
                 "Կգ",
                 "Մետր",
@@ -109,8 +101,6 @@ class RubberMaterialsAdmin extends Admin
             ->add('gost')
             ->add('description')
             ->add('code')
-            ->add('technicalFile')
-            ->add('image')
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
