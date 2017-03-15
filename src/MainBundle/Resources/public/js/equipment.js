@@ -22,36 +22,32 @@ $( document ).ready(function() {
     var option = '<option value="id">name</option>';
 
     $(workshopSelector).change(function () {
-
         workshopValue = $(this).val();
-
-        $(typeSelector).val(null);
-
-        if (workshopValue == rubber || workshopValue == ferum) {
-             getTypes();
-        }
-        else{
-            $(typeSelector).addClass('hidden-field');
-            $(typeSelector).html('<option value=""></option>');
-        }
+        getTypes();
     });
 
 
     function getTypes() {
 
-        $(typeSelector).removeClass('hidden-field');
+        $.get("/admin/api/v1.0/equipment/type/"+workshopValue, function(data) {
 
-        $.get("/api/v1.0/equipment/type/"+workshopValue, function(data) {
+            if(data.length > 0) {
+                $('#select2-chosen-3').html('');
+                $(typeSelector).removeClass('hidden-field');
 
-            var options = '';
+                var options = '';
 
-            for(var i = 0; i< data.length;i++)
-            {
-                options += (option.replace('id', data[i].id).replace('name',data[i].name))
+                for(var i = 0; i< data.length;i++)
+                {
+                    options += (option.replace('id', data[i].id).replace('name',data[i].name))
+                }
+
+                $(typeSelector).html(options);
+
+            }else{
+                $(typeSelector).addClass('hidden-field');
+                $(typeSelector).html('<option value=""></option>');
             }
-
-            $(typeSelector).html(options);
-
         });
     }
 });

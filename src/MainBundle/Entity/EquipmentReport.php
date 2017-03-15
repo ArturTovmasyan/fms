@@ -29,6 +29,27 @@ class EquipmentReport
     private $number;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string")
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string")
+     */
+    private $code;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="date", type="date")
+     */
+    private $date;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="mechanicState", type="boolean")
@@ -240,5 +261,74 @@ class EquipmentReport
     public function getAccept()
     {
         return $this->accept;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return EquipmentReport
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return EquipmentReport
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     * @return EquipmentReport
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime 
+     */
+    public function getDate()
+    {
+        return $this->date;
     }
 }

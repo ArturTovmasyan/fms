@@ -4,77 +4,124 @@
 
 {% block javascripts %}
     {{ parent() }}
-    {#<script type="text/javascript" src="{{ asset('bundles/app/js/merge-goal-image.js') }}"></script>#}
 {% endblock %}
 
 {% block breadcrumb %}
     <li class="hidden-xs"><a href="{{ url('sonata_admin_dashboard') }}">{% trans %}Dashboard{% endtrans %}</a></li>
-    <li class="active hidden-xs">EQUIPMENT</li>
+    <li class="active hidden-xs">Report for equipment</li>
 {% endblock %}
-
 
 {% block content %}
 
     <div class="container">
-        <h2 class="text-center">EQUIPMENT</h2>
+        <form action="#" method="post">
 
-        <div class="row drafts idea-item">
-            <div class="col-sm-6">
-                <figure class="relative">
-                    {#<h2>{{ goal.title }}</h2>#}
-                    <a href="#">
-                        <span class="overlay"></span>
-                    </a>
-                </figure>
+            <h1 class="text-center">Հ Ա Շ Վ Ե Տ Վ ՈՒ Թ Յ ՈՒ Ն</h1>
 
-                <br />
-                <div class="alert alert-danger" role="alert" style="padding: 15px; margin-left: 0">Create report for equipment</div>
-            </div>
+            <b>{{ 'N_'}}</b> {{ form_widget(form.number) }}
 
-            <div class="col-sm-6">
-                <form action="#" method="post" class="form-inline">
-                    <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-12">
 
-                        <div>
-                            {{ form_row(form.number) }}
-                        </div>
-                        <div>
-                            {{ form_row(form.mechanicState) }}
-                        </div>
-                        <div>
-                            {{ form_row(form.electricState) }}
-                        </div>
-                        <div>
-                            {{ form_row(form.hidravlik) }}
-                        </div>
-                        <div>
-                            {{ form_row(form.mechanic) }}
-                        </div>
-                        <div>
-                            {{ form_row(form.electric) }}
-                        </div>
-                        <div>
-                            {{ form_row(form.accept) }}
-                        </div>
+                    <h2 class="text-center">ՀԵՐԹԱԿԱՆ ՊԱՐՏԱԴԻՐ ՏԵԽՆԻԱԿԱՆ ԶՆՆՈՒՄ ԱՆՑՆԵԼՈՒ ՎԵՐԱԲԵՐՅԱԼ</h2>
 
-                        {{ form_widget(form._token) }}
-
-                        {#{{ form_stylesheet(form) }}#}
-                        {#{{ form_javascript(form) }}#}
+                    <div class="form-group">
+                        <label class="text-danger">
+                            Սարքի, սարքավորման կամ հաստոցի անվանումը
+                        </label>
+                        {{ form_widget(form.name) }}<br />
+                        <label class="text-danger">
+                            Սարքի, սարքավորման կամ հաստոցի կոդը
+                        </label>
+                        {{ form_widget(form.code) }}<br />
+                        <label class="text-danger">
+                            Պարտադիր տեխնիական զննության անցկացման ամսաթիվը
+                        </label>
+                        {{ form_widget(form.date) }}<br />
                     </div>
 
-                    <div class="col-sm-4">
-                        <input type="submit" name="submit" class="btn btn-primary" value="Submit">
-                    </div>
-                </form>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h3 id="merge-goal-id"></h3>
-                        <img src="#" id="merge_image" style="display: none;width: 300px;height: 200px">
-                    </div>
+                    <p>
+                        Արտադրական գործընթացները բնականոն կազմակերպելու համար տվյալ սարքի, սարքավորման կամ հաստոցի հիդրավլիկ և մեխանիկական վիճակը սույն պարտադիր տեխնիկական զննության անցկացման պահին գնահատվում է`
+                    </p>
+
+                    <p>
+                        <b>{{ 'Բավարար' }}</b>
+                        {{ form_widget(form.mechanicState[1]) }}
+
+                        <b>{{ 'Անբավարար' }}</b>
+                        {{ form_widget(form.mechanicState[0]) }}
+                    </p>
+
+                    <br />
+
+                    <span class="text-danger">Տեխնիկական սպասարկման ծառայության
+                            ինժեներ-մեխանիկ    __________  Ս.Ֆահրադյան<br/>
+                            Տեխնիկական սպասարկման ծառայության
+                            վերանորոգող ինժեները  _________ Հ.Զաքարյան
+                    </span>
+
+                    <br />
+                    <br />
+                    <p>
+                        Արտադրական գործընթացները բնականոն կազմակերպելու համար տվյալ սարքի, սարքավորման կամ հաստոցի էլեկտրատեխնիկական վիճակը սույն պարտադիր տեխնիկական զննության անցկացման պահին գնահատվում է`
+                    </p>
+
+                    <p>
+                        <b>{{ 'Բավարար' }}</b>
+                        {{ form_widget(form.electricState[1]) }}
+
+                        <b>{{ 'Անբավարար' }}</b>
+                        {{ form_widget(form.electricState[0]) }}
+                    </p>
+
+                    <br/>
+                    <span class="text-danger">
+                        Էլեկտրատեխնիկական սպասարկման ծառայության
+                        էներգետիկ ինժեները ____________ Ա.Չալյան
+                    </span>
+
+                    <br/>
+                    <br/>
+                    <p>Հաստատում եմ, որ տվյալ սարքի, սարքավորման կամ հաստոցի</p>
+
+                    <p>{{ form_widget(form.hidravlik) }}</p>
+                    <p>{{ form_widget(form.mechanic) }}</p>
+                    <p>{{ form_widget(form.electric) }}</p>
+
+                    <br/>
+
+                    <p>
+                        վիճակները բավարար են արտադրական գործընթացները բնականոն կազմակերպելու համար և սարքը, սարքավորումը կամ հաստոցը`
+                    </p>
+                    <br/>
+
+                    <p>
+                        <b>{{ 'Ընդունում եմ' }}</b>
+                        {{ form_widget(form.accept[1]) }}
+
+                        <b>{{ 'Չեմ ընդունում' }}</b>
+                        {{ form_widget(form.accept[0]) }}
+                    </p>
+
+
+                    {{ form_widget(form._token) }}
+                    <br/>
+                    <span class="text-danger">
+                        Ռետինատեխնիկական արտադրամասի պետ
+                         __________ Գ.Սիմոնյան<br/>
+                        Մեխանիկական առաջին արտադրամասի պետ
+                         _________ Ա.Անդրեասյան<br/>
+                        Մեխանիկական երկրորդ արտադրամասի պետ
+                         _________ Զ.Ավանեսյան
+                    </span>
+                    <br/>
+                    <br/>
+                    <input type="submit" name="submit" class="btn btn-primary" value="Submit">
+
                 </div>
             </div>
-        </div>
+        </form>
+
     </div>
 
 {% endblock %}

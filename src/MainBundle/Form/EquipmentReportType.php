@@ -5,8 +5,12 @@
  */
 namespace MainBundle\Form;
 
+use Sonata\AdminBundle\Form\Type\Filter\ChoiceType;
+use Sonata\AdminBundle\Form\Type\Filter\NumberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -22,13 +26,19 @@ class EquipmentReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number', CheckboxType::class, ['label' => 'number', 'required' => false, 'attr' => ['checked' => 'checked']])
-            ->add('mechanicState', CheckboxType::class, ['label' => 'mechanic_state', 'required' => false, 'attr' => ['checked' => 'checked']])
-            ->add('electricState', CheckboxType::class, ['label' => 'electric_state', 'required' => false, 'attr' => ['checked' => 'checked']])
-            ->add('hidravlik', CheckboxType::class, ['label' => 'hidravlik', 'required' => false, 'attr' => ['checked' => 'checked']])
-            ->add('mechanic', CheckboxType::class, ['label' => 'mechanic', 'required' => false, 'attr' => ['checked' => 'checked']])
-            ->add('electric', CheckboxType::class, ['label' => 'electric', 'required' => false, 'attr' => ['checked' => 'checked']])
-            ->add('accept', CheckboxType::class, ['label' => 'accept', 'required' => false, 'attr' => ['checked' => 'checked']])
+            ->add('number', 'integer', ['required' => false, 'attr' => ['style' => 'width: 65px']])
+            ->add('mechanicState', 'choice', ['label' => false, 'choices' => [true,false], 'choice_label' => false,
+                'required' => false, 'expanded' => true, 'multiple' => false])
+            ->add('accept', 'choice', ['label' => false, 'choices' => [false,true], 'choice_label' => false,
+                'required' => false, 'expanded' => true, 'multiple' => false])
+            ->add('electricState', 'choice', ['label'=>false, 'choices' => [false,true], 'choice_label' => false,
+                'expanded' => true, 'multiple' => false, 'required' => false])
+            ->add('hidravlik', CheckboxType::class, ['label' => 'hidravlik', 'required' => false])
+            ->add('mechanic', CheckboxType::class, ['label' => 'mechanic', 'required' => false])
+            ->add('electric', CheckboxType::class, ['label' => 'electric', 'required' => false])
+            ->add('name', TextType::class, ['label' => false, 'required' => false])
+            ->add('code', TextType::class, ['label' => false, 'required' => false])
+            ->add('date', 'date', ['widget'=>'single_text','label' => false, 'required' => false])
         ;
     }
 

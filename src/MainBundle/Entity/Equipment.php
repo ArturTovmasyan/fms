@@ -135,7 +135,7 @@ class Equipment
     protected $spares;
 
     /**
-     * @ORM\OneToOne(targetEntity="EquipmentReport")
+     * @ORM\OneToOne(targetEntity="EquipmentReport", cascade={"persist", "remove"})
      */
     protected $report;
 

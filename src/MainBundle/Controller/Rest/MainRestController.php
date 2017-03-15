@@ -7,12 +7,11 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use MainBundle\Entity\EquipmentImage;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Rest\Prefix("/api/v1.0")
+ * @Rest\Prefix("/admin/api/v1.0")
  */
 class MainRestController extends FOSRestController
 {
@@ -23,15 +22,14 @@ class MainRestController extends FOSRestController
      *  section="Main",
      *  description="This function is used to remove file by id",
      *  statusCodes={
-     *         200="Returned when file was removed",
+     *         201="Returned when file was removed",
      *         404="Returned when file not found",
      *  },
      * )
      *
      * @Rest\Get("/remove-file/{id}", requirements={"id"="\d+"}, name="main_rest_mainrest_removefile", options={"method_prefix"=false})
-     *
+     * @Security("has_role('ROLE_ADMIN')")
      * @param EquipmentImage $equipmentImage
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @return Response
      */
     public function removeFileAction(EquipmentImage $equipmentImage, Request $request)
@@ -51,7 +49,7 @@ class MainRestController extends FOSRestController
             return $this->redirect($_SERVER['HTTP_REFERER']);
         }
 
-        return new Response('', Response::HTTP_OK);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -68,6 +66,7 @@ class MainRestController extends FOSRestController
      *
      * @Rest\Get("/equipment/type/{workshopId}", requirements={"workshopId"="\d+"}, name="main_rest_mainrest_getequipmenttype", options={"method_prefix"=false})
      * @Rest\View()
+     * @Security("has_role('ROLE_ADMIN')")
      * @param $workshopId
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @return Response
