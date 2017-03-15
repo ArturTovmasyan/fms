@@ -26,19 +26,19 @@ class EquipmentReportType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number', 'integer', ['required' => false, 'attr' => ['style' => 'width: 65px']])
+            ->add('number', 'integer', ['attr' => ['style' => 'width: 65px']])
             ->add('mechanicState', 'choice', ['label' => false, 'choices' => [true,false], 'choice_label' => false,
-                'required' => false, 'expanded' => true, 'multiple' => false])
+                 'expanded' => true, 'multiple' => false])
             ->add('accept', 'choice', ['label' => false, 'choices' => [false,true], 'choice_label' => false,
-                'required' => false, 'expanded' => true, 'multiple' => false])
+               'expanded' => true, 'multiple' => false])
             ->add('electricState', 'choice', ['label'=>false, 'choices' => [false,true], 'choice_label' => false,
-                'expanded' => true, 'multiple' => false, 'required' => false])
+                'expanded' => true, 'multiple' => false])
             ->add('hidravlik', CheckboxType::class, ['label' => 'hidravlik', 'required' => false])
             ->add('mechanic', CheckboxType::class, ['label' => 'mechanic', 'required' => false])
             ->add('electric', CheckboxType::class, ['label' => 'electric', 'required' => false])
-            ->add('name', TextType::class, ['label' => false, 'required' => false])
-            ->add('code', TextType::class, ['label' => false, 'required' => false])
-            ->add('date', 'date', ['widget'=>'single_text','label' => false, 'required' => false])
+            ->add('name', TextType::class, ['label' => false])
+            ->add('code', TextType::class, ['label' => false])
+            ->add('date', 'date', ['widget'=>'single_text','label' => false])
         ;
     }
 
