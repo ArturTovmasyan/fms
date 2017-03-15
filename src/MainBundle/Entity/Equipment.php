@@ -90,7 +90,7 @@ class Equipment
     private $deployment;
 
     /**
-     * @ORM\Column(name="state", type="smallint", length=255)
+     * @ORM\Column(name="state", type="smallint")
      */
     private $state;
 
