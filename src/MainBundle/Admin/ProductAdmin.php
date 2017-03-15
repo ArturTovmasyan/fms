@@ -93,7 +93,7 @@ class ProductAdmin extends Admin
                             ->select('eq', 'ep')
                             ->from('MainBundle:Equipment','eq')
                             ->leftJoin('eq.product', 'ep')
-                            ->where('eq.equipmentType = :type')
+                            ->where('eq.type = :type')
                             ->setParameter(':type', 1);
 
                     return $result;

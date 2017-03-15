@@ -90,7 +90,7 @@ class MouldAdmin extends Admin
                         ->select('eq', 'ml')
                         ->from('MainBundle:Equipment','eq')
                         ->leftJoin('eq.mould', 'ml')
-                        ->where('eq.equipmentType = :type')
+                        ->where('eq.type = :type')
                         ->setParameter(':type', 1);
 
                     return $result;
