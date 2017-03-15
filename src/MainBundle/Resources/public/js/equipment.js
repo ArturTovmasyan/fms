@@ -1,8 +1,5 @@
 $( document ).ready(function() {
 
-    const rubber = 1;
-    const ferum = 2;
-
     var fieldId = $("input[id$='_token']").attr("id");
 
     var pos = fieldId.indexOf("_token");
@@ -15,31 +12,39 @@ $( document ).ready(function() {
 
     var workshopValue = $(workshopSelector).val();
 
-    if (workshopValue == rubber || workshopValue == ferum) {
-        getTypes();
-    }
+    getTypes();
 
     var option = '<option value="id">name</option>';
 
     $(workshopSelector).change(function () {
         workshopValue = $(this).val();
+        $(typeSelector).val(null);
         getTypes();
     });
-
 
     function getTypes() {
 
         $.get("/admin/api/v1.0/equipment/type/"+workshopValue, function(data) {
 
             if(data.length > 0) {
-                $('#select2-chosen-3').html('');
                 $(typeSelector).removeClass('hidden-field');
 
                 var options = '';
 
+                var typeVal = $('#select2-chosen-3').html(),
+                    inArray = false;
+
                 for(var i = 0; i< data.length;i++)
                 {
+                    if(data[i].name == typeVal) {
+                        inArray = true;
+                    }
+
                     options += (option.replace('id', data[i].id).replace('name',data[i].name))
+                }
+
+                if(!inArray){
+                    $('#select2-chosen-3').html('');
                 }
 
                 $(typeSelector).html(options);
