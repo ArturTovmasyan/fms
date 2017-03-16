@@ -22,8 +22,13 @@
             <tag name="form.type" alias="component_type" />
         </service>
 
-        <!--fms multiple file service-->
-        <service id="bl.multiple.file" class="MainBundle\Form\Type\EqMultipleFileType">
+        <!--fms multiple equipment file service-->
+        <service id="bl.multiple.equipmenq.file" class="MainBundle\Form\Type\EqMultipleFileType">
+            <tag name="form.type" alias="fms_multiple_file" />
+        </service>
+
+        <!--fms multiple materials file service-->
+        <service id="bl.multiple.material.file" class="MainBundle\Form\Type\MaterialMultipleFileType">
             <tag name="form.type" alias="fms_multiple_file" />
         </service>
 

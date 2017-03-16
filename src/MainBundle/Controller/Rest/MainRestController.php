@@ -4,7 +4,6 @@ namespace MainBundle\Controller\Rest;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use MainBundle\Entity\EquipmentImage;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,22 +26,38 @@ class MainRestController extends FOSRestController
      *  },
      * )
      *
-     * @Rest\Get("/remove-file/{id}", requirements={"id"="\d+"}, name="main_rest_mainrest_removefile", options={"method_prefix"=false})
+     * @Rest\Get("/remove-file/{id}/{className}", requirements={"id"="\d+"}, name="main_rest_mainrest_removefile", options={"method_prefix"=false})
      * @Security("has_role('ROLE_ADMIN')")
-     * @param EquipmentImage $equipmentImage
      * @return Response
+     * @param $id
+     * @param $className
      */
-    public function removeFileAction(EquipmentImage $equipmentImage, Request $request)
+    public function removeFileAction($id, $className, Request $request)
     {
         //get entity manager
         $em = $this->getDoctrine()->getManager();
 
-        if (!is_null($equipment = $equipmentImage->getEquipment()))
-        {
-            $equipment->removeImage($equipmentImage);
+        $object = null;
+
+        if($className == 'material') {
+            $object = $em->getRepository('MainBundle:RawMaterialImages')->find($id);
+
+            if (!is_null($class = $object->getRawMaterial()))
+            {
+                $class->removeImage($object);
+            }
+
+        }
+        elseif($className == 'equipment') {
+            $object = $em->getRepository('MainBundle:EquipmentImage')->find($id);
+
+            if (!is_null($class = $object->getEquipment()))
+            {
+                $class->removeImage($object);
+            }
         }
 
-        $em->remove($equipmentImage);
+        $em->remove($object);
         $em->flush();
 
         if ($request->get('_route') == 'main_rest_mainrest_removefile' && isset($_SERVER['HTTP_REFERER'])){

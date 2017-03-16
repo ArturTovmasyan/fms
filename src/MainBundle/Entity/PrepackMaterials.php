@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +47,11 @@ class PrepackMaterials extends RawMaterials
     private $weight;
 
     /**
+     * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="prepackMaterial", cascade={"persist", "remove"})
+     */
+    protected $images;
+
+    /**
      * Get id
      *
      * @return integer
@@ -83,6 +89,7 @@ class PrepackMaterials extends RawMaterials
     {
         $this->product = new \Doctrine\Common\Collections\ArrayCollection();
         $this->equipment = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -199,5 +206,38 @@ class PrepackMaterials extends RawMaterials
         }
 
         return $stringWorkshop;
+    }
+
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\RawMaterialImages $images
+     * @return PrepackMaterials
+     */
+    public function addImage(\MainBundle\Entity\RawMaterialImages $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\RawMaterialImages $images
+     */
+    public function removeImage(\MainBundle\Entity\RawMaterialImages $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

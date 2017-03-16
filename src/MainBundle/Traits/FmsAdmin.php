@@ -3,6 +3,9 @@
 namespace MainBundle\Traits;
 
 use MainBundle\Entity\EquipmentImage;
+use MainBundle\Entity\PrepackMaterials;
+use MainBundle\Entity\RawMaterialImages;
+use MainBundle\Entity\RubberMaterials;
 
 /**
  * Class FmsAdmin
@@ -28,11 +31,6 @@ trait FmsAdmin
             // loop for images
             foreach($images as $image) {
 
-//                if (!($image instanceof EquipmentImage)){
-//                    $object->removeImage($image);
-//                    continue;
-//                }
-
                 if(!$image->getId() && !$image->getFile()){
                     continue;
                 }
@@ -40,7 +38,20 @@ trait FmsAdmin
                 // upload file
                 $fmsService->uploadFile($image);
 
-                $image->setEquipment($object);
+                if ($image instanceof EquipmentImage){
+                    $image->setEquipment($object);
+                }
+
+                if ($image instanceof RawMaterialImages){
+
+                    if($object instanceof PrepackMaterials){
+                        $image->setPrepackMaterial($object);
+                    }
+
+                    if($object instanceof RubberMaterials){
+                        $image->setRubberMaterials($object);
+                    }
+                }
             }
         }
     }

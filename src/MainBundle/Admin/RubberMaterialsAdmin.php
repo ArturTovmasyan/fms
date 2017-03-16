@@ -2,14 +2,17 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use MainBundle\Form\Type\MaterialMultipleFileType;
+use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class RubberMaterialsAdmin extends Admin
+class RubberMaterialsAdmin extends RawMaterialsAdmin
 {
+    use FmsAdmin;
+
     /**
      * override list query
      *
@@ -21,9 +24,9 @@ class RubberMaterialsAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('v, pw');
-        $query->leftJoin($query->getRootAlias() . '.vendors', 'v');
-        $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
+        $query->addSelect('im');
+        $query->leftJoin($query->getRootAlias() . '.images', 'im');
+
         return $query;
     }
 
@@ -35,44 +38,25 @@ class RubberMaterialsAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('name')
-            ->add('category')
-            ->add('vendors')
             ->add('gost')
-            ->add('description')
-            ->add('code')
-            ->add('actualCost')
-            ->add('balanceCost')
-            ->add('getStringSize', null, array('label' => 'size'))
+            ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'files'])
         ;
+        parent::configureShowFields($showMapper);
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        parent::configureFormFields($formMapper);
 
         $formMapper
-            ->add('name')
-            ->add('category', null, array('required' => true))
-            ->add('vendors')
             ->add('gost')
-            ->add('actualCost')
-            ->add('balanceCost')
-            ->add('description')
-            ->add('code')
+            ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
-                "Կգ",
-                "Մետր",
-                "Հատ",
-                "Կոմպլեկտ",
-                "Լիտր")))
-                ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
+            ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
+
         ;
     }
 
@@ -80,39 +64,23 @@ class RubberMaterialsAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-            ->add('name')
-            ->add('category')
-            ->add('vendors')
             ->add('gost')
-            ->add('code')
+            ->add('category')
+            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
         ;
+        parent::configureDatagridFilters($datagridMapper);
     }
 
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('name')
-            ->add('category')
-            ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
             ->add('gost')
-            ->add('description')
-            ->add('code')
-            ->add('getStringSize', null, array('label' => 'size'))
+            ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
-        ;
+            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'files'])        ;
+
+        parent::configureListFields($listMapper);
     }
 }
 

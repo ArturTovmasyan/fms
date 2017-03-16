@@ -2,14 +2,17 @@
 
 namespace MainBundle\Admin;
 
-use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
+use MainBundle\Form\Type\MaterialMultipleFileType;
+use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class PrepackMaterialsAdmin extends Admin
+class PrepackMaterialsAdmin extends RawMaterialsAdmin
 {
+    use FmsAdmin;
+
     /**
      * override list query
      *
@@ -20,11 +23,10 @@ class PrepackMaterialsAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('v, pw');
-        $query->leftJoin($query->getRootAlias() . '.vendors', 'v');
-        $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
+        $query->addSelect('p, eq, im');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
+        $query->leftJoin($query->getRootAlias() . '.images', 'im');
 
         return $query;
     }
@@ -37,45 +39,28 @@ class PrepackMaterialsAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('name')
-            ->add('vendors')
-            ->add('description')
-            ->add('code')
-            ->add('getStringWorkshop', null, array('label' => 'workshop'))
             ->add('product')
             ->add('equipment')
+            ->add('workshop')
             ->add('weight')
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('created', 'date', array('widget' => 'single_text'));
+            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'files'])
+
         ;
+        parent::configureShowFields($showMapper);
+
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        parent::configureFormFields($formMapper);
+
         $formMapper
-            ->add('name')
-            ->add('vendors')
-            ->add('description')
-            ->add('code')
-            ->add('workshop', 'choice', array('choices'=> array(
-                "Ռետինատեխնիկական",
-                "Մետաղամշակման",
-                "Լաբորատորիա",
-                "Այլ")))
             ->add('product')
             ->add('equipment')
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
+            ->add('workshop')
             ->add('weight')
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
-                "Կգ",
-                "Մետր",
-                "Հատ",
-                "Կոմպլեկտ",
-                "Լիտր")))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
+            ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
         ;
     }
 
@@ -83,36 +68,36 @@ class PrepackMaterialsAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id', null, array('show_filters' => true))
-            ->add('name', null, array('show_filters' => true))
-            ->add('code', null, array('show_filters' => true))
-            ->add('weight', null, array('show_filters' => true))
+            ->add('product')
+            ->add('equipment')
+            ->add('workshop')
+            ->add('weight')
         ;
+        parent::configureDatagridFilters($datagridMapper);
     }
 
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('name')
-            ->add('vendors')
-            ->add('description')
-            ->add('code')
-            ->add('getStringWorkshop', null, array('label' => 'workshop'))
             ->add('product')
             ->add('equipment')
+            ->add('workshop')
             ->add('weight')
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'files'])
         ;
+        parent::configureListFields($listMapper);
+
+    }
+
+    public function preUpdate($object)
+    {
+        $this->prePersist($object);
+    }
+
+    public function prePersist($object)
+    {
+        $this->addImages($object);
     }
 }
 

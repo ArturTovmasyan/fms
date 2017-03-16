@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +15,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class RubberMaterials extends RawMaterials
 {
-
     /**
      * @var integer
      *
@@ -36,16 +36,17 @@ class RubberMaterials extends RawMaterials
      */
     private $category;
 
-
-//for operation card
-//    private $rawExpense;
-
     /**
      * @var integer
      *
      * @ORM\Column(name="minimalVolume", type="integer")
      */
     private $minimalVolume;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="rubberMaterials", cascade={"persist", "remove"})
+     */
+    protected $images;
 
     /**
      * Get id
@@ -104,6 +105,14 @@ class RubberMaterials extends RawMaterials
     }
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
      * Set category
      *
      * @param \MainBundle\Entity\RubberCategory $category
@@ -126,4 +135,36 @@ class RubberMaterials extends RawMaterials
         return $this->category;
     }
 
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\RawMaterialImages $images
+     * @return RubberMaterials
+     */
+    public function addImage(\MainBundle\Entity\RawMaterialImages $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\RawMaterialImages $images
+     */
+    public function removeImage(\MainBundle\Entity\RawMaterialImages $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
 }

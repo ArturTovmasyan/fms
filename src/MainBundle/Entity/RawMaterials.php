@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -494,5 +495,47 @@ abstract class RawMaterials
     public function getProductRawExpense()
     {
         return $this->productRawExpense;
+    }
+
+    /**
+     * @return array
+     */
+    public function  getMaterialMultipleFile()
+    {
+        // check images and return array
+        if($this->images){
+
+            return $this->images->toArray();
+        }
+        return array();
+    }
+
+    /**
+     * @param $multipleFile
+     */
+    public function  setMaterialMultipleFile($multipleFile)
+    {
+        // check added images
+        if(count($multipleFile) > 0){
+
+            $this->images = new ArrayCollection($multipleFile);
+        }
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getMaterialImages()
+    {
+        // get images
+        $files = $this->getImages();
+
+        // check images
+        if($files){
+
+            return $files;
+        }
+
+        return null;
     }
 }
