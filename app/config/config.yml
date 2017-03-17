@@ -162,19 +162,47 @@ stof_doctrine_extensions:
             timestampable: true
             loggable: true
 
-# tinumce
-stfalcon_tinymce:
-    include_jquery:       false
-    tinymce_jquery:       false
-    language: en
-    theme:
-          # Simple theme: same as default theme
-          simple:
-               plugins:
-#                   - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
-#                   - "searchreplace wordcount visualblocks visualchars code fullscreen"
-#                   - "insertdatetime media nonbreaking save table contextmenu directionality"
-                   - "emoticons template paste image textcolor"
-               toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
-               toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | example"
-               image_advtab: true
+sonata_media:
+    class:
+        media: Application\MediaBundle\Entity\Media
+        gallery: Application\MediaBundle\Entity\Gallery
+        gallery_has_media: Application\MediaBundle\Entity\GalleryHasMedia
+    default_context: default
+    db_driver: doctrine_orm
+    contexts:
+        default:
+            providers:
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+            formats: ~
+        list:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                  big:   { width: 640 , quality: 70}
+    cdn:
+        server:
+            path: /uploads/media
+    filesystem:
+        local:
+            directory:  %kernel.root_dir%/../web/uploads/media
+            create:     false
+
+ivory_ck_editor:
+    default_config: default
+    configs:
+        default:
+            filebrowserBrowseRoute: admin_application_media_media_browser
+            filebrowserImageBrowseRoute: admin_application_media_media_browser
+            # Display images by default when clicking the image dialog browse button
+            filebrowserImageBrowseRouteParameters:
+                provider: sonata.media.provider.image
+            filebrowserUploadRoute: admin_application_media_media_upload
+            filebrowserUploadRouteParameters:
+                provider: sonata.media.provider.file
+            # Upload file as image when sending a file from the image dialog
+            filebrowserImageUploadRoute: admin_application_media_media_upload
+            filebrowserImageUploadRouteParameters:
+                provider: sonata.media.provider.image
+                context: list # Optional, to upload in a custom context
+

@@ -31,10 +31,14 @@ class AppKernel extends Kernel
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Sonata\EasyExtendsBundle\SonataEasyExtendsBundle(),
             new Sonata\IntlBundle\SonataIntlBundle(),
+            new Sonata\MediaBundle\SonataMediaBundle(),
+            
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
 
-            new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle()
+            new CoopTilleuls\Bundle\CKEditorSonataMediaBundle\CoopTilleulsCKEditorSonataMediaBundle(),
+            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new Application\MediaBundle\ApplicationMediaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

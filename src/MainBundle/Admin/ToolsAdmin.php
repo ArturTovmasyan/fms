@@ -60,7 +60,6 @@ class ToolsAdmin extends Admin
             ->add('name')
             ->add('category')
             ->add('vendors')
-            ->add('description')
             ->add('code')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
@@ -81,7 +80,7 @@ class ToolsAdmin extends Admin
             ->add('vendors')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
-            ->add('description')
+            ->add('description', 'ckeditor')
             ->add('code')
             ->add('size', 'choice', array('label' => 'size', 'choices' => array(
                 "Կգ",
@@ -116,7 +115,6 @@ class ToolsAdmin extends Admin
             ->add('vendors')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
-            ->add('description')
             ->add('code')
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))

@@ -61,7 +61,6 @@ class SparePartAdmin extends Admin
             ->add('name')
             ->add('vendors')
             ->add('equipment', null, array('label' => 'equipment'))
-            ->add('description')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('getStringSize', null, array('label' => 'size'))
@@ -79,7 +78,7 @@ class SparePartAdmin extends Admin
             ->add('name')
             ->add('vendors')
             ->add('equipment', null, array('label' => 'equipment'))
-            ->add('description', 'textarea', ['attr' => ['class' => 'tinymce', 'rows'=>8]])
+            ->add('description', 'ckeditor')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
@@ -91,6 +90,7 @@ class SparePartAdmin extends Admin
                     "Կոմպլեկտ",
                     "Լիտր")))
             ->add('spare_part_multiple_file', SparePartMultipleFileType::class, ['label'=>'files'])
+//            ->add('images', 'sonata_type_model_list')
         ;
     }
 
@@ -115,7 +115,6 @@ class SparePartAdmin extends Admin
             ->add('name')
             ->add('vendors')
             ->add('equipment', null, array('label' => 'equipment'))
-            ->add('description')
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
