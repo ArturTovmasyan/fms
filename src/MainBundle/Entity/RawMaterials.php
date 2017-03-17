@@ -497,6 +497,7 @@ abstract class RawMaterials
         return $this->productRawExpense;
     }
 
+############################################## This part code for upload files in child entities ##########################
     /**
      * @return array
      */
@@ -538,4 +539,6 @@ abstract class RawMaterials
 
         return null;
     }
+#########################################################################################################################
+
 }

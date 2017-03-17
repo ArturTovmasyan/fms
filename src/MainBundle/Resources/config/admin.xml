@@ -26,7 +26,7 @@
         </service>
 
         <!--RubberMaterial-->
-        <service id="sonata.admin.main.raw.materials" class="MainBundle\Admin\RawMaterialsAdmin">
+        <service id="sonata.admin.materials.raw" class="MainBundle\Admin\RawMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="RawMaterials" show_in_dashboard="false"/>
             <argument/>
             <argument>MainBundle\Entity\RawMaterials</argument>
@@ -34,7 +34,7 @@
         </service>
 
         <!--RubberMaterial-->
-        <service id="sonata.admin.main.rubber.materials" class="MainBundle\Admin\RubberMaterialsAdmin">
+        <service id="sonata.admin.materials.rubber" class="MainBundle\Admin\RubberMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="RubberMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\RubberMaterials</argument>
@@ -74,7 +74,7 @@
         </service>
 
         <!--MetalMaterials-->
-        <service id="sonata.admin.main.metal.materials" class="MainBundle\Admin\MetalMaterialsAdmin">
+        <service id="sonata.admin.materials.metal" class="MainBundle\Admin\MetalMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="MetalMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\MetalMaterials</argument>
@@ -90,7 +90,7 @@
         </service>
 
         <!--ConductiveMaterials-->
-        <service id="sonata.admin.main.conductive.materials" class="MainBundle\Admin\ConductiveMaterialsAdmin">
+        <service id="sonata.admin.materials.conductive" class="MainBundle\Admin\ConductiveMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="ConductiveMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\ConductiveMaterials</argument>
@@ -98,7 +98,7 @@
         </service>
 
         <!--IlliquidMaterials-->
-        <service id="sonata.admin.main.illiquid.materials" class="MainBundle\Admin\IlliquidMaterialsAdmin">
+        <service id="sonata.admin.materials.illiquid" class="MainBundle\Admin\IlliquidMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="IlliquidMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\IlliquidMaterials</argument>
@@ -106,7 +106,7 @@
         </service>
 
         <!--HouseholdMaterials-->
-        <service id="sonata.admin.main.household.materials" class="MainBundle\Admin\HouseholdMaterialsAdmin">
+        <service id="sonata.admin.materials.household" class="MainBundle\Admin\HouseholdMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="HouseholdMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\HouseholdMaterials</argument>
@@ -235,7 +235,7 @@
         </service>
 
         <!--PrepackMaterials-->
-        <service id="sonata.admin.main.prepack.materials" class="MainBundle\Admin\PrepackMaterialsAdmin">
+        <service id="sonata.admin.materials.prepack" class="MainBundle\Admin\PrepackMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="prepack_materials"/>
             <argument/>
             <argument>MainBundle\Entity\PrepackMaterials</argument>

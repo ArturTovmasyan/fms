@@ -8,6 +8,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint;
 
 /**
  * @Rest\Prefix("/admin/api/v1.0")
@@ -19,14 +20,106 @@ class MainRestController extends FOSRestController
      * @ApiDoc(
      *  resource=true,
      *  section="Main",
-     *  description="This function is used to remove file by id",
+     *  description="This function is used to remove raw material files by id",
+     *  statusCodes={
+     *         201="Returned when file was removed",
+     *         404="Returned when file or class name not found",
+     *  },
+     * )
+     *
+     * @Rest\Get("/remove-material-file/{id}/{className}", requirements={"id"="\d+"}, name="remove_material_files", options={"method_prefix"=false})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @return Response
+     * @param $id
+     * @param $className
+     */
+    public function removeMaterialFileAction($id, $className, Request $request)
+    {
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get file object by id
+        $object = $em->getRepository('MainBundle:RawMaterialImages')->find($id);
+
+        if(!$object) {
+            return new Response('File not found', Response::HTTP_NOT_FOUND);
+        }
+
+        //check and remove image entity relations
+        if($className == 'rubber') {
+
+            if (!is_null($class = $object->getRubberMaterials()))
+            {
+                $class->removeImage($object);
+            }
+        }
+
+        elseif($className == 'metal') {
+
+            if (!is_null($class = $object->getMetalMaterials()))
+            {
+                $class->removeImage($object);
+            }
+        }
+
+        elseif($className == 'conductive') {
+
+            if (!is_null($class = $object->getConductiveMaterials()))
+            {
+                $class->removeImage($object);
+            }
+        }
+
+        elseif($className == 'illiquid') {
+
+            if (!is_null($class = $object->getIlliquidMaterials()))
+            {
+                $class->removeImage($object);
+            }
+        }
+
+        elseif($className == 'household') {
+
+            if (!is_null($class = $object->getHouseholdMaterials()))
+            {
+                $class->removeImage($object);
+            }
+        }
+
+        elseif($className == 'prepack') {
+
+            if (!is_null($class = $object->getPrepackMaterial()))
+            {
+                $class->removeImage($object);
+            }
+        }
+        else{
+            return new Response("$className class name not found", Response::HTTP_NOT_FOUND);
+        }
+
+        $em->remove($object);
+        $em->flush();
+
+        if ($request->get('_route') == 'remove_material_files' && isset($_SERVER['HTTP_REFERER'])){
+            return $this->redirect($_SERVER['HTTP_REFERER']);
+        }
+
+        return new Response('', Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to remove files by id and class name",
      *  statusCodes={
      *         201="Returned when file was removed",
      *         404="Returned when file not found",
      *  },
      * )
      *
-     * @Rest\Get("/remove-file/{id}/{className}", requirements={"id"="\d+"}, name="main_rest_mainrest_removefile", options={"method_prefix"=false})
+     * @Rest\Get("/remove-equipment-file/{id}/{className}", requirements={"id"="\d+"}, name="remove_fms_files", options={"method_prefix"=false})
      * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      * @param $id
@@ -39,16 +132,7 @@ class MainRestController extends FOSRestController
 
         $object = null;
 
-        if($className == 'material') {
-            $object = $em->getRepository('MainBundle:RawMaterialImages')->find($id);
-
-            if (!is_null($class = $object->getRawMaterial()))
-            {
-                $class->removeImage($object);
-            }
-
-        }
-        elseif($className == 'equipment') {
+        if($className == 'equipment') {
             $object = $em->getRepository('MainBundle:EquipmentImage')->find($id);
 
             if (!is_null($class = $object->getEquipment()))
@@ -56,16 +140,20 @@ class MainRestController extends FOSRestController
                 $class->removeImage($object);
             }
         }
+        else{
+            return new Response("$className class name not found", Response::HTTP_NOT_FOUND);
+        }
 
         $em->remove($object);
         $em->flush();
 
-        if ($request->get('_route') == 'main_rest_mainrest_removefile' && isset($_SERVER['HTTP_REFERER'])){
+        if ($request->get('_route') == 'remove_fms_files' && isset($_SERVER['HTTP_REFERER'])){
             return $this->redirect($_SERVER['HTTP_REFERER']);
         }
 
         return new Response('', Response::HTTP_NO_CONTENT);
     }
+
 
     /**
      *

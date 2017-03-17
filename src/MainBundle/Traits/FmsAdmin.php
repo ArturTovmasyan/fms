@@ -2,7 +2,11 @@
 
 namespace MainBundle\Traits;
 
+use MainBundle\Entity\ConductiveMaterials;
 use MainBundle\Entity\EquipmentImage;
+use MainBundle\Entity\HouseholdMaterials;
+use MainBundle\Entity\IlliquidMaterials;
+use MainBundle\Entity\MetalMaterials;
 use MainBundle\Entity\PrepackMaterials;
 use MainBundle\Entity\RawMaterialImages;
 use MainBundle\Entity\RubberMaterials;
@@ -18,7 +22,7 @@ trait FmsAdmin
      *
      * @param $object
      */
-    public function addImages(&$object)
+    private function addImages(&$object)
     {
         $fmsService = $this->getConfigurationPool()->getContainer()->get('fms_service');
 
@@ -42,18 +46,54 @@ trait FmsAdmin
                     $image->setEquipment($object);
                 }
 
-                if ($image instanceof RawMaterialImages){
-
-                    if($object instanceof PrepackMaterials){
-                        $image->setPrepackMaterial($object);
-                    }
-
-                    if($object instanceof RubberMaterials){
-                        $image->setRubberMaterials($object);
-                    }
+                if ($image instanceof RawMaterialImages) {
+                    $this->setRawMaterialsImage($image, $object);
                 }
             }
         }
     }
 
+    /**
+     * This function is used to set raw materials images
+     *
+     * @param $image
+     * @param $object
+     */
+    private function setRawMaterialsImage($image, &$object)
+    {
+        if($object instanceof PrepackMaterials){
+            $image->setPrepackMaterial($object);
+        }
+        elseif($object instanceof RubberMaterials){
+            $image->setRubberMaterials($object);
+        }
+        elseif($object instanceof ConductiveMaterials){
+            $image->setConductiveMaterials($object);
+        }
+        elseif($object instanceof IlliquidMaterials){
+            $image->setIlliquidMaterials($object);
+        }
+        elseif($object instanceof HouseholdMaterials){
+            $image->setHouseholdMaterials($object);
+        }
+        elseif($object instanceof MetalMaterials){
+            $image->setMetalMaterials($object);
+        }
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function preUpdate($object)
+    {
+        $this->prePersist($object);
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function prePersist($object)
+    {
+        $this->addImages($object);
+    }
 }

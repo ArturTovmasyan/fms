@@ -1,4 +1,8 @@
 {% block eq_multiple_file_widget %}
+
+    {% set array = form.vars.sonata_admin_code|split('.') %}
+    {% set adminName = array[3] %}
+
     <div class="form-group clearfix">
         <ul class="images  control-label" data-prototype="{{ _self.multiple_prototype(form.vars.prototype)|e }}">
             {% for child in form %}
@@ -19,7 +23,7 @@
                         <br />
                         <br />
                         <div class="row col-sm-12">
-                            <a href="{{ path("main_rest_mainrest_removefile", {'id' : child.vars.value.id, 'className' : 'equipment'} ) }}" ><i class="glyphicon glyphicon-remove"></i></a>
+                            <a href="{{ path("remove_fms_files", {'id' : child.vars.value.id, 'className' : adminName} ) }}" ><i class="glyphicon glyphicon-remove"></i></a>
                         </div>
                     </li>
                 {% endif %}

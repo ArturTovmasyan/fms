@@ -3,7 +3,6 @@
 namespace MainBundle\Admin;
 
 use MainBundle\Form\Type\MaterialMultipleFileType;
-use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -11,8 +10,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PrepackMaterialsAdmin extends RawMaterialsAdmin
 {
-    use FmsAdmin;
-
     /**
      * override list query
      *
@@ -43,7 +40,7 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
             ->add('equipment')
             ->add('workshop')
             ->add('weight')
-            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'files'])
+            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
 
         ;
         parent::configureShowFields($showMapper);
@@ -84,20 +81,9 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
             ->add('equipment')
             ->add('workshop')
             ->add('weight')
-            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'files'])
+            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
         ;
         parent::configureListFields($listMapper);
-
-    }
-
-    public function preUpdate($object)
-    {
-        $this->prePersist($object);
-    }
-
-    public function prePersist($object)
-    {
-        $this->addImages($object);
     }
 }
 

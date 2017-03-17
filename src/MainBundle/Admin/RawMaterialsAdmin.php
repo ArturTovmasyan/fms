@@ -2,7 +2,6 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Form\Type\MaterialMultipleFileType;
 use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -126,16 +125,6 @@ class RawMaterialsAdmin extends Admin
         ;
     }
 
-
-    public function preUpdate($object)
-    {
-        $this->prePersist($object);
-    }
-
-    public function prePersist($object)
-    {
-        $this->addImages($object);
-    }
 
 }
 

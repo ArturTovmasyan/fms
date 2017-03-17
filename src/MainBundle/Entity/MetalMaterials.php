@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MainBundle\Model\MultipleFileInterface;
 
 /**
  * MetalMaterials
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class MetalMaterials extends RawMaterials
+class MetalMaterials extends RawMaterials implements MultipleFileInterface
 {
     /**
      * @var integer
@@ -39,6 +40,11 @@ class MetalMaterials extends RawMaterials
      * @ORM\Column(name="minimalVolume", type="integer")
      */
     private $minimalVolume;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="metalMaterials", cascade={"persist", "remove"})
+     */
+    protected $images;
 
     /**
      * Get id
@@ -117,5 +123,38 @@ class MetalMaterials extends RawMaterials
     public function getMinimalVolume()
     {
         return $this->minimalVolume;
+    }
+
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\RawMaterialImages $images
+     * @return MetalMaterials
+     */
+    public function addImage(\MainBundle\Entity\RawMaterialImages $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\RawMaterialImages $images
+     */
+    public function removeImage(\MainBundle\Entity\RawMaterialImages $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

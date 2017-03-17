@@ -11,8 +11,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class RubberMaterialsAdmin extends RawMaterialsAdmin
 {
-    use FmsAdmin;
-
     /**
      * override list query
      *
@@ -41,7 +39,7 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('images', null, ['template' => 'MainBundle:Admin:equipment_image_show.html.twig', 'label'=>'files'])
+            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
         ;
         parent::configureShowFields($showMapper);
     }
@@ -56,7 +54,6 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
             ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
             ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
-
         ;
     }
 
@@ -78,7 +75,7 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:equipment_image_list.html.twig', 'label'=>'files'])        ;
+            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])        ;
 
         parent::configureListFields($listMapper);
     }

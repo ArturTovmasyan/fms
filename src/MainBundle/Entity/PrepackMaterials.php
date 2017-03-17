@@ -2,8 +2,8 @@
 
 namespace MainBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use MainBundle\Model\MultipleFileInterface;
 
 /**
  * PrepackMaterials
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class PrepackMaterials extends RawMaterials
+class PrepackMaterials extends RawMaterials implements MultipleFileInterface
 {
     /**
      * @var integer
