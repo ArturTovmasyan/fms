@@ -2,7 +2,7 @@
 
 namespace MainBundle\Form\Type;
 
-use MainBundle\Form\MaterialImageType;
+use MainBundle\Form\ToolImageType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * Class MaterialMultipleFileType
  * @package MainBundle\Form\Type
  */
-class MaterialMultipleFileType extends AbstractType
+class ToolMultipleFile extends AbstractType
 {
     /**
      * @return null|string|\Symfony\Component\Form\FormTypeInterface
@@ -26,7 +26,7 @@ class MaterialMultipleFileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'type' => new MaterialImageType(),
+            'type' => new ToolImageType(),
             'allow_add' => true,
             'allow_delete' => true,
         ));
@@ -37,6 +37,6 @@ class MaterialMultipleFileType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'material_multiple_file';
+        return 'tool_multiple_file';
     }
 }

@@ -8,4 +8,6 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('bundles/main/js/files.js') }}"></script>
+
+    {{ tinymce_init() }}
 {% endblock %}

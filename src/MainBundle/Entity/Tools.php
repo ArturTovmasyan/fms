@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -28,10 +29,10 @@ class Tools
      */
     private $category;
 
-    //TODO
-//    private $repairs;
-//    private $repairChronology;
-//    private $image;
+    /**
+     * @ORM\OneToMany(targetEntity="ToolImages", mappedBy="tool", cascade={"persist", "remove"})
+     */
+    protected $images;
 
     /**
      * @var string
@@ -154,7 +155,7 @@ class Tools
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $this->description = ($description);
 
         return $this;
     }
@@ -348,6 +349,7 @@ class Tools
     {
         $this->placeWarehouse = new \Doctrine\Common\Collections\ArrayCollection();
         $this->vendors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -516,4 +518,81 @@ class Tools
     {
         return $this->category;
     }
+
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\ToolImages $images
+     * @return Tools
+     */
+    public function addImage(\MainBundle\Entity\ToolImages $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\ToolImages $images
+     */
+    public function removeImage(\MainBundle\Entity\ToolImages $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    ############################################## This part code for upload files in child entities ##########################
+    /**
+     * @return array
+     */
+    public function  getToolMultipleFile()
+    {
+        // check images and return array
+        if($this->images){
+
+            return $this->images->toArray();
+        }
+        return array();
+    }
+
+    /**
+     * @param $multipleFile
+     */
+    public function  setToolMultipleFile($multipleFile)
+    {
+        // check added images
+        if(count($multipleFile) > 0){
+
+            $this->images = new ArrayCollection($multipleFile);
+        }
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getToolImages()
+    {
+        // get images
+        $files = $this->getImages();
+
+        // check images
+        if($files){
+
+            return $files;
+        }
+
+        return null;
+    }
+#########################################################################################################################
 }

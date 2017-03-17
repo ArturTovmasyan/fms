@@ -10,6 +10,8 @@ use MainBundle\Entity\MetalMaterials;
 use MainBundle\Entity\PrepackMaterials;
 use MainBundle\Entity\RawMaterialImages;
 use MainBundle\Entity\RubberMaterials;
+use MainBundle\Entity\SparePartImages;
+use MainBundle\Entity\ToolImages;
 
 /**
  * Class FmsAdmin
@@ -42,8 +44,17 @@ trait FmsAdmin
                 // upload file
                 $fmsService->uploadFile($image);
 
+                //set relation for image
                 if ($image instanceof EquipmentImage){
                     $image->setEquipment($object);
+                }
+
+                if ($image instanceof ToolImages){
+                    $image->setTool($object);
+                }
+
+                if ($image instanceof SparePartImages){
+                    $image->setSparePart($object);
                 }
 
                 if ($image instanceof RawMaterialImages) {
@@ -79,21 +90,5 @@ trait FmsAdmin
         elseif($object instanceof MetalMaterials){
             $image->setMetalMaterials($object);
         }
-    }
-
-    /**
-     * @param mixed $object
-     */
-    public function preUpdate($object)
-    {
-        $this->prePersist($object);
-    }
-
-    /**
-     * @param mixed $object
-     */
-    public function prePersist($object)
-    {
-        $this->addImages($object);
     }
 }

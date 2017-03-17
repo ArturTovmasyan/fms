@@ -2,6 +2,8 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Form\Type\SparePartMultipleFileType;
+use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -10,6 +12,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class SparePartAdmin extends Admin
 {
+    use FmsAdmin;
+
     /**
      * override list query
      *
@@ -21,12 +25,29 @@ class SparePartAdmin extends Admin
         // call parent query
         $query = parent::createQuery($context);
         // add selected
-        $query->addSelect('v, pw, eq');
+        $query->addSelect('v, pw, eq, im');
         $query->leftJoin($query->getRootAlias() . '.vendors', 'v');
         $query->leftJoin($query->getRootAlias() . '.placeWarehouse', 'pw');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
+        $query->leftJoin($query->getRootAlias() . '.images', 'im');
 
         return $query;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin:fms_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
     }
 
     /**
@@ -47,6 +68,7 @@ class SparePartAdmin extends Admin
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
         ;
     }
 
@@ -57,7 +79,7 @@ class SparePartAdmin extends Admin
             ->add('name')
             ->add('vendors')
             ->add('equipment', null, array('label' => 'equipment'))
-            ->add('description')
+            ->add('description', 'textarea', ['attr' => ['class' => 'tinymce', 'rows'=>8]])
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
@@ -68,6 +90,7 @@ class SparePartAdmin extends Admin
                     "Հատ",
                     "Կոմպլեկտ",
                     "Լիտր")))
+            ->add('spare_part_multiple_file', SparePartMultipleFileType::class, ['label'=>'files'])
         ;
     }
 
@@ -104,6 +127,7 @@ class SparePartAdmin extends Admin
                 "Հատ",
                 "Կոմպլեկտ",
                 "Լիտր")))
+            ->add('getSparePartImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -112,6 +136,22 @@ class SparePartAdmin extends Admin
                 )
             ))
         ;
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function preUpdate($object)
+    {
+        $this->prePersist($object);
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function prePersist($object)
+    {
+        $this->addImages($object);
     }
 }
 

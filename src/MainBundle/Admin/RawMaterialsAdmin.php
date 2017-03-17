@@ -38,7 +38,7 @@ class RawMaterialsAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin:materials_edit.html.twig';
+                return 'MainBundle:Admin:fms_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
@@ -125,6 +125,21 @@ class RawMaterialsAdmin extends Admin
         ;
     }
 
+    /**
+     * @param mixed $object
+     */
+    public function preUpdate($object)
+    {
+        $this->prePersist($object);
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function prePersist($object)
+    {
+        $this->addImages($object);
+    }
 
 }
 

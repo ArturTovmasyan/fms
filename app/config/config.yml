@@ -42,6 +42,8 @@ twig:
         - 'MainBundle:Form:multipleComponent.html.twig'
         - 'MainBundle:Form:multipleFile.html.twig'
         - 'MainBundle:Form:materialMultipleFile.html.twig'
+        - 'MainBundle:Form:toolMultipleFile.html.twig'
+        - 'MainBundle:Form:sparePartMultipleFile.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -159,3 +161,20 @@ stof_doctrine_extensions:
             sluggable: true
             timestampable: true
             loggable: true
+
+# tinumce
+stfalcon_tinymce:
+    include_jquery:       false
+    tinymce_jquery:       false
+    language: en
+    theme:
+          # Simple theme: same as default theme
+          simple:
+               plugins:
+#                   - "advlist autolink lists link image charmap print preview hr anchor pagebreak"
+#                   - "searchreplace wordcount visualblocks visualchars code fullscreen"
+#                   - "insertdatetime media nonbreaking save table contextmenu directionality"
+                   - "emoticons template paste image textcolor"
+               toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+               toolbar2: "print preview media | forecolor backcolor emoticons | stfalcon | example"
+               image_advtab: true

@@ -82,9 +82,9 @@ class Mould
     private $weight;
 
     /**
-     * @ORM\Column(name="over_size", type="integer")
+     * @ORM\Column(name="over_size", type="string", length=20)
      */
-    private $overSize;
+    private $overSize = 0;
 
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="mould")

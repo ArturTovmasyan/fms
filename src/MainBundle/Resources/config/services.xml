@@ -24,12 +24,17 @@
 
         <!--fms multiple equipment file service-->
         <service id="bl.multiple.equipmenq.file" class="MainBundle\Form\Type\EqMultipleFileType">
-            <tag name="form.type" alias="fms_multiple_file" />
+            <tag name="form.type" alias="eq_multiple_file" />
         </service>
 
         <!--fms multiple materials file service-->
         <service id="bl.multiple.material.file" class="MainBundle\Form\Type\MaterialMultipleFileType">
-            <tag name="form.type" alias="fms_multiple_file" />
+            <tag name="form.type" alias="material_multiple_file" />
+        </service>
+
+        <!--fms multiple spare part file service-->
+        <service id="bl.multiple.spare.part.file" class="MainBundle\Form\Type\MaterialMultipleFileType">
+            <tag name="form.type" alias="spare_part_multiple_file" />
         </service>
 
         <!-- service for update route card sum  -->

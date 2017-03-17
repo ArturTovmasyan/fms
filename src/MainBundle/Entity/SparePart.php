@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -77,6 +78,11 @@ class SparePart
     private $balanceCost;
 
     /**
+     * @ORM\OneToMany(targetEntity="SparePartImages", mappedBy="sparePart", cascade={"persist", "remove"})
+     */
+    protected $images;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -95,6 +101,7 @@ class SparePart
         $this->placeWarehouse = new \Doctrine\Common\Collections\ArrayCollection();
         $this->equipment = new \Doctrine\Common\Collections\ArrayCollection();
         $this->vendors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->images = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -374,4 +381,81 @@ class SparePart
     {
         return ((string)$this->name) ? (string)$this->name : '';
     }
+
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\SparePartImages $images
+     * @return SparePart
+     */
+    public function addImage(\MainBundle\Entity\SparePartImages $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\SparePartImages $images
+     */
+    public function removeImage(\MainBundle\Entity\SparePartImages $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    ############################################## This part code for upload files in child entities ##########################
+    /**
+     * @return array
+     */
+    public function  getSparePartMultipleFile()
+    {
+        // check images and return array
+        if($this->images){
+
+            return $this->images->toArray();
+        }
+        return array();
+    }
+
+    /**
+     * @param $multipleFile
+     */
+    public function  setSparePartMultipleFile($multipleFile)
+    {
+        // check added images
+        if(count($multipleFile) > 0){
+
+            $this->images = new ArrayCollection($multipleFile);
+        }
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getSparePartImages()
+    {
+        // get images
+        $files = $this->getImages();
+
+        // check images
+        if($files){
+
+            return $files;
+        }
+
+        return null;
+    }
+#########################################################################################################################
 }

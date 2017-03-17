@@ -37,7 +37,7 @@ class Equipment
     /**
      * @var integer
      *
-     * @ORM\Column(name="code", type="integer", unique=true)
+     * @ORM\Column(name="code", type="string", unique=true)
      * @Assert\NotNull()
      * @Assert\Length(min = 3, max=3)
      *
@@ -50,6 +50,11 @@ class Equipment
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(name="over_size", type="string", length=20)
+     */
+    private $overSize = 0;
 
     /**
      *
@@ -120,7 +125,7 @@ class Equipment
     private $inspectionPeriod;
 
     /**
-     * @ORM\Column(name="repair_job", type="string")
+     * @ORM\Column(name="repair_job", type="string", nullable=true)
      */
     private $repairJob;
 
@@ -848,5 +853,28 @@ class Equipment
     public function getReport()
     {
         return $this->report;
+    }
+
+    /**
+     * Set overSize
+     *
+     * @param integer $overSize
+     * @return Equipment
+     */
+    public function setOverSize($overSize)
+    {
+        $this->overSize = $overSize;
+
+        return $this;
+    }
+
+    /**
+     * Get overSize
+     *
+     * @return integer 
+     */
+    public function getOverSize()
+    {
+        return $this->overSize;
     }
 }

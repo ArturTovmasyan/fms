@@ -41,6 +41,22 @@ class ProductAdmin extends Admin
     }
 
     /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin:fms_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void

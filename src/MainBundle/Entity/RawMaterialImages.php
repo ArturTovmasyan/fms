@@ -5,7 +5,6 @@ use MainBundle\Model\ImageableInterface;
 use MainBundle\Traits\File;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use JMS\Serializer\Annotation\Groups;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -24,7 +23,6 @@ class RawMaterialImages implements ImageableInterface
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"image"})
      */
     protected $id;
 

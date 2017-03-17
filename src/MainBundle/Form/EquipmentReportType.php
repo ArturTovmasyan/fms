@@ -38,7 +38,7 @@ class EquipmentReportType extends AbstractType
             ->add('electric', CheckboxType::class, ['label' => 'electric', 'required' => false])
             ->add('name', TextType::class, ['label' => false])
             ->add('code', TextType::class, ['label' => false])
-            ->add('date', 'date', ['widget'=>'single_text','label' => false])
+            ->add('date', 'date', ['pattern' => 'dd MMM Y', 'widget'=>'single_text','label' => false ])
         ;
     }
 

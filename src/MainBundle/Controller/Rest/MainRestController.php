@@ -119,7 +119,7 @@ class MainRestController extends FOSRestController
      *  },
      * )
      *
-     * @Rest\Get("/remove-equipment-file/{id}/{className}", requirements={"id"="\d+"}, name="remove_fms_files", options={"method_prefix"=false})
+     * @Rest\Get("/remove-file/{id}/{className}", requirements={"id"="\d+"}, name="remove_fms_files", options={"method_prefix"=false})
      * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      * @param $id
@@ -130,13 +130,27 @@ class MainRestController extends FOSRestController
         //get entity manager
         $em = $this->getDoctrine()->getManager();
 
-        $object = null;
-
         if($className == 'equipment') {
+
             $object = $em->getRepository('MainBundle:EquipmentImage')->find($id);
 
-            if (!is_null($class = $object->getEquipment()))
-            {
+            if (!is_null($class = $object->getEquipment())) {
+                $class->removeImage($object);
+            }
+
+        } elseif($className == 'tools') {
+
+            $object = $em->getRepository('MainBundle:ToolImages')->find($id);
+
+            if (!is_null($class = $object->getTool())) {
+                $class->removeImage($object);
+            }
+
+        } elseif($className == 'sparepart') {
+
+            $object = $em->getRepository('MainBundle:SparePartImages')->find($id);
+
+            if (!is_null($class = $object->getSparePart())) {
                 $class->removeImage($object);
             }
         }
