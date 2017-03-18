@@ -7,13 +7,11 @@ use MainBundle\Entity\EquipmentReport;
 use MainBundle\Form\EquipmentReportType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
-use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class CRUDController extends Controller
+class EquipmentController extends Controller
 {
     /**
      * This action is used to create report for equipment
@@ -66,38 +64,20 @@ class CRUDController extends Controller
     }
 
     /**
-     * Edit action.
+     * This action is used to show equipment filling status
      *
-     * @param int|string|null $id
-     *
-     * @return Response|RedirectResponse
-     *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws AccessDeniedException If access is not granted
-     */
-    public function editAction($id = null)
-    {
-        //get parent edit action
-        $result =  parent::editAction($id = null);
-
-        return $result;
-    }
-
-    /**
-     * Show action.
-     *
-     * @param int|string|null $id
-     *
+     * @param Request $request
      * @return Response
-     *
-     * @throws NotFoundHttpException If the object does not exist
-     * @throws AccessDeniedException If access is not granted
      */
-    public function showAction($id = null)
+    public function equipmentFillingAction(Request $request)
     {
-        //get parent edit action
-        $result =  parent::showAction($id = null);
+        //get entity manager
+        $em = $this->get('doctrine')->getManager();
 
-        return $result;
+        //get equipments
+        $equipments = $em->getRepository('MainBundle:Equipment')->findAllEquipment();
+
+        return $this->render('MainBundle:Admin:equipment_filter_filling.html.twig', ['equipments' => $equipments]);
     }
+
 }

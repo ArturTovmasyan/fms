@@ -30,7 +30,7 @@ class EquipmentImage implements ImageableInterface
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="images", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="images", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinColumn(name="equipment_id", referencedColumnName="id")
      */
     protected $equipment;

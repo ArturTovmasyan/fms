@@ -72,10 +72,13 @@ doctrine:
               json: Sonata\Doctrine\Types\JsonType
 
     orm:
+
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
+            ApplicationMediaBundle: ~
+            SonataMediaBundle: ~
             loggable:
                 type: annotation
                 alias: Gedmo
@@ -175,11 +178,6 @@ sonata_media:
                 - sonata.media.provider.image
                 - sonata.media.provider.file
             formats: ~
-        list:
-            providers:
-                - sonata.media.provider.image
-            formats:
-                  big:   { width: 640 , quality: 70}
     cdn:
         server:
             path: /uploads/media
@@ -192,6 +190,9 @@ ivory_ck_editor:
     default_config: default
     configs:
         default:
+            toolbar:
+            - [Save, Bold, Italic, Underline, -, Cut, Preview, Print, Copy, Paste, PasteText, PasteFromWord, -, Undo, Redo, -, NumberedList, BulletedList, -, Outdent, Indent, -, Blockquote, -, Image, Link, Unlink]
+            - [Format, Maximize, Source]
             filebrowserBrowseRoute: admin_application_media_media_browser
             filebrowserImageBrowseRoute: admin_application_media_media_browser
             # Display images by default when clicking the image dialog browse button
@@ -204,5 +205,5 @@ ivory_ck_editor:
             filebrowserImageUploadRoute: admin_application_media_media_upload
             filebrowserImageUploadRouteParameters:
                 provider: sonata.media.provider.image
-                context: list # Optional, to upload in a custom context
+                context: default # Optional, to upload in a custom context
 

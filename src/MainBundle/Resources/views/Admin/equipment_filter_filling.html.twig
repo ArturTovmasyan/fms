@@ -1,0 +1,75 @@
+{% extends base_template %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/main/css/admin.css") }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="hidden-xs"><a href="{{ url('sonata_admin_dashboard') }}">{% trans %}Dashboard{% endtrans %}</a></li>
+    <li class="active hidden-xs">Equipment Filling Table</li>
+{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center">Equipment Filling Status</h1>
+    <br/>
+    <br/>
+<div class="table-scroll">
+    <table class="table table-inverse">
+        <thead>
+        <tr>
+           <th>{{ 'Name'|trans({}) }}</th>
+           <th>{{ 'Code'|trans({}) }}</th>
+           <th>{{ 'equipment_workshop'|trans({}) }}</th>
+           <th>{{ 'State'|trans({}) }}</th>
+           <th>{{ 'Product'|trans({}) }}</th>
+           <th>{{ 'Mould'|trans({}) }}</th>
+           <th>{{ 'over_size'|trans({}) }}</th>
+           <th>{{ 'deployment'|trans({}) }}</th>
+           <th>{{ 'equipment_type'|trans({}) }}</th>
+           <th>{{ 'purchase_date'|trans({}) }}</th>
+           <th>{{ 'Spares'|trans({}) }}</th>
+           <th>{{ 'el_power'|trans({}) }}</th>
+           <th>{{ 'repair_job'|trans({}) }}</th>
+           <th>{{ 'balance_cost'|trans({}) }}</th>
+           <th>{{ 'actual_cost'|trans({}) }}</th>
+           <th>{{ 'inspection_period'|trans({}) }}</th>
+           <th>{{ 'inspection_next_date'|trans({}) }}</th>
+           <th>{{ 'files'|trans({}) }}</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            {% for key,value in 1..equipments|length %}
+                {% set eqValue = equipments[key] %}
+                <tr>
+                    <th scope="row">{{ eqValue.name }}</th>
+                    <td {% if eqValue.code %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.code %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.workshop|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.workshop|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.getStringState %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.getStringState %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.product|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.product|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.mould|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.mould|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.overSize %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.overSize %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.deployment|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.deployment|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.workshop|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.type|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.purchaseDate %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.purchaseDate %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.spares|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.spares|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.elPower %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.elPower|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.repairJob %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.repairJob %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.carryingPrice %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.carryingPrice %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.factualPrice %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.factualPrice %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.inspectionPeriod %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.inspectionPeriod %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.inspectionNextDate %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.inspectionNextDate %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.images|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.images|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

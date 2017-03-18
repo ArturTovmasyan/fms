@@ -31,7 +31,7 @@ class ToolImages implements ImageableInterface
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Tools", inversedBy="images", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Tools", inversedBy="images", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinColumn(name="tools_id", referencedColumnName="id")
      */
     protected $tool;

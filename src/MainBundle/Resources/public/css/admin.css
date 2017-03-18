@@ -1,3 +1,22 @@
 .hidden-field{
   display: none;
 }
+
+.table-scroll{
+  overflow-x: auto;
+  white-space: nowrap;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid black;
+  width: 30px;
+}
+
+td:hover{
+  background-color: yellow;
+}
+
+th:hover{
+  background-color: blue;
+}

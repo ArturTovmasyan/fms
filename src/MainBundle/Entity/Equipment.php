@@ -4,7 +4,6 @@ namespace MainBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use MainBundle\Model\MultipleFileInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -13,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Equipment
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\EquipmentRepository")
  * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
  */
 class Equipment
@@ -52,9 +51,9 @@ class Equipment
     private $description;
 
     /**
-     * @ORM\Column(name="over_size", type="string", length=20)
+     * @ORM\Column(name="over_size", type="string", length=20, nullable=true)
      */
-    private $overSize = 0;
+    private $overSize;
 
     /**
      *

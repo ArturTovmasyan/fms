@@ -31,7 +31,7 @@ class SparePartImages implements ImageableInterface
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="SparePart", inversedBy="images", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="SparePart", inversedBy="images", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinColumn(name="spare_part_id", referencedColumnName="id")
      */
     protected $sparePart;

@@ -28,14 +28,14 @@ class RawMaterialImages implements ImageableInterface
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="PrepackMaterials", inversedBy="images", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="PrepackMaterials", inversedBy="images", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinColumn(name="prepack_material_id", referencedColumnName="id")
      */
     protected $prepackMaterial;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="RubberMaterials", inversedBy="images", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="RubberMaterials", inversedBy="images", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinColumn(name="rubber_material_id", referencedColumnName="id")
      */
     protected $rubberMaterials;

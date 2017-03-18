@@ -25,6 +25,7 @@ class EquipmentAdmin extends Admin
     {
         // call parent query
         $query = parent::createQuery($context);
+
         // add selected
         $query->addSelect('p, pe, s, ml, im');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
@@ -32,6 +33,7 @@ class EquipmentAdmin extends Admin
         $query->leftJoin($query->getRootAlias() . '.spares', 's');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
         $query->leftJoin($query->getRootAlias() . '.images', 'im');
+
         return $query;
     }
 
@@ -45,6 +47,9 @@ class EquipmentAdmin extends Admin
             case 'edit':
                 return 'MainBundle:Admin:equipment_edit.html.twig';
                 break;
+            case 'list':
+                return 'MainBundle:Admin:equipment_list.html.twig';
+                break;
             default:
                 return parent::getTemplate($name);
                 break;
@@ -57,6 +62,7 @@ class EquipmentAdmin extends Admin
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection->add('equipment-report', $this->getRouterIdParameter().'/equipment-report');
+        $collection->add('equipment-filling', 'equipment-filling');
     }
 
     /**
@@ -130,6 +136,7 @@ class EquipmentAdmin extends Admin
             ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
+            ->add('overSize', null, array('label' => 'over_size'))
             ->add('mould', null, array(
                 'label' => 'mould',
                 'query_builder' => function($query) use ($editMouldId, $mouldIds) {
