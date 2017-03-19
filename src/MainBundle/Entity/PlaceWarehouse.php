@@ -36,27 +36,27 @@ class PlaceWarehouse
     private $warehouse;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Mould", mappedBy="placeWarehouse", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Mould", mappedBy="placeWarehouse", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $mould;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SparePart", mappedBy="placeWarehouse", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="SparePart", mappedBy="placeWarehouse", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $sparePart;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", mappedBy="placeWarehouse", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="placeWarehouse", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $product;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="placeWarehouse", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="placeWarehouse", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $rawMaterials;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tools", mappedBy="placeWarehouse", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Tools", mappedBy="placeWarehouse", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $tools;
 

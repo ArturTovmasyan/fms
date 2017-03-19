@@ -77,7 +77,21 @@ class SparePartAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('vendors')
-            ->add('equipment', null, array('label' => 'equipment'))
+            ->add('equipment', null, array(
+                'label' => 'equipment',
+                'query_builder' => function($query)  {
+                    $result = $query->createQueryBuilder('sp');
+                    $result
+                        ->select('eq', 'sps')
+                        ->from('MainBundle:Equipment','eq')
+                        ->leftJoin('eq.sparePart', 'sps')
+                        ->where('eq.type = :type')
+                        ->setParameter(':type', 1);
+
+                    return $result;
+                }
+            ))
+
             ->add('description', 'ckeditor')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))

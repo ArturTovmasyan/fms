@@ -48,7 +48,7 @@ class Personnel
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Equipment", mappedBy="responsiblePersons")
+     * @ORM\ManyToMany(targetEntity="Equipment", mappedBy="responsiblePersons", fetch="EXTRA_LAZY")
      */
     private $equipment;
 

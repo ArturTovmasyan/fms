@@ -72,12 +72,13 @@ class Equipment
     private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", mappedBy="equipment")
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="equipment", fetch="EXTRA_LAZY")
      */
     protected $product;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Mould", mappedBy="equipment")
+     * @ORM\ManyToMany(targetEntity="Mould", mappedBy="equipment", fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(name="equipment_mould")
      */
     private $mould;
 
@@ -86,6 +87,12 @@ class Equipment
      * @ORM\JoinTable(name="equipment_personnel")
      */
     protected $responsiblePersons;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="SparePart", inversedBy="equipment", cascade={"persist"})
+     * @ORM\JoinTable(name="equipment_spare_part")
+     */
+    protected $sparePart;
 
     /**
      *
@@ -875,5 +882,38 @@ class Equipment
     public function getOverSize()
     {
         return $this->overSize;
+    }
+
+    /**
+     * Add sparePart
+     *
+     * @param \MainBundle\Entity\SparePart $sparePart
+     * @return Equipment
+     */
+    public function addSparePart(\MainBundle\Entity\SparePart $sparePart)
+    {
+        $this->sparePart[] = $sparePart;
+
+        return $this;
+    }
+
+    /**
+     * Remove sparePart
+     *
+     * @param \MainBundle\Entity\SparePart $sparePart
+     */
+    public function removeSparePart(\MainBundle\Entity\SparePart $sparePart)
+    {
+        $this->sparePart->removeElement($sparePart);
+    }
+
+    /**
+     * Get sparePart
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSparePart()
+    {
+        return $this->sparePart;
     }
 }

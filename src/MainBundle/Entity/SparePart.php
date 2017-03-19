@@ -50,7 +50,7 @@ class SparePart
     protected $placeWarehouse;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Equipment")
+     * @ORM\ManyToMany(targetEntity="Equipment", mappedBy="sparePart", cascade={"persist"})
      */
     protected $equipment;
 
