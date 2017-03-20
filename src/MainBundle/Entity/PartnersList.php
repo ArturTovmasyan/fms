@@ -38,22 +38,22 @@ class PartnersList
     private $lastName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", mappedBy="client", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="client", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $product;
 
     /**
-     * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="vendors", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="RawMaterials", mappedBy="vendors", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $rawMaterials;
 
     /**
-     * @ORM\ManyToMany(targetEntity="SparePart", mappedBy="vendors", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="SparePart", mappedBy="vendors", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $sparePart;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tools", mappedBy="vendors", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="Tools", mappedBy="vendors", cascade={"persist"}, fetch="EXTRA_LAZY")
      */
     private $tools;
 

@@ -1,6 +1,5 @@
 {% extends base_template %}
 
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset("bundles/main/css/equipment.css") }}">
@@ -17,7 +16,7 @@
 
 {% block content %}
 
-    <h1 class="text-center">Equipment Filling Status</h1>
+    <h1 class="text-center">{{ 'equipment_filling_title'|trans({}) }}</h1>
     <br/>
     <br/>
 <div class="table-scroll">

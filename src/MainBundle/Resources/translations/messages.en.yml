@@ -102,6 +102,8 @@ mechanic: մեխանիկական
 electric: էլեկտրատեխնիկական
 report_text: Հաշվետվությունը հաջողությամբ ստեղծված է
 equipment_filling: Ըստ լրացվածության
+equipment_filling_title: Սարքաորումների լրացվածության աղյուսակ
+
 
 file:
     max_extension: The minimum file size is 400x400 px
