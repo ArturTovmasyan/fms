@@ -28,6 +28,7 @@
            <th>{{ 'over_size'|trans({}) }}</th>
            <th>{{ 'deployment'|trans({}) }}</th>
            <th>{{ 'Spares'|trans({}) }}</th>
+           <th>{{ 'description'|trans({}) }}</th>
            <th>{{ 'repair_job'|trans({}) }}</th>
            <th>{{ 'balance_cost'|trans({}) }}</th>
            <th>{{ 'actual_cost'|trans({}) }}</th>
@@ -48,6 +49,7 @@
                     <td {% if not eqValue.overSize %}class="bg-danger"{% endif %}>{% if not eqValue.overSize %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
                     <td {% if eqValue.deployment|length == 0 %}class="bg-danger"{% endif %}>{% if eqValue.deployment|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
                     <td {% if eqValue.spares|length == 0 %}class="bg-danger"{% endif %}>{% if eqValue.spares|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.description %}class="bg-danger"{% endif %}>{% if not eqValue.description %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
                     <td {% if not eqValue.repairJob %}class="bg-danger"{% endif %}>{% if not eqValue.repairJob %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
                     <td {% if not eqValue.carryingPrice %}class="bg-danger"{% endif %}>{% if not eqValue.carryingPrice %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
                     <td {% if not eqValue.factualPrice %}class="bg-danger"{% endif %}>{% if not eqValue.factualPrice %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
