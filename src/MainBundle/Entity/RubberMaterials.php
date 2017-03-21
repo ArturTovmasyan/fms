@@ -33,6 +33,16 @@ class RubberMaterials extends RawMaterials implements MultipleFileInterface
     private $gost;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="code", type="string", unique=true)
+     * @Assert\NotNull()
+     * @Assert\Length(min="6", max="6")
+     * @Assert\Regex("/[0-9]/")
+     */
+    private $code;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="RubberCategory", inversedBy="rubberMaterials", cascade={"persist"})
      */
     private $category;
@@ -167,5 +177,28 @@ class RubberMaterials extends RawMaterials implements MultipleFileInterface
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return RubberMaterials
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

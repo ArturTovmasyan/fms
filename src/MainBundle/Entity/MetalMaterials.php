@@ -4,6 +4,7 @@ namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Model\MultipleFileInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MetalMaterials
@@ -28,6 +29,16 @@ class MetalMaterials extends RawMaterials implements MultipleFileInterface
      * @ORM\Column(name="gost", type="string", length=255)
      */
     private $gost;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="code", type="string", unique=true)
+     * @Assert\NotNull()
+     * @Assert\Regex("/[0-9]/")
+     * @Assert\Length(min="6", max="6")
+     */
+    private $code;
 
     /**
      * @ORM\ManyToOne(targetEntity="MetalCategory", inversedBy="metalMaterials", cascade={"persist"})
@@ -156,5 +167,28 @@ class MetalMaterials extends RawMaterials implements MultipleFileInterface
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return MetalMaterials
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

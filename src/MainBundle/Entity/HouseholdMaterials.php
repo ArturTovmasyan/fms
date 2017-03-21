@@ -4,6 +4,8 @@ namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Model\MultipleFileInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * HouseholdMaterials
@@ -26,6 +28,16 @@ class HouseholdMaterials extends RawMaterials implements MultipleFileInterface
      * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="householdMaterials", cascade={"persist", "remove"})
      */
     protected $images;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="code", type="string", unique=true)
+     * @Assert\NotNull()
+     * @Assert\Length(min="6", max="6")
+     * @Assert\Regex("/[0-9]/")
+     */
+    private $code;
 
     /**
      * Get id
@@ -68,5 +80,28 @@ class HouseholdMaterials extends RawMaterials implements MultipleFileInterface
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return HouseholdMaterials
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
     }
 }

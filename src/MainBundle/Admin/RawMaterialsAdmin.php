@@ -57,7 +57,6 @@ class RawMaterialsAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('description')
-            ->add('code')
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
@@ -75,7 +74,6 @@ class RawMaterialsAdmin extends Admin
         $formMapper
             ->add('name')
             ->add('description')
-            ->add('code')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('vendors')
@@ -97,7 +95,6 @@ class RawMaterialsAdmin extends Admin
         $datagridMapper
             ->add('id', null, array('show_filters' => true))
             ->add('name', null, array('show_filters' => true))
-            ->add('code', null, array('show_filters' => true))
         ;
     }
 
@@ -108,7 +105,6 @@ class RawMaterialsAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('description')
-            ->add('code')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('vendors')

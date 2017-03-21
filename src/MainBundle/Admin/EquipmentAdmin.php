@@ -164,7 +164,7 @@ class EquipmentAdmin extends Admin
             ->add('carryingPrice', null, array('label'=>'balance_cost'))
             ->add('factualPrice', null, array('label'=>'actual_cost'))
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
-            ->add('eq_multiple_file', EqMultipleFileType::class, ['label'=>'files']);
+            ->add('eq_multiple_file', EqMultipleFileType::class, ['label'=>'files', 'required' => false]);
     }
 
     // Fields to be shown on filter forms

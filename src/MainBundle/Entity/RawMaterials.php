@@ -5,7 +5,6 @@ namespace MainBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
@@ -48,15 +47,6 @@ abstract class RawMaterials
      * @ORM\Column(name="description", type="string", length=255)
      */
     private $description;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="code", type="integer", unique=true)
-     * @Assert\NotNull()
-     * @Assert\Length(min="4")
-     */
-    private $code;
 
     /**
      * @var integer
@@ -170,29 +160,6 @@ abstract class RawMaterials
     public function getDescription()
     {
         return $this->description;
-    }
-
-    /**
-     * Set code
-     *
-     * @param integer $code
-     * @return RawMaterials
-     */
-    public function setCode($code)
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * Get code
-     *
-     * @return integer 
-     */
-    public function getCode()
-    {
-        return $this->code;
     }
 
     /**

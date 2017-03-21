@@ -15,7 +15,6 @@
 {% endblock %}
 
 {% block content %}
-
     <h1 class="text-center">{{ 'equipment_filling_title'|trans({}) }}</h1>
     <br/>
     <br/>
@@ -24,22 +23,17 @@
         <thead>
         <tr>
            <th>{{ 'Name'|trans({}) }}</th>
-           <th>{{ 'Code'|trans({}) }}</th>
-           <th>{{ 'equipment_workshop'|trans({}) }}</th>
-           <th>{{ 'State'|trans({}) }}</th>
            <th>{{ 'Product'|trans({}) }}</th>
            <th>{{ 'Mould'|trans({}) }}</th>
            <th>{{ 'over_size'|trans({}) }}</th>
            <th>{{ 'deployment'|trans({}) }}</th>
-           <th>{{ 'equipment_type'|trans({}) }}</th>
-           <th>{{ 'purchase_date'|trans({}) }}</th>
            <th>{{ 'Spares'|trans({}) }}</th>
-           <th>{{ 'el_power'|trans({}) }}</th>
            <th>{{ 'repair_job'|trans({}) }}</th>
            <th>{{ 'balance_cost'|trans({}) }}</th>
            <th>{{ 'actual_cost'|trans({}) }}</th>
            <th>{{ 'inspection_period'|trans({}) }}</th>
-           <th>{{ 'inspection_next_date'|trans({}) }}</th>
+           <th>{{ 'el_power'|trans({}) }}</th>
+           <th>{{ 'weight'|trans({}) }}</th>
            <th>{{ 'files'|trans({}) }}</th>
         </tr>
         </thead>
@@ -49,23 +43,18 @@
                 {% set eqValue = equipments[key] %}
                 <tr>
                     <th scope="row">{{ eqValue.name }}</th>
-                    <td {% if eqValue.code %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.code %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.workshop|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.workshop|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.getStringState %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.getStringState %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.product|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.product|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.mould|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.mould|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.overSize %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.overSize %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.deployment|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.deployment|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.workshop|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.type|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.purchaseDate %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.purchaseDate %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.spares|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.spares|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.elPower %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.elPower|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.repairJob %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.repairJob %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.carryingPrice %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.carryingPrice %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.factualPrice %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.factualPrice %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.inspectionPeriod %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.inspectionPeriod %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.inspectionNextDate %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.inspectionNextDate %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
-                    <td {% if eqValue.images|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.images|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.product|length == 0 %}class="bg-danger"{% endif %}>{% if eqValue.product|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.mould|length == 0 %}class="bg-danger">{% endif %}{% if eqValue.mould|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.overSize %}class="bg-danger"{% endif %}>{% if not eqValue.overSize %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.deployment|length == 0 %}class="bg-danger"{% endif %}>{% if eqValue.deployment|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.spares|length == 0 %}class="bg-danger"{% endif %}>{% if eqValue.spares|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.repairJob %}class="bg-danger"{% endif %}>{% if not eqValue.repairJob %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.carryingPrice %}class="bg-danger"{% endif %}>{% if not eqValue.carryingPrice %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.factualPrice %}class="bg-danger"{% endif %}>{% if not eqValue.factualPrice %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.inspectionPeriod %}class="bg-danger"{% endif %}>{% if not eqValue.inspectionPeriod %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.elPower %}class="bg-danger"{% endif %}>{% if not eqValue.elPower %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if not eqValue.weight %}class="bg-danger"{% endif %}>{% if not eqValue.weight %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
+                    <td {% if eqValue.images|length == 0 %}class="bg-danger"{% endif %}>{% if eqValue.images|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
                 </tr>
             {% endfor %}
         </tbody>

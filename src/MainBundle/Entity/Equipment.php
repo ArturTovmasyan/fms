@@ -39,7 +39,7 @@ class Equipment
      * @ORM\Column(name="code", type="string", unique=true)
      * @Assert\NotNull()
      * @Assert\Length(min = 3, max=3)
-     *
+     * @Assert\Regex("/[0-9]/")
      */
     private $code;
 

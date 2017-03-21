@@ -34,6 +34,7 @@ class ConductiveMaterialsAdmin extends RawMaterialsAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
+            ->add('code')
             ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
         ;
         parent::configureShowFields($showMapper);
@@ -44,6 +45,7 @@ class ConductiveMaterialsAdmin extends RawMaterialsAdmin
     {
         parent::configureFormFields($formMapper);
         $formMapper
+            ->add('code')
             ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
         ;
     }
@@ -51,6 +53,8 @@ class ConductiveMaterialsAdmin extends RawMaterialsAdmin
     // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
+        $datagridMapper
+            ->add('code');
         parent::configureDatagridFilters($datagridMapper);
     }
 
@@ -58,6 +62,7 @@ class ConductiveMaterialsAdmin extends RawMaterialsAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('code')
             ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
         ;
         parent::configureListFields($listMapper);
