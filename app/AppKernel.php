@@ -34,6 +34,7 @@ class AppKernel extends Kernel
             new Sonata\MediaBundle\SonataMediaBundle(),
             
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
 
             new CoopTilleuls\Bundle\CKEditorSonataMediaBundle\CoopTilleulsCKEditorSonataMediaBundle(),

@@ -77,7 +77,19 @@ class EquipmentController extends Controller
         //get equipments
         $equipments = $em->getRepository('MainBundle:Equipment')->findAllEquipment();
 
-        return $this->render('MainBundle:Admin:equipment_filter_filling.html.twig', ['equipments' => $equipments]);
+        // get page count
+        $pageCount = $this->getParameter('page_count');
+
+        //get pagination in container
+        $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate(
+            $equipments,
+            $this->get('request')->query->get('page', 1),
+            $pageCount
+        );
+
+        return $this->render('MainBundle:Admin:equipment_filter_filling.html.twig', ['pagination' => $pagination]);
     }
 
 }

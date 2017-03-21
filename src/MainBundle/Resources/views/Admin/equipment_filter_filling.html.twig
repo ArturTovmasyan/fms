@@ -15,6 +15,16 @@
 {% endblock %}
 
 {% block content %}
+
+    {% set totalCount = pagination.getTotalItemCount() %}
+    {% set itemNumberCount = pagination.getItemNumberPerPage() %}
+
+    {% if totalCount < itemNumberCount %}
+        {% set loopCount = totalCount %}
+    {% else %}
+        {% set loopCount = itemNumberCount %}
+    {% endif %}
+
     <h1 class="text-center">{{ 'equipment_filling_title'|trans({}) }}</h1>
     <br/>
     <br/>
@@ -40,8 +50,9 @@
         </thead>
 
         <tbody>
-            {% for key,value in 1..equipments|length %}
-                {% set eqValue = equipments[key] %}
+            {% for key,value in 1..loopCount %}
+                {% set eqValue = pagination.items[key] %}
+
                 <tr>
                     <th scope="row">{{ eqValue.name }}</th>
                     <td {% if eqValue.product|length == 0 %}class="bg-danger"{% endif %}>{% if eqValue.product|length == 0 %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
@@ -61,5 +72,8 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="text-center">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 </div>
 {% endblock %}
