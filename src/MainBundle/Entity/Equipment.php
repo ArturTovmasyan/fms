@@ -29,7 +29,7 @@ class Equipment
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -51,13 +51,26 @@ class Equipment
     private $description;
 
     /**
-     * @ORM\Column(name="over_size", type="string", length=20, nullable=true)
+     * @ORM\Column(name="length", type="string", length=5, nullable=true)
+     * @Assert\Regex("/[0-9]/")
      */
-    private $overSize;
+    private $length;
+
+    /**
+     * @ORM\Column(name="width", type="string", length=5, nullable=true)
+     * @Assert\Regex("/[0-9]/")
+     */
+    private $width;
+
+    /**
+     * @ORM\Column(name="height", type="string", length=5, nullable=true)
+     * @Assert\Regex("/[0-9]/")
+     */
+    private $height;
 
     /**
      *
-     * @ORM\Column(name="purchase_date", type="datetime")
+     * @ORM\Column(name="purchase_date", type="datetime", nullable=true)
      */
     private $purchaseDate;
 
@@ -101,32 +114,36 @@ class Equipment
     private $deployment;
 
     /**
-     * @ORM\Column(name="state", type="smallint")
+     * @ORM\Column(name="state", type="smallint", nullable=true)
      */
     private $state;
 
     /**
-     * @ORM\Column(name="el_power", type="integer")
+     * @ORM\Column(name="el_power", type="string", length=10,  nullable=true)
+     * @Assert\Regex("/[0-9]/")
      */
     private $elPower;
 
     /**
-     * @ORM\Column(name="weight", type="integer")
+     * @ORM\Column(name="weight", type="string", length=10, nullable=true)
+     * @Assert\Regex("/[0-9]/")
      */
     private $weight;
 
     /**
-     * @ORM\Column(name="carrying_price", type="integer")
+     * @ORM\Column(name="carrying_price", type="string", length=15, nullable=true)
+     * @Assert\Regex("/[0-9]/")
      */
     private $carryingPrice;
 
     /**
-     * @ORM\Column(name="factual_price", type="integer")
+     * @ORM\Column(name="factual_price", type="string", length=15, nullable=true)
+     * @Assert\Regex("/[0-9]/")
      */
     private $factualPrice;
 
     /**
-     * @ORM\Column(name="inspection_period", type="integer")
+     * @ORM\Column(name="inspection_period", type="integer", nullable=true)
      */
     private $inspectionPeriod;
 
@@ -136,7 +153,7 @@ class Equipment
     private $repairJob;
 
     /**
-     * @ORM\Column(name="inspection_next_date", type="datetime")
+     * @ORM\Column(name="inspection_next_date", type="datetime", nullable=true)
      */
     private $inspectionNextDate;
 
@@ -862,29 +879,6 @@ class Equipment
     }
 
     /**
-     * Set overSize
-     *
-     * @param integer $overSize
-     * @return Equipment
-     */
-    public function setOverSize($overSize)
-    {
-        $this->overSize = $overSize;
-
-        return $this;
-    }
-
-    /**
-     * Get overSize
-     *
-     * @return integer 
-     */
-    public function getOverSize()
-    {
-        return $this->overSize;
-    }
-
-    /**
      * Add sparePart
      *
      * @param \MainBundle\Entity\SparePart $sparePart
@@ -915,5 +909,74 @@ class Equipment
     public function getSparePart()
     {
         return $this->sparePart;
+    }
+
+    /**
+     * Set length
+     *
+     * @param string $length
+     * @return Equipment
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    /**
+     * Get length
+     *
+     * @return string 
+     */
+    public function getLength()
+    {
+        return $this->length;
+    }
+
+    /**
+     * Set width
+     *
+     * @param string $width
+     * @return Equipment
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+
+        return $this;
+    }
+
+    /**
+     * Get width
+     *
+     * @return string 
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set height
+     *
+     * @param string $height
+     * @return Equipment
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+
+        return $this;
+    }
+
+    /**
+     * Get height
+     *
+     * @return string 
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 }

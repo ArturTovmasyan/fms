@@ -106,6 +106,9 @@ equipment_filling: Ըստ լրացվածության
 equipment_filling_title: Սարքավորումների լրացվածության աղյուսակ
 weight: Քաշը
 description: Բնութագիրը
+length: Երկարություն
+width: Լայնություն
+height: Բարձրություն
 
 file:
     max_extension: The minimum file size is 400x400 px
