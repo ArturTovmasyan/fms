@@ -18,12 +18,34 @@ jQuery(document).ready(function() {
     $collectionHolder.data('index', $collectionHolder.find('.col-sm-1').length);
 
     $addTagLink.on('click', function(e) {
+
         // prevent the link from creating a "#" on the URL
         e.preventDefault();
 
         // add a new tag form (see next code block)
         addTagForm($collectionHolder, $newLinkLi);
+
     });
+
+    var id = $("input[id$='token']").attr("id");
+    var pos = id.indexOf("_token");
+    var fieldToken = id.slice(0, pos);
+    var tkn = fieldToken.slice(0, -1);
+    var index = $collectionHolder.data('index');
+    var fieldName = tkn+'[spare_part_multiple_file]['+index+'][file][]';
+    var fieldId = fieldToken+'spare_part_multiple_file_'+index+'_fIle';
+    var fileSelector = '#'+fieldId;
+
+    // '<input type="file" id="s58d114bd5b304_spare_part_multiple_file_2_file" ' +
+    // 'name="s58d114bd5b304[spare_part_multiple_file][2][file][]" ' +
+    // 'required="required" ' +
+    // 'multiple="multiple">'
+
+    $(fileSelector).change(function () {
+        var files = $(this).val().length;
+        console.log(files);
+    });
+
 });
 
 function addTagForm($collectionHolder, $newLinkLi) {
