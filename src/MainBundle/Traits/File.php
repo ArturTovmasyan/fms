@@ -5,6 +5,8 @@ namespace MainBundle\Traits;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * Class File
@@ -49,32 +51,6 @@ trait File
      * @ORM\Column(name="file_size", type="integer", nullable=true)
      */
     protected $fileSize;
-
-    /**
-     * @ORM\Column(name="type", type="string", nullable=true)
-     */
-    protected $type;
-
-    /**
-     * @param $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
     /**
      * Sets file.

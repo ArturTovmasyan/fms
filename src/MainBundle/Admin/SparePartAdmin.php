@@ -74,8 +74,11 @@ class SparePartAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get object id
+        $id = $this->getSubject() ? $this->getSubject()->getId() : null;
+
         $formMapper
-            ->add('name')
+            ->add('name', null, ['attr'=>['class' => 'SparePart']])
             ->add('vendors')
             ->add('equipment', null, array(
                 'label' => 'equipment',
@@ -97,15 +100,14 @@ class SparePartAdmin extends Admin
             ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
-                    "Կգ",
-                    "Մետր",
-                    "Հատ",
-                    "Կոմպլեկտ",
-                    "Լիտր")))
-//            ->add('spare_part_multiple_file', SparePartMultipleFileType::class, ['label'=>'files'])
+            ->add('size', 'choice', array('label' => 'size', 'choices' => array( "Կգ", "Մետր","Հատ","Կոմպլեկտ", "Լիտր")))
             ->add('imageIds', 'hidden', ['mapped'=>false])
         ;
+
+        if($id){
+            $formMapper
+                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
+        }
     }
 
     // Fields to be shown on filter forms

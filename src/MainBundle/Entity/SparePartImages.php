@@ -3,10 +3,12 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use MainBundle\Model\ImageableInterface;
 use MainBundle\Traits\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 
 /**
@@ -100,5 +102,18 @@ class SparePartImages implements ImageableInterface
     public function getSparePart()
     {
         return $this->sparePart;
+    }
+
+    /**
+     * Set path
+     *
+     * @param string $path
+     * @return SparePartImages
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
     }
 }

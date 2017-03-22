@@ -198,6 +198,7 @@ class MainRestController extends FOSRestController
      *  description="This function is used to get workshop type by workshop id",
      *  statusCodes={
      *         200="Returned when file was removed",
+     *         201="No content",
      *         403="Forbidden",
      *  },
      * )
@@ -237,7 +238,7 @@ class MainRestController extends FOSRestController
      * @Security("has_role('ROLE_ADMIN')")
      * @return Response
      */
-    public function postMultipleFileAction(Request $request)
+    public function postSparePartFileAction(Request $request)
     {
         //get fms service
         $fmsService = $this->container->get('fms_service');
@@ -272,4 +273,44 @@ class MainRestController extends FOSRestController
 
         return new Response('', Response::HTTP_NO_CONTENT);
     }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get related files by class name",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         404="Bad request",
+     *         403="Forbidden"
+     *  },
+     * )
+     *
+     * @Rest\Get("/files/{className}/{id}", name="main_rest_mainrest_getfiles", options={"method_prefix"=false})
+     * @Rest\View(serializerGroups={"files"})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @param $className
+     * @param $id
+     * @return Response
+     */
+    public function getFilesAction($className, $id)
+    {
+        //check if one is parameters not exist
+        if(!$className || !$id) {
+            return new Response('Invalid request parameters', Response::HTTP_BAD_REQUEST);
+        }
+
+        //generate dynamically repository name
+        $repository = 'MainBundle:'.$className;
+
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get all related files
+        $files = $em->getRepository($repository)->findFiles($className, $id);
+
+        return $files;
+    }
+
 }

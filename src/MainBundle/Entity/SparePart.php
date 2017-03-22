@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * SparePart
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\SparePartRepository")
  */
 class SparePart
 {
