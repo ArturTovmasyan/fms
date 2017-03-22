@@ -3,9 +3,25 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset("bundles/main/css/admin.css") }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.css">
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('bundles/main/js/files.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js"></script>
+    {#<script src="{{ asset('bundles/main/js/files.js') }}"></script>#}
+    <script src="{{ asset('bundles/main/js/multipleFile.js') }}"></script>
+{% endblock %}
+
+{% block form %}
+    {{ parent() }}
+    <div id="dZUpload" class="dropzone">
+        <div class="dz-default dz-message"></div>
+    </div>
+
+    {#<form action="#" method="POST" enctype="multipart/form-data" class="dropzone">#}
+        {#<div class="fallback">#}
+            {#<input name="file" type="file" multiple />#}
+        {#</div>#}
+    {#</form>#}
 {% endblock %}

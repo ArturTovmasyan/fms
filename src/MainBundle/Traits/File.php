@@ -4,6 +4,7 @@ namespace MainBundle\Traits;
 
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class File
@@ -50,7 +51,7 @@ trait File
     protected $fileSize;
 
     /**
-     * @ORM\Column(name="type", type="string")
+     * @ORM\Column(name="type", type="string", nullable=true)
      */
     protected $type;
 

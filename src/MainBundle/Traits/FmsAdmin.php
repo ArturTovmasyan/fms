@@ -23,26 +23,24 @@ trait FmsAdmin
      * This function is used to upload file
      *
      * @param $object
+     * @param $images
      */
-    private function addImages(&$object)
+    private function addImages(&$object, $images)
     {
-        $fmsService = $this->getConfigurationPool()->getContainer()->get('fms_service');
-
-        //get images
-        $images = $object->getImages();
-
-        // check images
+        // check and set relation for images
         if($images) {
 
             // loop for images
-            foreach($images as $image) {
-
+            foreach($images as $image)
+            {
                 if(!$image->getId() && !$image->getFile()){
                     continue;
                 }
 
-                // upload file
-                $fmsService->uploadFile($image);
+                //set relation for image
+                if ($image instanceof SparePartImages){
+                    $image->setSparePart($object);
+                }
 
                 //set relation for image
                 if ($image instanceof EquipmentImage){
@@ -51,10 +49,6 @@ trait FmsAdmin
 
                 if ($image instanceof ToolImages){
                     $image->setTool($object);
-                }
-
-                if ($image instanceof SparePartImages){
-                    $image->setSparePart($object);
                 }
 
                 if ($image instanceof RawMaterialImages) {

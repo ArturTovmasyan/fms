@@ -103,8 +103,8 @@ class SparePartAdmin extends Admin
                     "Հատ",
                     "Կոմպլեկտ",
                     "Լիտր")))
-            ->add('spare_part_multiple_file', SparePartMultipleFileType::class, ['label'=>'files'])
-//            ->add('images', 'sonata_type_model_list')
+//            ->add('spare_part_multiple_file', SparePartMultipleFileType::class, ['label'=>'files'])
+            ->add('imageIds', 'hidden', ['mapped'=>false])
         ;
     }
 
@@ -164,7 +164,28 @@ class SparePartAdmin extends Admin
      */
     public function prePersist($object)
     {
-        $this->addImages($object);
+        //set relation for object and images
+        $images = $this->getImages();
+        $this->addImages($object, $images);
+    }
+
+    /**
+     * This function is used to get images by id
+     *
+     * @return array
+     */
+    public function getImages()
+    {
+        //get images by ids
+        $request = $this->getRequest();
+        $uniqId = $this->getUniqid();
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+        $imagesIds = $request->request->get($uniqId)['imageIds'];
+        $imagesIds = json_decode($imagesIds, true);
+        $ids = explode( ',', $imagesIds);
+        $images = $em->getRepository('MainBundle:SparePartImages')->findBy(['id'=>$ids]);
+
+        return $images;
     }
 }
 
