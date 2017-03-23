@@ -642,16 +642,16 @@ class Equipment
         $stringState = null;
 
         switch($this->state) {
-            case 0:
+            case 1:
                 $stringState = "Սարքին` բարվոք վիճակում";
                 break;
-            case 1:
+            case 2:
                 $stringState = "Աշխատող` վերանորոգման ենթակա";
                 break;
-            case 2:
+            case 3:
                 $stringState = "Չաշխատող` վերանորոգման ենթակա";
                 break;
-            case 3:
+            case 4:
                 $stringState = "Անհուսալի";
                 break;
             default:

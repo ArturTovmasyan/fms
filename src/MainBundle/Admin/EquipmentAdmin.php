@@ -132,10 +132,11 @@ class EquipmentAdmin extends Admin
             ->add('name', null, ['attr'=>['class' => self::className.' '. self::imageClassName]])
             ->add('code')
             ->add('state', 'choice', array('choices'=> array(
-                "Սարքին` բարվոք վիճակում",
-                "Աշխատող` վերանորոգման ենթակա",
-                "Չաշխատող` վերանորոգման ենթակա",
-                "Անհուսալի")))
+                0 => ' ',
+                1 => "Սարքին` բարվոք վիճակում",
+                2 => "Աշխատող` վերանորոգման ենթակա",
+                3 => "Չաշխատող` վերանորոգման ենթակա",
+                4 => "Անհուսալի"), 'required'=>false))
             ->add('workshop', 'sonata_type_model', ['label'=>'equipment_workshop'])
             ->add('type', null, ['attr' => ['class' => 'hidden-field'], 'label'=>false])
             ->add('deployment', null, ['label' => 'Deployment'])
