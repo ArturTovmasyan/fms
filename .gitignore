@@ -9,6 +9,7 @@ composer.lock
 /vendor/
 /web/bundles/
 /web/uploads/
+/web/node_modules/
 .idea/
 /web/images/*
 /app/phpunit.xml
