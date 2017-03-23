@@ -43,10 +43,14 @@ class ConductiveMaterialsAdmin extends RawMaterialsAdmin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get current class name
+        $className = $this->getClassnameLabel();
+        $imageClassName = $this->getMyConstant();
+
         parent::configureFormFields($formMapper);
         $formMapper
+            ->add('name', null, ['attr'=>['class' => $className.' '. $imageClassName]])
             ->add('code')
-            ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
         ;
     }
 

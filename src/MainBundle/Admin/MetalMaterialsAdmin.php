@@ -48,12 +48,17 @@ class MetalMaterialsAdmin extends RawMaterialsAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         parent::configureFormFields($formMapper);
+
+        //get current class name
+        $className = $this->getClassnameLabel();
+        $imageClassName = $this->getMyConstant();
+
         $formMapper
+            ->add('name', null, ['attr'=>['class' => $className.' '. $imageClassName]])
             ->add('gost')
             ->add('code')
             ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
         ;
 
     }

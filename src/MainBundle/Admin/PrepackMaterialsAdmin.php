@@ -9,8 +9,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PrepackMaterialsAdmin extends RawMaterialsAdmin
 {
-    const imageClassName = 'RawMaterialImages';
-
     /**
      * override list query
      *
@@ -55,19 +53,14 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
 
         //get current class name
         $className = $this->getClassnameLabel();
+        $imageClassName = $this->getMyConstant();
 
         $formMapper
-            ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
+            ->add('name', null, ['attr'=>['class' => $className.' '. $imageClassName]])
             ->add('product')
             ->add('equipment')
             ->add('workshop')
-            ->add('weight')
-            ->add('imageIds', 'hidden', ['mapped'=>false]);
-
-//        if($id){
-//            $formMapper
-//                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
-//        }
+            ->add('weight');
     }
 
     // Fields to be shown on filter forms

@@ -5,13 +5,14 @@ namespace MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Model\MultipleFileInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation\Groups;
 
 
 /**
  * HouseholdMaterials
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\HouseholdMaterialsRepository")
  */
 class HouseholdMaterials extends RawMaterials implements MultipleFileInterface
 {
@@ -26,6 +27,7 @@ class HouseholdMaterials extends RawMaterials implements MultipleFileInterface
 
     /**
      * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="householdMaterials", cascade={"persist", "remove"})
+     * @Groups({"files"})
      */
     protected $images;
 

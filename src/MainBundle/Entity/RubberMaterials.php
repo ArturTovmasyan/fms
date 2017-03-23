@@ -2,17 +2,17 @@
 
 namespace MainBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Model\MultipleFileInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * RubberMaterials
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\RubberMaterialsRepository")
  */
 class RubberMaterials extends RawMaterials implements MultipleFileInterface
 {
@@ -56,6 +56,7 @@ class RubberMaterials extends RawMaterials implements MultipleFileInterface
 
     /**
      * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="rubberMaterials", cascade={"persist", "remove"})
+     * @Groups({"files"})
      */
     protected $images;
 

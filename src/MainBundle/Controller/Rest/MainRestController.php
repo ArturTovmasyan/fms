@@ -48,7 +48,7 @@ class MainRestController extends FOSRestController
         }
 
         //check and remove image entity relations
-        if($className == 'rubber') {
+        if($className == 'RubberMaterials') {
 
             if (!is_null($class = $object->getRubberMaterials()))
             {
@@ -56,7 +56,7 @@ class MainRestController extends FOSRestController
             }
         }
 
-        elseif($className == 'metal') {
+        elseif($className == 'MetalMaterials') {
 
             if (!is_null($class = $object->getMetalMaterials()))
             {
@@ -64,7 +64,7 @@ class MainRestController extends FOSRestController
             }
         }
 
-        elseif($className == 'conductive') {
+        elseif($className == 'ConductiveMaterials') {
 
             if (!is_null($class = $object->getConductiveMaterials()))
             {
@@ -72,7 +72,7 @@ class MainRestController extends FOSRestController
             }
         }
 
-        elseif($className == 'illiquid') {
+        elseif($className == 'IlliquidMaterials') {
 
             if (!is_null($class = $object->getIlliquidMaterials()))
             {
@@ -80,7 +80,7 @@ class MainRestController extends FOSRestController
             }
         }
 
-        elseif($className == 'household') {
+        elseif($className == 'HouseholdMaterials') {
 
             if (!is_null($class = $object->getHouseholdMaterials()))
             {

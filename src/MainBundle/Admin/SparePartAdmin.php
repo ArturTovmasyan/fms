@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class SparePartAdmin extends Admin
 {
     use FmsAdmin;
-    const className = 'SparePart';
+
     const imageClassName = 'SparePartImages';
 
     /**
@@ -79,8 +79,11 @@ class SparePartAdmin extends Admin
         //get object id
         $id = $this->getSubject() ? $this->getSubject()->getId() : null;
 
+        //get current class name
+        $className = $this->getClassnameLabel();
+
         $formMapper
-            ->add('name', null, ['attr'=>['class' => self::className.' '. self::imageClassName]])
+            ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('vendors')
             ->add('equipment', null, array(
                 'label' => 'equipment',

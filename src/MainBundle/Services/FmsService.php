@@ -2,9 +2,6 @@
 
 namespace MainBundle\Services;
 
-use Symfony\Component\DependencyInjection\Container;
-
-
 /**
  * Class FmsService
  * @package MainBundle\Services
@@ -12,30 +9,8 @@ use Symfony\Component\DependencyInjection\Container;
 class FmsService
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\Container
-     */
-    protected  $container;
-
-    /**
-     * @var
-     */
-    protected $em;
-
-    /**
-     * @param Container $container
-     */
-    public function __construct(Container $container)
-    {
-        $this->container = $container;
-        $this->em = $container->get('doctrine')->getManager();
-    }
-
-    /**
-     * This function is used to upload files
+     * This function is used to upload files object
      *
-     */
-
-    /**
      * @param $object
      */
     public function uploadFile(&$object)
@@ -72,17 +47,11 @@ class FmsService
             $extension = $path_parts['extension'];
         }
 
+        //set file data
         $object->setType($extension);
-
         $object->setFileName(md5(microtime()) . '.' . $extension);
-
-        // set size
         $object->setFileSize($object->getFile()->getClientSize());
-
-        // upload file
         $object->getFile()->move($object->getAbsolutePath(), $object->getFileName());
-
-        // set file to null
         $object->setFile(null);
     }
 }

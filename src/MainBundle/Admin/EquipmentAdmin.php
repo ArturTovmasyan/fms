@@ -15,7 +15,6 @@ class EquipmentAdmin extends Admin
 {
     use FmsAdmin;
 
-    const className = 'Equipment';
     const imageClassName = 'EquipmentImage';
 
     /**
@@ -114,6 +113,9 @@ class EquipmentAdmin extends Admin
     {
         $subject = $this->getSubject();
 
+        //get current class name
+        $className = $this->getClassnameLabel();
+
         //get object id
         $id = $subject ? $subject->getId() : null;
 
@@ -129,7 +131,7 @@ class EquipmentAdmin extends Admin
         $this->time = $subject->getInspectionPeriod();
 
         $formMapper
-            ->add('name', null, ['attr'=>['class' => self::className.' '. self::imageClassName]])
+            ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
             ->add('state', 'choice', array('choices'=> array(
                 0 => ' ',

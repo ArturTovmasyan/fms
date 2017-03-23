@@ -41,7 +41,6 @@ twig:
         resources:
         - 'MainBundle:Form:multipleRouteCard.html.twig'
         - 'MainBundle:Form:multipleComponent.html.twig'
-        - 'MainBundle:Form:materialMultipleFile.html.twig'
 
 # Assetic Configuration
 assetic:

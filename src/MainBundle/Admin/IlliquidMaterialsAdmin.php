@@ -46,8 +46,12 @@ class IlliquidMaterialsAdmin extends RawMaterialsAdmin
     {
         parent::configureFormFields($formMapper);
 
+        //get current class name
+        $className = $this->getClassnameLabel();
+        $imageClassName = $this->getMyConstant();
+
         $formMapper
-            ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
+            ->add('name', null, ['attr'=>['class' => $className.' '. $imageClassName]])
         ;
     }
 

@@ -13,6 +13,8 @@ class RawMaterialsAdmin extends Admin
 {
     use FmsAdmin;
 
+    const imageClassName = 'RawMaterialImages';
+
     /**
      * override list query
      *
@@ -30,21 +32,21 @@ class RawMaterialsAdmin extends Admin
         return $query;
     }
 
-//    /**
-//     * @param string $name
-//     * @return mixed|null|string
-//     */
-//    public function getTemplate($name)
-//    {
-//        switch ($name) {
-//            case 'edit':
-//                return 'MainBundle:Admin:fms_edit.html.twig';
-//                break;
-//            default:
-//                return parent::getTemplate($name);
-//                break;
-//        }
-//    }
+    /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin:fms_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -71,6 +73,17 @@ class RawMaterialsAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get object id and check action
+        $id = null;
+        $route = $this->getRequest()->getUri();
+        $routeArray = explode('/', $route);
+        $action = end($routeArray);
+
+        if (strpos($action, 'edit') !== false) {
+            $key = count($routeArray) - 2 ;
+            $id = $routeArray[$key];
+        }
+
         $formMapper
             ->add('description')
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
@@ -84,7 +97,12 @@ class RawMaterialsAdmin extends Admin
                 "Հատ",
                 "Կոմպլեկտ",
                 "Լիտր")))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'));
+            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+            ->add('imageIds', 'hidden', ['mapped'=>false]);
+        if($id){
+            $formMapper
+                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
+        }
     }
 
     // Fields to be shown on filter forms
@@ -132,18 +150,16 @@ class RawMaterialsAdmin extends Admin
      */
     public function prePersist($object)
     {
-        //set image class name
-        $imageClassName = $this->getMyConstant();
-
         //set relation for object and images
-        $images = $this->getImages($imageClassName);
+        $images = $this->getImages(self::imageClassName);
         $this->addImages($object, $images);
     }
 
     /**
      * This function is used to get child constant
      */
-    public function getMyConstant(){}
-
+    public function getMyConstant(){
+        return self::imageClassName;
+    }
 }
 

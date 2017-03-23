@@ -84,8 +84,6 @@ $(document).ready(function () {
 
         $.get(url, function(res) {
 
-            console.log(res);
-
             var data = res.images;
 
             if(data.length) {
@@ -93,14 +91,18 @@ $(document).ready(function () {
                 $.each(data, function (index, item) {
 
                     var path = item.download_link;
+                    var type = item.type;
 
+                    console.log(item);
                     mockFile = {
-                        name: item.file_original_name,
+                        // name: item.file_original_name,
                         size: item.file_size,
-                        accepted: true,
-                        fileName: item.file_name,
                         xhr: {responseText: item.id}
                     };
+
+                    if($.inArray(type, ['gif','png','jpg','jpeg']) == -1) {
+                        path = "/bundles/main/images/file-icon.jpg";
+                    }
 
                     myDropzone.emit("addedfile", mockFile);
                     myDropzone.emit("thumbnail", mockFile, path);
