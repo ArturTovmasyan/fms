@@ -4,12 +4,13 @@ namespace MainBundle\Controller\Rest;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use MainBundle\Entity\EquipmentImage;
 use MainBundle\Entity\SparePartImages;
+use MainBundle\Entity\ToolImages;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint;
 
 /**
  * @Rest\Prefix("/admin/api/v1.0")
@@ -87,7 +88,7 @@ class MainRestController extends FOSRestController
             }
         }
 
-        elseif($className == 'prepack') {
+        elseif($className == 'PrepackMaterials') {
 
             if (!is_null($class = $object->getPrepackMaterial()))
             {
@@ -99,6 +100,7 @@ class MainRestController extends FOSRestController
         }
 
         $em->remove($object);
+        $this->preRemove($object);
         $em->flush();
 
         if ($request->get('_route') == 'remove_material_files' && isset($_SERVER['HTTP_REFERER'])){
@@ -131,35 +133,32 @@ class MainRestController extends FOSRestController
         //get entity manager
         $em = $this->getDoctrine()->getManager();
 
-        if($className == 'equipment') {
+        //check if className not send
+        if(!$className) {
+            new Response('Invalid parameters', Response::HTTP_BAD_REQUEST);
+        }
 
-            $object = $em->getRepository('MainBundle:EquipmentImage')->find($id);
+        //generate dynamically class name
+        $className = "MainBundle:".$className;
+        $object = $em->getRepository($className)->find($id);
+
+        //check objects instanceof
+        if($object instanceof EquipmentImage) {
 
             if (!is_null($class = $object->getEquipment())) {
                 $class->removeImage($object);
-            } else{
-                $this->preRemove($object);
             }
 
-        } elseif($className == 'tools') {
-
-            $object = $em->getRepository('MainBundle:ToolImages')->find($id);
+        } elseif($object instanceof ToolImages) {
 
             if (!is_null($class = $object->getTool())) {
                 $class->removeImage($object);
-            } else{
-                $this->preRemove($object);
             }
 
-        } elseif($className == 'sparepart') {
-
-            $object = $em->getRepository('MainBundle:SparePartImages')->find($id);
+        } elseif($object instanceof SparePartImages) {
 
             if (!is_null($class = $object->getSparePart())) {
                 $class->removeImage($object);
-            }
-            else{
-                $this->preRemove($object);
             }
         }
         else{
@@ -167,6 +166,7 @@ class MainRestController extends FOSRestController
         }
 
         $em->remove($object);
+        $this->preRemove($object);
         $em->flush();
 
         if ($request->get('_route') == 'remove_fms_files' && isset($_SERVER['HTTP_REFERER'])){
@@ -236,15 +236,23 @@ class MainRestController extends FOSRestController
      * @Rest\Post("/multiple-files/upload", name="main_rest_mainrest_postuploadmultiplefile", options={"method_prefix"=false})
      * @Rest\View()
      * @Security("has_role('ROLE_ADMIN')")
-     * @return Response
      */
     public function postSparePartFileAction(Request $request)
     {
         //get fms service
         $fmsService = $this->container->get('fms_service');
 
-        //get files in request
+        //get data in request
         $files = $request->files->get('file');
+        $className = $request->request->get('className');
+
+        //check if className not send
+        if(!$className) {
+            new Response('Invalid parameters', Response::HTTP_BAD_REQUEST);
+        }
+
+        //generate dynamically class name
+        $className = "MainBundle\\Entity\\".$className;
 
         //get entity manager
         $em = $this->getDoctrine()->getManager();
@@ -257,15 +265,15 @@ class MainRestController extends FOSRestController
             //upload files and create image object
             foreach ($files as $file)
             {
-              $newImage = new SparePartImages();
-              $newImage->setFile($file);
-              $fmsService->uploadFile($newImage);
+                $newImage = new $className();
+                $newImage->setFile($file);
+                $fmsService->uploadFile($newImage);
 
-              $em->persist($newImage);
-              $em->flush();
+                $em->persist($newImage);
+                $em->flush();
 
-              $data['id'][] = $newImage->getId();
-              $data['name'][] = $newImage->getFileOriginalName();
+                $data['id'][] = $newImage->getId();
+                $data['name'][] = $newImage->getFileOriginalName();
             }
 
             return $data;
@@ -308,9 +316,9 @@ class MainRestController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
 
         //get all related files
-        $files = $em->getRepository($repository)->findFiles($className, $id);
+        $files = $em->getRepository($repository)->findFiles($id);
+        $files = reset($files);
 
         return $files;
     }
-
 }

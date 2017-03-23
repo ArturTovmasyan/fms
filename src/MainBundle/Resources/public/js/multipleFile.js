@@ -8,11 +8,15 @@ $(document).ready(function () {
     var nameSelector = "#"+fieldToken+"name";
     var objId = $(objectIdSelector).val();
     var className = $(nameSelector).attr('class').split(' ')[0];
+    var imageClassName = $(nameSelector).attr('class').split(' ')[1];
 
     Dropzone.autoDiscover = false;
 
     var myDropzone = new Dropzone('#dZUpload',{
         url: "/admin/api/v1.0/multiple-files/upload",
+        params: {
+            className: imageClassName
+        },
         maxFilesize: 100,
         uploadMultiple: true,
         parallelUploads : 5,
@@ -21,8 +25,17 @@ $(document).ready(function () {
         dictRemoveFile: "Remove",
         maxThumbnailFilesize: 5,
         autoProcessQueue: true,
+        thumbnailWidth: null,
+        thumbnailHeight: null,
         init: function() {
 
+            // fix images view in page
+            this.on("thumbnail", function() {
+                $('.dz-image').last().find('img').attr({width: '100%', height: '100%'});
+            });
+            this.on("success", function() {
+                $('.dz-image').last().find('img').attr({width: '100%', height: '100%'});
+            });
 
             this.on("successmultiple", function(file, json) {
 
@@ -39,12 +52,25 @@ $(document).ready(function () {
 
             $(d.previewElement).remove();
 
-            var text = JSON.parse(d.xhr.responseText);
-            var index = text.name.indexOf(d.name);
-            var removeImageId = text.id[index];
+            if(typeof(d.xhr.responseText) == 'string') {
+                var text = JSON.parse(d.xhr.responseText);
+                var index = text.name.indexOf(d.name);
+                var removeImageId = text.id[index];
+            }
+
+            if(typeof(d.xhr.responseText) == 'number') {
+                 removeImageId = d.xhr.responseText;
+            }
+
+            if(imageClassName == 'RawMaterialImages') {
+                var remUrl = "/admin/api/v1.0/remove-material-file/"+removeImageId+"/"+className
+
+            }else{
+                remUrl = "/admin/api/v1.0/remove-file/"+removeImageId+"/"+imageClassName
+            }
 
             $.ajax({
-                url: "/admin/api/v1.0/remove-file/"+removeImageId+"/"+"sparepart",
+                url: remUrl,
                 type: "GET"
             });
         }
@@ -56,30 +82,30 @@ $(document).ready(function () {
 
         var url = '/admin/api/v1.0/files/'+className+'/'+objId;
 
-        var imagePath = '/uploads/sparePart/';
+        $.get(url, function(res) {
 
-        $.get(url, function(data) {
+            console.log(res);
 
-            $.each(data, function (index, item) {
+            var data = res.images;
 
-                var path = imagePath+item.fileName;
+            if(data.length) {
 
-                //// Create the mock file:
-                mockFile = {
-                    name: item.fileOriginalName,
-                    size: item.fileSize,
-                    accepted: true,
-                    fileName: item.fileName,
-                    xhr: {responseText: item.id}
+                $.each(data, function (index, item) {
 
-                };
+                    var path = item.download_link;
 
-                console.log(mockFile);
+                    mockFile = {
+                        name: item.file_original_name,
+                        size: item.file_size,
+                        accepted: true,
+                        fileName: item.file_name,
+                        xhr: {responseText: item.id}
+                    };
 
-                myDropzone.emit("addedfile", mockFile);
-                myDropzone.emit("thumbnail", mockFile, path);
-            });
+                    myDropzone.emit("addedfile", mockFile);
+                    myDropzone.emit("thumbnail", mockFile, path);
+                });
+            }
         });
     }
-
 });

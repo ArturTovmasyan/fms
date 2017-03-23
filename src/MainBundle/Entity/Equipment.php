@@ -4,9 +4,11 @@ namespace MainBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Equipment
@@ -169,6 +171,7 @@ class Equipment
 
     /**
      * @ORM\OneToMany(targetEntity="EquipmentImage", mappedBy="equipment", cascade={"persist", "remove"})
+     * @Groups({"files"})
      */
     protected $images;
 
@@ -727,30 +730,6 @@ class Equipment
         return $this->deployment;
     }
 
-    /**
-     * @return array
-     */
-    public function  getEqMultipleFile()
-    {
-        // check images and return array
-        if($this->images){
-
-            return $this->images->toArray();
-        }
-        return array();
-    }
-
-    /**
-     * @param $multipleFile
-     */
-    public function  setEqMultipleFile($multipleFile)
-    {
-        // check added images
-        if(count($multipleFile) > 0){
-
-            $this->images = new ArrayCollection($multipleFile);
-        }
-    }
 
     /**
      * Add images

@@ -2,16 +2,16 @@
 
 namespace MainBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Tools
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\ToolsRepository")
  */
 class Tools
 {
@@ -31,6 +31,7 @@ class Tools
 
     /**
      * @ORM\OneToMany(targetEntity="ToolImages", mappedBy="tool", cascade={"persist", "remove"})
+     * @Groups({"files"})
      */
     protected $images;
 
@@ -552,32 +553,6 @@ class Tools
         return $this->images;
     }
 
-    ############################################## This part code for upload files in child entities ##########################
-    /**
-     * @return array
-     */
-    public function  getToolMultipleFile()
-    {
-        // check images and return array
-        if($this->images){
-
-            return $this->images->toArray();
-        }
-        return array();
-    }
-
-    /**
-     * @param $multipleFile
-     */
-    public function  setToolMultipleFile($multipleFile)
-    {
-        // check added images
-        if(count($multipleFile) > 0){
-
-            $this->images = new ArrayCollection($multipleFile);
-        }
-    }
-
     /**
      * @return bool|mixed
      */
@@ -594,5 +569,4 @@ class Tools
 
         return null;
     }
-#########################################################################################################################
 }

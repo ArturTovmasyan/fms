@@ -85,4 +85,25 @@ trait FmsAdmin
             $image->setMetalMaterials($object);
         }
     }
+
+    /**
+     * This function is used to get images by id
+     * @param $imageClassName
+     * @return array
+     */
+    public function getImages($imageClassName)
+    {
+        //get images by ids
+        $request = $this->getRequest();
+        $uniqId = $this->getUniqid();
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+        $imagesIds = $request->request->get($uniqId)['imageIds'];
+        $imagesIds = json_decode($imagesIds, true);
+        $ids = explode( ',', $imagesIds);
+        $repositoryName = "MainBundle:".$imageClassName;
+        $images = $em->getRepository($repositoryName)->findBy(['id'=>$ids]);
+
+        return $images;
+    }
+
 }

@@ -72,6 +72,8 @@ class FmsService
             $extension = $path_parts['extension'];
         }
 
+        $object->setType($extension);
+
         $object->setFileName(md5(microtime()) . '.' . $extension);
 
         // set size

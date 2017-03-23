@@ -4,6 +4,7 @@ namespace MainBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * SparePart
@@ -79,6 +80,7 @@ class SparePart
 
     /**
      * @ORM\OneToMany(targetEntity="SparePartImages", mappedBy="sparePart", cascade={"persist", "remove"})
+     * @Groups({"files"})
      */
     protected $images;
 
@@ -415,32 +417,6 @@ class SparePart
         return $this->images;
     }
 
-    ############################################## This part code for upload files in child entities ##########################
-    /**
-     * @return array
-     */
-    public function  getSparePartMultipleFile()
-    {
-        // check images and return array
-        if($this->images){
-
-            return $this->images->toArray();
-        }
-        return array();
-    }
-
-    /**
-     * @param $multipleFile
-     */
-    public function  setSparePartMultipleFile($multipleFile)
-    {
-        // check added images
-        if(count($multipleFile) > 0){
-
-            $this->images = new ArrayCollection($multipleFile);
-        }
-    }
-
     /**
      * @return bool|mixed
      */
@@ -457,5 +433,4 @@ class SparePart
 
         return null;
     }
-#########################################################################################################################
 }

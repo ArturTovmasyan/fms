@@ -24,7 +24,7 @@ class EquipmentImage implements ImageableInterface
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"image"})
+     * @Groups({"files"})
      */
     protected $id;
 

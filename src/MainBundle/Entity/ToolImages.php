@@ -3,10 +3,12 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use MainBundle\Model\ImageableInterface;
 use MainBundle\Traits\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * ToolImages
@@ -22,7 +24,7 @@ class ToolImages implements ImageableInterface
 
     /**
      * @var integer
-     *
+     * @Groups({"files"})
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")

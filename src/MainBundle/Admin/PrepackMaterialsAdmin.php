@@ -2,7 +2,6 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Form\Type\MaterialMultipleFileType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -10,6 +9,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PrepackMaterialsAdmin extends RawMaterialsAdmin
 {
+    const imageClassName = 'RawMaterialImages';
+
     /**
      * override list query
      *
@@ -52,13 +53,21 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
     {
         parent::configureFormFields($formMapper);
 
+        //get current class name
+        $className = $this->getClassnameLabel();
+
         $formMapper
+            ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('product')
             ->add('equipment')
             ->add('workshop')
             ->add('weight')
-            ->add('material_multiple_file', MaterialMultipleFileType::class, ['label'=>'files']);
-        ;
+            ->add('imageIds', 'hidden', ['mapped'=>false]);
+
+//        if($id){
+//            $formMapper
+//                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
+//        }
     }
 
     // Fields to be shown on filter forms
@@ -84,6 +93,13 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
             ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
         ;
         parent::configureListFields($listMapper);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMyConstant() {
+        return self::imageClassName;
     }
 }
 

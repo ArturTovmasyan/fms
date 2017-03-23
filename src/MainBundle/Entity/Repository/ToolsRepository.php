@@ -5,10 +5,10 @@ namespace MainBundle\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Class SparePartRepository
+ * Class ToolsRepository
  * @package MainBundle\Entity\Repository
  */
-class SparePartRepository extends EntityRepository
+class ToolsRepository extends EntityRepository
 {
     /**
      * @param $id
@@ -17,10 +17,10 @@ class SparePartRepository extends EntityRepository
     public function findFiles($id)
     {
         $result = $this->getEntityManager()
-            ->createQuery("SELECT sp, im
-                            FROM MainBundle:SparePart sp
-                            LEFT JOIN sp.images im
-                            WHERE sp.id = :id
+            ->createQuery("SELECT t, im
+                            FROM MainBundle:Tools t
+                            LEFT JOIN t.images im
+                            WHERE t.id = :id
                            ")
             ->setParameter('id', $id)
             ->getResult();

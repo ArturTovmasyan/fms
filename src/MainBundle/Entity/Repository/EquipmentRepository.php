@@ -26,5 +26,21 @@ class EquipmentRepository extends EntityRepository
             ->getResult();
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
+    public function findFiles($id)
+    {
+        $result = $this->getEntityManager()
+            ->createQuery("SELECT eq, im
+                            FROM MainBundle:Equipment eq
+                            LEFT JOIN eq.images im
+                            WHERE eq.id = :id
+                           ")
+            ->setParameter('id', $id)
+            ->getResult();
 
+        return $result;
+    }
 }

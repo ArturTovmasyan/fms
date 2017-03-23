@@ -15,6 +15,9 @@ class EquipmentAdmin extends Admin
 {
     use FmsAdmin;
 
+    const className = 'Equipment';
+    const imageClassName = 'EquipmentImage';
+
     /**
      * override list query
      *
@@ -109,11 +112,10 @@ class EquipmentAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        //get subject
         $subject = $this->getSubject();
 
-        //get product id for edit
-        $editMouldId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+        //get object id
+        $id = $subject ? $subject->getId() : null;
 
         $moulds = $this->getSubject()->getMould();
         $mouldIds = [];
@@ -127,7 +129,7 @@ class EquipmentAdmin extends Admin
         $this->time = $subject->getInspectionPeriod();
 
         $formMapper
-            ->add('name')
+            ->add('name', null, ['attr'=>['class' => self::className.' '. self::imageClassName]])
             ->add('code')
             ->add('state', 'choice', array('choices'=> array(
                 "Սարքին` բարվոք վիճակում",
@@ -149,7 +151,7 @@ class EquipmentAdmin extends Admin
             ->end()
             ->add('mould', null, array(
                 'label' => 'mould',
-                'query_builder' => function($query) use ($editMouldId, $mouldIds) {
+                'query_builder' => function($query) use ($id, $mouldIds) {
                     $result = $query->createQueryBuilder('p');
                     $result
                         ->select('m', 'mp')
@@ -158,7 +160,7 @@ class EquipmentAdmin extends Admin
                         ->groupBy('m.id')
                         ->where('mp.id is null')
                         ->having('COUNT(mp.id) < m.mouldType');
-                    if($editMouldId) {
+                    if($id) {
                         $result
                             ->orWhere('m.id IN (:ids)')
                             ->setParameter(':ids', $mouldIds);
@@ -174,7 +176,12 @@ class EquipmentAdmin extends Admin
             ->add('carryingPrice', null, array('label'=>'balance_cost'))
             ->add('factualPrice', null, array('label'=>'actual_cost'))
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
-            ->add('eq_multiple_file', EqMultipleFileType::class, ['label'=>'files', 'required' => false]);
+            ->add('imageIds', 'hidden', ['mapped'=>false]);
+
+        if($id){
+            $formMapper
+                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
+        }
     }
 
     // Fields to be shown on filter forms
@@ -338,9 +345,16 @@ class EquipmentAdmin extends Admin
         $this->removeRelations($object);
     }
 
+    /**
+     * @param mixed $object
+     */
     public function prePersist($object)
     {
-        $this->addImages($object);
-        $this->setRelations($object);
+        //set image class name
+        $imageClassName = self::imageClassName;
+
+        //set relation for object and images
+        $images = $this->getImages($imageClassName);
+        $this->addImages($object, $images);
     }
 }

@@ -14,6 +14,9 @@ class ToolsAdmin extends Admin
 {
     use FmsAdmin;
 
+    const className = 'Tools';
+    const imageClassName = 'ToolImages';
+
     /**
      * override list query
      *
@@ -74,8 +77,11 @@ class ToolsAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get object id
+        $id = $this->getSubject() ? $this->getSubject()->getId() : null;
+
         $formMapper
-            ->add('name')
+            ->add('name', null, ['attr'=>['class' => self::className.' '. self::imageClassName]])
             ->add('category', null, array('required' => true))
             ->add('vendors')
             ->add('actualCost', null, array('label' => 'actual_cost'))
@@ -90,8 +96,12 @@ class ToolsAdmin extends Admin
                 "Լիտր")))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('tool_multiple_file', ToolMultipleFile::class, ['label'=>'files'])
-        ;
+            ->add('imageIds', 'hidden', ['mapped'=>false]);
+
+        if($id){
+            $formMapper
+                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
+        }
     }
 
     // Fields to be shown on filter forms
@@ -126,8 +136,7 @@ class ToolsAdmin extends Admin
                     'edit' => array(),
                     'delete' => array(),
                 )
-            ))
-        ;
+            ));
     }
 
     /**
@@ -143,7 +152,12 @@ class ToolsAdmin extends Admin
      */
     public function prePersist($object)
     {
-        $this->addImages($object);
+        //set image class name
+        $imageClassName = self::imageClassName;
+
+        //set relation for object and images
+        $images = $this->getImages($imageClassName);
+        $this->addImages($object, $images);
     }
 }
 

@@ -3,13 +3,16 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use MainBundle\Model\MultipleFileInterface;
+use JMS\Serializer\Annotation\Groups;
+
 
 /**
  * PrepackMaterials
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\PrepackMaterialsRepository")
  */
 class PrepackMaterials extends RawMaterials implements MultipleFileInterface
 {
@@ -48,6 +51,7 @@ class PrepackMaterials extends RawMaterials implements MultipleFileInterface
 
     /**
      * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="prepackMaterial", cascade={"persist", "remove"})
+     * @Groups({"files"})
      */
     protected $images;
 

@@ -13,6 +13,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class SparePartAdmin extends Admin
 {
     use FmsAdmin;
+    const className = 'SparePart';
+    const imageClassName = 'SparePartImages';
 
     /**
      * override list query
@@ -78,7 +80,7 @@ class SparePartAdmin extends Admin
         $id = $this->getSubject() ? $this->getSubject()->getId() : null;
 
         $formMapper
-            ->add('name', null, ['attr'=>['class' => 'SparePart']])
+            ->add('name', null, ['attr'=>['class' => self::className.' '. self::imageClassName]])
             ->add('vendors')
             ->add('equipment', null, array(
                 'label' => 'equipment',
@@ -166,28 +168,12 @@ class SparePartAdmin extends Admin
      */
     public function prePersist($object)
     {
+        //set image class name
+        $imageClassName = self::imageClassName;
+
         //set relation for object and images
-        $images = $this->getImages();
+        $images = $this->getImages($imageClassName);
         $this->addImages($object, $images);
-    }
-
-    /**
-     * This function is used to get images by id
-     *
-     * @return array
-     */
-    public function getImages()
-    {
-        //get images by ids
-        $request = $this->getRequest();
-        $uniqId = $this->getUniqid();
-        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
-        $imagesIds = $request->request->get($uniqId)['imageIds'];
-        $imagesIds = json_decode($imagesIds, true);
-        $ids = explode( ',', $imagesIds);
-        $images = $em->getRepository('MainBundle:SparePartImages')->findBy(['id'=>$ids]);
-
-        return $images;
     }
 }
 

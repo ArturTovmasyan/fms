@@ -24,6 +24,7 @@ class SparePartImages implements ImageableInterface
 
     /**
      * @var integer
+     * @Groups({"files"})
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -65,21 +66,6 @@ class SparePartImages implements ImageableInterface
     {
         return 'sparePart';
     }
-
-//    /**
-//     * @ORM\PreRemove
-//     */
-//    public function preRemove()
-//    {
-//        // get origin file path
-//        $filePath = $this->getAbsolutePath() . $this->getFileName();
-//
-//        // check file and remove
-//        if (file_exists($filePath) && is_file($filePath)){
-//            unlink($filePath);
-//        }
-//    }
-
 
     /**
      * Set sparePart

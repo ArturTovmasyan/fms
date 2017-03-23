@@ -4,7 +4,6 @@ namespace MainBundle\Traits;
 
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
 
@@ -38,19 +37,48 @@ trait File
 
     /**
      * @ORM\Column(name="file_original_name", type="string", length=160, nullable=true)
+     * @Groups({"files"})
      */
     protected $fileOriginalName;
 
     /**
      * @ORM\Column(name="file_name", type="string", length=70, nullable=true)
+     * @Groups({"files"})
      */
     protected $fileName;
 
     /**
      * @var integer
      * @ORM\Column(name="file_size", type="integer", nullable=true)
+     * @Groups({"files"})
      */
     protected $fileSize;
+
+    /**
+     * @ORM\Column(name="type", type="string")
+     */
+    protected $type;
+
+    /**
+     * @param $type
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
     /**
      * Sets file.
@@ -145,6 +173,8 @@ trait File
      * This function is used to return file web path
      *
      * @return string
+     * @VirtualProperty()
+     * @Groups({"files"})
      */
     public function getDownloadLink()
     {

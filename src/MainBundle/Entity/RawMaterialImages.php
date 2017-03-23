@@ -1,11 +1,13 @@
 <?php
 namespace MainBundle\Entity;
 
+use JMS\Serializer\Annotation as Serializer;
 use MainBundle\Model\ImageableInterface;
 use MainBundle\Traits\File;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Class RawMaterialImages
@@ -23,6 +25,7 @@ class RawMaterialImages implements ImageableInterface
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"files"})
      */
     protected $id;
 
