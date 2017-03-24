@@ -31,7 +31,7 @@ class MetalCategory
     /**
      * @ORM\OneToMany(targetEntity="MetalMaterials", mappedBy="category", cascade={"persist"})
      */
-    protected  $metalMaterials;
+    protected $metalMaterials;
 
     /**
      * Get id

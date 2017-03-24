@@ -12,7 +12,7 @@ Product: Արտադրանք
 size: Չափման միավոր
 Purpose: Նշանակություն
 client: Պատվիրատու
-Personnel: Անձնակազմ
+personnel: Անձնակազմ
 Weight: Քաշը
 Count: Քանակը
 deployment: Սարք.-ն Տեղ.
@@ -79,7 +79,6 @@ ProductComponent: Արտ․֊ի կոմպոնենտ
 Tools: Գործիքներ
 raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ
-PositionsList: Հաստիքակազմ
 salaries_type: Գործավարձի տեսակը
 profession_category: Կարգը
 actual_cost: Փ. արժեքը
@@ -109,6 +108,13 @@ description: Բնութագիրը
 length: Երկարություն
 width: Լայնություն
 height: Բարձրություն
+post: Հաստիքակազմ
+division: Ստորաբաժանում
+contact_data: Կոնտակտային տվյալներ
+family_data: Ընտանիքի անդամները
+global_info: Ընդհանուր տեղ.
+division_type: Ստորաբաժ. տիպը
+
 
 file:
     max_extension: The minimum file size is 400x400 px

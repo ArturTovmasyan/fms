@@ -122,8 +122,8 @@
         </service>
 
         <!--Personnel-->
-        <service id="sonata.admin.main.personnel" class="MainBundle\Admin\PersonnelAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="Personnel"/>
+        <service id="sonata.admin.personnel" class="MainBundle\Admin\PersonnelAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="personnel"/>
             <argument/>
             <argument>MainBundle\Entity\Personnel</argument>
             <argument/>
@@ -180,14 +180,6 @@
                 <argument>list</argument>
                 <argument>MainBundle:Admin:productRawExpenseList.html.twig</argument>
             </call>
-        </service>
-
-        <!--PositionsList-->
-        <service id="sonata.admin.main.positions.list" class="MainBundle\Admin\PositionsListAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="PositionsList"/>
-            <argument/>
-            <argument>MainBundle\Entity\PositionsList</argument>
-            <argument/>
         </service>
 
         <!--ProfessionCategory-->
@@ -271,6 +263,30 @@
             <tag name="sonata.admin" manager_type="orm" group="Resource" label="equipment_type"/>
             <argument/>
             <argument>MainBundle\Entity\WorkshopType</argument>
+            <argument/>
+        </service>
+
+        <!--PostAdmin-->
+        <service id="sonata.admin.post" class="MainBundle\Admin\PostAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="post"/>
+            <argument/>
+            <argument>MainBundle\Entity\Post</argument>
+            <argument/>
+        </service>
+
+        <!--DivisionAdmin-->
+        <service id="sonata.admin.division" class="MainBundle\Admin\DivisionAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="division"/>
+            <argument/>
+            <argument>MainBundle\Entity\Division</argument>
+            <argument/>
+        </service>
+
+        <!--DivisionType-->
+        <service id="sonata.admin.division_type" class="MainBundle\Admin\DivisionTypeAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="division_type"/>
+            <argument/>
+            <argument>MainBundle\Entity\DivisionType</argument>
             <argument/>
         </service>
 
