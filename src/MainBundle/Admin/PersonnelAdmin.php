@@ -73,12 +73,16 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('positionDate', 'sonata_type_date_picker', ['required'=>false])
             ->add('education')
             ->add('profession')
-            ->add('language')
+            ->add('language', 'choice', array('choices'=> array(
+                0 => ' ',
+                1 => 'Հայերեն',
+                2 => 'Ռուսերեն',
+                3 => 'Անգլերեն',
+                4 => 'Այլ լեզու'), 'required'=>false))
+
             ->add('compKnowledge')
-
             ->end()
             ->end()
-
             ->tab('contact_data')
             ->add('mobilePhone')
             ->add('fixedPhone')
@@ -105,27 +109,35 @@ class PersonnelAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
+            ->tab('global_info')
             ->add('id')
             ->add('name')
             ->add('birthDate')
             ->add('positionDate')
-            ->add('mobilePhone')
-            ->add('fixedPhone')
-            ->add('alternatePhone')
-            ->add('email')
-            ->add('carNumber')
-            ->add('address')
-            ->add('husband')
-            ->add('children')
-            ->add('parent')
-            ->add('sister')
-            ->add('brother')
             ->add('education')
             ->add('profession')
             ->add('language')
             ->add('compKnowledge')
             ->add('created')
             ->add('updated')
+            ->end()
+            ->end()
+            ->tab('contact_data')
+            ->add('mobilePhone')
+            ->add('fixedPhone')
+            ->add('alternatePhone')
+            ->add('email')
+            ->add('carNumber')
+            ->add('address')
+            ->end()
+            ->end()
+            ->tab('family_data')
+            ->add('husband')
+            ->add('children')
+            ->add('parent')
+            ->add('sister')
+            ->add('brother')
+            ->end()
         ;
     }
 }

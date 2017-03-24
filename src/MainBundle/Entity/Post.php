@@ -74,7 +74,7 @@ class Post
     /**
      * @var integer
      *
-     * @ORM\Column(name="experience", type="integer", nullable=true)
+     * @ORM\Column(name="experience", type="string", nullable=true)
      */
     private $experience;
 
