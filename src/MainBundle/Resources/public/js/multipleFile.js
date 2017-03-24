@@ -93,7 +93,6 @@ $(document).ready(function () {
                     var path = item.download_link;
                     var type = item.type;
 
-                    console.log(item);
                     mockFile = {
                         name: item.file_original_name,
                         size: item.file_size,
