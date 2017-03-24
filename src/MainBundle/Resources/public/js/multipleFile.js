@@ -95,7 +95,7 @@ $(document).ready(function () {
 
                     console.log(item);
                     mockFile = {
-                        // name: item.file_original_name,
+                        name: item.file_original_name,
                         size: item.file_size,
                         xhr: {responseText: item.id}
                     };
@@ -106,6 +106,8 @@ $(document).ready(function () {
 
                     myDropzone.emit("addedfile", mockFile);
                     myDropzone.emit("thumbnail", mockFile, path);
+
+                    $(".dz-progress").remove();
                 });
             }
         });
