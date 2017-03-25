@@ -16,105 +16,151 @@
     <div class="container">
         <form action="#" method="post">
             <h1 class="text-center">Հ Ա Շ Վ Ե Տ Վ ՈՒ Թ Յ ՈՒ Ն</h1>
-            <b>{{ 'N_'}}</b> {{ form_widget(form.number) }}
-            <div class="row">
-                <div class="col-sm-12">
-                    <h2 class="text-center">ՀԵՐԹԱԿԱՆ ՊԱՐՏԱԴԻՐ ՏԵԽՆԻԱԿԱՆ ԶՆՆՈՒՄ ԱՆՑՆԵԼՈՒ ՎԵՐԱԲԵՐՅԱԼ</h2>
-                    <div class="form-group">
-                        <label class="text-danger">
-                            Սարքի, սարքավորման կամ հաստոցի անվանումը
-                        </label>
-                        {{ form_widget(form.name) }}<br />
-                        <label class="text-danger">
-                            Սարքի, սարքավորման կամ հաստոցի կոդը
-                        </label>
-                        {{ form_widget(form.code) }}<br />
-                        <label class="text-danger">
-                            Պարտադիր տեխնիական զննության անցկացման ամսաթիվը
-                        </label>
-                        {{ form_widget(form.date) }}<br />
+            <div class="form-group form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">№</label>
+                    <div class="col-sm-3">
+                        {{ form_widget(form.number) }}
                     </div>
-
-                    <p>
-                        Արտադրական գործընթացները բնականոն կազմակերպելու համար տվյալ սարքի, սարքավորման կամ հաստոցի հիդրավլիկ և մեխանիկական վիճակը սույն պարտադիր տեխնիկական զննության անցկացման պահին գնահատվում է`
-                    </p>
-
-                    <p>
-                        <b>{{ 'Բավարար' }}</b>
-                        {{ form_widget(form.mechanicState[1]) }}
-
-                        <b>{{ 'Անբավարար' }}</b>
-                        {{ form_widget(form.mechanicState[0]) }}
-                    </p>
-
-                    <br />
-
-                    <span class="text-danger">Տեխնիկական սպասարկման ծառայության
-                            ինժեներ-մեխանիկ    __________  Ս.Ֆահրադյան<br/>
-                            Տեխնիկական սպասարկման ծառայության
-                            վերանորոգող ինժեները  _________ Հ.Զաքարյան
-                    </span>
-
-                    <br />
-                    <br />
-                    <p>
-                        Արտադրական գործընթացները բնականոն կազմակերպելու համար տվյալ սարքի, սարքավորման կամ հաստոցի էլեկտրատեխնիկական վիճակը սույն պարտադիր տեխնիկական զննության անցկացման պահին գնահատվում է`
-                    </p>
-
-                    <p>
-                        <b>{{ 'Բավարար' }}</b>
-                        {{ form_widget(form.electricState[1]) }}
-
-                        <b>{{ 'Անբավարար' }}</b>
-                        {{ form_widget(form.electricState[0]) }}
-                    </p>
-
-                    <br/>
-                    <span class="text-danger">
-                        Էլեկտրատեխնիկական սպասարկման ծառայության
-                        էներգետիկ ինժեները ____________ Ա.Չալյան
-                    </span>
-
-                    <br/>
-                    <br/>
-                    <p>Հաստատում եմ, որ տվյալ սարքի, սարքավորման կամ հաստոցի</p>
-
-                    <p>{{ form_widget(form.hidravlik) }}</p>
-                    <p>{{ form_widget(form.mechanic) }}</p>
-                    <p>{{ form_widget(form.electric) }}</p>
-
-                    <br/>
-
-                    <p>
-                        վիճակները բավարար են արտադրական գործընթացները բնականոն կազմակերպելու համար և սարքը, սարքավորումը կամ հաստոցը`
-                    </p>
-                    <br/>
-
-                    <p>
-                        <b>{{ 'Ընդունում եմ' }}</b>
-                        {{ form_widget(form.accept[1]) }}
-
-                        <b>{{ 'Չեմ ընդունում' }}</b>
-                        {{ form_widget(form.accept[0]) }}
-                    </p>
-
-
-                    {{ form_widget(form._token) }}
-                    <br/>
-                    <span class="text-danger">
-                        Ռետինատեխնիկական արտադրամասի պետ
-                         __________ Գ.Սիմոնյան<br/>
-                        Մեխանիկական առաջին արտադրամասի պետ
-                         _________ Ա.Անդրեասյան<br/>
-                        Մեխանիկական երկրորդ արտադրամասի պետ
-                         _________ Զ.Ավանեսյան
-                    </span>
-                    <br/>
-                    <br/>
-                    <input type="submit" name="submit" class="btn btn-primary" value="Submit">
-
                 </div>
             </div>
+
+            <h2 class="text-center">ՀԵՐԹԱԿԱՆ ՊԱՐՏԱԴԻՐ ՏԵԽՆԻԱԿԱՆ ԶՆՆՈՒՄ ԱՆՑՆԵԼՈՒ ՎԵՐԱԲԵՐՅԱԼ</h2>
+            <br/>
+            <br/>
+
+            <div class="form-group">
+                <label class="text-danger col-sm-3">
+                    Սարքի, սարքավորման կամ հաստոցի անվանումը
+                </label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.name) }}
+                </div>
+                <span class="clearfix"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="text-danger col-sm-3">
+                    Սարքի, սարքավորման կամ հաստոցի կոդը
+                </label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.code) }}
+                </div>
+                <span class="clearfix"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="text-danger col-sm-3">
+                    Պարտադիր տեխնիական զննության անցկացման ամսաթիվը
+                </label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.date) }}
+                </div>
+                <span class="clearfix"></span>
+            </div>
+            <br/>
+            <p>
+                Արտադրական գործընթացները բնականոն կազմակերպելու համար տվյալ սարքի, սարքավորման կամ հաստոցի հիդրավլիկ և մեխանիկական վիճակը սույն պարտադիր տեխնիկական զննության անցկացման պահին գնահատվում է`
+            </p>
+            <br/>
+
+            <div class="form-group form-inline">
+                <label class="col-sm-2">
+                    <b>{{ 'Բավարար' }}</b>
+                </label>
+                <div class="col-sm-1">
+                    {{ form_widget(form.mechanicState[1]) }}
+                </div>
+
+                <label class="col-sm-2">
+                    <b>{{ 'Անբավարար' }}</b>
+                </label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.mechanicState[0]) }}
+                </div>
+            </div>
+
+            <br />
+            <br />
+
+            <pre class="text-danger">
+            Տեխնիկական սպասարկման ծառայության  ինժեներ-մեխանիկ    __________  Ս.Ֆահրադյան
+
+            Տեխնիկական սպասարկման ծառայության վերանորոգող ինժեները  _________ Հ.Զաքարյան
+            </pre>
+            <br />
+            <p>
+                Արտադրական գործընթացները բնականոն կազմակերպելու համար տվյալ սարքի, սարքավորման կամ հաստոցի էլեկտրատեխնիկական վիճակը սույն պարտադիր տեխնիկական զննության անցկացման պահին գնահատվում է`
+            </p>
+            <br />
+            <div class="form-group form-inline">
+                <label class="col-sm-2">
+                    <b>{{ 'Բավարար' }}</b>
+                </label>
+                <div class="col-sm-1">
+                    {{ form_widget(form.electricState[1]) }}
+                </div>
+
+                <label class="col-sm-2">
+                    <b>{{ 'Անբավարար' }}</b>
+                </label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.electricState[0]) }}
+                </div>
+            </div>
+
+            <br/><br />
+
+            <pre class="text-danger">
+                Էլեկտրատեխնիկական սպասարկման ծառայության էներգետիկ ինժեները ____________ Ա.Չալյան
+            </pre>
+            <br/>
+                <p>Հաստատում եմ, որ տվյալ սարքի, սարքավորման կամ հաստոցի</p>
+            <br/>
+
+            <div class="checkbox">
+                {{ form_widget(form.hidravlik) }}
+            </div>
+            <div class="checkbox">
+                {{ form_widget(form.mechanic) }}
+            </div>
+            <div class="checkbox">
+                {{ form_widget(form.electric) }}
+            </div>
+
+            <p>
+                վիճակները բավարար են արտադրական գործընթացները բնականոն կազմակերպելու համար և սարքը, սարքավորումը կամ հաստոցը`
+            </p>
+            <br/>
+
+            <div class="form-group form-inline">
+                <label class="col-sm-2">
+                    <b>{{ 'Ընդունում եմ' }}</b>
+                </label>
+                <div class="col-sm-1">
+                    {{ form_widget(form.accept[1]) }}
+                </div>
+                <label class="col-sm-2">
+                    <b>{{ 'Չեմ ընդունում' }}</b>
+                </label>
+                <div class="col-sm-3">
+                    {{ form_widget(form.accept[0]) }}
+                </div>
+            </div>
+
+            {{ form_widget(form._token) }}
+            <br/>
+            <pre class="text-danger">
+                Ռետինատեխնիկական արտադրամասի պետ __________ Գ.Սիմոնյան
+
+                Մեխանիկական առաջին արտադրամասի պետ _________ Ա.Անդրեասյան
+
+                Մեխանիկական երկրորդ արտադրամասի պետ _________ Զ.Ավանեսյան
+            </pre>
+            <br/>
+            <br/>
+            <input type="submit" name="submit" class="btn btn-primary" value="Submit">
+
         </form>
 
     </div>
