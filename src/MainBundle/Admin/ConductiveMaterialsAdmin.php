@@ -2,7 +2,6 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Form\Type\MaterialMultipleFileType;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;

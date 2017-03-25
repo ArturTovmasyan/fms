@@ -2,7 +2,6 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Form\Type\ToolMultipleFile;
 use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
