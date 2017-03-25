@@ -25,38 +25,40 @@
         {% set loopCount = itemNumberCount %}
     {% endif %}
 
-    <h1 class="text-center">{{ 'equipment_filling_title'|trans({}) }}</h1>
+    <div class="page-header">
+        <h1 class="text-center">{{ 'equipment_filling_title'|trans({}) }}</h1>
+    </div>
     <br/>
     <br/>
-<div class="table-scroll">
-    <table class="table table-condensed">
-        <thead>
-        <tr>
-            <th>{{ 'Name'|trans({}) }}</th>
-            <th>{{ 'Code'|trans({}) }}</th>
-            <th>{{ 'equipment_workshop'|trans({}) }}</th>
-            <th>{{ 'State'|trans({}) }}</th>
-            <th>{{ 'Product'|trans({}) }}</th>
-            <th>{{ 'Mould'|trans({}) }}</th>
-            <th>{{ 'description'|trans({}) }}</th>
-            <th>{{ 'length'|trans({}) }}</th>
-            <th>{{ 'width'|trans({}) }}</th>
-            <th>{{ 'height'|trans({}) }}</th>
-            <th>{{ 'deployment'|trans({}) }}</th>
-            <th>{{ 'equipment_type'|trans({}) }}</th>
-            <th>{{ 'purchase_date'|trans({}) }}</th>
-            <th>{{ 'Spares'|trans({}) }}</th>
-            <th>{{ 'el_power'|trans({}) }}</th>
-            <th>{{ 'repair_job'|trans({}) }}</th>
-            <th>{{ 'balance_cost'|trans({}) }}</th>
-            <th>{{ 'actual_cost'|trans({}) }}</th>
-            <th>{{ 'inspection_period'|trans({}) }}</th>
-            <th>{{ 'inspection_next_date'|trans({}) }}</th>
-            <th>{{ 'files'|trans({}) }}</th>
-        </tr>
-        </thead>
+    <div class="table-scroll">
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>{{ 'Name'|trans({}) }}</th>
+                <th>{{ 'Code'|trans({}) }}</th>
+                <th>{{ 'equipment_workshop'|trans({}) }}</th>
+                <th>{{ 'State'|trans({}) }}</th>
+                <th>{{ 'Product'|trans({}) }}</th>
+                <th>{{ 'Mould'|trans({}) }}</th>
+                <th>{{ 'description'|trans({}) }}</th>
+                <th>{{ 'length'|trans({}) }}</th>
+                <th>{{ 'width'|trans({}) }}</th>
+                <th>{{ 'height'|trans({}) }}</th>
+                <th>{{ 'deployment'|trans({}) }}</th>
+                <th>{{ 'equipment_type'|trans({}) }}</th>
+                <th>{{ 'purchase_date'|trans({}) }}</th>
+                <th>{{ 'Spares'|trans({}) }}</th>
+                <th>{{ 'el_power'|trans({}) }}</th>
+                <th>{{ 'repair_job'|trans({}) }}</th>
+                <th>{{ 'balance_cost'|trans({}) }}</th>
+                <th>{{ 'actual_cost'|trans({}) }}</th>
+                <th>{{ 'inspection_period'|trans({}) }}</th>
+                <th>{{ 'inspection_next_date'|trans({}) }}</th>
+                <th>{{ 'files'|trans({}) }}</th>
+            </tr>
+            </thead>
 
-        <tbody>
+            <tbody>
             {% for key,value in 1..loopCount %}
                 {% set eqValue = pagination.items[key] %}
 
@@ -84,10 +86,11 @@
                     <td {% if eqValue.images|length > 0 %}class="bg-success" {% else %} class="bg-danger"{% endif %}>{% if eqValue.images|length>0 %}<i class="glyphicon glyphicon-plus"></i>{% else %}<i class="glyphicon glyphicon-minus"></i>{% endif %}</td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+
     <div class="text-center">
         {{ knp_pagination_render(pagination) }}
     </div>
-</div>
 {% endblock %}
