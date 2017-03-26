@@ -7,12 +7,54 @@ use MainBundle\Entity\EquipmentReport;
 use MainBundle\Form\EquipmentReportType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class EquipmentController extends Controller
 {
+    /**
+     * List action.
+     *
+     * @return Response
+     *
+     * @throws AccessDeniedException If access is not granted
+     */
+    public function listAction()
+    {
+        $request = $this->getRequest();
+
+        //save cookie
+        $response = null;
+        $this->listFilterChangeByCookie($request);
+
+        $this->admin->checkAccess('list');
+
+        $preResponse = $this->preList($request);
+        if ($preResponse !== null) {
+            return $preResponse;
+        }
+
+        if ($listMode = $request->get('_list_mode')) {
+            $this->admin->setListMode($listMode);
+        }
+
+        $datagrid = $this->admin->getDatagrid();
+        $formView = $datagrid->getForm()->createView();
+
+        // set the theme for the current Admin Form
+        $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
+
+
+        return $this->render($this->admin->getTemplate('list'), array(
+            'action' => 'list',
+            'form' => $formView,
+            'datagrid' => $datagrid,
+            'csrf_token' => $this->getCsrfToken('sonata.batch'),
+        ), $response, $request);
+    }
+
     /**
      * This action is used to create report for equipment
      *
@@ -59,7 +101,7 @@ class EquipmentController extends Controller
         }
 
         return $this->render('MainBundle:Admin:equipment_report.html.twig', array(
-           'form' => $form->createView(),
+            'form' => $form->createView(),
         ));
     }
 
@@ -92,4 +134,32 @@ class EquipmentController extends Controller
         return $this->render('MainBundle:Admin:equipment_filter_filling.html.twig', ['pagination' => $pagination]);
     }
 
+    /**
+     * This function is used to rule equipment list filter by cookie
+     *
+     * @param Request $request
+     */
+    private function listFilterChangeByCookie(Request $request)
+    {
+        //get field show data
+        $formData = $request->request->all();
+
+        //get cookies data
+        $cookies = $this->getRequest()->cookies;
+
+        if ($formData || (count($formData) == 1 && $formData['hidden'])) {
+            if ($cookies->has('showFields')) {
+                $cookies->remove('showFields');
+            }
+
+            unset($formData['hidden']);
+
+            //save cookies
+            $formData = serialize($formData);
+            $response = new Response();
+            $response->headers->setCookie(new Cookie('showFields', $formData));
+            $response->send();
+            $request->cookies->set('showFields', $formData);
+        }
+    }
 }

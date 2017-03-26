@@ -196,31 +196,74 @@ class EquipmentAdmin extends Admin
             ->add('product')
             ->add('mould')
             ->add('spares')
+            ->add('length', null, ['label'=>'length'])
+            ->add('width', null, ['label'=>'width'])
+            ->add('height', null, ['label'=>'height'])
         ;
     }
 
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
+        $showFields = null;
+
+        //get cookies data
+        $cookies = $this->getRequest()->cookies;
+
+        if ($cookies->has('showFields')) {
+            $showFields = unserialize($cookies->get('showFields'));
+        }
+
+        //check if cookie data exist
+        if ($showFields) {
+
+            foreach ($showFields as $field)
+            {
+                if($field == 'getEquipmentImages') {
+                    $listMapper->add($field, null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'] );
+                }elseif($field == 'purchaseDate'){
+                    $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'purchase_date'));
+                }elseif($field == 'inspectionNextDate'){
+                    $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'));
+                }elseif($field == 'responsiblePersons'){
+                    $listMapper->add($field, null, ['label'=>'responsible_person']);
+                }
+                elseif($field == 'created'){
+                    $listMapper->add($field, 'date', array('widget' => 'single_text'));
+                }
+                else{
+                    $listMapper->add($field);
+                }
+            }
+        }else{
+            $listMapper
+                ->add('id')
+                ->add('name')
+                ->add('code')
+                ->add('workshop', null, array('label'=>'equipment_workshop'))
+                ->add('getStringState', null, array('label'=>'State'))
+                ->add('product')
+                ->add('mould')
+                ->add('description')
+                ->add('deployment', null, ['label' => 'Deployment'])
+                ->add('type', null, ['label' => 'equipment_type'])
+                ->add('spares')
+                ->add('responsiblePersons', null, ['label'=>'responsible_person'])
+                ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
+                ->add('elPower', null, ['label'=>'el_power'])
+                ->add('repairJob', null, ['label' => 'repair_job'])
+                ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
+                ->add('length', null, ['label'=>'length'])
+                ->add('width', null, ['label'=>'width'])
+                ->add('height', null, ['label'=>'height'])
+                ->add('carryingPrice', null, array('label'=>'balance_cost'))
+                ->add('factualPrice', null, array('label'=>'actual_cost'))
+                ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+                ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
+                ->add('created', 'date', array('widget' => 'single_text'));
+        }
+
         $listMapper
-            ->add('id')
-            ->add('name')
-            ->add('code')
-            ->add('workshop', null, array('label'=>'equipment_workshop'))
-            ->add('getStringState', null, array('label'=>'State'))
-            ->add('product')
-            ->add('mould')
-            ->add('deployment', null, ['label' => 'Deployment'])
-            ->add('type', null, ['label' => 'equipment_type'])
-            ->add('spares')
-            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
-            ->add('elPower', null, ['label'=>'el_power'])
-            ->add('repairJob', null, ['label' => 'repair_job'])
-            ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
-            ->add('carryingPrice', null, array('label'=>'balance_cost'))
-            ->add('factualPrice', null, array('label'=>'actual_cost'))
-            ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
-            ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

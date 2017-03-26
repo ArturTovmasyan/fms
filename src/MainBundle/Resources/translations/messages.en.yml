@@ -23,7 +23,7 @@ raw_price: Հումքի գումարը
 equipment: Թող.֊ող սարքավորումը
 mould: Թող.֊ող կաղապարը
 PartnersList: Գործընկերներ
-responsible_person: Պատասխանատու անձինք
+responsible_person: Պատասխ. անձինք
 Created: Ստեղծվել է
 Spares: Սարք․-ն Պահ.-ս
 counts_in_warehouse: Քանակը Պահեստում
@@ -114,7 +114,8 @@ contact_data: Կոնտակտային տվյալներ
 family_data: Ընտանիքի անդամները
 global_info: Ընդհանուր տեղ.
 division_type: Ստորաբաժ. տիպը
-
+eq_list_filter: Ֆիլտրել սարք․֊ի աղյուսակը
+filter: Ֆիլտրել
 
 file:
     max_extension: The minimum file size is 400x400 px

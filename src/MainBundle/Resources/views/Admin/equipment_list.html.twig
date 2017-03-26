@@ -4,7 +4,12 @@
     {% include 'SonataAdminBundle:CRUD:action_buttons.html.twig' %}
     <li>
         <a href="{{ path('admin_main_equipment_equipment-filling') }}" class="sonata-action-element" title="{{ 'equipment_filling'|trans() }}">
-            <i class="glyphicon glyphicon-align-justify">  {{ 'equipment_filling'|trans() }}</i>
+            <i class="glyphicon glyphicon-align-justify"> {{ 'equipment_filling'|trans() }}</i>
+        </a>
+    </li>
+    <li>
+        <a href="" class="sonata-action-element" data-toggle="modal" data-target="#equipmentFilterModal">
+            <i class="glyphicon glyphicon-search"> {{ 'filter'|trans }}</i>
         </a>
     </li>
 {%- endblock -%}
