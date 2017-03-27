@@ -95,6 +95,7 @@ class PostAdmin extends AbstractAdmin
         $formMapper
             ->add('name')
             ->add('code')
+            ->add('division')
             ->add('postStatus')
             ->add('educationStatus', 'choice', ['choices'=> $langArray, 'required'=>false])
             ->add('profession')
@@ -107,9 +108,6 @@ class PostAdmin extends AbstractAdmin
                 3 => 'Անգլերեն',
                 4 =>'Առանց սահմանափակման',
                 5 => 'Այլ լեզու'], 'required'=>false])
-
-            ->add('anotherLang', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field'], 'label'=>false])
-
             ->add('compKnowledge')
             ->add('requirement')
             ->add('chief')
@@ -155,7 +153,6 @@ class PostAdmin extends AbstractAdmin
             ->add('jobAgreement')
             ->add('postStory')
             ->add('created')
-            ->add('updated')
-        ;
+            ->add('updated');
     }
 }

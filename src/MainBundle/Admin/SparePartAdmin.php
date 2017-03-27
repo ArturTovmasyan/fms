@@ -43,7 +43,7 @@ class SparePartAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin:fms_edit.html.twig';
+                return 'MainBundle:Admin/Edit:fms_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);

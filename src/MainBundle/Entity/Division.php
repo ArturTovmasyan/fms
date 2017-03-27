@@ -3,12 +3,14 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Division
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(fields={"name", "subordination", "type"}, errorPath="name", message="division.error.unique")
  */
 class Division
 {
@@ -29,16 +31,16 @@ class Division
     private $name;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="subordination", type="string", length=50, nullable=true)
+     * @ORM\ManyToOne(targetEntity="Division",cascade={"persist"})
+     * @ORM\JoinColumn(name="division_id", referencedColumnName="id")
      */
     private $subordination;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="created", type="datetime", nullable=true)
      */
     private $created;
 
@@ -50,7 +52,7 @@ class Division
 
     /**
      *
-     * @ORM\Column(name="head_position", type="string", nullable=true)
+     * @ORM\Column(name="head_position", type="string")
      */
     private $headPosition;
 
@@ -59,6 +61,12 @@ class Division
      * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
      */
     private $type;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="division", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OrderBy({"id" = "ASC"})
+     */
+    protected $post;
 
     /**
      * Get id
@@ -91,29 +99,6 @@ class Division
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set subordination
-     *
-     * @param string $subordination
-     * @return Division
-     */
-    public function setSubordination($subordination)
-    {
-        $this->subordination = $subordination;
-
-        return $this;
-    }
-
-    /**
-     * Get subordination
-     *
-     * @return string 
-     */
-    public function getSubordination()
-    {
-        return $this->subordination;
     }
 
     /**
@@ -206,5 +191,79 @@ class Division
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * @return string
+     */
+    function __toString()
+    {
+        return ((string)$this->headPosition) ? (string)$this->headPosition : '';
+    }
+
+
+    /**
+     * Set subordination
+     *
+     * @param \MainBundle\Entity\Division $subordination
+     * @return Division
+     */
+    public function setSubordination(\MainBundle\Entity\Division $subordination = null)
+    {
+        $this->subordination = $subordination;
+
+        return $this;
+    }
+
+    /**
+     * Get subordination
+     *
+     * @return \MainBundle\Entity\Division 
+     */
+    public function getSubordination()
+    {
+        return $this->subordination;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->post = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add post
+     *
+     * @param \MainBundle\Entity\Post $post
+     * @return Division
+     */
+    public function addPost(\MainBundle\Entity\Post $post)
+    {
+        $post->setDivision($this);
+        $this->post[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \MainBundle\Entity\Post $post
+     */
+    public function removePost(\MainBundle\Entity\Post $post)
+    {
+        $this->post->removeElement($post);
+    }
+
+    /**
+     * Get post
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPost()
+    {
+        return $this->post;
     }
 }

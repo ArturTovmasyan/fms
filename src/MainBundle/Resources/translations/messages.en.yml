@@ -116,6 +116,8 @@ global_info: Ընդհանուր տեղ.
 division_type: Ստորաբաժ. տիպը
 eq_list_filter: Ֆիլտրել սարք․֊ն աղյուսակը
 filter: Ֆիլտրել
+subordination: Ենթակայությունը
+head_position: Ղեակավար հաստիքը
 
 file:
     max_extension: The minimum file size is 400x400 px

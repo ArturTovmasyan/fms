@@ -192,9 +192,9 @@ ivory_ck_editor:
     default_config: default
     configs:
         default:
-            toolbar:
-            - [Save, Bold, Italic, Underline, -, Cut, Preview, Print, Copy, Paste, PasteText, PasteFromWord, -, Undo, Redo, -, NumberedList, BulletedList, -, Outdent, Indent, -, Blockquote, -, Image, Link, Unlink]
-            - [Format, Maximize, Source]
+            toolbar: standard
+#            - [Save, Bold, Italic, Underline, -, Cut, Preview, Print, Copy, Paste, PasteText, PasteFromWord, -, Undo, Redo, -, NumberedList, BulletedList, -, Outdent, Indent, -, Blockquote, -, Image, Link, Unlink]
+#            - [Format, Maximize, Source]
             filebrowserBrowseRoute: admin_application_media_media_browser
             filebrowserImageBrowseRoute: admin_application_media_media_browser
             # Display images by default when clicking the image dialog browse button

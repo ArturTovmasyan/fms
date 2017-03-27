@@ -18,6 +18,8 @@ class DivisionAdmin extends AbstractAdmin
         $datagridMapper
             ->add('id')
             ->add('name')
+            ->add('type', null, ['show_filter'=>true, 'label'=>'division_type'])
+            ->add('subordination', null, ['show_filter'=>true, 'label'=>'subordination'])
         ;
     }
 
@@ -28,12 +30,12 @@ class DivisionAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('type', null, ['label'=>'division_type'])
             ->add('name')
-            ->add('subordination')
+            ->add('type', null, ['label'=>'division_type'])
+            ->add('subordination', null, ['label'=>'subordination'])
             ->add('created')
             ->add('orders')
-            ->add('headPosition')
+            ->add('headPosition', null, ['label'=>'head_position'])
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -49,13 +51,31 @@ class DivisionAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $id = $this->getSubject()->getId() ? $this->getSubject()->getId() : 0;
+
         $formMapper
-            ->add('type', 'sonata_type_model', ['label'=>'division_type'])
             ->add('name')
-            ->add('subordination')
+            ->add('type', null, ['label'=>'division_type'])
+            ->add('subordination', null, [
+                'label' => 'subordination',
+                'query_builder' => function($query) use ($id) {
+                    $result = $query->createQueryBuilder('dv');
+                    $result
+                        ->select('d')
+                        ->from('MainBundle:Division', 'd')
+                        ->where('d.id != :id')
+                        ->setParameter(':id', $id);
+
+                    return $result;
+                }
+            ])
             ->add('created','sonata_type_date_picker', ['required'=>false])
             ->add('orders')
-            ->add('headPosition')
+            ->add('headPosition', null, ['label'=>'head_position'])
+            ->add('post', 'sonata_type_collection', [
+                'label'=>false,
+                'btn_add' => 'Ավելացնել հաստիք'
+            ])
         ;
     }
 
@@ -66,12 +86,38 @@ class DivisionAdmin extends AbstractAdmin
     {
         $showMapper
             ->add('id')
-//            ->add('type', null, ['label'=>'division_type'])
             ->add('name')
-            ->add('subordination')
+            ->add('type', null, ['label'=>'division_type'])
+            ->add('subordination', null, ['label'=>'subordination'])
             ->add('created')
             ->add('orders')
-            ->add('headPosition')
+            ->add('headPosition', null, ['label'=>'head_position'])
         ;
     }
+
+//    public function preUpdate($object)
+//    {
+//        $this->prePersist($object);
+//    }
+//
+//    /**
+//     * @param mixed $object
+//     */
+//    public function prePersist($object)
+//    {
+//        // get product route card
+//        $posts = $object->getPost();
+//
+//        // if product route card is exist
+//        if($posts) {
+//
+//            foreach($posts as $post)
+//            {
+//                if(!$post->getId() || !$posts->contains($object)) {
+//                    $post->setDivision($object);
+//                }
+//            }
+//        }
+//    }
+
 }

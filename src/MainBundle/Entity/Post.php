@@ -33,6 +33,12 @@ class Post
     private $name;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Division", inversedBy="post", cascade={"persist"})
+     * @ORM\JoinColumn(name="division_id", referencedColumnName="id")
+     */
+    protected $division;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", unique=true)
@@ -760,5 +766,28 @@ class Post
     public function getCompKnowledge()
     {
         return $this->compKnowledge;
+    }
+
+    /**
+     * Set division
+     *
+     * @param \MainBundle\Entity\Division $division
+     * @return Post
+     */
+    public function setDivision(\MainBundle\Entity\Division $division = null)
+    {
+        $this->division = $division;
+
+        return $this;
+    }
+
+    /**
+     * Get division
+     *
+     * @return \MainBundle\Entity\Division 
+     */
+    public function getDivision()
+    {
+        return $this->division;
     }
 }
