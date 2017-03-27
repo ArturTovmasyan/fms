@@ -10,6 +10,23 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PostAdmin extends AbstractAdmin
 {
+
+    /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin/Edit:fms_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
     /**
      * @param DatagridMapper $datagridMapper
      */
@@ -66,20 +83,33 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $langArray = [
+            0 => ' ',
+            1 => 'Հայերեն',
+            2 => 'Ռուսերեն',
+            3 => 'Անգլերեն',
+            4 =>'Առանց սահմանափակման',
+            5 => 'Այլ լեզու'
+        ];
+
         $formMapper
             ->add('name')
             ->add('code')
             ->add('postStatus')
-            ->add('educationStatus', 'choice', array('choices'=> array(
-                0 => ' ',
-                1 => 'Բարձրագույն',
-                2 => 'Միջին մասնագիտական',
-                3 => 'Միջնակարգ',
-                4 =>'Առանց սահմանափակման'), 'required'=>false))
+            ->add('educationStatus', 'choice', ['choices'=> $langArray, 'required'=>false])
             ->add('profession')
             ->add('age')
             ->add('experience')
-            ->add('language')
+            ->add('language', 'choice', ['choices'=> [
+                0 => ' ',
+                1 => 'Հայերեն',
+                2 => 'Ռուսերեն',
+                3 => 'Անգլերեն',
+                4 =>'Առանց սահմանափակման',
+                5 => 'Այլ լեզու'], 'required'=>false])
+
+            ->add('anotherLang', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field'], 'label'=>false])
+
             ->add('compKnowledge')
             ->add('requirement')
             ->add('chief')

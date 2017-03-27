@@ -39,7 +39,7 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
             ->add('equipment')
             ->add('workshop')
             ->add('weight')
-            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
+            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
 
         ;
         parent::configureShowFields($showMapper);
@@ -83,7 +83,7 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
             ->add('equipment')
             ->add('workshop')
             ->add('weight')
-            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
+            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
         ;
         parent::configureListFields($listMapper);
     }

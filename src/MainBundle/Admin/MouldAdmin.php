@@ -37,7 +37,7 @@ class MouldAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin:mould_edit.html.twig';
+                return 'MainBundle:Admin/Edit:mould_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);

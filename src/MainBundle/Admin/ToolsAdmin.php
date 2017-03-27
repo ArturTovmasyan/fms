@@ -42,7 +42,7 @@ class ToolsAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin:fms_edit.html.twig';
+                return 'MainBundle:Admin/Edit:fms_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
@@ -68,7 +68,7 @@ class ToolsAdmin extends Admin
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('created', 'date', array('widget' => 'single_text'))
-            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
+            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
         ;
     }
 
@@ -130,7 +130,7 @@ class ToolsAdmin extends Admin
             ->add('getStringSize', null, array('label' => 'size'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('getToolImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
+            ->add('getToolImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

@@ -38,7 +38,7 @@ class MetalMaterialsAdmin extends RawMaterialsAdmin
             ->add('category')
             ->add('code')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
+            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
         ;
         parent::configureShowFields($showMapper);
     }
@@ -82,7 +82,7 @@ class MetalMaterialsAdmin extends RawMaterialsAdmin
             ->add('code')
             ->add('category')
             ->add('minimalVolume', null, array('label' => 'minimal_volume'))
-            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])        ;
+            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])        ;
 
         parent::configureListFields($listMapper);
     }

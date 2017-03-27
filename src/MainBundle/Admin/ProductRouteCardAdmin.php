@@ -57,7 +57,7 @@ class ProductRouteCardAdmin extends Admin
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime')
-            ->add('tariff', null, array('template' => 'MainBundle:Admin:professionTariffPriceShow.html.twig'))
+            ->add('tariff', null, array('template' => 'MainBundle:Admin/Show:professionTariffPriceShow.html.twig'))
             ->add('routeCardPrice')
             ->add('specificPercent')
         ;
@@ -142,7 +142,7 @@ class ProductRouteCardAdmin extends Admin
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime')
-            ->add('tariff', null, array('template' => 'MainBundle:Admin:professionTariffPriceList.html.twig'))
+            ->add('tariff', null, array('template' => 'MainBundle:Admin/List:professionTariffPriceList.html.twig'))
             ->add('routeCardPrice')
             ->add('specificPercent')
             ->add('_action', 'actions', array(

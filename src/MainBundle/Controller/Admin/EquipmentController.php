@@ -7,6 +7,7 @@ use MainBundle\Entity\EquipmentReport;
 use MainBundle\Form\EquipmentReportType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -100,7 +101,7 @@ class EquipmentController extends Controller
             }
         }
 
-        return $this->render('MainBundle:Admin:equipment_report.html.twig', array(
+        return $this->render('MainBundle:Admin/Custom:equipment_report.html.twig', array(
             'form' => $form->createView(),
         ));
     }
@@ -108,10 +109,9 @@ class EquipmentController extends Controller
     /**
      * This action is used to show equipment filling status
      *
-     * @param Request $request
      * @return Response
      */
-    public function equipmentFillingAction(Request $request)
+    public function equipmentFillingAction()
     {
         //get entity manager
         $em = $this->get('doctrine')->getManager();
@@ -131,7 +131,7 @@ class EquipmentController extends Controller
             $pageCount
         );
 
-        return $this->render('MainBundle:Admin:equipment_filter_filling.html.twig', ['pagination' => $pagination]);
+        return $this->render('MainBundle:Admin/Custom:equipment_filter_filling.html.twig', ['pagination' => $pagination]);
     }
 
     /**

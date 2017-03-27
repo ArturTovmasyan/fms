@@ -68,7 +68,7 @@ class SparePartAdmin extends Admin
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('created', 'date', array('widget' => 'single_text'))
-            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
+            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
         ;
     }
 
@@ -146,7 +146,7 @@ class SparePartAdmin extends Admin
                 "Հատ",
                 "Կոմպլեկտ",
                 "Լիտր")))
-            ->add('getSparePartImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
+            ->add('getSparePartImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),

@@ -46,10 +46,10 @@ class EquipmentAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin:equipment_edit.html.twig';
+                return 'MainBundle:Admin/Edit:equipment_edit.html.twig';
                 break;
             case 'list':
-                return 'MainBundle:Admin:equipment_list.html.twig';
+                return 'MainBundle:Admin/List:equipment_list.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
@@ -89,7 +89,7 @@ class EquipmentAdmin extends Admin
             ->add('width', null, ['label'=>'width'])
             ->add('height', null, ['label'=>'height'])
             ->end()
-            ->add('images', null, ['template' => 'MainBundle:Admin:fms_image_show.html.twig', 'label'=>'files'])
+            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
             ->add('type', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('deployment', null, ['label' => 'Deployment'])
@@ -220,7 +220,7 @@ class EquipmentAdmin extends Admin
             foreach ($showFields as $field)
             {
                 if($field == 'getEquipmentImages') {
-                    $listMapper->add($field, null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'] );
+                    $listMapper->add($field, null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'] );
                 }elseif($field == 'purchaseDate'){
                     $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'purchase_date'));
                 }elseif($field == 'inspectionNextDate'){
@@ -252,7 +252,7 @@ class EquipmentAdmin extends Admin
                 ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
                 ->add('elPower', null, ['label'=>'el_power'])
                 ->add('repairJob', null, ['label' => 'repair_job'])
-                ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin:fms_image_list.html.twig', 'label'=>'files'])
+                ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
                 ->add('length', null, ['label'=>'length'])
                 ->add('width', null, ['label'=>'width'])
                 ->add('height', null, ['label'=>'height'])
@@ -269,7 +269,7 @@ class EquipmentAdmin extends Admin
                     'show' => array(),
                     'edit' => array(),
                     'delete' => array(),
-                    'report' => ['template' => 'MainBundle:Admin:equipment_report_action.html.twig']
+                    'report' => ['template' => 'MainBundle:Admin/Action:equipment_report_action.html.twig']
                 )
             ))
         ;
