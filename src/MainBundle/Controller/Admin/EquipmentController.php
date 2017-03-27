@@ -148,8 +148,8 @@ class EquipmentController extends Controller
         $cookies = $this->getRequest()->cookies;
 
         if ($formData || (count($formData) == 1 && $formData['hidden'])) {
-            if ($cookies->has('showFields')) {
-                $cookies->remove('showFields');
+            if ($cookies->has('EQUIPMENT_FILTERS')) {
+                $cookies->remove('EQUIPMENT_FILTERS');
             }
 
             unset($formData['hidden']);
@@ -157,9 +157,9 @@ class EquipmentController extends Controller
             //save cookies
             $formData = serialize($formData);
             $response = new Response();
-            $response->headers->setCookie(new Cookie('showFields', $formData));
+            $response->headers->setCookie(new Cookie('EQUIPMENT_FILTERS', $formData));
             $response->send();
-            $request->cookies->set('showFields', $formData);
+            $request->cookies->set('EQUIPMENT_FILTERS', $formData);
         }
     }
 }

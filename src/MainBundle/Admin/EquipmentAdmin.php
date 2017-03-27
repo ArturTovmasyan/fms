@@ -210,8 +210,8 @@ class EquipmentAdmin extends Admin
         //get cookies data
         $cookies = $this->getRequest()->cookies;
 
-        if ($cookies->has('showFields')) {
-            $showFields = unserialize($cookies->get('showFields'));
+        if ($cookies->has('EQUIPMENT_FILTERS')) {
+            $showFields = unserialize($cookies->get('EQUIPMENT_FILTERS'));
         }
 
         //check if cookie data exist

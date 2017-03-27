@@ -9,7 +9,7 @@
                 <h4 class="modal-title">{{ 'eq_list_filter'|trans }}</h4>
             </div>
             <div class="modal-body">
-                {% set showFields = app.request.cookies.get('showFields') %}
+                {% set showFields = app.request.cookies.get('EQUIPMENT_FILTERS') %}
                 {% set showFields = showFields|unserialize %}
 
                 <form action="{{ path('admin_main_equipment_list') }}" method="post">
