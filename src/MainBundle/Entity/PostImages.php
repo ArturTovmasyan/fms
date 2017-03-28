@@ -8,32 +8,32 @@ use MainBundle\Traits\File;
 use JMS\Serializer\Annotation\Groups;
 
 /**
- * ToolImages
+ * PostImages
  *
  * @ORM\Table()
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks()
  */
-class ToolImages implements ImageableInterface
+class PostImages implements ImageableInterface
 {
     //use file trait
     use File;
 
     /**
      * @var integer
-     * @Groups({"files"})
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @Groups({"files"})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Tools", inversedBy="images", cascade={"persist"}, fetch="LAZY")
-     * @ORM\JoinColumn(name="tools_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="images", cascade={"persist"}, fetch="LAZY")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
-    protected $tool;
+    protected $post;
 
     /**
      * Get id
@@ -43,6 +43,29 @@ class ToolImages implements ImageableInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set post
+     *
+     * @param string $post
+     * @return PostImages
+     */
+    public function setPost($post)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return string 
+     */
+    public function getPost()
+    {
+        return $this->post;
     }
 
     /**
@@ -60,7 +83,7 @@ class ToolImages implements ImageableInterface
      */
     protected function getPath()
     {
-        return 'tool';
+        return 'post';
     }
 
     /**
@@ -77,26 +100,4 @@ class ToolImages implements ImageableInterface
         }
     }
 
-    /**
-     * Set tool
-     *
-     * @param \MainBundle\Entity\Tools $tool
-     * @return ToolImages
-     */
-    public function setTool(\MainBundle\Entity\Tools $tool = null)
-    {
-        $this->tool = $tool;
-
-        return $this;
-    }
-
-    /**
-     * Get tool
-     *
-     * @return \MainBundle\Entity\Tools 
-     */
-    public function getTool()
-    {
-        return $this->tool;
-    }
 }

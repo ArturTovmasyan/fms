@@ -63,8 +63,7 @@ class Division
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="division", cascade={"persist"}, orphanRemoval=true)
-     * @ORM\OrderBy({"id" = "ASC"})
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="division", cascade={"persist"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     protected $post;
 
@@ -198,7 +197,7 @@ class Division
      */
     function __toString()
     {
-        return ((string)$this->headPosition) ? (string)$this->headPosition : '';
+        return ((string)$this->name) ? (string)$this->name : '';
     }
 
 
@@ -241,7 +240,6 @@ class Division
      */
     public function addPost(\MainBundle\Entity\Post $post)
     {
-        $post->setDivision($this);
         $this->post[] = $post;
 
         return $this;

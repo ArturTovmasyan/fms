@@ -33,9 +33,10 @@ class DivisionAdmin extends AbstractAdmin
             ->add('name')
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])
-            ->add('created')
+            ->add('post')
             ->add('orders')
             ->add('headPosition', null, ['label'=>'head_position'])
+            ->add('created')
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -58,6 +59,7 @@ class DivisionAdmin extends AbstractAdmin
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, [
                 'label' => 'subordination',
+                'property'=> 'headPosition',
                 'query_builder' => function($query) use ($id) {
                     $result = $query->createQueryBuilder('dv');
                     $result
@@ -72,10 +74,7 @@ class DivisionAdmin extends AbstractAdmin
             ->add('created','sonata_type_date_picker', ['required'=>false])
             ->add('orders')
             ->add('headPosition', null, ['label'=>'head_position'])
-            ->add('post', 'sonata_type_collection', [
-                'label'=>false,
-                'btn_add' => 'Ավելացնել հաստիք'
-            ])
+            ->add('post', 'sonata_type_model', array('label'=>false,'multiple'=>true, 'btn_add'=> 'Ավելացնել հաստիք'))
         ;
     }
 
@@ -95,29 +94,33 @@ class DivisionAdmin extends AbstractAdmin
         ;
     }
 
-//    public function preUpdate($object)
-//    {
-//        $this->prePersist($object);
-//    }
-//
-//    /**
-//     * @param mixed $object
-//     */
-//    public function prePersist($object)
-//    {
-//        // get product route card
-//        $posts = $object->getPost();
-//
-//        // if product route card is exist
-//        if($posts) {
-//
-//            foreach($posts as $post)
-//            {
-//                if(!$post->getId() || !$posts->contains($object)) {
-//                    $post->setDivision($object);
-//                }
-//            }
-//        }
-//    }
+    /**
+     * @param mixed $division
+     */
+    public function preUpdate($division)
+    {
+        $this->prePersist($division);
+    }
 
+    /**
+     * @param mixed $division
+     */
+    public function prePersist($division)
+    {
+        // get product route card
+        $posts = $division->getPost();
+
+        // if product route card is exist
+        if($posts) {
+
+            foreach($posts as $post)
+            {
+                $divisions = $post->getDivision();
+
+                if(!$divisions->contains($division)) {
+                    $post->addDivision($division);
+                }
+            }
+        }
+    }
 }

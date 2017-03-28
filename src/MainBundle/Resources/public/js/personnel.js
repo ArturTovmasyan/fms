@@ -7,51 +7,62 @@ $( document ).ready(function() {
     var langSelector = "#"+fieldToken+"language";
     var anotherLangSelector = "#"+fieldToken+"anotherLang";
 
+    var compSelector = "#"+fieldToken+"compKnowledge";
+    var anotherCompSelector = "#"+fieldToken+"anotherCompEducation";
+
+    var requirementSelector = "#"+fieldToken+"requirement";
+    var anotherRequirement = "#"+fieldToken+"anotherRequirement";
+
     $(langSelector).change(function () {
 
-        var langVal = $(this).data();
+        var langVal = $(this).select2('val');
+        var itemRemove = "0";
 
-        if(langVal == 5) {
+        if($.inArray(itemRemove, langVal) > -1) {
+
             $(anotherLangSelector).removeClass('hidden-field');
+
+            langVal.splice($.inArray(itemRemove, langVal), 1);
+
+            $(this).select2('val', langVal);
+        }else{
+            $(anotherLangSelector).addClass('hidden-field');
         }
-
-        console.log(langVal);
-
     });
 
-    // function getTypes() {
-    //
-    //     $.get("/admin/api/v1.0/equipment/type/"+workshopValue, function(data) {
-    //
-    //         if(data.length > 0) {
-    //             $(typeSelector).removeClass('hidden-field');
-    //
-    //             var options = '';
-    //
-    //             var typeVal = $('#select2-chosen-3').html(),
-    //                 inArray = false;
-    //
-    //             for(var i = 0; i< data.length;i++)
-    //             {
-    //                 if(data[i].name == typeVal) {
-    //                     inArray = true;
-    //                 }
-    //
-    //                 options += (option.replace('id', data[i].id).replace('name',data[i].name))
-    //             }
-    //
-    //             if(!inArray){
-    //                 $('#select2-chosen-3').html('');
-    //             }
-    //
-    //             $(typeSelector).html(options);
-    //
-    //         }else{
-    //             $(typeSelector).addClass('hidden-field');
-    //             $(typeSelector).html('<option value=""></option>');
-    //         }
-    //     });
-    // }
+    $(compSelector).change(function () {
 
+        var compVal = $(this).select2('val');
+        var itemRemove = "0";
+
+        if($.inArray(itemRemove, compVal) > -1) {
+
+            $(anotherCompSelector).removeClass('hidden-field');
+
+            compVal.splice($.inArray(itemRemove, compVal), 1);
+
+            $(this).select2('val', compVal);
+        }else{
+            $(anotherCompSelector).addClass('hidden-field');
+        }
+    });
+
+    $(requirementSelector).change(function () {
+
+        var compVal = $(this).select2('val');
+        var itemRemove = "0";
+
+        if($.inArray(itemRemove, compVal) > -1) {
+
+            $(anotherRequirement).removeClass('hidden-field');
+
+            compVal.splice($.inArray(itemRemove, compVal), 1);
+
+            $(this).select2('val', compVal);
+        }else{
+            $(anotherRequirement).addClass('hidden-field');
+        }
+    });
 
 });
+

@@ -7,6 +7,7 @@ use MainBundle\Entity\EquipmentImage;
 use MainBundle\Entity\HouseholdMaterials;
 use MainBundle\Entity\IlliquidMaterials;
 use MainBundle\Entity\MetalMaterials;
+use MainBundle\Entity\PostImages;
 use MainBundle\Entity\PrepackMaterials;
 use MainBundle\Entity\RawMaterialImages;
 use MainBundle\Entity\RubberMaterials;
@@ -51,6 +52,10 @@ trait FmsAdmin
                     $image->setTool($object);
                 }
 
+                if ($image instanceof PostImages){
+                    $image->setPost($object);
+                }
+
                 if ($image instanceof RawMaterialImages) {
                     $this->setRawMaterialsImage($image, $object);
                 }
@@ -93,16 +98,29 @@ trait FmsAdmin
      */
     public function getImages($imageClassName)
     {
-        //get images by ids
-        $request = $this->getRequest();
-        $uniqId = $this->getUniqid();
+        //get data in request
+        $data = $this->getRequestData();
+
         $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
-        $imagesIds = $request->request->get($uniqId)['imageIds'];
+        $imagesIds = $data['imageIds'];
         $imagesIds = json_decode($imagesIds, true);
         $ids = explode( ',', $imagesIds);
         $repositoryName = "MainBundle:".$imageClassName;
         $images = $em->getRepository($repositoryName)->findBy(['id'=>$ids]);
 
         return $images;
+    }
+
+    /**
+     * This function is used to get request data
+     */
+    public function getRequestData()
+    {
+        //get images by ids
+        $request = $this->getRequest();
+        $uniqId = $this->getUniqid();
+        $data = $request->request->get($uniqId);
+
+        return $data;
     }
 }

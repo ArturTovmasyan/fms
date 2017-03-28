@@ -5,6 +5,7 @@ namespace MainBundle\Controller\Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use MainBundle\Entity\EquipmentImage;
+use MainBundle\Entity\PostImages;
 use MainBundle\Entity\SparePartImages;
 use MainBundle\Entity\ToolImages;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -158,6 +159,11 @@ class MainRestController extends FOSRestController
         } elseif($object instanceof SparePartImages) {
 
             if (!is_null($class = $object->getSparePart())) {
+                $class->removeImage($object);
+            }
+        } elseif($object instanceof PostImages) {
+
+            if (!is_null($class = $object->getPost())) {
                 $class->removeImage($object);
             }
         }

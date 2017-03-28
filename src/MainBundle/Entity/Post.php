@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Post
@@ -33,15 +34,14 @@ class Post
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Division", inversedBy="post", cascade={"persist"})
-     * @ORM\JoinColumn(name="division_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="Division", inversedBy="post", cascade={"persist"})
      */
     protected $division;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", unique=true)
+     * @ORM\Column(name="code", type="string", length=20, unique=true)
      * @Assert\NotNull()
      * @Assert\Length(min = 3, max=3)
      * @Assert\Regex("/[0-9]/")
@@ -51,12 +51,11 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="postStatus", type="string", length=20, nullable=true)
+     * @ORM\Column(name="post_status", type="string", length=20, nullable=true)
      */
     private $postStatus;
 
     /**
-     * @var integer
      *
      * @ORM\Column(name="educationStatus", type="smallint", nullable=true)
      */
@@ -68,6 +67,12 @@ class Post
      * @ORM\Column(name="profession", type="string", length=100, nullable=true)
      */
     private $profession;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PostImages", mappedBy="post", cascade={"persist", "remove"})
+     * @Groups({"files"})
+     */
+    protected $images;
 
     /**
      * @var integer
@@ -85,23 +90,21 @@ class Post
     private $experience;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="language", type="integer", nullable=true)
+     * @ORM\Column(name="language", type="json_array")
      */
     private $language;
 
     /**
-     * @var integer
      *
-     * @ORM\Column(name="comp_knowledge", type="integer", nullable=true)
+     * @ORM\Column(name="comp_knowledge", type="json_array")
      */
     private $compKnowledge;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="requirement", type="integer", nullable=true)
+     * @ORM\Column(name="requirement", type="json_array", nullable=true)
      */
     private $requirement;
 
@@ -282,29 +285,6 @@ class Post
     }
 
     /**
-     * Set educationStatus
-     *
-     * @param integer $educationStatus
-     * @return Post
-     */
-    public function setEducationStatus($educationStatus)
-    {
-        $this->educationStatus = $educationStatus;
-
-        return $this;
-    }
-
-    /**
-     * Get educationStatus
-     *
-     * @return integer 
-     */
-    public function getEducationStatus()
-    {
-        return $this->educationStatus;
-    }
-
-    /**
      * @param $profession
      * @return $this
      */
@@ -369,29 +349,6 @@ class Post
     public function getExperience()
     {
         return $this->experience;
-    }
-
-    /**
-     * Set language
-     *
-     * @param integer $language
-     * @return Post
-     */
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return integer 
-     */
-    public function getLanguage()
-    {
-        return $this->language;
     }
 
     /**
@@ -746,9 +703,146 @@ class Post
     }
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->division = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add division
+     *
+     * @param \MainBundle\Entity\Division $division
+     * @return Post
+     */
+    public function addDivision(\MainBundle\Entity\Division $division)
+    {
+        $this->division[] = $division;
+
+        return $this;
+    }
+
+    /**
+     * Remove division
+     *
+     * @param \MainBundle\Entity\Division $division
+     */
+    public function removeDivision(\MainBundle\Entity\Division $division)
+    {
+        $this->division->removeElement($division);
+    }
+
+    /**
+     * Get division
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDivision()
+    {
+        return $this->division;
+    }
+
+    /**
+     * Set educationStatus
+     *
+     * @param array $educationStatus
+     * @return Post
+     */
+    public function setEducationStatus($educationStatus)
+    {
+        $this->educationStatus = $educationStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get educationStatus
+     *
+     * @return array 
+     */
+    public function getEducationStatus()
+    {
+        return $this->educationStatus;
+    }
+
+    /**
+     * Set language
+     *
+     * @param array $language
+     * @return Post
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return array 
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\PostImages $images
+     * @return Post
+     */
+    public function addImage(\MainBundle\Entity\PostImages $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\PostImages $images
+     */
+    public function removeImage(\MainBundle\Entity\PostImages $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getPostImages()
+    {
+        // get images
+        $files = $this->getImages();
+
+        // check images
+        if($files){
+
+            return $files;
+        }
+
+        return null;
+    }
+
+    /**
      * Set compKnowledge
      *
-     * @param integer $compKnowledge
+     * @param array $compKnowledge
      * @return Post
      */
     public function setCompKnowledge($compKnowledge)
@@ -761,33 +855,10 @@ class Post
     /**
      * Get compKnowledge
      *
-     * @return integer 
+     * @return array 
      */
     public function getCompKnowledge()
     {
         return $this->compKnowledge;
-    }
-
-    /**
-     * Set division
-     *
-     * @param \MainBundle\Entity\Division $division
-     * @return Post
-     */
-    public function setDivision(\MainBundle\Entity\Division $division = null)
-    {
-        $this->division = $division;
-
-        return $this;
-    }
-
-    /**
-     * Get division
-     *
-     * @return \MainBundle\Entity\Division 
-     */
-    public function getDivision()
-    {
-        return $this->division;
     }
 }

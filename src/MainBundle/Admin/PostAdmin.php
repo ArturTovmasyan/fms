@@ -2,6 +2,8 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Traits\FmsAdmin;
+use MainBundle\Traits\Post;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -10,6 +12,10 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PostAdmin extends AbstractAdmin
 {
+    use FmsAdmin;
+    use Post;
+
+    const imageClassName = 'PostImages';
 
     /**
      * @param string $name
@@ -19,7 +25,7 @@ class PostAdmin extends AbstractAdmin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin/Edit:fms_edit.html.twig';
+                return 'MainBundle:Admin/Edit:post_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
@@ -54,20 +60,20 @@ class PostAdmin extends AbstractAdmin
             ->add('profession')
             ->add('age')
             ->add('experience')
-            ->add('language')
-            ->add('compKnowledge')
-            ->add('requirement')
+            ->add('language', null, ['template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
+            ->add('compKnowledge', null, ['template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
+            ->add('requirement', null, ['template' => 'MainBundle:Admin/List:post_array_list.html.twig', 'label'=>'post_req'])
             ->add('chief')
             ->add('workers')
             ->add('functions')
             ->add('powers')
             ->add('obligations')
-            ->add('responsibility')
             ->add('substitutes')
             ->add('poxarinvox')
             ->add('instructions')
             ->add('jobAgreement')
             ->add('postStory')
+            ->add('getPostImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -83,45 +89,70 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $langArray = [
-            0 => ' ',
-            1 => 'Հայերեն',
-            2 => 'Ռուսերեն',
-            3 => 'Անգլերեն',
-            4 =>'Առանց սահմանափակման',
-            5 => 'Այլ լեզու'
+        $subject = $this->getSubject();
+
+        //get object id
+        $id = $this->getSubject() ? $this->getSubject()->getId() : null;
+
+        //get current class name
+        $className = $this->getClassnameLabel();
+
+        //generate array fields data
+        $langArrayData = $this->generateLanguageArray($subject);
+        $compEducationArrayData = $this->generateCompEducationArray($subject);
+        $requireArrayData = $this->generateRequirementArray($subject);
+        $educationArray = [
+            'Բարձրագույն',
+            'Միջին մասնագիտական',
+            'Միջնակարգ',
+            'Առանց սահմանափակման'
         ];
 
         $formMapper
-            ->add('name')
-            ->add('code')
-            ->add('division')
+            ->tab('global_info')
+            ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
+            ->add('code');
+
+        if($id) {
+            $formMapper
+                ->add('division', 'sonata_type_model', ['btn_add'=>'Ավելացնել ստորաբաժանում', 'required'=>false, 'label'=>'division','multiple'=>true]);
+        };
+
+        $formMapper
             ->add('postStatus')
-            ->add('educationStatus', 'choice', ['choices'=> $langArray, 'required'=>false])
+            ->add('educationStatus', 'choice', ['choices'=> $educationArray, 'required'=>false])
+            ->add('language', 'choice', ['choices'=> $langArrayData, 'required'=>false, 'multiple'=>true])
+            ->add('anotherLang', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field'], 'label'=>false, 'required'=>false])
+            ->add('compKnowledge', 'choice', ['choices'=> $compEducationArrayData, 'required'=>false, 'multiple'=>true])
+            ->add('anotherCompEducation', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field'], 'label'=>false, 'required'=>false])
+            ->add('requirement', 'choice', ['choices'=> $requireArrayData, 'required'=>false, 'multiple'=>true, 'label'=>'post_req'])
+            ->add('anotherRequirement', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field'], 'label'=>false, 'required'=>false])
             ->add('profession')
             ->add('age')
             ->add('experience')
-            ->add('language', 'choice', ['choices'=> [
-                0 => ' ',
-                1 => 'Հայերեն',
-                2 => 'Ռուսերեն',
-                3 => 'Անգլերեն',
-                4 =>'Առանց սահմանափակման',
-                5 => 'Այլ լեզու'], 'required'=>false])
-            ->add('compKnowledge')
-            ->add('requirement')
             ->add('chief')
+            ->end()
+            ->end()
+            ->tab('job_info')
             ->add('workers')
             ->add('functions')
             ->add('powers')
             ->add('obligations')
-            ->add('responsibility')
+            ->add('responsibility', 'ckeditor', ['required'=>false])
             ->add('substitutes')
             ->add('poxarinvox')
             ->add('instructions')
             ->add('jobAgreement')
             ->add('postStory')
-        ;
+            ->add('imageIds', 'hidden', ['mapped'=>false]);
+
+        if($id){
+            $formMapper
+                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
+        }
+        $formMapper
+            ->end()
+            ->end();
     }
 
     /**
@@ -130,29 +161,66 @@ class PostAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
+            ->tab('global_info')
             ->add('id')
             ->add('name')
             ->add('code')
             ->add('postStatus')
+            ->add('language', null, ['template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
             ->add('getStringEducation')
             ->add('profession')
             ->add('age')
             ->add('experience')
-            ->add('language')
-            ->add('compKnowledge')
-            ->add('requirement')
+            ->add('compKnowledge', null, ['template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
+            ->add('requirement', null, ['template' => 'MainBundle:Admin/Show:post_array_show.html.twig', 'label'=>'post_req'])
             ->add('chief')
+            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
+            ->end()
+            ->end()
+            ->tab('job_info')
             ->add('workers')
             ->add('functions')
             ->add('powers')
             ->add('obligations')
-            ->add('responsibility')
             ->add('substitutes')
             ->add('poxarinvox')
             ->add('instructions')
             ->add('jobAgreement')
             ->add('postStory')
             ->add('created')
-            ->add('updated');
+            ->add('updated')
+            ->end()
+            ->end();
+    }
+
+
+    /**
+     * @param mixed $object
+     */
+    public function preUpdate($object)
+    {
+        $this->prePersist($object);
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function prePersist($object)
+    {
+        //check and set array fields data
+        $this->checkAndSetLanguages($object);
+        $this->checkAndSetCompEducation($object);
+        $this->checkAndSetRequirement($object);
+
+        //set image class name
+        $imageClassName = self::imageClassName;
+
+        //set relation for object and images
+        $images = $this->getImages($imageClassName);
+
+        if($images) {
+            $this->addImages($object, $images);
+        }
     }
 }
+

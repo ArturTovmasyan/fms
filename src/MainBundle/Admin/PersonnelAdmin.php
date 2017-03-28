@@ -74,7 +74,6 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('education')
             ->add('profession')
             ->add('language', 'choice', array('choices'=> array(
-                0 => ' ',
                 1 => 'Հայերեն',
                 2 => 'Ռուսերեն',
                 3 => 'Անգլերեն',

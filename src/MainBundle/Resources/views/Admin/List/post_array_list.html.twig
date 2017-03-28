@@ -1,0 +1,15 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    <ul>
+        {% for file in value %}
+            <li>
+              {{ file }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock -%}
+
+
+
+
