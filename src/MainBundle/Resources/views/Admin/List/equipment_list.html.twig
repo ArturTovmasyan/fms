@@ -13,3 +13,14 @@
         </a>
     </li>
 {%- endblock -%}
+
+{% block list_table %}
+    {{ parent() }}
+    {% set currentPath = app.request.attributes.get('_route') %}
+    {% if currentPath == 'admin_main_equipment_list' %}
+
+        {#custom filet block for equipment #}
+        {% include 'MainBundle:Admin/Modal:equipment_filter_modal.html.twig' %}
+
+    {% endif %}
+{% endblock %}

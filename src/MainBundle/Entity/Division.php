@@ -26,7 +26,7 @@ class Division
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=50, nullable=true)
+     * @ORM\Column(name="name", type="string", length=50)
      */
     private $name;
 
@@ -169,28 +169,6 @@ class Division
         return $this->headPosition;
     }
 
-    /**
-     * Set type
-     *
-     * @param \MainBundle\Entity\DivisionType $type
-     * @return Division
-     */
-    public function setType(\MainBundle\Entity\DivisionType $type = null)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return \MainBundle\Entity\DivisionType 
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
     /**
      * @return string
@@ -263,5 +241,28 @@ class Division
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \MainBundle\Entity\DivisionType $type
+     * @return Division
+     */
+    public function setType(\MainBundle\Entity\DivisionType $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \MainBundle\Entity\DivisionType 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

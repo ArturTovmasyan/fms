@@ -97,12 +97,8 @@ class ToolsAdmin extends Admin
                 "Լիտր")))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('imageIds', 'hidden', ['mapped'=>false]);
-
-        if($id){
-            $formMapper
-                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
-        }
+            ->add('imageIds', 'hidden', ['mapped'=>false])
+            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
     }
 
     // Fields to be shown on filter forms

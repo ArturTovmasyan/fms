@@ -3,12 +3,14 @@
 namespace MainBundle\Admin;
 
 use MainBundle\Traits\FmsAdmin;
-use MainBundle\Traits\Post;
+use MainBundle\Traits\Personnel\Post;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PostAdmin extends AbstractAdmin
 {
@@ -55,6 +57,7 @@ class PostAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('code')
+            ->add('personnel', null, ['label'=>'personnel'])
             ->add('postStatus')
             ->add('getStringEducation')
             ->add('profession')
@@ -84,15 +87,16 @@ class PostAdmin extends AbstractAdmin
         ;
     }
 
+
     /**
      * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get division id by request
+        $divisionId = $this->getRequest()->query->get('divisionId');
         $subject = $this->getSubject();
-
-        //get object id
-        $id = $this->getSubject() ? $this->getSubject()->getId() : null;
+        $id = $subject ? $subject->getId() : null;
 
         //get current class name
         $className = $this->getClassnameLabel();
@@ -101,6 +105,7 @@ class PostAdmin extends AbstractAdmin
         $langArrayData = $this->generateLanguageArray($subject);
         $compEducationArrayData = $this->generateCompEducationArray($subject);
         $requireArrayData = $this->generateRequirementArray($subject);
+
         $educationArray = [
             'Բարձրագույն',
             'Միջին մասնագիտական',
@@ -108,15 +113,13 @@ class PostAdmin extends AbstractAdmin
             'Առանց սահմանափակման'
         ];
 
+
         $formMapper
             ->tab('global_info')
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
-            ->add('code');
-
-        if($id) {
-            $formMapper
-                ->add('division', 'sonata_type_model', ['btn_add'=>'Ավելացնել ստորաբաժանում', 'required'=>false, 'label'=>'division','multiple'=>true]);
-        };
+            ->add('code')
+            ->add('division', null, ['label'=>'division'])
+            ->add('personnel', null, ['label'=>'personnel']);
 
         $formMapper
             ->add('postStatus')
@@ -144,13 +147,9 @@ class PostAdmin extends AbstractAdmin
             ->add('instructions')
             ->add('jobAgreement')
             ->add('postStory')
-            ->add('imageIds', 'hidden', ['mapped'=>false]);
-
-        if($id){
-            $formMapper
-                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
-        }
-        $formMapper
+            ->add('imageIds', 'hidden', ['mapped'=>false])
+            ->add('divisionId', 'hidden', ['mapped'=>false, 'attr' => ['class' => $divisionId]])
+            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id])
             ->end()
             ->end();
     }
@@ -165,6 +164,7 @@ class PostAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('code')
+            ->add('personnel', null, ['label'=>'personnel'])
             ->add('postStatus')
             ->add('language', null, ['template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
             ->add('getStringEducation')

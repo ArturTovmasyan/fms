@@ -7,6 +7,7 @@ use MainBundle\Entity\EquipmentImage;
 use MainBundle\Entity\HouseholdMaterials;
 use MainBundle\Entity\IlliquidMaterials;
 use MainBundle\Entity\MetalMaterials;
+use MainBundle\Entity\PersonnelImages;
 use MainBundle\Entity\PostImages;
 use MainBundle\Entity\PrepackMaterials;
 use MainBundle\Entity\RawMaterialImages;
@@ -54,6 +55,10 @@ trait FmsAdmin
 
                 if ($image instanceof PostImages){
                     $image->setPost($object);
+                }
+
+                if ($image instanceof PersonnelImages){
+                    $image->setPersonnel($object);
                 }
 
                 if ($image instanceof RawMaterialImages) {

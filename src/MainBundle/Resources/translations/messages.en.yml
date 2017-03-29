@@ -120,6 +120,13 @@ filter: Ֆիլտրել
 subordination: Ենթակայությունը
 head_position: Ղեակավար հաստիքը
 post_req: Այլ պահանջներ
+add_division: Ավելացնել ենթաստորաբաժանում
+add_post: Ավելացնել հաստիք
+division_order: Հրամանի N
+add_personnel: Համալրել
+person_image: Նկարը
+
+
 
 file:
     max_extension: The minimum file size is 400x400 px

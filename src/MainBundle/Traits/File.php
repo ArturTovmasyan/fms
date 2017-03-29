@@ -60,7 +60,7 @@ trait File
      * @ORM\Column(name="type", type="string")
      * @Groups({"files"})
      */
-    protected $type;
+    protected $type = 'jpeg';
 
     /**
      * @param $type

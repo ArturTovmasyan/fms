@@ -61,11 +61,13 @@ class DivisionType
         return $this->name;
     }
 
+
     /**
      * @return string
      */
     function __toString()
     {
-        return ($this->name) ? $this->name : '';
+        return ((string)$this->name) ? (string)$this->name : '';
     }
+
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace MainBundle\Traits;
+namespace MainBundle\Traits\Personnel;
 
 /**
  * Class Post
- * @package MainBundle\Traits
+ * @package MainBundle\Traits\Personnel
  */
 trait Post
 {

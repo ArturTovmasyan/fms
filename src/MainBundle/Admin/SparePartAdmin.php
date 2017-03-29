@@ -106,12 +106,7 @@ class SparePartAdmin extends Admin
             ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
             ->add('size', 'choice', array('label' => 'size', 'choices' => array( "Կգ", "Մետր","Հատ","Կոմպլեկտ", "Լիտր")))
             ->add('imageIds', 'hidden', ['mapped'=>false])
-        ;
-
-        if($id){
-            $formMapper
-                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
-        }
+            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
     }
 
     // Fields to be shown on filter forms

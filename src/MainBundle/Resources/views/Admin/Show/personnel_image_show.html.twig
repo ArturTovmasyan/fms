@@ -1,0 +1,7 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+    <a href="{{ object.downloadLink }}" target="_blank">
+        <img src="{{ value }}" height="100px"/>
+    </a>
+{% endblock %}

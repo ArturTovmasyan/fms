@@ -263,15 +263,6 @@ file that was distributed with this source code.
                                                     <a class="navbar-brand" href="#">{{ _navbar_title|raw }}</a>
                                                 </div>
                                             {% endif %}
-                                            {% set currentPath = app.request.attributes.get('_route') %}
-
-                                            {% if currentPath == 'admin_main_equipment_list' %}
-
-                                                {#custom filet block for equipment #}
-                                                {% include 'MainBundle:Admin/Modal:equipment_filter_modal.html.twig' %}
-
-                                            {% endif %}
-
                                         {% endblock %}
 
                                         <div class="navbar-collapse">

@@ -178,12 +178,8 @@ class EquipmentAdmin extends Admin
             ->add('carryingPrice', null, array('label'=>'balance_cost'))
             ->add('factualPrice', null, array('label'=>'actual_cost'))
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
-            ->add('imageIds', 'hidden', ['mapped'=>false]);
-
-        if($id){
-            $formMapper
-                ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
-        }
+            ->add('imageIds', 'hidden', ['mapped'=>false])
+            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
     }
 
     // Fields to be shown on filter forms

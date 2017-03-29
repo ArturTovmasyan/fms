@@ -39,6 +39,11 @@ class Post
     protected $division;
 
     /**
+     * @ORM\OneToOne(targetEntity="Personnel", mappedBy="post")
+     */
+    protected $personnel;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=20, unique=true)
@@ -860,5 +865,28 @@ class Post
     public function getCompKnowledge()
     {
         return $this->compKnowledge;
+    }
+
+    /**
+     * Set personnel
+     *
+     * @param \MainBundle\Entity\Personnel $personnel
+     * @return Post
+     */
+    public function setPersonnel(\MainBundle\Entity\Personnel $personnel = null)
+    {
+        $this->personnel = $personnel;
+
+        return $this;
+    }
+
+    /**
+     * Get personnel
+     *
+     * @return \MainBundle\Entity\Personnel 
+     */
+    public function getPersonnel()
+    {
+        return $this->personnel;
     }
 }

@@ -34,7 +34,7 @@ class DivisionAdmin extends AbstractAdmin
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])
             ->add('post')
-            ->add('orders')
+            ->add('orders', null, ['label'=>'division_order'])
             ->add('headPosition', null, ['label'=>'head_position'])
             ->add('created')
             ->add('_action', null, array(
@@ -52,11 +52,12 @@ class DivisionAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $id = $this->getSubject()->getId() ? $this->getSubject()->getId() : 0;
+        //get object id
+        $id = $this->getSubject() ? $this->getSubject()->getId() : null;
 
         $formMapper
             ->add('name')
-            ->add('type', null, ['label'=>'division_type'])
+            ->add('type', 'sonata_type_model', ['label'=>'division_type', 'required'=>false])
             ->add('subordination', null, [
                 'label' => 'subordination',
                 'property'=> 'headPosition',
@@ -72,9 +73,9 @@ class DivisionAdmin extends AbstractAdmin
                 }
             ])
             ->add('created','sonata_type_date_picker', ['required'=>false])
-            ->add('orders')
+            ->add('orders', null, ['label'=>'division_order'])
             ->add('headPosition', null, ['label'=>'head_position'])
-            ->add('post', 'sonata_type_model', array('label'=>false,'multiple'=>true, 'btn_add'=> 'Ավելացնել հաստիք'))
+            ->add('post', null, array('label'=>'post','required'=>false))
         ;
     }
 
@@ -89,7 +90,7 @@ class DivisionAdmin extends AbstractAdmin
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])
             ->add('created')
-            ->add('orders')
+            ->add('orders', null, ['label'=>'division_order'])
             ->add('headPosition', null, ['label'=>'head_position'])
         ;
     }

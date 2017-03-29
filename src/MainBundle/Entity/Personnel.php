@@ -3,17 +3,22 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MainBundle\Traits\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * Personnel
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\PersonnelRepository")
  */
 class Personnel
 {
+    // use file trait
+    use File;
+
     /**
      * @var integer
      *
@@ -31,8 +36,16 @@ class Personnel
     private $name;
 
     /**
+     * @ORM\OneToMany(targetEntity="PersonnelImages", mappedBy="personnel", cascade={"persist", "remove"})
+     * @Groups({"files"})
      */
-    private $image;
+    protected $images;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Post", inversedBy="personnel")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     */
+    protected $post;
 
     /**
      * @var string
@@ -154,16 +167,14 @@ class Personnel
     private $profession;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="language", type="smallint", nullable=true)
+     * @ORM\Column(name="language", type="json_array", nullable=true)
      */
     private $language;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="comp_knowledge", type="string", nullable=true)
+     * @ORM\Column(name="comp_knowledge", type="json_array", nullable=true)
      */
     private $compKnowledge;
 
@@ -210,6 +221,14 @@ class Personnel
     public function __construct()
     {
         $this->equipment = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return $this->getDownloadLink();
     }
 
     /**
@@ -725,5 +744,78 @@ class Personnel
     public function getCompKnowledge()
     {
         return $this->compKnowledge;
+    }
+
+    /**
+     * Add images
+     *
+     * @param \MainBundle\Entity\PersonnelImages $images
+     * @return Personnel
+     */
+    public function addImage(\MainBundle\Entity\PersonnelImages $images)
+    {
+        $this->images[] = $images;
+
+        return $this;
+    }
+
+    /**
+     * Remove images
+     *
+     * @param \MainBundle\Entity\PersonnelImages $images
+     */
+    public function removeImage(\MainBundle\Entity\PersonnelImages $images)
+    {
+        $this->images->removeElement($images);
+    }
+
+    /**
+     * Get images
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    public function getPersonnelImages()
+    {
+        // get images
+        $files = $this->getImages();
+
+        // check images
+        if($files){
+
+            return $files;
+        }
+
+        return null;
+    }
+
+    /**
+     * Set post
+     *
+     * @param \MainBundle\Entity\Post $post
+     * @return Personnel
+     */
+    public function setPost(\MainBundle\Entity\Post $post = null)
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    /**
+     * Get post
+     *
+     * @return \MainBundle\Entity\Post 
+     */
+    public function getPost()
+    {
+        return $this->post;
     }
 }
