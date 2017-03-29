@@ -12,9 +12,17 @@ file that was distributed with this source code.
   {% set currentPath = app.request.attributes.get('_route') %}
   {% set confirm = true %}
 
-  {% if currentPath == 'admin_main_division_list' and object.post|length > 0 %}
-      {% set confirm = false %}
+  {% if currentPath == 'admin_main_division_list' %}
+        {% if object.post|length > 0 %}
+           {% set confirm = false %}
+        {% endif %}
   {% endif %}
+
+    {% if currentPath == 'admin_main_post_list' %}
+        {% if object.personnel|length > 0 %}
+            {% set confirm = false %}
+        {% endif %}
+    {% endif %}
 
 {% if admin.isGranted('DELETE', object) and admin.hasRoute('delete') and confirm %}
     <a href="{{ admin.generateObjectUrl('delete', object) }}" class="btn btn-sm btn-default delete_link" title="{{ 'action_delete'|trans({}, 'SonataAdminBundle') }}">
