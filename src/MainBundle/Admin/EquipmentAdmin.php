@@ -78,16 +78,15 @@ class EquipmentAdmin extends Admin
             ->add('name')
             ->add('code')
             ->add('workshop', null, array('label'=>'equipment_workshop'))
-            ->add('getStringState', null, array('label'=>'State'))
+//            ->add('state', null, array('label'=>'equipment_state'))
+            ->add('eqState', null, array('label'=>'equipment_state'))
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
             ->add('mould')
             ->end()
             ->with('over_size')
-            ->add('length', null, ['label'=>'length'])
-            ->add('width', null, ['label'=>'width'])
-            ->add('height', null, ['label'=>'height'])
+            ->add('getOverSize', null, ['label'=>'over_size'])
             ->end()
             ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
             ->add('type', null, ['label' => 'equipment_type'])
@@ -129,17 +128,20 @@ class EquipmentAdmin extends Admin
         //get inspection period in database
         $this->time = $subject->getInspectionPeriod();
 
+
         $formMapper
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
-            ->add('state', 'choice', array('choices'=> array(
-                0 => ' ',
-                1 => "Սարքին` բարվոք վիճակում",
-                2 => "Աշխատող` վերանորոգման ենթակա",
-                3 => "Չաշխատող` վերանորոգման ենթակա",
-                4 => "Անհուսալի"), 'required'=>false))
-            ->add('workshop', 'sonata_type_model', ['label'=>'equipment_workshop'])
-            ->add('type', null, ['attr' => ['class' => 'hidden-field'], 'label'=>false])
+//            ->add('state', 'choice', array('choices'=> array(
+//                0 => ' ',
+//                1 => "Սարքին` բարվոք վիճակում",
+//                2 => "Աշխատող` վերանորոգման ենթակա",
+//                3 => "Չաշխատող` վերանորոգման ենթակա",
+//                4 => "Անհուսալի"), 'required'=>false))
+//        ['attr' => ['class' => 'hidden-field'],'label_attr'=>['class' => 'hidden-field'],
+            ->add('eqState', 'sonata_type_model', ['label'=>'equipment_state', 'btn_add'=>'Ավելացնել վիճակ', 'required'=>false])
+            ->add('workshop', 'sonata_type_model', ['required'=>false, 'label'=>'equipment_workshop'])
+            ->add('type', null,  ['label'=>'equipment_type'])
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('description')
             ->add('repairJob', null, ['label' => 'repair_job'])
@@ -237,7 +239,8 @@ class EquipmentAdmin extends Admin
                 ->add('name')
                 ->add('code')
                 ->add('workshop', null, array('label'=>'equipment_workshop'))
-                ->add('getStringState', null, array('label'=>'State'))
+//                ->add('getStringState', null, array('label'=>'State'))
+                ->add('eqState', null, array('label'=>'equipment_state'))
                 ->add('product')
                 ->add('mould')
                 ->add('description')
@@ -249,9 +252,7 @@ class EquipmentAdmin extends Admin
                 ->add('elPower', null, ['label'=>'el_power'])
                 ->add('repairJob', null, ['label' => 'repair_job'])
                 ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
-                ->add('length', null, ['label'=>'length'])
-                ->add('width', null, ['label'=>'width'])
-                ->add('height', null, ['label'=>'height'])
+                ->add('getOverSize', null, ['label'=>'over_size'])
                 ->add('carryingPrice', null, array('label'=>'balance_cost'))
                 ->add('factualPrice', null, array('label'=>'actual_cost'))
                 ->add('inspectionPeriod', null, ['label' => 'inspection_period'])

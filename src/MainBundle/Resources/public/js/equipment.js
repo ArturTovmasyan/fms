@@ -12,6 +12,10 @@ $( document ).ready(function() {
 
     var workshopValue = $(workshopSelector).val();
 
+    var divSelect = 'div#sonata-ba-field-container-'+fieldToken+'type';
+
+    $(divSelect).hide();
+
     getTypes();
 
     var option = '<option value="id">name</option>';
@@ -27,7 +31,7 @@ $( document ).ready(function() {
         $.get("/admin/api/v1.0/equipment/type/"+workshopValue, function(data) {
 
             if(data.length > 0) {
-                $(typeSelector).removeClass('hidden-field');
+                $(divSelect).show();
 
                 var options = '';
 
@@ -50,11 +54,10 @@ $( document ).ready(function() {
                 $(typeSelector).html(options);
 
             }else{
-                $(typeSelector).addClass('hidden-field');
+                $(divSelect).hide();
                 $(typeSelector).html('<option value=""></option>');
             }
         });
     }
-
 
 });

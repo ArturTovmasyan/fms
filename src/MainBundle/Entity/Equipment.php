@@ -119,6 +119,11 @@ class Equipment
     private $state;
 
     /**
+     * @ORM\ManyToOne(targetEntity="EquipmentState")
+     */
+    private $eqState;
+    
+    /**
      * @ORM\Column(name="el_power", type="string", length=10,  nullable=true)
      * @Assert\Regex("/[0-9]/")
      */
@@ -407,29 +412,6 @@ class Equipment
     public function getResponsiblePersons()
     {
         return $this->responsiblePersons;
-    }
-
-    /**
-     * Set state
-     *
-     * @param integer $state
-     * @return Equipment
-     */
-    public function setState($state)
-    {
-        $this->state = $state;
-
-        return $this;
-    }
-
-    /**
-     * Get state
-     *
-     * @return integer 
-     */
-    public function getState()
-    {
-        return $this->state;
     }
 
     /**
@@ -955,5 +937,61 @@ class Equipment
     public function getHeight()
     {
         return $this->height;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOverSize()
+    {
+        $overSize = $this->length.'x'.$this->width.'x'.$this->height;
+
+        return $overSize;
+    }
+
+    /**
+     * Set eqState
+     *
+     * @param \MainBundle\Entity\EquipmentState $eqState
+     * @return Equipment
+     */
+    public function setEqState(\MainBundle\Entity\EquipmentState $eqState = null)
+    {
+        $this->eqState = $eqState;
+
+        return $this;
+    }
+
+    /**
+     * Get eqState
+     *
+     * @return \MainBundle\Entity\EquipmentState 
+     */
+    public function getEqState()
+    {
+        return $this->eqState;
+    }
+
+    /**
+     * Set state
+     *
+     * @param integer $state
+     * @return Equipment
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return integer 
+     */
+    public function getState()
+    {
+        return $this->state;
     }
 }
