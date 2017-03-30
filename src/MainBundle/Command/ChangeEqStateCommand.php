@@ -32,11 +32,9 @@ class ChangeEqStateCommand extends ContainerAwareCommand
             {
              $stateId = $eq->getState();
 
-             if($stateId != 0) {
                  $eqState = $em->getRepository('MainBundle:EquipmentState')->find($stateId);
                  $eq->setEqState($eqState);
                  $em->persist($eq);
-             }
             }
 
             $output->writeln("<info>Success.Equipment state has been changed</info>");

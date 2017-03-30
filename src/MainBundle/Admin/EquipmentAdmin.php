@@ -132,13 +132,12 @@ class EquipmentAdmin extends Admin
         $formMapper
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
-//            ->add('state', 'choice', array('choices'=> array(
-//                0 => ' ',
-//                1 => "Սարքին` բարվոք վիճակում",
-//                2 => "Աշխատող` վերանորոգման ենթակա",
-//                3 => "Չաշխատող` վերանորոգման ենթակա",
-//                4 => "Անհուսալի"), 'required'=>false))
-//        ['attr' => ['class' => 'hidden-field'],'label_attr'=>['class' => 'hidden-field'],
+            ->add('state', 'choice', array('choices'=> array(
+                0 => ' ',
+                1 => "Սարքին` բարվոք վիճակում",
+                2 => "Աշխատող` վերանորոգման ենթակա",
+                3 => "Չաշխատող` վերանորոգման ենթակա",
+                4 => "Անհուսալի"), 'required'=>false))
             ->add('eqState', 'sonata_type_model', ['label'=>'equipment_state', 'btn_add'=>'Ավելացնել վիճակ', 'required'=>false])
             ->add('workshop', 'sonata_type_model', ['required'=>false, 'label'=>'equipment_workshop'])
             ->add('type', null,  ['label'=>'equipment_type'])
@@ -239,7 +238,7 @@ class EquipmentAdmin extends Admin
                 ->add('name')
                 ->add('code')
                 ->add('workshop', null, array('label'=>'equipment_workshop'))
-//                ->add('getStringState', null, array('label'=>'State'))
+                ->add('getStringState', null, array('label'=>'State'))
                 ->add('eqState', null, array('label'=>'equipment_state'))
                 ->add('product')
                 ->add('mould')
