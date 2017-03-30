@@ -158,16 +158,16 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="substitutes", type="integer", nullable=true)
+     * @ORM\Column(name="$changing", type="integer", nullable=true)
      */
-    private $substitutes;
+    private $changing;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="poxarinvox", type="integer", nullable=true)
+     * @ORM\Column(name="changed", type="integer", nullable=true)
      */
-    private $poxarinvox;
+    private $changed;
 
     /**
      * @var string
@@ -518,52 +518,6 @@ class Post
     }
 
     /**
-     * Set substitutes
-     *
-     * @param string $substitutes
-     * @return Post
-     */
-    public function setSubstitutes($substitutes)
-    {
-        $this->substitutes = $substitutes;
-
-        return $this;
-    }
-
-    /**
-     * Get substitutes
-     *
-     * @return string 
-     */
-    public function getSubstitutes()
-    {
-        return $this->substitutes;
-    }
-
-    /**
-     * Set poxarinvox
-     *
-     * @param string $poxarinvox
-     * @return Post
-     */
-    public function setPoxarinvox($poxarinvox)
-    {
-        $this->poxarinvox = $poxarinvox;
-
-        return $this;
-    }
-
-    /**
-     * Get poxarinvox
-     *
-     * @return string 
-     */
-    public function getPoxarinvox()
-    {
-        return $this->poxarinvox;
-    }
-
-    /**
      * Set instructions
      *
      * @param string $instructions
@@ -888,5 +842,51 @@ class Post
     public function getPersonnel()
     {
         return $this->personnel;
+    }
+
+    /**
+     * Set changing
+     *
+     * @param integer $changing
+     * @return Post
+     */
+    public function setChanging($changing)
+    {
+        $this->changing = $changing;
+
+        return $this;
+    }
+
+    /**
+     * Get changing
+     *
+     * @return integer 
+     */
+    public function getChanging()
+    {
+        return $this->changing;
+    }
+
+    /**
+     * Set changed
+     *
+     * @param integer $changed
+     * @return Post
+     */
+    public function setChanged($changed)
+    {
+        $this->changed = $changed;
+
+        return $this;
+    }
+
+    /**
+     * Get changed
+     *
+     * @return integer 
+     */
+    public function getChanged()
+    {
+        return $this->changed;
     }
 }

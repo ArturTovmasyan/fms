@@ -33,10 +33,10 @@ class DivisionAdmin extends AbstractAdmin
             ->add('name')
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])
-            ->add('post')
+            ->add('post', null, ['label'=>'post'])
             ->add('orders', null, ['label'=>'division_order'])
             ->add('headPosition', null, ['label'=>'head_position'])
-            ->add('created')
+            ->add('created', null, ['label'=>'created'])
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -72,7 +72,7 @@ class DivisionAdmin extends AbstractAdmin
                     return $result;
                 }
             ])
-            ->add('created','sonata_type_date_picker', ['required'=>false])
+            ->add('created','sonata_type_date_picker', ['label'=>'created', 'required'=>false])
             ->add('orders', null, ['label'=>'division_order'])
             ->add('headPosition', null, ['label'=>'head_position'])
             ->add('post', null, array('label'=>'post','required'=>false))
@@ -89,7 +89,7 @@ class DivisionAdmin extends AbstractAdmin
             ->add('name')
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])
-            ->add('created')
+            ->add('created', null, ['label'=>'created'])
             ->add('orders', null, ['label'=>'division_order'])
             ->add('headPosition', null, ['label'=>'head_position'])
         ;

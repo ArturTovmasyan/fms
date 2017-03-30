@@ -125,6 +125,42 @@ add_post: Ավելացնել հաստիք
 division_order: Հրամանի N
 add_personnel: Համալրել
 person_image: Նկարը
+birth_day: Ծննդ․ ամսաթիվ
+position_date: Պաշտոնը ստանձ. ամս.
+mobile_phone: Բջջ. հեռախոս
+fixed_phone: Քաղ. հեռախոս
+alternate_phone: Այլ. հեռ.
+email: Էլ․ հասցե
+car_number: Ավոտ. համարանիշը
+address: Հասցե
+husband: Ամուսին
+children: Երեխա
+parent: Ծնող
+sister: Քույր
+brother: Եղբայր
+education: Կրթությունը
+profession: Մասնագիտությունը
+language: Լեզուների իմաց.
+another_language: Այլ լեզու
+comp_knowledge: Համակ. գիտ.
+another_comp_knowledge: Այլ համակ. գիտ.
+created: Ստեղ․ է
+updated: Թարմ․ է
+post_status: Պաշտ. դրույքը
+age: Տարիքը
+experience: Աշխ. փորձը
+chief: Ուղղակի ղեկ.
+workers: Ենթակաները
+obligations: Պատասխ.
+functions: Գործառույթները
+instructions: Հրահանգավորումը
+job_agreement: Աշխ. պայմանագիր
+responsibility: Պարտակ.
+post_story: Հաաստիքի համալր. պատմ.
+powers: Լիազ.
+changing: Փոխարինողները
+changed: Փոխարինվողները
+
 
 
 
