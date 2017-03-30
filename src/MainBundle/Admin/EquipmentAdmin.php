@@ -78,7 +78,6 @@ class EquipmentAdmin extends Admin
             ->add('name')
             ->add('code')
             ->add('workshop', null, array('label'=>'equipment_workshop'))
-//            ->add('state', null, array('label'=>'equipment_state'))
             ->add('eqState', null, array('label'=>'equipment_state'))
             ->add('description')
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
@@ -132,12 +131,6 @@ class EquipmentAdmin extends Admin
         $formMapper
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
-            ->add('state', 'choice', array('choices'=> array(
-                0 => ' ',
-                1 => "Սարքին` բարվոք վիճակում",
-                2 => "Աշխատող` վերանորոգման ենթակա",
-                3 => "Չաշխատող` վերանորոգման ենթակա",
-                4 => "Անհուսալի"), 'required'=>false))
             ->add('eqState', 'sonata_type_model', ['label'=>'equipment_state', 'btn_add'=>'Ավելացնել վիճակ', 'required'=>false])
             ->add('workshop', 'sonata_type_model', ['required'=>false, 'label'=>'equipment_workshop'])
             ->add('type', null,  ['label'=>'equipment_type'])

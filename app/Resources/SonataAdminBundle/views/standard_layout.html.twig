@@ -62,6 +62,16 @@ file that was distributed with this source code.
         {% for javascript in sonata_admin.adminPool.getOption('javascripts', []) %}
         <script src="{{ asset(javascript) }}"></script>
         {% endfor %}
+
+        <script>
+            $(document).on('ifChanged', '#checkAll', function () {
+                if( $(this).is(':checked')){
+                    $('.check').iCheck('check');
+                } else {
+                    $('.check').iCheck('uncheck');
+                }
+            });
+        </script>
     {% endblock %}
 
         {% set locale = app.request.locale %}

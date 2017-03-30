@@ -15,95 +15,99 @@
                 <form action="{{ path('admin_main_equipment_list') }}" method="post">
 
                     <div class="table-responsive">
+                        <ul class="list-group">
+                            <li>{{ 'check_all'|trans }}</li>
+                            <li><input type="checkbox" class="check"  id="checkAll"></li>
+                        </ul>
                         <table class="table table-hover">
                             <tbody>
                             <tr>
                                 <th>{{ 'Id'|trans }}</th>
-                                <th><input type="checkbox" name="id" value="id" {% if showFields.id is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="id" value="id" {% if showFields.id is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'Name'|trans }}</th>
-                                <th><input type="checkbox" name="name" value="name" {% if showFields.name is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="name" value="name" {% if showFields.name is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'Code'|trans }}</th>
-                                <th><input type="checkbox" name="code" value="code" {% if showFields.code is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="code" value="code" {% if showFields.code is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'description'|trans }}</th>
-                                <th><input type="checkbox" name="description" value="description" {% if showFields.description is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="description" value="description" {% if showFields.description is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'workshop'|trans }}</th>
-                                <th><input type="checkbox" name="workshop" value="workshop" {% if showFields.workshop is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="workshop" value="workshop" {% if showFields.workshop is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'Product'|trans }}</th>
-                                <th><input type="checkbox" name="product" value="product" {% if showFields.product is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="product" value="product" {% if showFields.product is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'Mould'|trans }}</th>
-                                <th><input type="checkbox" name="mould" value="mould" {% if showFields.mould is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="mould" value="mould" {% if showFields.mould is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'deployment'|trans }}</th>
-                                <th><input type="checkbox" name="deployment" value="deployment" {% if showFields.deployment is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="deployment" value="deployment" {% if showFields.deployment is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'equipment_type'|trans }}</th>
-                                <th><input type="checkbox" name="type" value="type" {% if showFields.type is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="type" value="type" {% if showFields.type is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'Spares'|trans }}</th>
-                                <th><input type="checkbox" name="spares" value="spares" {% if showFields.spares is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="spares" value="spares" {% if showFields.spares is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'responsible_person'|trans }}</th>
-                                <th><input type="checkbox" name="responsiblePersons" value="responsiblePersons" {% if showFields.responsiblePersons is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="responsiblePersons" value="responsiblePersons" {% if showFields.responsiblePersons is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'purchase_date'|trans }}</th>
-                                <th><input type="checkbox" name="purchaseDate" value="purchaseDate" {% if showFields.purchaseDate is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="purchaseDate" value="purchaseDate" {% if showFields.purchaseDate is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'el_power'|trans }}</th>
-                                <th><input type="checkbox" name="elPower" value="elPower" {% if showFields.elPower is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="elPower" value="elPower" {% if showFields.elPower is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'repair_job'|trans }}</th>
-                                <th><input type="checkbox" name="repairJob" value="repairJob" {% if showFields.repairJob is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="repairJob" value="repairJob" {% if showFields.repairJob is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'files'|trans }}</th>
-                                <th><input type="checkbox" name="image" value="getEquipmentImages" {% if showFields.image is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="image" value="getEquipmentImages" {% if showFields.image is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'length'|trans }}</th>
-                                <th><input type="checkbox" name="length" value="length" {% if showFields.length is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="length" value="length" {% if showFields.length is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'width'|trans }}</th>
-                                <th><input type="checkbox" name="width" value="width" {% if showFields.width is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="width" value="width" {% if showFields.width is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'balance_cost'|trans }}</th>
-                                <th><input type="checkbox" name="carryingPrice" value="carryingPrice" {% if showFields.carryingPrice is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="carryingPrice" value="carryingPrice" {% if showFields.carryingPrice is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'actual_cost'|trans }}</th>
-                                <th><input type="checkbox" name="factualPrice" value="factualPrice" {% if showFields.factualPrice is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="factualPrice" value="factualPrice" {% if showFields.factualPrice is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'inspection_period'|trans }}</th>
-                                <th><input type="checkbox" name="inspectionPeriod" value="inspectionPeriod" {% if showFields.inspectionPeriod is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="inspectionPeriod" value="inspectionPeriod" {% if showFields.inspectionPeriod is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'inspection_next_date'|trans }}</th>
-                                <th><input type="checkbox" name="inspectionNextDate" value="inspectionNextDate" {% if showFields.inspectionNextDate is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="inspectionNextDate" value="inspectionNextDate" {% if showFields.inspectionNextDate is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
                                 <th>{{ 'Created'|trans }}</th>
-                                <th><input type="checkbox" name="created" value="created" {% if showFields.created is defined %}checked{% endif %}></th>
+                                <th><input type="checkbox" class="check" name="created" value="created" {% if showFields.created is defined %}checked{% endif %}></th>
                             </tr>
                             </tbody>
                         </table>
