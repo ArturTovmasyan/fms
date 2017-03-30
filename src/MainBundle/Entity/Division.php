@@ -24,14 +24,6 @@ class Division
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50)
-     */
-    private $name;
-
-    /**
-     *
      * @ORM\ManyToOne(targetEntity="Division",cascade={"persist"})
      * @ORM\JoinColumn(name="division_id", referencedColumnName="id")
      */
@@ -66,6 +58,11 @@ class Division
      * @ORM\ManyToMany(targetEntity="Post", mappedBy="division", cascade={"persist"}, orphanRemoval=true, fetch="EXTRA_LAZY")
      */
     protected $post;
+
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Post", mappedBy="instructions", cascade={"persist"}, orphanRemoval=true, fetch="EXTRA_LAZY")
+//     */
+//    protected $instructionInPost;
 
     /**
      * Get id
@@ -175,7 +172,7 @@ class Division
      */
     function __toString()
     {
-        return ((string)$this->name) ? (string)$this->name : '';
+        return ((string)$this->headPosition) ? (string)$this->headPosition : '';
     }
 
 

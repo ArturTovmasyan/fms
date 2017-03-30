@@ -17,7 +17,6 @@ class DivisionAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('id')
-            ->add('name')
             ->add('type', null, ['show_filter'=>true, 'label'=>'division_type'])
             ->add('subordination', null, ['show_filter'=>true, 'label'=>'subordination'])
         ;
@@ -30,7 +29,6 @@ class DivisionAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id')
-            ->add('name')
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])
             ->add('post', null, ['label'=>'post'])
@@ -56,7 +54,6 @@ class DivisionAdmin extends AbstractAdmin
         $id = $this->getSubject() ? $this->getSubject()->getId() : null;
 
         $formMapper
-            ->add('name')
             ->add('type', 'sonata_type_model', ['label'=>'division_type', 'required'=>false])
             ->add('subordination', null, [
                 'label' => 'subordination',

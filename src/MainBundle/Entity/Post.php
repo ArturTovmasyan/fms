@@ -39,6 +39,12 @@ class Post
     protected $division;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Division")
+     * @ORM\JoinTable(name="instruction_division")
+     */
+    protected $instructions;
+
+    /**
      * @ORM\OneToOne(targetEntity="Personnel", mappedBy="post")
      */
     protected $personnel;
@@ -156,25 +162,16 @@ class Post
     private $responsibility;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="$changing", type="integer", nullable=true)
+     * @ORM\ManyToMany(targetEntity="Personnel", fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(name="post_changing")
      */
     private $changing;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="changed", type="integer", nullable=true)
+     * @ORM\ManyToMany(targetEntity="Personnel", fetch="EXTRA_LAZY")
+     * @ORM\JoinTable(name="post_changed")
      */
     private $changed;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="instructions", type="string", length=50, nullable=true)
-     */
-    private $instructions;
 
     /**
      * @var string
@@ -515,29 +512,6 @@ class Post
     public function getResponsibility()
     {
         return $this->responsibility;
-    }
-
-    /**
-     * Set instructions
-     *
-     * @param string $instructions
-     * @return Post
-     */
-    public function setInstructions($instructions)
-    {
-        $this->instructions = $instructions;
-
-        return $this;
-    }
-
-    /**
-     * Get instructions
-     *
-     * @return string 
-     */
-    public function getInstructions()
-    {
-        return $this->instructions;
     }
 
     /**
@@ -888,5 +862,84 @@ class Post
     public function getChanged()
     {
         return $this->changed;
+    }
+
+    /**
+     * Add instructions
+     *
+     * @param \MainBundle\Entity\Division $instructions
+     * @return Post
+     */
+    public function addInstruction(\MainBundle\Entity\Division $instructions)
+    {
+        $this->instructions[] = $instructions;
+
+        return $this;
+    }
+
+    /**
+     * Remove instructions
+     *
+     * @param \MainBundle\Entity\Division $instructions
+     */
+    public function removeInstruction(\MainBundle\Entity\Division $instructions)
+    {
+        $this->instructions->removeElement($instructions);
+    }
+
+    /**
+     * Get instructions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInstructions()
+    {
+        return $this->instructions;
+    }
+
+    /**
+     * Add changing
+     *
+     * @param \MainBundle\Entity\Personnel $changing
+     * @return Post
+     */
+    public function addChanging(\MainBundle\Entity\Personnel $changing)
+    {
+        $this->changing[] = $changing;
+
+        return $this;
+    }
+
+    /**
+     * Remove changing
+     *
+     * @param \MainBundle\Entity\Personnel $changing
+     */
+    public function removeChanging(\MainBundle\Entity\Personnel $changing)
+    {
+        $this->changing->removeElement($changing);
+    }
+
+    /**
+     * Add changed
+     *
+     * @param \MainBundle\Entity\Personnel $changed
+     * @return Post
+     */
+    public function addChanged(\MainBundle\Entity\Personnel $changed)
+    {
+        $this->changed[] = $changed;
+
+        return $this;
+    }
+
+    /**
+     * Remove changed
+     *
+     * @param \MainBundle\Entity\Personnel $changed
+     */
+    public function removeChanged(\MainBundle\Entity\Personnel $changed)
+    {
+        $this->changed->removeElement($changed);
     }
 }

@@ -16,7 +16,6 @@ class ChangeEqStateCommand extends ContainerAwareCommand
             ->setDescription('Change equipment state');
     }
 
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();

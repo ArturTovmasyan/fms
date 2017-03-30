@@ -9,8 +9,6 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class PostAdmin extends AbstractAdmin
 {
@@ -18,6 +16,27 @@ class PostAdmin extends AbstractAdmin
     use Post;
 
     const imageClassName = 'PostImages';
+
+    /**
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
+     */
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+
+        // add selected
+        $query->addSelect('d, ins, p, im, cg, cd');
+        $query->leftJoin($query->getRootAlias() . '.division', 'd');
+        $query->leftJoin($query->getRootAlias() . '.instructions', 'ins');
+        $query->leftJoin($query->getRootAlias() . '.personnel', 'p');
+        $query->leftJoin($query->getRootAlias() . '.images', 'im');
+        $query->leftJoin($query->getRootAlias() . '.changing', 'cg');
+        $query->leftJoin($query->getRootAlias() . '.changed', 'cd');
+
+        return $query;
+    }
 
     /**
      * @param string $name
@@ -119,7 +138,7 @@ class PostAdmin extends AbstractAdmin
             ->tab('global_info')
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
-            ->add('division', null, ['label'=>'division'])
+            ->add('division', null, ['label'=>'division_chief'])
             ->add('personnel', null, ['label'=>'personnel']);
 
         $formMapper
@@ -142,9 +161,12 @@ class PostAdmin extends AbstractAdmin
             ->add('functions', null, ['label'=>'functions'])
             ->add('powers', null, ['label'=>'powers'])
             ->add('obligations', null, ['label'=>'obligations'])
-            ->add('responsibility', 'ckeditor', ['label'=>'responsibility', 'required'=>false])
+            ->add('responsibility', 'textarea', ['label'=>'responsibility', 'required'=>false])
+            ->end()
+            ->with('post_changing')
             ->add('changing', null, ['label'=>'changing'])
             ->add('changed', null, ['label'=>'changed'])
+            ->end()
             ->add('instructions', null, ['label'=>'instructions'])
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
             ->add('postStory', null, ['label'=>'post_story'])
@@ -165,6 +187,7 @@ class PostAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('code')
+            ->add('division', null, ['label'=>'division_chief'])
             ->add('personnel', null, ['label'=>'personnel'])
             ->add('postStatus', null, ['label'=>'post_status'])
             ->add('language', null, ['label'=>'language', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
@@ -183,8 +206,11 @@ class PostAdmin extends AbstractAdmin
             ->add('functions', null, ['label'=>'functions'])
             ->add('powers', null, ['label'=>'powers'])
             ->add('obligations', null, ['label'=>'obligations'])
+            ->end()
+            ->with('post_changing')
             ->add('changing', null, ['label'=>'changing'])
             ->add('changed', null, ['label'=>'changed'])
+            ->end()
             ->add('instructions', null, ['label'=>'instructions'])
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
             ->add('postStory', null, ['label'=>'post_story'])

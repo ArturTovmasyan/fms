@@ -18,6 +18,22 @@ class PersonnelAdmin extends AbstractAdmin
     const imageClassName = 'PersonnelImages';
 
     /**
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
+     */
+    public function createQuery($context = 'list')
+    {
+        // call parent query
+        $query = parent::createQuery($context);
+
+        // add selected
+        $query->addSelect('im');
+        $query->leftJoin($query->getRootAlias() . '.images', 'im');
+
+        return $query;
+    }
+
+    /**
      * @param string $name
      * @return mixed|null|string
      */

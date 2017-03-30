@@ -87,7 +87,7 @@ class ToolsAdmin extends Admin
             ->add('vendors')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
-            ->add('description', 'ckeditor')
+            ->add('description', 'textarea')
             ->add('code')
             ->add('size', 'choice', array('label' => 'size', 'choices' => array(
                 "Կգ",

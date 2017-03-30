@@ -25,6 +25,8 @@ $( document ).ready(function() {
     var postSelector = "#"+fieldToken+"post";
     var postIdSelector = "#"+fieldToken+"postId";
 
+    var instructorSelector = "#"+fieldToken+"instructions";
+
     if(divisionIdSelector) {
         //selectors for get division id in post admin class
         var divisionClass = $(divisionIdSelector).attr('class') ? $(divisionIdSelector).attr('class').split(' ')[0] : null;
@@ -40,6 +42,7 @@ $( document ).ready(function() {
     //automatically sets
     setDivisionInPost();
     setPostInPersonnel();
+    setInstructionInPost();
 
     //add custom input for language selects
     $(langSelector).change(function () {
@@ -107,6 +110,20 @@ $( document ).ready(function() {
 
             divisionVal.push(divisionId);
             $(divisionSelector).select2('val', divisionVal);
+        }
+    }
+
+    /**
+     * This function is used to select instruction by id in post
+     */
+    function setInstructionInPost() {
+
+        if(divisionId) {
+
+            var instructVal = $(instructorSelector).select2('val');
+
+            instructVal.push(divisionId);
+            $(instructorSelector).select2('val', instructVal);
         }
     }
 

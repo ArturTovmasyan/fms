@@ -12,7 +12,7 @@ Product: Արտադրանք
 size: Չափման միավոր
 Purpose: Նշանակություն
 client: Պատվիրատու
-personnel: Անձնակազմ
+personnel: Մարդ
 Weight: Քաշը
 Count: Քանակը
 deployment: Սարք.-ն Տեղ.
@@ -108,7 +108,7 @@ description: Բնութագիրը
 length: Երկարություն
 width: Լայնություն
 height: Բարձրություն
-post: Հաստիքակազմ
+post: Հաստիք
 division: Ստորաբաժանում
 contact_data: Կոնտակտային տվյալներ
 family_data: Ընտանիքի անդամները
@@ -163,8 +163,8 @@ changed: Փոխարինվողները
 equipment_state: Վիճակը
 add_eq_state: Ավ․ վիճակ
 check_all: Ընտրել բոլորը
-
-
+division_chief: Ուղղակի ղեկավարները
+post_changing: Փոխարինումը
 
 
 file:

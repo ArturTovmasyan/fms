@@ -73,8 +73,6 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
         mappings:
-            ApplicationMediaBundle: ~
-            SonataMediaBundle: ~
             loggable:
                 type: annotation
                 alias: Gedmo
@@ -160,54 +158,6 @@ stof_doctrine_extensions:
             sluggable: true
             timestampable: true
             loggable: true
-
-sonata_media:
-    class:
-        media: Application\MediaBundle\Entity\Media
-        gallery: Application\MediaBundle\Entity\Gallery
-        gallery_has_media: Application\MediaBundle\Entity\GalleryHasMedia
-    default_context: list
-    db_driver: doctrine_orm
-    contexts:
-        default:
-            providers:
-                - sonata.media.provider.image
-                - sonata.media.provider.file
-            formats: ~
-        list:
-            providers:
-                - sonata.media.provider.image
-                - sonata.media.provider.file
-            formats:
-                  big:   { width: 640 , quality: 90}
-    cdn:
-        server:
-            path: /uploads/media
-    filesystem:
-        local:
-            directory:  %kernel.root_dir%/../web/uploads/media
-            create:     false
-
-ivory_ck_editor:
-    default_config: default
-    configs:
-        default:
-            toolbar: standard
-#            - [Save, Bold, Italic, Underline, -, Cut, Preview, Print, Copy, Paste, PasteText, PasteFromWord, -, Undo, Redo, -, NumberedList, BulletedList, -, Outdent, Indent, -, Blockquote, -, Image, Link, Unlink]
-#            - [Format, Maximize, Source]
-            filebrowserBrowseRoute: admin_application_media_media_browser
-            filebrowserImageBrowseRoute: admin_application_media_media_browser
-            # Display images by default when clicking the image dialog browse button
-            filebrowserImageBrowseRouteParameters:
-                provider: sonata.media.provider.image
-            filebrowserUploadRoute: admin_application_media_media_upload
-            filebrowserUploadRouteParameters:
-                provider: sonata.media.provider.file
-            # Upload file as image when sending a file from the image dialog
-            filebrowserImageUploadRoute: admin_application_media_media_upload
-            filebrowserImageUploadRouteParameters:
-                provider: sonata.media.provider.image
-                context: list # Optional, to upload in a custom context
 
 #paginatin
 knp_paginator:

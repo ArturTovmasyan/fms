@@ -99,7 +99,7 @@ class SparePartAdmin extends Admin
                 }
             ))
 
-            ->add('description', 'ckeditor')
+            ->add('description', 'textarea')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
             ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
