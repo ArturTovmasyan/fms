@@ -51,7 +51,7 @@ class DivisionAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //get object id
-        $id = $this->getSubject() ? $this->getSubject()->getId() : null;
+        $id = $this->getSubject() ? $this->getSubject()->getId() : 0;
 
         $formMapper
             ->add('type', 'sonata_type_model', ['label'=>'division_type', 'required'=>false])
@@ -62,10 +62,13 @@ class DivisionAdmin extends AbstractAdmin
                     $result = $query->createQueryBuilder('dv');
                     $result
                         ->select('d')
-                        ->from('MainBundle:Division', 'd')
-                        ->where('d.id != :id')
-                        ->setParameter(':id', $id);
+                        ->from('MainBundle:Division', 'd');
 
+                    if($id) {
+                        $result
+                            ->where('d.id != :id')
+                            ->setParameter(':id', $id);
+                    }
                     return $result;
                 }
             ])

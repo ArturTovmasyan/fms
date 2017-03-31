@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields={"name", "subordination", "type"}, errorPath="name", message="division.error.unique")
+ * @UniqueEntity(fields={"subordination", "type"}, errorPath="name", message="division.error.unique")
  */
 class Division
 {
@@ -24,7 +24,7 @@ class Division
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Division",cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Division", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="division_id", referencedColumnName="id")
      */
     private $subordination;
@@ -59,10 +59,6 @@ class Division
      */
     protected $post;
 
-//    /**
-//     * @ORM\ManyToMany(targetEntity="Post", mappedBy="instructions", cascade={"persist"}, orphanRemoval=true, fetch="EXTRA_LAZY")
-//     */
-//    protected $instructionInPost;
 
     /**
      * Get id
@@ -72,29 +68,6 @@ class Division
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Division
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
