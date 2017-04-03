@@ -114,11 +114,6 @@ class Equipment
     private $deployment;
 
     /**
-     * @ORM\Column(name="state", type="smallint", nullable=true)
-     */
-    private $state;
-
-    /**
      * @ORM\ManyToOne(targetEntity="EquipmentState")
      */
     private $eqState;
@@ -151,6 +146,12 @@ class Equipment
      * @ORM\Column(name="inspection_period", type="integer", nullable=true)
      */
     private $inspectionPeriod;
+
+    /**
+     * @ORM\Column(name="remove_defects", type="string", nullable=true)
+     */
+    private $removeDefects;
+
 
     /**
      * @ORM\Column(name="repair_job", type="string", nullable=true)
@@ -612,34 +613,6 @@ class Equipment
         return $this->inspectionPeriod;
     }
 
-    /**
-     * This function is used to get equipment workshop string name
-     *
-     * @return null|string
-     */
-    public  function getStringState()
-    {
-        $stringState = null;
-
-        switch($this->state) {
-            case 1:
-                $stringState = "Սարքին` բարվոք վիճակում";
-                break;
-            case 2:
-                $stringState = "Աշխատող` վերանորոգման ենթակա";
-                break;
-            case 3:
-                $stringState = "Չաշխատող` վերանորոգման ենթակա";
-                break;
-            case 4:
-                $stringState = "Անհուսալի";
-                break;
-            default:
-                $stringState= "";
-        }
-
-        return $stringState;
-    }
 
     /**
      * Set created
@@ -973,25 +946,25 @@ class Equipment
     }
 
     /**
-     * Set state
+     * Set removeDefects
      *
-     * @param integer $state
+     * @param string $removeDefects
      * @return Equipment
      */
-    public function setState($state)
+    public function setRemoveDefects($removeDefects)
     {
-        $this->state = $state;
+        $this->removeDefects = $removeDefects;
 
         return $this;
     }
 
     /**
-     * Get state
+     * Get removeDefects
      *
-     * @return integer 
+     * @return string 
      */
-    public function getState()
+    public function getRemoveDefects()
     {
-        return $this->state;
+        return $this->removeDefects;
     }
 }

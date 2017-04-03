@@ -147,4 +147,17 @@ trait Post
 
         return $requiredArray;
     }
+
+    /**
+     * This function is used to get request data
+     */
+    public function getRequestData()
+    {
+        //get images by ids
+        $request = $this->getRequest();
+        $uniqId = $this->getUniqid();
+        $data = $request->request->get($uniqId);
+
+        return $data;
+    }
 }

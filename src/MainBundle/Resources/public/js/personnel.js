@@ -25,6 +25,7 @@ $( document ).ready(function() {
     var postSelector = "#"+fieldToken+"post";
     var postIdSelector = "#"+fieldToken+"postId";
 
+    var subordinationSelector = "#"+fieldToken+"subordination";
     var instructorSelector = "#"+fieldToken+"instructions";
 
     if(divisionIdSelector) {
@@ -37,6 +38,10 @@ $( document ).ready(function() {
         //selectors for get post id in peronnel admin class
         var postClass = $(postIdSelector).attr('class')?$(postIdSelector).attr('class').split(' ')[0]:null;
         var postId = postClass;
+    }
+
+    if(subordinationSelector) {
+        setDivisionSubordination();
     }
 
     //automatically sets
@@ -110,6 +115,16 @@ $( document ).ready(function() {
 
             divisionVal.push(divisionId);
             $(divisionSelector).select2('val', divisionVal);
+        }
+    }
+
+    /**
+     * This function is used to select division by id in div subordination
+     */
+    function setDivisionSubordination() {
+
+        if(divisionId) {
+            $(subordinationSelector).select2('val', divisionId);
         }
     }
 

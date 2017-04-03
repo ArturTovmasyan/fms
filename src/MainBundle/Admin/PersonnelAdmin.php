@@ -2,7 +2,7 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Traits\FmsAdmin;
+use MainBundle\Entity\PostHistory;
 use MainBundle\Traits\Personnel\Post;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -12,7 +12,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PersonnelAdmin extends AbstractAdmin
 {
-    use FmsAdmin;
     use Post;
 
     const imageClassName = 'PersonnelImages';
@@ -144,7 +143,19 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('positionDate', 'sonata_type_date_picker', ['required'=>false, 'label'=>'position_date'])
             ->add('education', null, ['label'=>'education'])
             ->add('profession', null, ['label'=>'profession'])
-            ->add('post', null, ['label'=>'post'])
+            ->add('post', null, array(
+//                'label' => 'post',
+//                'query_builder' => function($query)   {
+//                    $result = $query->createQueryBuilder('p');
+//                    $result
+//                        ->select('pt')
+//                        ->from('MainBundle:Post','pt')
+//                        ->leftJoin('pt.personnel', 'pe')
+//                        ->where('pe.id is NULL');
+//
+//                    return $result;
+//                }
+            ))
             ->add('language', 'choice', ['choices'=> $langArrayData, 'required'=>false, 'multiple'=>true, 'label'=>'language'])
             ->add('anotherLang', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field', 'placeholder'=> 'another_language'],  'label'=>false, 'required'=>false])
             ->add('compKnowledge', 'choice', ['choices'=> $compEducationArrayData, 'required'=>false, 'label'=>'comp_knowledge','multiple'=>true])
@@ -211,6 +222,19 @@ class PersonnelAdmin extends AbstractAdmin
 
     }
 
+
+
+//    /**
+//     * @param $object
+//     */
+//    public function setPostHistory($object)
+//    {
+//        //get container
+//        $container = $this->getConfigurationPool()->getContainer();
+//        $em = $container->get('doctrine')->getManager();
+//    }
+
+
     /**
      * @param mixed $object
      */
@@ -224,19 +248,11 @@ class PersonnelAdmin extends AbstractAdmin
      */
     public function prePersist($object)
     {
+//        $this->setPostHistory($object);
+
         //check and set array fields data
         $this->checkAndSetLanguages($object);
         $this->checkAndSetCompEducation($object);
-
-        //set image class name
-        $imageClassName = self::imageClassName;
-
-        //set relation for object and images
-        $images = $this->getImages($imageClassName);
-
-        if($images) {
-            $this->addImages($object, $images);
-        }
 
         //get container
         $container = $this->getConfigurationPool()->getContainer();

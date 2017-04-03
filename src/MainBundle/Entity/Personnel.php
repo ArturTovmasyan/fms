@@ -42,10 +42,15 @@ class Personnel
     protected $images;
 
     /**
-     * @ORM\OneToOne(targetEntity="Post", inversedBy="personnel")
+     * @ORM\OneToOne(targetEntity="Post", inversedBy="personnel", cascade={"persist"})
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
      */
     protected $post;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PostHistory", mappedBy="personnel", cascade={"persist", "remove"})
+     **/
+    protected $history;
 
     /**
      * @var string
@@ -817,5 +822,38 @@ class Personnel
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * Add history
+     *
+     * @param \MainBundle\Entity\PostHistory $history
+     * @return Personnel
+     */
+    public function addHistory(\MainBundle\Entity\PostHistory $history)
+    {
+        $this->history[] = $history;
+
+        return $this;
+    }
+
+    /**
+     * Remove history
+     *
+     * @param \MainBundle\Entity\PostHistory $history
+     */
+    public function removeHistory(\MainBundle\Entity\PostHistory $history)
+    {
+        $this->history->removeElement($history);
+    }
+
+    /**
+     * Get history
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHistory()
+    {
+        return $this->history;
     }
 }

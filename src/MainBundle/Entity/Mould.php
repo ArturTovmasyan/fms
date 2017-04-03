@@ -28,9 +28,10 @@ class Mould
     /**
      * @var integer
      *
-     * @ORM\Column(name="code", type="integer", unique=true)
+     * @ORM\Column(name="code", type="string", unique=true)
      * @Assert\NotNull()
-     * @Assert\Length(min="4")
+     * @Assert\Length(min=4, max=4)
+     * @Assert\Regex("/[0-9]/")
      */
     private $code;
 

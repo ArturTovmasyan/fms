@@ -2,7 +2,6 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Traits\FmsAdmin;
 use MainBundle\Traits\Personnel\Post;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -12,7 +11,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PostAdmin extends AbstractAdmin
 {
-    use FmsAdmin;
     use Post;
 
     const imageClassName = 'PostImages';
@@ -95,7 +93,7 @@ class PostAdmin extends AbstractAdmin
             ->add('changed', null, ['label'=>'changed'])
             ->add('instructions', null, ['label'=>'instructions'])
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
-            ->add('postStory', null, ['label'=>'post_story'])
+//            ->add('history', null, ['label'=>'post_story'])
             ->add('getPostImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', null, array(
                 'actions' => array(
@@ -139,7 +137,19 @@ class PostAdmin extends AbstractAdmin
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
             ->add('division', null, ['label'=>'division_chief'])
-            ->add('personnel', null, ['label'=>'personnel']);
+             ->add('personnel', null, array(
+//                'label' => 'personnel',
+//                'query_builder' => function($query)   {
+//                    $result = $query->createQueryBuilder('p');
+//                    $result
+//                        ->select('pe')
+//                        ->from('MainBundle:Personnel','pe')
+//                        ->leftJoin('pe.post', 'pt')
+//                        ->where('pt.id is NULL');
+//
+//                    return $result;
+//                }
+            ));
 
         $formMapper
             ->add('postStatus', null, ['label'=>'post_status'])
@@ -169,7 +179,6 @@ class PostAdmin extends AbstractAdmin
             ->end()
             ->add('instructions', null, ['label'=>'instructions'])
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
-            ->add('postStory', null, ['label'=>'post_story'])
             ->add('imageIds', 'hidden', ['mapped'=>false])
             ->add('divisionId', 'hidden', ['mapped'=>false, 'attr' => ['class' => $divisionId]])
             ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id])
@@ -213,7 +222,7 @@ class PostAdmin extends AbstractAdmin
             ->end()
             ->add('instructions', null, ['label'=>'instructions'])
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
-            ->add('postStory', null, ['label'=>'post_story'])
+//            ->add('history', null, ['label'=>'post_story'])
             ->add('created', null, ['label'=>'created'])
             ->add('updated', null, ['label'=>'updated'])
             ->end()
@@ -238,16 +247,6 @@ class PostAdmin extends AbstractAdmin
         $this->checkAndSetLanguages($object);
         $this->checkAndSetCompEducation($object);
         $this->checkAndSetRequirement($object);
-
-        //set image class name
-        $imageClassName = self::imageClassName;
-
-        //set relation for object and images
-        $images = $this->getImages($imageClassName);
-
-        if($images) {
-            $this->addImages($object, $images);
-        }
     }
 }
 

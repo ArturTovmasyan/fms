@@ -28,12 +28,13 @@ class EquipmentAdmin extends Admin
         $query = parent::createQuery($context);
 
         // add selected
-        $query->addSelect('p, pe, s, ml, im');
+        $query->addSelect('p, pe, s, ml, im, eqs');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
         $query->leftJoin($query->getRootAlias() . '.responsiblePersons', 'pe');
         $query->leftJoin($query->getRootAlias() . '.spares', 's');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
         $query->leftJoin($query->getRootAlias() . '.images', 'im');
+        $query->leftJoin($query->getRootAlias() . '.eqState', 'eqs');
 
         return $query;
     }
@@ -83,6 +84,7 @@ class EquipmentAdmin extends Admin
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
             ->add('mould')
+            ->add('removeDefects', null, ['label' => 'remove_defects'])
             ->end()
             ->with('over_size')
             ->add('getOverSize', null, ['label'=>'over_size'])
@@ -127,7 +129,6 @@ class EquipmentAdmin extends Admin
         //get inspection period in database
         $this->time = $subject->getInspectionPeriod();
 
-
         $formMapper
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
@@ -139,6 +140,7 @@ class EquipmentAdmin extends Admin
             ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date', 'required'=>false))
             ->add('product')
+            ->add('removeDefects', 'textarea', ['label' => 'remove_defects', 'required'=>false])
             ->end()
             ->with('over_size')
             ->add('length', null, ['label'=>'length'])
@@ -183,8 +185,8 @@ class EquipmentAdmin extends Admin
             ->add('id')
             ->add('code')
             ->add('name')
-            ->add('product')
-            ->add('mould')
+//            ->add('product')
+//            ->add('mould')
             ->add('spares')
             ->add('length', null, ['label'=>'length'])
             ->add('width', null, ['label'=>'width'])
@@ -225,20 +227,20 @@ class EquipmentAdmin extends Admin
                     $listMapper->add($field);
                 }
             }
-        }else{
+        } else{
             $listMapper
-                ->add('id')
-                ->add('name')
-                ->add('code')
+                ->add('id', null, ['label'=>'id'])
+                ->add('name', null, ['label'=>'name'])
+                ->add('code', null, ['label'=>'code'])
                 ->add('workshop', null, array('label'=>'equipment_workshop'))
-                ->add('getStringState', null, array('label'=>'State'))
                 ->add('eqState', null, array('label'=>'equipment_state'))
-                ->add('product')
-                ->add('mould')
-                ->add('description')
-                ->add('deployment', null, ['label' => 'Deployment'])
+                ->add('product', null, ['label'=>'product'])
+                ->add('removeDefects', null, ['label' => 'remove_defects'])
+                ->add('mould', null, ['label'=>'mould'])
+                ->add('description',  null, ['label'=>'description'])
+                ->add('deployment', null, ['label' => 'deployment'])
                 ->add('type', null, ['label' => 'equipment_type'])
-                ->add('spares')
+                ->add('spares', null, ['label'=>'code'])
                 ->add('responsiblePersons', null, ['label'=>'responsible_person'])
                 ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
                 ->add('elPower', null, ['label'=>'el_power'])

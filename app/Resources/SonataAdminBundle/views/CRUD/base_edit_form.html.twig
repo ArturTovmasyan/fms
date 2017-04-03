@@ -99,9 +99,10 @@
                                 {#custom action#}
                                 {% set currentPath = app.request.attributes.get('_route') %}
                                 {% if currentPath == 'admin_main_division_edit' %}
-                                    {% set createUrl = "/admin/main/post/create?divisionId="~object.id %}
-                                    <a class="btn btn-success btn-sm" href="{{ path('admin_main_division_create') }}">{{ 'add_division'|trans }}</a>
-                                    <a class="btn btn-success btn-sm" href="{{ createUrl }}">{{ 'add_post'|trans }}</a>
+                                    {% set createPostUrl = "/admin/main/post/create?divisionId="~object.id %}
+                                    {% set createDivisionUrl = "/admin/main/division/create?divisionId="~object.id %}
+                                    <a class="btn btn-success btn-sm" href="{{ createDivisionUrl }}">{{ 'add_division'|trans }}</a>
+                                    <a class="btn btn-success btn-sm" href="{{ createPostUrl }}">{{ 'add_post'|trans }}</a>
                                 {% elseif currentPath == 'admin_main_post_edit' %}
                                     {% set createUrl = "/admin/main/personnel/create?postId="~object.id %}
                                     <a class="btn btn-success" href="{{ createUrl }}">{{ 'add_personnel'|trans }}</a>

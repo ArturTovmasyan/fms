@@ -10,6 +10,23 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class DivisionAdmin extends AbstractAdmin
 {
+
+    /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin/Edit:post_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
     /**
      * @param DatagridMapper $datagridMapper
      */
@@ -50,8 +67,12 @@ class DivisionAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get division id by request
+        $divisionId = $this->getRequest()->query->get('divisionId');
+        $subject = $this->getSubject();
+
         //get object id
-        $id = $this->getSubject() ? $this->getSubject()->getId() : 0;
+        $id = $subject ? $subject->getId() : 0;
 
         $formMapper
             ->add('type', 'sonata_type_model', ['label'=>'division_type', 'required'=>false])
@@ -76,6 +97,7 @@ class DivisionAdmin extends AbstractAdmin
             ->add('orders', null, ['label'=>'division_order'])
             ->add('headPosition', null, ['label'=>'head_position'])
             ->add('post', null, array('label'=>'post','required'=>false))
+            ->add('divisionId', 'hidden', ['mapped'=>false, 'attr' => ['class' => $divisionId]])
         ;
     }
 

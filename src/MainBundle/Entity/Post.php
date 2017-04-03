@@ -45,9 +45,14 @@ class Post
     protected $instructions;
 
     /**
-     * @ORM\OneToOne(targetEntity="Personnel", mappedBy="post")
+     * @ORM\OneToOne(targetEntity="Personnel", mappedBy="post", cascade={"persist"})
      */
     protected $personnel;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PostHistory", mappedBy="post", cascade={"persist", "remove"})
+     **/
+    protected $history;
 
     /**
      * @var string
@@ -181,13 +186,6 @@ class Post
     private $jobAgreement;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="postStory", type="string", length=50, nullable=true)
-     */
-    private $postStory;
-
-    /**
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
@@ -261,29 +259,6 @@ class Post
     public function getCode()
     {
         return $this->code;
-    }
-
-    /**
-     * Set postStatus
-     *
-     * @param string $postStatus
-     * @return Post
-     */
-    public function setPostStatus($postStatus)
-    {
-        $this->postStatus = $postStatus;
-
-        return $this;
-    }
-
-    /**
-     * Get postStatus
-     *
-     * @return string 
-     */
-    public function getPostStatus()
-    {
-        return $this->postStatus;
     }
 
     /**
@@ -941,5 +916,62 @@ class Post
     public function removeChanged(\MainBundle\Entity\Personnel $changed)
     {
         $this->changed->removeElement($changed);
+    }
+
+    /**
+     * Set postStatus
+     *
+     * @param string $postStatus
+     * @return Post
+     */
+    public function setPostStatus($postStatus)
+    {
+        $this->postStatus = $postStatus;
+
+        return $this;
+    }
+
+    /**
+     * Get postStatus
+     *
+     * @return string 
+     */
+    public function getPostStatus()
+    {
+        return $this->postStatus;
+    }
+
+
+    /**
+     * Add history
+     *
+     * @param \MainBundle\Entity\PostHistory $history
+     * @return Post
+     */
+    public function addHistory(\MainBundle\Entity\PostHistory $history)
+    {
+        $this->history[] = $history;
+
+        return $this;
+    }
+
+    /**
+     * Remove history
+     *
+     * @param \MainBundle\Entity\PostHistory $history
+     */
+    public function removeHistory(\MainBundle\Entity\PostHistory $history)
+    {
+        $this->history->removeElement($history);
+    }
+
+    /**
+     * Get history
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getHistory()
+    {
+        return $this->history;
     }
 }
