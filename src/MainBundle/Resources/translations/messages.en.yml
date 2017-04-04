@@ -186,6 +186,15 @@ Inspection Next Date: Տեխզ․ հերթ. ժամ.
 Remove Defects: Վերացման ենթ. թեր.
 Repair Job: Վեր.-ն աշխ․
 Updated: Թարմացվել է
+Get Over Size: Գաբ.չափ
+Get Products String: Արտադրանք
+Get Moulds String: Կաղապար
+Get Workshop String: Արտադրամասը
+Get State String: Վիճակը
+Get Deployment String: Սարք.-ն Տեղ.
+Get Type String: Սարք. տիպը
+Get Person String: Պատասխ. անձինք
+Get Files String: Ֆայլերի քանակը
 
 file:
     max_extension: The minimum file size is 400x400 px

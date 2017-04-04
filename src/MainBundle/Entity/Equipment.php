@@ -152,7 +152,6 @@ class Equipment
      */
     private $removeDefects;
 
-
     /**
      * @ORM\Column(name="repair_job", type="string", nullable=true)
      */
@@ -967,4 +966,116 @@ class Equipment
     {
         return $this->removeDefects;
     }
+
+    /**
+     * This function is used to get products name
+     */
+   public function getProductsString()
+   {
+       $products = $this->getProduct();
+
+       $productNames = "";
+
+       if(count($products) > 0) {
+
+           foreach ($products as $product)
+           {
+               $productNames .= $product->getName() . ', ';
+           }
+       }
+
+       return $productNames;
+   }
+
+    /**
+     * This function is used to get moulds name
+     */
+    public function getMouldsString()
+    {
+        $moulds = $this->getMould();
+
+        $mouldNames = '';
+
+        if(count($moulds) > 0) {
+
+            foreach ($moulds as $mould)
+            {
+                $mouldNames .=  $mould->getCode(). ', ';
+            }
+        }
+
+        return $mouldNames;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWorkshopString()
+    {
+        $workshopName = $this->getWorkshop() ? $this->getWorkshop()->getName() : '';
+
+        return $workshopName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStateString()
+    {
+        $stateName = $this->getEqState() ? $this->getEqState()->getName() : '';
+
+        return $stateName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDeploymentString()
+    {
+        $deploymentName = $this->getDeployment() ? $this->getDeployment()->getName() : '';
+
+        return $deploymentName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeString()
+    {
+        $typeName = $this->getType() ? $this->getType()->getName() : '';
+
+        return $typeName;
+    }
+
+    /**
+     * This function is used to get person name for export
+     */
+    public function getPersonString()
+    {
+        $personNames = $this->getResponsiblePersons();
+
+        $persons = '';
+
+        if(count($personNames) > 0) {
+
+            foreach ($personNames as $personName)
+            {
+                $persons .=  $personName->getName(). ', ';
+            }
+        }
+
+        return $persons;
+    }
+
+    /**
+     * This function is used to get file count for export
+     */
+    public function getFilesString()
+    {
+        $files = $this->getEquipmentImages();
+        $string = count($files);
+
+        return $string;
+    }
+
 }

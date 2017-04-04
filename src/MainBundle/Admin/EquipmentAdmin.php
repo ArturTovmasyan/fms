@@ -68,6 +68,28 @@ class EquipmentAdmin extends Admin
     }
 
     /**
+     * Add some fields from mapped entities; the simplest way;
+     * @return array
+     */
+    public function getExportFields() {
+
+        $fieldsArray = $this->getModelManager()->getExportFields($this->getClass());
+
+        //add custom get string functions for relations
+        $fieldsArray[] = 'getOverSize';
+        $fieldsArray[] = 'getProductsString';
+        $fieldsArray[] = 'getMouldsString';
+        $fieldsArray[] = 'getWorkshopString';
+        $fieldsArray[] = 'getStateString';
+        $fieldsArray[] = 'getDeploymentString';
+        $fieldsArray[] = 'getTypeString';
+        $fieldsArray[] = 'getPersonString';
+        $fieldsArray[] = 'getFilesString';
+
+        return $fieldsArray;
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
