@@ -1,0 +1,15 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+
+    {% if value %}
+        <ul>
+            <li>
+                <a href="{{ value }}" target="_blank">
+                    <img src="{{ value }}" width="100px" height="100px"/>
+                </a>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}
+

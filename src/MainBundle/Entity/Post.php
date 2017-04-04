@@ -84,11 +84,11 @@ class Post
      */
     private $profession;
 
-    /**
-     * @ORM\OneToMany(targetEntity="PostImages", mappedBy="post", cascade={"persist", "remove"})
-     * @Groups({"files"})
-     */
-    protected $images;
+//    /**
+//     * @ORM\OneToMany(targetEntity="PostImages", mappedBy="post", cascade={"persist", "remove"})
+//     * @Groups({"files"})
+//     */
+//    protected $images;
 
     /**
      * @var integer
@@ -208,7 +208,7 @@ class Post
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -231,7 +231,7 @@ class Post
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -254,7 +254,7 @@ class Post
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -275,7 +275,7 @@ class Post
     /**
      * Get profession
      *
-     * @return string 
+     * @return string
      */
     public function getProfession()
     {
@@ -298,7 +298,7 @@ class Post
     /**
      * Get age
      *
-     * @return integer 
+     * @return integer
      */
     public function getAge()
     {
@@ -321,7 +321,7 @@ class Post
     /**
      * Get experience
      *
-     * @return integer 
+     * @return integer
      */
     public function getExperience()
     {
@@ -344,7 +344,7 @@ class Post
     /**
      * Get requirement
      *
-     * @return integer 
+     * @return integer
      */
     public function getRequirement()
     {
@@ -367,7 +367,7 @@ class Post
     /**
      * Get chief
      *
-     * @return integer 
+     * @return integer
      */
     public function getChief()
     {
@@ -390,7 +390,7 @@ class Post
     /**
      * Get workers
      *
-     * @return integer 
+     * @return integer
      */
     public function getWorkers()
     {
@@ -413,7 +413,7 @@ class Post
     /**
      * Get functions
      *
-     * @return string 
+     * @return string
      */
     public function getFunctions()
     {
@@ -436,7 +436,7 @@ class Post
     /**
      * Get powers
      *
-     * @return string 
+     * @return string
      */
     public function getPowers()
     {
@@ -459,7 +459,7 @@ class Post
     /**
      * Get obligations
      *
-     * @return string 
+     * @return string
      */
     public function getObligations()
     {
@@ -482,7 +482,7 @@ class Post
     /**
      * Get responsibility
      *
-     * @return string 
+     * @return string
      */
     public function getResponsibility()
     {
@@ -505,34 +505,11 @@ class Post
     /**
      * Get jobAgreement
      *
-     * @return string 
+     * @return string
      */
     public function getJobAgreement()
     {
         return $this->jobAgreement;
-    }
-
-    /**
-     * Set postStory
-     *
-     * @param string $postStory
-     * @return Post
-     */
-    public function setPostStory($postStory)
-    {
-        $this->postStory = $postStory;
-
-        return $this;
-    }
-
-    /**
-     * Get postStory
-     *
-     * @return string 
-     */
-    public function getPostStory()
-    {
-        return $this->postStory;
     }
 
     /**
@@ -551,7 +528,7 @@ class Post
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -574,7 +551,7 @@ class Post
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -644,7 +621,7 @@ class Post
     /**
      * Get division
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getDivision()
     {
@@ -667,7 +644,7 @@ class Post
     /**
      * Get educationStatus
      *
-     * @return array 
+     * @return array
      */
     public function getEducationStatus()
     {
@@ -690,62 +667,29 @@ class Post
     /**
      * Get language
      *
-     * @return array 
+     * @return array
      */
     public function getLanguage()
     {
         return $this->language;
     }
 
-    /**
-     * Add images
-     *
-     * @param \MainBundle\Entity\PostImages $images
-     * @return Post
-     */
-    public function addImage(\MainBundle\Entity\PostImages $images)
-    {
-        $this->images[] = $images;
-
-        return $this;
-    }
-
-    /**
-     * Remove images
-     *
-     * @param \MainBundle\Entity\PostImages $images
-     */
-    public function removeImage(\MainBundle\Entity\PostImages $images)
-    {
-        $this->images->removeElement($images);
-    }
-
-    /**
-     * Get images
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
-
-    /**
-     * @return bool|mixed
-     */
-    public function getPostImages()
-    {
-        // get images
-        $files = $this->getImages();
-
-        // check images
-        if($files){
-
-            return $files;
-        }
-
-        return null;
-    }
+//    /**
+//     * @return bool|mixed
+//     */
+//    public function getPostImages()
+//    {
+//        // get images
+//        $files = $this->getImages();
+//
+//        // check images
+//        if($files){
+//
+//            return $files;
+//        }
+//
+//        return null;
+//    }
 
     /**
      * Set compKnowledge
@@ -763,7 +707,7 @@ class Post
     /**
      * Get compKnowledge
      *
-     * @return array 
+     * @return array
      */
     public function getCompKnowledge()
     {
@@ -778,6 +722,23 @@ class Post
      */
     public function setPersonnel(\MainBundle\Entity\Personnel $personnel = null)
     {
+        $relatedPerson = $this->personnel;
+
+        if($personnel) {
+
+          if($relatedPerson) {
+              $relatedPerson->setPost(null);
+          }
+
+            $personnel->setPost($this);
+
+        }else{
+
+            if($relatedPerson) {
+                $relatedPerson->setPost(null);
+            }
+        }
+
         $this->personnel = $personnel;
 
         return $this;
@@ -786,7 +747,7 @@ class Post
     /**
      * Get personnel
      *
-     * @return \MainBundle\Entity\Personnel 
+     * @return \MainBundle\Entity\Personnel
      */
     public function getPersonnel()
     {
@@ -809,7 +770,7 @@ class Post
     /**
      * Get changing
      *
-     * @return integer 
+     * @return integer
      */
     public function getChanging()
     {
@@ -832,7 +793,7 @@ class Post
     /**
      * Get changed
      *
-     * @return integer 
+     * @return integer
      */
     public function getChanged()
     {
@@ -865,7 +826,7 @@ class Post
     /**
      * Get instructions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getInstructions()
     {
@@ -934,7 +895,7 @@ class Post
     /**
      * Get postStatus
      *
-     * @return string 
+     * @return string
      */
     public function getPostStatus()
     {
@@ -968,7 +929,7 @@ class Post
     /**
      * Get history
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getHistory()
     {

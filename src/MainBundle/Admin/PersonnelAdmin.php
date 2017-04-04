@@ -2,7 +2,7 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Entity\PostHistory;
+use MainBundle\Entity\Diploma;
 use MainBundle\Traits\Personnel\Post;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -15,22 +15,6 @@ class PersonnelAdmin extends AbstractAdmin
     use Post;
 
     const imageClassName = 'PersonnelImages';
-
-    /**
-     * @param string $context
-     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
-     */
-    public function createQuery($context = 'list')
-    {
-        // call parent query
-        $query = parent::createQuery($context);
-
-        // add selected
-        $query->addSelect('im');
-        $query->leftJoin($query->getRootAlias() . '.images', 'im');
-
-        return $query;
-    }
 
     /**
      * @param string $name
@@ -71,6 +55,7 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('getImagePath', null, ['template' => 'MainBundle:Admin/List:personnel_image_list.html.twig', 'label'=>'person_image'])
+            ->add('getDiplomaCount', null, ['template' => 'MainBundle:Admin/List:diploma_image_list.html.twig', 'label'=>'diploma'])
             ->add('birthDate', null, ['label'=>'birth_day'])
             ->add('positionDate', null, ['label'=>'position_date'])
             ->add('mobilePhone', null, ['label'=>'mobile_phone'])
@@ -87,7 +72,6 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('education', null, ['label'=>'education'])
             ->add('profession', null, ['label'=>'profession'])
             ->add('post', null, ['label'=>'post'])
-            ->add('getPersonnelImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('language', null, ['template' => 'MainBundle:Admin/List:post_array_list.html.twig', 'label'=>'language'])
             ->add('compKnowledge', null, ['label'=>'comp_knowledge', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('created', null, ['label'=>'created'])
@@ -115,36 +99,47 @@ class PersonnelAdmin extends AbstractAdmin
         //get object id
         $id = $subject ? $subject->getId() : null;
 
-        //get current class name
-        $className = $this->getClassnameLabel();
+        // get the container so the full path to the image can be set
+        $container = $this->getConfigurationPool()->getContainer();
 
         //generate array fields data
         $langArrayData = $this->generateLanguageArray($subject);
         $compEducationArrayData = $this->generateCompEducationArray($subject);
-
-        // use $fileFieldOptions so we can add other options to the field
         $fileFieldOptions = ['label'=>'person_image', 'required' => false];
 
         if ($subject && ($webPath = $subject->getDownloadLink())) {
 
-            // get the container so the full path to the image can be set
-            $container = $this->getConfigurationPool()->getContainer();
+            //get profile image full path
             $fullPath = $container->get('request')->getSchemeAndHttpHost().$webPath;
 
             // add a 'help' option containing the preview's img tag
             $fileFieldOptions['help'] = '<a href='.$subject->getDownloadLink().' target="_blank"><img src="'.$fullPath.'" style="width:100px;height:100px" /></a>';
         }
 
+        //get diploma full type
+        $diploma = $subject->getDiploma();
+        $diplomaWebPath = $diploma ? $diploma->getImagePath() : null;
+        $diplomaFieldOptions = ['label'=>'diploma', 'mapped'=>false, 'required'=>false];
+
+        if ($subject && $diplomaWebPath) {
+
+            $diplomaFullPath = $container->get('request')->getSchemeAndHttpHost().$diplomaWebPath;
+
+            // add a 'help' option containing the preview's img tag
+            $diplomaFieldOptions['help'] = '<a href='. $subject->getDiploma()->getDownloadLink().' target="_blank"><img src="'.$diplomaFullPath.'" style="width:100px;height:100px" /></a>';
+        }
+
         $formMapper
             ->tab('global_info')
-            ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
+            ->add('name')
             ->add('file', 'file', $fileFieldOptions)
+            ->add('diploma', 'file', $diplomaFieldOptions)
             ->add('birthDate', 'sonata_type_date_picker', ['required'=>false, 'label'=>'birth_day'])
             ->add('positionDate', 'sonata_type_date_picker', ['required'=>false, 'label'=>'position_date'])
             ->add('education', null, ['label'=>'education'])
             ->add('profession', null, ['label'=>'profession'])
             ->add('post', null, array(
-//                'label' => 'post',
+                'label' => 'post',
 //                'query_builder' => function($query)   {
 //                    $result = $query->createQueryBuilder('p');
 //                    $result
@@ -179,7 +174,6 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('brother', null, ['label'=>'brother'])
             ->add('imageIds', 'hidden', ['mapped'=>false])
             ->add('postId', 'hidden', ['mapped'=>false, 'attr' => ['class' => $postId]])
-            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id])
             ->end()
         ;
     }
@@ -192,7 +186,8 @@ class PersonnelAdmin extends AbstractAdmin
         $showMapper
             ->tab('global_info')
             ->add('name')
-            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
+            ->add('getImagePath', null, ['template' => 'MainBundle:Admin/Show:person_image_show.html.twig', 'label'=>'person_image'])
+            ->add('getDiplomaCount', null, ['template' => 'MainBundle:Admin/Show:diploma_image_show.html.twig', 'label'=>'files'])
             ->add('birthDate', null, ['label'=>'birth_day'])
             ->add('positionDate', null, ['label'=>'position_date'])
             ->add('education', null, ['label'=>'education'])
@@ -219,20 +214,7 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('brother', null, ['label'=>'brother'])
             ->end()
         ;
-
     }
-
-
-
-//    /**
-//     * @param $object
-//     */
-//    public function setPostHistory($object)
-//    {
-//        //get container
-//        $container = $this->getConfigurationPool()->getContainer();
-//        $em = $container->get('doctrine')->getManager();
-//    }
 
 
     /**
@@ -248,16 +230,27 @@ class PersonnelAdmin extends AbstractAdmin
      */
     public function prePersist($object)
     {
-//        $this->setPostHistory($object);
+        //get container
+        $fmsService = $this->getConfigurationPool()->getContainer()->get('fms_service');
 
         //check and set array fields data
         $this->checkAndSetLanguages($object);
         $this->checkAndSetCompEducation($object);
 
-        //get container
-        $container = $this->getConfigurationPool()->getContainer();
+        //get diploma data in form
+        $diploma = $this->getForm()->get('diploma')->getData();
+
+        if($object->getDiploma() && (!$diploma)) {
+            return;
+        }else{
+            //create diploma for personnel
+            $dip = new Diploma();
+            $dip->setFile($diploma);
+            $object->setDiploma($dip);
+            $fmsService->uploadFile($dip);
+        }
 
         //call upload file listener
-        $container->get('fms_service')->uploadFile($object);
+        $fmsService->uploadFile($object);
     }
 }

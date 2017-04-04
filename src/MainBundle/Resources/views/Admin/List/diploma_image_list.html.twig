@@ -1,0 +1,9 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    {% if value %}
+        <a href="{{ object.diploma.downloadLink }}" target="_blank">
+            <img src="{{ object.diploma.downloadLink }}" height="100px"/>
+        </a>
+    {% endif %}
+{% endblock -%}

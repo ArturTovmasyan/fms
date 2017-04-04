@@ -25,11 +25,10 @@ class PostAdmin extends AbstractAdmin
         $query = parent::createQuery($context);
 
         // add selected
-        $query->addSelect('d, ins, p, im, cg, cd');
+        $query->addSelect('d, ins, p, cg, cd');
         $query->leftJoin($query->getRootAlias() . '.division', 'd');
         $query->leftJoin($query->getRootAlias() . '.instructions', 'ins');
         $query->leftJoin($query->getRootAlias() . '.personnel', 'p');
-        $query->leftJoin($query->getRootAlias() . '.images', 'im');
         $query->leftJoin($query->getRootAlias() . '.changing', 'cg');
         $query->leftJoin($query->getRootAlias() . '.changed', 'cd');
 
@@ -93,8 +92,6 @@ class PostAdmin extends AbstractAdmin
             ->add('changed', null, ['label'=>'changed'])
             ->add('instructions', null, ['label'=>'instructions'])
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
-//            ->add('history', null, ['label'=>'post_story'])
-            ->add('getPostImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -116,9 +113,6 @@ class PostAdmin extends AbstractAdmin
         $subject = $this->getSubject();
         $id = $subject ? $subject->getId() : null;
 
-        //get current class name
-        $className = $this->getClassnameLabel();
-
         //generate array fields data
         $langArrayData = $this->generateLanguageArray($subject);
         $compEducationArrayData = $this->generateCompEducationArray($subject);
@@ -134,11 +128,11 @@ class PostAdmin extends AbstractAdmin
 
         $formMapper
             ->tab('global_info')
-            ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
+            ->add('name')
             ->add('code')
             ->add('division', null, ['label'=>'division_chief'])
              ->add('personnel', null, array(
-//                'label' => 'personnel',
+                'label' => 'personnel',
 //                'query_builder' => function($query)   {
 //                    $result = $query->createQueryBuilder('p');
 //                    $result
@@ -181,7 +175,6 @@ class PostAdmin extends AbstractAdmin
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
             ->add('imageIds', 'hidden', ['mapped'=>false])
             ->add('divisionId', 'hidden', ['mapped'=>false, 'attr' => ['class' => $divisionId]])
-            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id])
             ->end()
             ->end();
     }
@@ -207,7 +200,6 @@ class PostAdmin extends AbstractAdmin
             ->add('compKnowledge', null, ['label'=>'comp_knowledge', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
             ->add('requirement', null, ['label'=>'requirement', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig', 'label'=>'post_req'])
             ->add('chief', null, ['label'=>'chief'])
-            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
             ->end()
             ->end()
             ->tab('job_info')

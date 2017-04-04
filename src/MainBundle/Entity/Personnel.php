@@ -35,11 +35,11 @@ class Personnel
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity="PersonnelImages", mappedBy="personnel", cascade={"persist", "remove"})
-     * @Groups({"files"})
-     */
-    protected $images;
+//    /**
+//     * @ORM\OneToMany(targetEntity="PersonnelImages", mappedBy="personnel", cascade={"persist", "remove"})
+//     * @Groups({"files"})
+//     */
+//    protected $images;
 
     /**
      * @ORM\OneToOne(targetEntity="Post", inversedBy="personnel", cascade={"persist"})
@@ -160,9 +160,9 @@ class Personnel
     private $education;
 
     /**
-     * @var
+     * @ORM\OneToOne(targetEntity="Diploma", cascade={"persist", "remove"})
      */
-    private $diplom;
+    private $diploma;
 
     /**
      * @var string
@@ -751,55 +751,22 @@ class Personnel
         return $this->compKnowledge;
     }
 
-    /**
-     * Add images
-     *
-     * @param \MainBundle\Entity\PersonnelImages $images
-     * @return Personnel
-     */
-    public function addImage(\MainBundle\Entity\PersonnelImages $images)
-    {
-        $this->images[] = $images;
-
-        return $this;
-    }
-
-    /**
-     * Remove images
-     *
-     * @param \MainBundle\Entity\PersonnelImages $images
-     */
-    public function removeImage(\MainBundle\Entity\PersonnelImages $images)
-    {
-        $this->images->removeElement($images);
-    }
-
-    /**
-     * Get images
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getImages()
-    {
-        return $this->images;
-    }
-
-    /**
-     * @return bool|mixed
-     */
-    public function getPersonnelImages()
-    {
-        // get images
-        $files = $this->getImages();
-
-        // check images
-        if($files){
-
-            return $files;
-        }
-
-        return null;
-    }
+//    /**
+//     * @return bool|mixed
+//     */
+//    public function getPersonnelImages()
+//    {
+//        // get images
+//        $files = $this->getImages();
+//
+//        // check images
+//        if($files){
+//
+//            return $files;
+//        }
+//
+//        return null;
+//    }
 
     /**
      * Set post
@@ -855,5 +822,47 @@ class Personnel
     public function getHistory()
     {
         return $this->history;
+    }
+
+    /**
+     * Set diploma
+     *
+     * @param \MainBundle\Entity\Diploma $diploma
+     * @return Personnel
+     */
+    public function setDiploma(\MainBundle\Entity\Diploma $diploma = null)
+    {
+        $this->diploma = $diploma;
+
+        return $this;
+    }
+
+    /**
+     * Get diploma
+     *
+     * @return \MainBundle\Entity\Diploma 
+     */
+    public function getDiploma()
+    {
+        return $this->diploma;
+    }
+
+    /**
+     * @return Diploma|null
+     */
+    public function getDiplomaCount()
+    {
+        // get images
+        $files = $this->getDiploma();
+
+        // check images
+        if($files){
+
+            $count = count($files);
+
+            return $count;
+        }
+
+        return null;
     }
 }

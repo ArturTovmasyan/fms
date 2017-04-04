@@ -162,17 +162,18 @@ class MainRestController extends FOSRestController
             if (!is_null($class = $object->getSparePart())) {
                 $class->removeImage($object);
             }
-        } elseif($object instanceof PostImages) {
-
-            if (!is_null($class = $object->getPost())) {
-                $class->removeImage($object);
-            }
-        } elseif($object instanceof PersonnelImages) {
-
-            if (!is_null($class = $object->getPersonnel())) {
-                $class->removeImage($object);
-            }
         }
+//        elseif($object instanceof PostImages) {
+//
+//            if (!is_null($class = $object->getPost())) {
+//                $class->removeImage($object);
+//            }
+//        } elseif($object instanceof PersonnelImages) {
+//
+//            if (!is_null($class = $object->getPersonnel())) {
+//                $class->removeImage($object);
+//            }
+//        }
         else{
             return new Response("$className class name not found", Response::HTTP_NOT_FOUND);
         }
