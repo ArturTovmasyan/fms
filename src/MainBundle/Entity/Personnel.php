@@ -799,6 +799,7 @@ class Personnel
      */
     public function addHistory(\MainBundle\Entity\PostHistory $history)
     {
+        $history->setPersonnel($this);
         $this->history[] = $history;
 
         return $this;

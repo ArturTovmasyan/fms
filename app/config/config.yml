@@ -72,6 +72,7 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        entity_listener_resolver: fms.listener.resolver
 
 # Swiftmailer Configuration
 swiftmailer:

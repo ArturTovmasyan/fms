@@ -20,19 +20,16 @@
             <tag name="form.type" alias="component_type" />
         </service>
 
-        <!--fms multiple equipment file service-->
-        <service id="bl.multiple.equipmenq.file" class="MainBundle\Form\Type\EqMultipleFileType">
-            <tag name="form.type" alias="eq_multiple_file" />
+
+        <service id="fms.listener.resolver" class="MainBundle\Listener\MyEntityListenerResolver">
+            <argument type="service" id="service_container" />
         </service>
 
-        <!--fms multiple materials file service-->
-        <service id="bl.multiple.material.file" class="MainBundle\Form\Type\MaterialMultipleFileType">
-            <tag name="form.type" alias="material_multiple_file" />
-        </service>
-
-        <!--fms multiple spare part file service-->
-        <service id="bl.multiple.spare.part.file" class="MainBundle\Form\Type\MaterialMultipleFileType">
-            <tag name="form.type" alias="spare_part_multiple_file" />
+        <!-- service doctrine listener -->
+        <service id="fms.doctrine.listener" class="MainBundle\Listener\DoctrineListener">
+            <argument type="service" id="service_container" />
+            <tag name="doctrine.event_listener" event = "preUpdate" method="preUpdate" />
+            <tag name="doctrine.event_listener" event = "postFlush" method="postFlush" />
         </service>
 
         <!-- service for update route card sum  -->

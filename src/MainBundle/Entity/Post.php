@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation\Groups;
 
 /**
  * Post
@@ -724,19 +723,12 @@ class Post
     {
         $relatedPerson = $this->personnel;
 
-        if($personnel) {
+        if ($personnel) {
 
           if($relatedPerson) {
               $relatedPerson->setPost(null);
           }
-
             $personnel->setPost($this);
-
-        }else{
-
-            if($relatedPerson) {
-                $relatedPerson->setPost(null);
-            }
         }
 
         $this->personnel = $personnel;
@@ -911,6 +903,7 @@ class Post
      */
     public function addHistory(\MainBundle\Entity\PostHistory $history)
     {
+        $history->setPost($this);
         $this->history[] = $history;
 
         return $this;

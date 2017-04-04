@@ -99,7 +99,7 @@ class PersonnelAdmin extends AbstractAdmin
         //get object id
         $id = $subject ? $subject->getId() : null;
 
-        // get the container so the full path to the image can be set
+        //get the container so the full path to the image can be set
         $container = $this->getConfigurationPool()->getContainer();
 
         //generate array fields data
@@ -215,7 +215,6 @@ class PersonnelAdmin extends AbstractAdmin
             ->end()
         ;
     }
-
 
     /**
      * @param mixed $object

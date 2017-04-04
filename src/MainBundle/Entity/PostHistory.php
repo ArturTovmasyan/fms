@@ -37,7 +37,7 @@ class PostHistory
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="from_date", type="datetime")
+     * @ORM\Column(name="from_date", type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
     private $fromDate;

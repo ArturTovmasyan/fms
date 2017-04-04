@@ -235,6 +235,14 @@ class PostAdmin extends AbstractAdmin
      */
     public function prePersist($object)
     {
+        //get personnel data and manage it
+        $personnel = $object->getPersonnel();
+        $personnelInForm = $this->getForm()->get('personnel')->getData();
+
+        if(!$personnelInForm && $personnel) {
+            $personnel->setPost(null);
+        }
+
         //check and set array fields data
         $this->checkAndSetLanguages($object);
         $this->checkAndSetCompEducation($object);

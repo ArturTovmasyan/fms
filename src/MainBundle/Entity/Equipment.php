@@ -54,19 +54,19 @@ class Equipment
      * @ORM\Column(name="length", type="string", length=5, nullable=true)
      * @Assert\Regex("/[0-9]/")
      */
-    private $length;
+    private $length = 0;
 
     /**
      * @ORM\Column(name="width", type="string", length=5, nullable=true)
      * @Assert\Regex("/[0-9]/")
      */
-    private $width;
+    private $width = 0;
 
     /**
      * @ORM\Column(name="height", type="string", length=5, nullable=true)
      * @Assert\Regex("/[0-9]/")
      */
-    private $height;
+    private $height = 0;
 
     /**
      *
@@ -916,6 +916,10 @@ class Equipment
      */
     public function getOverSize()
     {
+        if(!$this->length && !$this->width && !$this->height) {
+            return null;
+        }
+
         $overSize = $this->length.'x'.$this->width.'x'.$this->height;
 
         return $overSize;

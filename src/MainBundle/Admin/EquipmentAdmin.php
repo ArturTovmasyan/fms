@@ -245,6 +245,9 @@ class EquipmentAdmin extends Admin
                 elseif($field == 'created'){
                     $listMapper->add($field, 'date', array('widget' => 'single_text'));
                 }
+                elseif($field == 'length'){
+                    $listMapper->add('getOverSize', null, ['label'=>'over_size']);
+                }
                 else{
                     $listMapper->add($field);
                 }
