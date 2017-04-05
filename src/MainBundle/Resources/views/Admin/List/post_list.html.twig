@@ -1,0 +1,22 @@
+{% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/main/css/admin.css") }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/main/js/post.js') }}"></script>
+{% endblock %}
+
+{% block list_table %}
+    {{ parent() }}
+    {% set currentPath = app.request.attributes.get('_route') %}
+    {% if currentPath == 'admin_main_post_list' %}
+
+        {#custom filet block for equipment #}
+        {% include 'MainBundle:Admin/Modal:post_history_modal.html.twig' %}
+
+    {% endif %}
+{% endblock %}

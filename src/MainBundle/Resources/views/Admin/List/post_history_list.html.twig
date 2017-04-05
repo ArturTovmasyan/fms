@@ -1,0 +1,15 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    {% set history = object.history %}
+
+    {% if history|length > 0 %}
+        <a href="" data-id="{{ object.id }} " class="post-history sonata-action-element" data-toggle="modal" data-target="#postHistoryModal">
+            Պատմություն
+        </a>
+    {% endif %}
+{% endblock -%}
+
+
+
+

@@ -2,6 +2,7 @@
 
 namespace MainBundle\Listener;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use MainBundle\Entity\Personnel;
@@ -17,7 +18,7 @@ class DoctrineListener implements ContainerAwareInterface
      */
     public $container;
 
-    protected $histories = null;
+    protected $histories = [];
 
     /**
      * @param ContainerInterface|null $container
@@ -28,6 +29,31 @@ class DoctrineListener implements ContainerAwareInterface
     }
 
     /**
+     * @param LifecycleEventArgs $args
+     */
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        //get data
+        $entity = $args->getObject();
+
+        // check entity
+        if($entity instanceof Personnel){
+
+            //get related post
+            $post = $entity->getPost();
+
+            if($post){
+
+                //create post history
+                $history = new PostHistory();
+                $history->setPost($post);
+                $history->setPersonnel($entity);
+                $this->histories[] = $history;
+            }
+        }
+    }
+
+    /**
      * @param PreUpdateEventArgs $args
      */
     public function preUpdate(PreUpdateEventArgs $args)
@@ -35,22 +61,47 @@ class DoctrineListener implements ContainerAwareInterface
         //get data
         $entity = $args->getObject();
         $em = $args->getObjectManager();
-        $uow = $em->getUnitOfWork();
 
         // check entity
         if($entity instanceof Personnel){
 
             if ($args->hasChangedField('post')) {
 
+                //get all post data
+                $oldPost = $args->getOldValue('post');
                 $post = $entity->getPost();
+                $personnelId = $entity->getId();
 
                 if($post) {
 
-                    $history = new PostHistory();
-                    $history->setPost($post);
-                    $history->setPersonnel($entity);
+                    //get exist post history
+                    $postId = $post->getId();
+                    $existHistory = $em->getRepository('MainBundle:PostHistory')->findByPostAndPersonId($postId, $personnelId);
 
-                    $this->histories = $history;
+                    if($existHistory) {
+                        $history = $existHistory;
+                        $history->setFromDate(new \DateTime('now'));
+                        $history->setToDate(null);
+
+                    }else{
+                        $history = new PostHistory();
+                        $history->setPost($post);
+                        $history->setPersonnel($entity);
+                    }
+
+                    $this->histories[] = $history;
+                }
+
+                if($oldPost) {
+
+                    //get exist history data
+                    $oldPostId = $oldPost->getId();
+                    $existHistory = $em->getRepository('MainBundle:PostHistory')->findByPostAndPersonId($oldPostId, $personnelId);
+
+                    if($existHistory){
+                        $existHistory->setToDate(new \DateTime('now'));
+                        $this->histories[] = $existHistory;
+                    }
                 }
             }
         }
@@ -60,15 +111,40 @@ class DoctrineListener implements ContainerAwareInterface
 
             if ($args->hasChangedField('personnel')) {
 
+                $oldPersonnel = $args->getOldValue('personnel');
                 $personnel = $entity->getPersonnel();
+                $postId = $entity->getId();
 
                 if($personnel) {
 
-                    $history = new PostHistory();
-                    $history->setPost($entity);
-                    $history->setPersonnel($personnel);
+                    //get exist post history
+                    $personnelId = $personnel->getId();
+                    $existHistory = $em->getRepository('MainBundle:PostHistory')->findByPostAndPersonId($postId, $personnelId);
 
-                    $this->histories = $history;
+                    if($existHistory) {
+                        $history = $existHistory;
+                        $history->setFromDate(new \DateTime('now'));
+                        $history->setToDate(null);
+
+                    }else{
+                        $history = new PostHistory();
+                        $history->setPost($entity);
+                        $history->setPersonnel($personnel);
+                    }
+
+                    $this->histories[] = $history;
+                }
+
+                if($oldPersonnel) {
+
+                    //get exist history data
+                    $oldPersonnelId = $oldPersonnel->getId();
+                    $existHistory = $em->getRepository('MainBundle:PostHistory')->findByPostAndPersonId($postId, $oldPersonnelId);
+
+                    if($existHistory){
+                        $existHistory->setToDate(new \DateTime('now'));
+                        $this->histories[] = $existHistory;
+                    }
                 }
             }
         }
@@ -79,24 +155,22 @@ class DoctrineListener implements ContainerAwareInterface
      */
     public function postFlush(PostFlushEventArgs $event)
     {
-        //get history
+        //get history and flush it in database
         $history = $this->histories;
 
         if(!empty($history)) {
 
+            //get entity manager
             $em = $event->getEntityManager();
-            $em->persist($history);
 
-            $this->histories = null;
+            foreach ($history as $hist)
+            {
+                $em->persist($hist);
+            }
+
+            $this->histories = [];
             $em->flush();
         }
-    }
-
-    /**
-     * This function is used to automatically generate post history
-     */
-    private function generatePostHostory()
-    {
     }
 }
 

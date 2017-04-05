@@ -298,9 +298,10 @@
             <argument/>
         </service>
 
+        <!--show_in_dashboard="false"-->
         <!--PostHistory-->
         <service id="sonata.admin.post_history" class="MainBundle\Admin\PostHistoryAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="post_history"/>
+            <tag name="sonata.admin" manager_type="orm" group="Personnel" label="post_history" show_in_dashboard="false" />
             <argument/>
             <argument>MainBundle\Entity\PostHistory</argument>
             <argument/>

@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * PostHistory
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\PostHistoryRepository")
  */
 class PostHistory
 {

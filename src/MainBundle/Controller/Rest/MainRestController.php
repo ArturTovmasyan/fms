@@ -334,4 +334,39 @@ class MainRestController extends FOSRestController
 
         return $files;
     }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get post history by post id",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         404="Bad request",
+     *         403="Forbidden"
+     *  },
+     * )
+     *
+     * @Rest\Get("/post-history/{postId}", name="main_rest_mainrest_getposthistory", options={"method_prefix"=false})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Rest\View()
+     * @param $postId
+     * @return Response
+     */
+    public function getPostHistoryAction($postId)
+    {
+        //check if one is parameters not exist
+        if(!$postId) {
+            return new Response('Invalid request parameters', Response::HTTP_BAD_REQUEST);
+        }
+
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get all related files
+        $files = $em->getRepository('MainBundle:PostHistory')->findByPostId($postId);
+
+        return $files;
+    }
 }

@@ -63,6 +63,8 @@ file that was distributed with this source code.
         <script src="{{ asset(javascript) }}"></script>
         {% endfor %}
 
+        {% set currentPath = app.request.attributes.get('_route') %}
+        {% if currentPath == 'admin_main_equipment_list' %}
         <script>
             $(document).on('ifChanged', '#checkAll', function () {
                 if( $(this).is(':checked')){
@@ -72,6 +74,8 @@ file that was distributed with this source code.
                 }
             });
         </script>
+        {% endif %}
+
     {% endblock %}
 
         {% set locale = app.request.locale %}

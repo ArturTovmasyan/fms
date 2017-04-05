@@ -45,6 +45,9 @@ class PostAdmin extends AbstractAdmin
             case 'edit':
                 return 'MainBundle:Admin/Edit:post_edit.html.twig';
                 break;
+            case 'list':
+                return 'MainBundle:Admin/List:post_list.html.twig';
+                break;
             default:
                 return parent::getTemplate($name);
                 break;
@@ -74,6 +77,7 @@ class PostAdmin extends AbstractAdmin
             ->add('name')
             ->add('code')
             ->add('personnel', null, ['label'=>'personnel'])
+            ->add('history', null, ['template' => 'MainBundle:Admin/List:post_history_list.html.twig', 'label'=>'post_history'])
             ->add('postStatus', null, ['label'=>'post_status'])
             ->add('getStringEducation', null, ['label'=>'education'])
             ->add('profession', null, ['label'=>'profession'])
@@ -113,6 +117,9 @@ class PostAdmin extends AbstractAdmin
         $subject = $this->getSubject();
         $id = $subject ? $subject->getId() : null;
 
+        $personnelId = $subject->getPersonnel() ? $subject->getPersonnel()->getId() : null;
+
+
         //generate array fields data
         $langArrayData = $this->generateLanguageArray($subject);
         $compEducationArrayData = $this->generateCompEducationArray($subject);
@@ -133,16 +140,22 @@ class PostAdmin extends AbstractAdmin
             ->add('division', null, ['label'=>'division_chief'])
              ->add('personnel', null, array(
                 'label' => 'personnel',
-//                'query_builder' => function($query)   {
-//                    $result = $query->createQueryBuilder('p');
-//                    $result
-//                        ->select('pe')
-//                        ->from('MainBundle:Personnel','pe')
-//                        ->leftJoin('pe.post', 'pt')
-//                        ->where('pt.id is NULL');
-//
-//                    return $result;
-//                }
+                'query_builder' => function($query) use ($id, $personnelId)  {
+                    $result = $query->createQueryBuilder('p');
+                    $result
+                        ->select('pe')
+                        ->from('MainBundle:Personnel','pe')
+                        ->leftJoin('pe.post', 'pt')
+                        ->where('pt.id is NULL');
+
+                    if($id) {
+                        $result
+                            ->orWhere('pe.id = :personnelId')
+                            ->setParameter(':personnelId', $personnelId);
+                    }
+
+                    return $result;
+                }
             ));
 
         $formMapper

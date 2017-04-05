@@ -91,13 +91,15 @@ class PersonnelAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get object id
         $subject = $this->getSubject();
+        $id = $subject ? $subject->getId() : null;
 
         //get post id by request
         $postId = $this->getRequest()->query->get('postId');
 
-        //get object id
-        $id = $subject ? $subject->getId() : null;
+        //get related post id
+        $relatedPostId = $subject->getPost() ? $subject->getPost()->getId() : null;
 
         //get the container so the full path to the image can be set
         $container = $this->getConfigurationPool()->getContainer();
@@ -140,16 +142,22 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('profession', null, ['label'=>'profession'])
             ->add('post', null, array(
                 'label' => 'post',
-//                'query_builder' => function($query)   {
-//                    $result = $query->createQueryBuilder('p');
-//                    $result
-//                        ->select('pt')
-//                        ->from('MainBundle:Post','pt')
-//                        ->leftJoin('pt.personnel', 'pe')
-//                        ->where('pe.id is NULL');
-//
-//                    return $result;
-//                }
+                'query_builder' => function($query) use ($id, $relatedPostId)  {
+                    $result = $query->createQueryBuilder('p');
+                    $result
+                        ->select('pt')
+                        ->from('MainBundle:Post','pt')
+                        ->leftJoin('pt.personnel', 'pe')
+                        ->where('pe.id is NULL');
+
+                    if($id) {
+                        $result
+                            ->orWhere('pt.id = :postId')
+                            ->setParameter(':postId', $relatedPostId);
+                    }
+
+                    return $result;
+                }
             ))
             ->add('language', 'choice', ['choices'=> $langArrayData, 'required'=>false, 'multiple'=>true, 'label'=>'language'])
             ->add('anotherLang', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field', 'placeholder'=> 'another_language'],  'label'=>false, 'required'=>false])
