@@ -21,29 +21,23 @@ class ChaneElPowerCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $equipments = $em->getRepository('MainBundle:Equipment')->findAll();
+        $elPowers = $em->getRepository('MainBundle:ElPower')->findAll();
 
-        $progress = new ProgressBar($output, count($equipments));
+        $progress = new ProgressBar($output, count($elPowers));
 
         $output->writeln("<info>START</info>");
 
         $progress->start();
 
-        if($equipments)
+        if($elPowers)
         {
-            foreach($equipments as $eq)
+            foreach($elPowers as $power)
             {
-                $elPower = $eq->getElPower();
+                $value = $power->getValue();
 
-                if(!$elPower) {
-                    $elPower = 0;
+                if(!$value) {
+                    $em->remove($power);
                 }
-
-                $newElPower = new ElPower();
-                $newElPower->setValue($elPower);
-                $newElPower->setEquipment($eq);
-                $em->persist($newElPower);
-
             }
 
             $output->writeln("<info>Success.Equipment elPower has been changed</info>");
