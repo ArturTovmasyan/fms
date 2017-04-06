@@ -125,12 +125,6 @@ class Equipment
     private $elPowers;
 
     /**
-     * @ORM\Column(name="el_power", type="string", length=10,  nullable=true)
-     * @Assert\Regex("/[0-9]/")
-     */
-    private $elPower;
-
-    /**
      * @ORM\OneToMany(targetEntity="RemoveDefects", mappedBy="equipment", cascade={"persist", "remove"})
      */
     private $removeDefects;
@@ -1103,29 +1097,6 @@ class Equipment
 
             $this->removeDefects = new ArrayCollection($multipleDefect);
         }
-    }
-
-    /**
-     * Set elPower
-     *
-     * @param string $elPower
-     * @return Equipment
-     */
-    public function setElPower($elPower)
-    {
-        $this->elPower = $elPower;
-
-        return $this;
-    }
-
-    /**
-     * Get elPower
-     *
-     * @return string 
-     */
-    public function getElPower()
-    {
-        return $this->elPower;
     }
 
     /**
