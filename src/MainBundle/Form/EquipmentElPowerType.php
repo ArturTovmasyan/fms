@@ -21,7 +21,7 @@ class EquipmentElPowerType extends AbstractType
     {
         $builder
             ->add('value', TextType::class, ['label'=>'el_power_value', 'required'=>true])
-            ->add('text', TextType::class, ['label'=>'description', 'required'=>false]);
+            ->add('text', TextType::class, ['label'=>false, 'required'=>false]);
     }
 
     /**

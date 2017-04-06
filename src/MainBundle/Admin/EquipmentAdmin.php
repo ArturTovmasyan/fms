@@ -39,7 +39,7 @@ class EquipmentAdmin extends Admin
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
         $query->leftJoin($query->getRootAlias() . '.images', 'im');
         $query->leftJoin($query->getRootAlias() . '.eqState', 'eqs');
-        $query->leftJoin($query->getRootAlias() . '.elPower', 'elp');
+        $query->leftJoin($query->getRootAlias() . '.elPowers', 'elp');
         $query->leftJoin($query->getRootAlias() . '.removeDefects', 'rd');
 
         return $query;
@@ -125,7 +125,7 @@ class EquipmentAdmin extends Admin
             ->add('spares')
             ->end()
             ->with('el_power')
-            ->add('elPower', null, ['label'=>'el_power', 'template' => 'MainBundle:Admin/Show:el_power_show.html.twig'])
+            ->add('elPowers', null, ['label'=>'el_power', 'template' => 'MainBundle:Admin/Show:el_power_show.html.twig'])
             ->end()
             ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('weight')
@@ -212,7 +212,7 @@ class EquipmentAdmin extends Admin
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
             ->end()
             ->with('el_power')
-            ->add('elPower', 'collection', ['label'=>false, 'type' => new EquipmentElPowerType(),'required'=>false,
+            ->add('elPowers', 'collection', ['label'=>false, 'type' => new EquipmentElPowerType(),'required'=>false,
                 'allow_add'=>true, 'allow_delete'=>true])
             ->end()
             ->add('imageIds', 'hidden', ['mapped'=>false])
@@ -289,7 +289,7 @@ class EquipmentAdmin extends Admin
                 ->add('spares', null, ['label'=>'code'])
                 ->add('responsiblePersons', null, ['label'=>'responsible_person'])
                 ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
-                ->add('elPower', null, ['label'=>'el_power'])
+                ->add('elPowers', null, ['label'=>'el_power'])
                 ->add('repairJob', null, ['label' => 'repair_job'])
                 ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
                 ->add('getOverSize', null, ['label'=>'over_size'])

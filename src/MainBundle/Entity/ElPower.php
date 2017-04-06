@@ -38,7 +38,7 @@ class ElPower
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="elPower", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="elPowers", cascade={"persist"})
      */
     protected $equipment;
 
