@@ -178,7 +178,7 @@
             <argument/>
             <call method="setTemplate">
                 <argument>list</argument>
-                <argument>MainBundle:Admin:productRawExpenseList.html.twig</argument>
+                <argument>MainBundle:Admin/List:productRawExpenseList.html.twig</argument>
             </call>
         </service>
 
@@ -214,7 +214,7 @@
             <argument/>
             <call method="setTemplate">
                 <argument>list</argument>
-                <argument>MainBundle:Admin:productRouteCardList.html.twig</argument>
+                <argument>MainBundle:Admin/List:productRouteCardList.html.twig</argument>
             </call>
         </service>
 
@@ -304,6 +304,20 @@
             <tag name="sonata.admin" manager_type="orm" group="Personnel" label="post_history" show_in_dashboard="true" />
             <argument/>
             <argument>MainBundle\Entity\PostHistory</argument>
+            <argument/>
+        </service>
+
+        <service id="sonata.admin.remove_defects" class="MainBundle\Admin\RemoveDefectsAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="remove_defects" show_in_dashboard="true"/>
+            <argument/>
+            <argument>MainBundle\Entity\RemoveDefects</argument>
+            <argument/>
+        </service>
+
+        <service id="sonata.admin.el_power" class="MainBundle\Admin\ElPowerAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="el_power" show_in_dashboard="true" />
+            <argument/>
+            <argument>MainBundle\Entity\ElPower</argument>
             <argument/>
         </service>
 

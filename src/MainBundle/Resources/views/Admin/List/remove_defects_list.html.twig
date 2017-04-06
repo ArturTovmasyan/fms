@@ -1,0 +1,23 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+
+    {% if value  %}
+        {% set data = value.first ? value.first : '' %}
+        {% if data %}
+            {% set url = '/admin/main/removedefects/'~data.id~'/edit' %}
+            <ul>
+                <li>
+                    <a href="{{ url }}" target="_blank">
+                        {{ data.description|slice(0, 100) }}
+                    </a>
+                </li>
+            </ul>
+        {% endif %}
+    {% endif %}
+
+{% endblock -%}
+
+
+
+

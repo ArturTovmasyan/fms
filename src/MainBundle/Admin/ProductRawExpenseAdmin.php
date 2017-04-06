@@ -68,7 +68,7 @@ class ProductRawExpenseAdmin extends Admin
 //        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
 
         $formMapper
-            ->add('rawMaterials', null, array(
+//            ->add('rawMaterials', null, array(
 //            'query_builder' => function ($query) use ($productId, $editProductId) {
 //                $result = $query->createQueryBuilder('rm');
 //                if(!$editProductId){
@@ -81,7 +81,7 @@ class ProductRawExpenseAdmin extends Admin
 //                        ->setParameter('prodId', $productId);
 //                }
 //                return $result;}
-            ))
+//            ))
             ->add('count')
         ;
 

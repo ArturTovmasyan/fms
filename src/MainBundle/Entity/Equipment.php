@@ -2,6 +2,7 @@
 
 namespace MainBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -119,10 +120,14 @@ class Equipment
     private $eqState;
     
     /**
-     * @ORM\Column(name="el_power", type="string", length=10,  nullable=true)
-     * @Assert\Regex("/[0-9]/")
+     * @ORM\OneToMany(targetEntity="ElPower", mappedBy="equipment", cascade={"persist", "remove"})
      */
     private $elPower;
+
+    /**
+     * @ORM\OneToMany(targetEntity="RemoveDefects", mappedBy="equipment", cascade={"persist", "remove"})
+     */
+    private $removeDefects;
 
     /**
      * @ORM\Column(name="weight", type="string", length=10, nullable=true)
@@ -147,10 +152,6 @@ class Equipment
      */
     private $inspectionPeriod;
 
-    /**
-     * @ORM\Column(name="remove_defects", type="string", nullable=true)
-     */
-    private $removeDefects;
 
     /**
      * @ORM\Column(name="repair_job", type="string", nullable=true)
@@ -414,28 +415,6 @@ class Equipment
         return $this->responsiblePersons;
     }
 
-    /**
-     * Set elPower
-     *
-     * @param integer $elPower
-     * @return Equipment
-     */
-    public function setElPower($elPower)
-    {
-        $this->elPower = $elPower;
-
-        return $this;
-    }
-
-    /**
-     * Get elPower
-     *
-     * @return integer 
-     */
-    public function getElPower()
-    {
-        return $this->elPower;
-    }
 
     /**
      * Set weight
@@ -949,29 +928,6 @@ class Equipment
     }
 
     /**
-     * Set removeDefects
-     *
-     * @param string $removeDefects
-     * @return Equipment
-     */
-    public function setRemoveDefects($removeDefects)
-    {
-        $this->removeDefects = $removeDefects;
-
-        return $this;
-    }
-
-    /**
-     * Get removeDefects
-     *
-     * @return string 
-     */
-    public function getRemoveDefects()
-    {
-        return $this->removeDefects;
-    }
-
-    /**
      * This function is used to get products name
      */
    public function getProductsString()
@@ -1082,4 +1038,98 @@ class Equipment
         return $string;
     }
 
+
+    /**
+     * Add removeDefects
+     *
+     * @param \MainBundle\Entity\RemoveDefects $removeDefects
+     * @return Equipment
+     */
+    public function addRemoveDefect(\MainBundle\Entity\RemoveDefects $removeDefects)
+    {
+        $removeDefects->setEquipment($this);
+        $this->removeDefects[] = $removeDefects;
+
+        return $this;
+    }
+
+    /**
+     * Remove removeDefects
+     *
+     * @param \MainBundle\Entity\RemoveDefects $removeDefects
+     */
+    public function removeRemoveDefect(\MainBundle\Entity\RemoveDefects $removeDefects)
+    {
+        $this->removeDefects->removeElement($removeDefects);
+    }
+
+    /**
+     * Get removeDefects
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRemoveDefects()
+    {
+        return $this->removeDefects;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFmsEqDefects()
+    {
+        // check images and return array
+        if($this->removeDefects){
+
+            return $this->removeDefects->toArray();
+        }
+
+        return array();
+    }
+
+    /**
+     * @param $multipleDefect
+     */
+    public function setFmsEqDefects($multipleDefect)
+    {
+        // check added images
+        if(count($multipleDefect) > 0){
+
+            $this->removeDefects = new ArrayCollection($multipleDefect);
+        }
+    }
+
+    /**
+     * Add elPower
+     *
+     * @param \MainBundle\Entity\ElPower $elPower
+     * @return Equipment
+     */
+    public function addElPower(\MainBundle\Entity\ElPower $elPower)
+    {
+        $elPower->setEquipment($this);
+        $this->elPower[] = $elPower;
+
+        return $this;
+    }
+
+    /**
+     * Remove elPower
+     *
+     * @param \MainBundle\Entity\ElPower $elPower
+     */
+    public function removeElPower(\MainBundle\Entity\ElPower $elPower)
+    {
+        $this->elPower->removeElement($elPower);
+    }
+
+    /**
+     * Get elPower
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getElPower()
+    {
+        return $this->elPower;
+    }
 }

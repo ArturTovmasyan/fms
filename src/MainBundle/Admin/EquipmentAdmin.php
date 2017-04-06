@@ -2,7 +2,10 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Form\EquipmentDefectType;
+use MainBundle\Form\EquipmentElPowerType;
 use MainBundle\Traits\FmsAdmin;
+use MainBundle\Traits\Resource\Equipment;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -13,6 +16,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class EquipmentAdmin extends Admin
 {
     use FmsAdmin;
+    use Equipment;
 
     const imageClassName = 'EquipmentImage';
 
@@ -28,13 +32,15 @@ class EquipmentAdmin extends Admin
         $query = parent::createQuery($context);
 
         // add selected
-        $query->addSelect('p, pe, s, ml, im, eqs');
+        $query->addSelect('p, pe, s, ml, im, eqs, elp, rd');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
         $query->leftJoin($query->getRootAlias() . '.responsiblePersons', 'pe');
         $query->leftJoin($query->getRootAlias() . '.spares', 's');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
         $query->leftJoin($query->getRootAlias() . '.images', 'im');
         $query->leftJoin($query->getRootAlias() . '.eqState', 'eqs');
+        $query->leftJoin($query->getRootAlias() . '.elPower', 'elp');
+        $query->leftJoin($query->getRootAlias() . '.removeDefects', 'rd');
 
         return $query;
     }
@@ -106,22 +112,27 @@ class EquipmentAdmin extends Admin
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
             ->add('product')
             ->add('mould')
-            ->add('removeDefects', null, ['label' => 'remove_defects'])
+            ->end()
+            ->with('remove_defects')
+            ->add('removeDefects', null, ['label' => 'remove_defects', 'template' => 'MainBundle:Admin/Show:remove_defects_show.html.twig'])
             ->end()
             ->with('over_size')
             ->add('getOverSize', null, ['label'=>'over_size'])
             ->end()
-            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
             ->add('type', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('spares')
-            ->add('elPower', null, ['label'=>'el_power'])
+            ->end()
+            ->with('el_power')
+            ->add('elPower', null, ['label'=>'el_power', 'template' => 'MainBundle:Admin/Show:el_power_show.html.twig'])
+            ->end()
             ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('weight')
             ->add('carryingPrice', null, array('label'=>'balance_cost'))
             ->add('factualPrice', null, array('label'=>'actual_cost'))
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
             ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
             ->add('created', 'date', array('widget' => 'single_text'))
         ;
@@ -162,7 +173,11 @@ class EquipmentAdmin extends Admin
             ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date', 'required'=>false))
             ->add('product')
-            ->add('removeDefects', 'textarea', ['label' => 'remove_defects', 'required'=>false])
+            ->end()
+            ->end()
+            ->with('remove_defects')
+            ->add('removeDefects', 'collection', ['label'=>'remove_defects', 'type' => new EquipmentDefectType(),'required'=>false,
+                'allow_add'=>true, 'allow_delete'=>true])
             ->end()
             ->with('over_size')
             ->add('length', null, ['label'=>'length'])
@@ -191,11 +206,15 @@ class EquipmentAdmin extends Admin
             ))
             ->add('responsiblePersons', null, array('label' => 'responsible_person'))
             ->add('spares')
-            ->add('elPower', null, ['label'=>'el_power'])
             ->add('weight')
             ->add('carryingPrice', null, array('label'=>'balance_cost'))
             ->add('factualPrice', null, array('label'=>'actual_cost'))
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
+            ->end()
+            ->with('el_power')
+            ->add('elPower', 'collection', ['label'=>false, 'type' => new EquipmentElPowerType(),'required'=>false,
+                'allow_add'=>true, 'allow_delete'=>true])
+            ->end()
             ->add('imageIds', 'hidden', ['mapped'=>false])
             ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
     }
@@ -241,6 +260,8 @@ class EquipmentAdmin extends Admin
                     $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'));
                 }elseif($field == 'responsiblePersons'){
                     $listMapper->add($field, null, ['label'=>'responsible_person']);
+                }elseif($field == 'removeDefects'){
+                    $listMapper->add($field, 'date', array('label' => 'remove_defects', 'template' => 'MainBundle:Admin/List:remove_defects_list.html.twig'));
                 }
                 elseif($field == 'created'){
                     $listMapper->add($field, 'date', array('widget' => 'single_text'));
@@ -260,7 +281,7 @@ class EquipmentAdmin extends Admin
                 ->add('workshop', null, array('label'=>'equipment_workshop'))
                 ->add('eqState', null, array('label'=>'equipment_state'))
                 ->add('product', null, ['label'=>'product'])
-                ->add('removeDefects', null, ['label' => 'remove_defects'])
+                ->add('removeDefects', null, ['label' => 'remove_defects', 'template' => 'MainBundle:Admin/List:remove_defects_list.html.twig'])
                 ->add('mould', null, ['label'=>'mould'])
                 ->add('description',  null, ['label'=>'description'])
                 ->add('deployment', null, ['label' => 'deployment'])
@@ -289,102 +310,6 @@ class EquipmentAdmin extends Admin
                 )
             ))
         ;
-    }
-
-    //set relations for Equipment
-    public function setRelations($object)
-    {
-        // add products
-        $products = $object->getProduct();
-
-        if($products) {
-            foreach($products as $product)
-            {
-                $productEquipment = $product->getEquipment();
-
-                if(!$productEquipment->contains($object))
-                {
-                    $product->addEquipment($object);
-                }
-            }
-        }
-
-        // add spares
-        $spares = $object->getSpares();
-
-        if($spares) {
-            foreach($spares as $spare)
-            {
-                if(!$spares->contains($object))
-                {
-                    $spare->setEquipment($object);
-                }
-            }
-        }
-
-        // add moulds
-        $moulds = $object->getMould();
-
-        if($moulds) {
-            foreach($moulds as $mould)
-            {
-                $mouldEquipment = $mould->getEquipment();
-
-                if(!$mouldEquipment->contains($object))
-                {
-                    $mould->addEquipment($object);
-                }
-            }
-        }
-    }
-
-    public function removeRelations($object)
-    {
-        //get products
-        $products = $object->getProduct();
-
-        //get removed products in Equipment
-        $removed = $products->getDeleteDiff();
-
-        if($removed) {
-            foreach($removed as $remove)
-            {
-                $remove->removeEquipment($object);
-            }
-        }
-
-        // add spares
-        $spares = $object->getSpares();
-
-        if($spares) {
-
-            //check deleted spares
-            $removedSpares = $spares->getDeleteDiff();
-
-            if($removedSpares) {
-                foreach($removedSpares as $removedSpare)
-                {
-                    $removedSpare->setEquipment(null);
-                }
-            }
-        }
-
-        // add moulds
-        $moulds = $object->getMould();
-
-        if($moulds) {
-
-            //check deleted moulds
-            $removedMoulds = $moulds->getDeleteDiff();
-
-            if($removedMoulds) {
-
-                foreach($removedMoulds as $removedMould)
-                {
-                    $removedMould->removeEquipment($object);
-                }
-            }
-        }
     }
 
     public function preUpdate($object)
@@ -417,5 +342,6 @@ class EquipmentAdmin extends Admin
         //set relation for object and images
         $images = $this->getImages($imageClassName);
         $this->addImages($object, $images);
+        $this->setRelations($object);
     }
 }

@@ -1,0 +1,22 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+
+    <ul>
+        {% for data in value %}
+            {% set url = '/admin/main/elpower/'~data.id~'/edit' %}
+            <li>
+                <a href="{{ url }}" target="_blank">
+                    {{ data.value }} <br/>
+                    {{ data.text }}
+                </a>
+            </li>
+            <br />
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+
+
+
