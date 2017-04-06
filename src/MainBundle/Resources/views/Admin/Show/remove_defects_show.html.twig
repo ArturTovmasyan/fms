@@ -1,0 +1,21 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+
+    <ul>
+        {% for data in value %}
+            {% set url = '/admin/main/removedefects/'~data.id~'/edit' %}
+            <li>
+                <a href="{{ url }}" target="_blank">
+                    {{ data.description }}
+                </a>
+            </li>
+            <br />
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+
+
+

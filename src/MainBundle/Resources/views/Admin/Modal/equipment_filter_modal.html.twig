@@ -70,6 +70,10 @@
                                 <th><input type="checkbox" class="check" name="purchaseDate" value="purchaseDate" {% if showFields.purchaseDate is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
+                                <th>{{ 'remove_defects'|trans }}</th>
+                                <th><input type="checkbox" class="check" name="removeDefects" value="removeDefects" {% if showFields.removeDefects is defined %}checked{% endif %}></th>
+                            </tr>
+                            <tr>
                                 <th>{{ 'el_power'|trans }}</th>
                                 <th><input type="checkbox" class="check" name="elPower" value="elPower" {% if showFields.elPower is defined %}checked{% endif %}></th>
                             </tr>
