@@ -2,7 +2,6 @@
 
 namespace MainBundle\Traits\Resource;
 
-
 /**
  * Class Equipment
  * @package MainBundle\Traits
@@ -38,7 +37,7 @@ trait Equipment
         }
 
         //get el powers
-        $elPowers = $object->getElPower();
+        $elPowers = $object->getElPowers();
 
         foreach($elPowers as $elPower)
         {
@@ -117,7 +116,7 @@ trait Equipment
         }
 
         //remove el powers
-        $elPowers = $object->getElPower();
+        $elPowers = $object->getElPowers();
 
         if($elPowers) {
 

@@ -122,6 +122,12 @@ class Equipment
     /**
      * @ORM\OneToMany(targetEntity="ElPower", mappedBy="equipment", cascade={"persist", "remove"})
      */
+    private $elPowers;
+
+    /**
+     * @ORM\Column(name="el_power", type="string", length=10,  nullable=true)
+     * @Assert\Regex("/[0-9]/")
+     */
     private $elPower;
 
     /**
@@ -1100,36 +1106,59 @@ class Equipment
     }
 
     /**
-     * Add elPower
+     * Set elPower
      *
-     * @param \MainBundle\Entity\ElPower $elPower
+     * @param string $elPower
      * @return Equipment
      */
-    public function addElPower(\MainBundle\Entity\ElPower $elPower)
+    public function setElPower($elPower)
     {
-        $elPower->setEquipment($this);
-        $this->elPower[] = $elPower;
+        $this->elPower = $elPower;
 
         return $this;
     }
 
     /**
-     * Remove elPower
-     *
-     * @param \MainBundle\Entity\ElPower $elPower
-     */
-    public function removeElPower(\MainBundle\Entity\ElPower $elPower)
-    {
-        $this->elPower->removeElement($elPower);
-    }
-
-    /**
      * Get elPower
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return string 
      */
     public function getElPower()
     {
         return $this->elPower;
+    }
+
+    /**
+     * Add elPowers
+     *
+     * @param \MainBundle\Entity\ElPower $elPowers
+     * @return Equipment
+     */
+    public function addElPower(\MainBundle\Entity\ElPower $elPowers)
+    {
+        $elPowers->setEquipment($this);
+        $this->elPowers[] = $elPowers;
+
+        return $this;
+    }
+
+    /**
+     * Remove elPowers
+     *
+     * @param \MainBundle\Entity\ElPower $elPowers
+     */
+    public function removeElPower(\MainBundle\Entity\ElPower $elPowers)
+    {
+        $this->elPowers->removeElement($elPowers);
+    }
+
+    /**
+     * Get elPowers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getElPowers()
+    {
+        return $this->elPowers;
     }
 }
