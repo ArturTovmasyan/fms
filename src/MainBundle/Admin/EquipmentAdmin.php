@@ -169,7 +169,7 @@ class EquipmentAdmin extends Admin
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('code')
             ->add('eqState', 'sonata_type_model', ['label'=>'equipment_state', 'btn_add'=>'Ավելացնել վիճակ', 'required'=>false])
-            ->add('workshop', 'sonata_type_model', ['required'=>false, 'label'=>'equipment_workshop'])
+            ->add('workshop', 'sonata_type_model', ['required'=>false, 'btn_add'=>'Ավելացնել արտադրամաս', 'label'=>'equipment_workshop'])
             ->add('type', null,  ['label'=>'equipment_type'])
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('description')
