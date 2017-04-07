@@ -229,8 +229,6 @@ class EquipmentAdmin extends Admin
             ->add('id')
             ->add('code')
             ->add('name')
-//            ->add('product')
-//            ->add('mould')
             ->add('spares')
             ->add('length', null, ['label'=>'length'])
             ->add('width', null, ['label'=>'width'])
