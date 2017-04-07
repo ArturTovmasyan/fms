@@ -126,13 +126,6 @@ class Post
     /**
      * @var integer
      *
-     * @ORM\Column(name="chief", type="integer", nullable=true)
-     */
-    private $chief;
-
-    /**
-     * @var integer
-     *
      * @ORM\Column(name="workers", type="integer", nullable=true)
      */
     private $workers;
@@ -348,29 +341,6 @@ class Post
     public function getRequirement()
     {
         return $this->requirement;
-    }
-
-    /**
-     * Set chief
-     *
-     * @param integer $chief
-     * @return Post
-     */
-    public function setChief($chief)
-    {
-        $this->chief = $chief;
-
-        return $this;
-    }
-
-    /**
-     * Get chief
-     *
-     * @return integer
-     */
-    public function getChief()
-    {
-        return $this->chief;
     }
 
     /**
