@@ -14,37 +14,44 @@ trait Equipment
         // add products
         $products = $object->getProduct();
 
-        foreach($products as $product)
-        {
-            $productEquipment = $product->getEquipment();
-
-            if(!$productEquipment->contains($object))
+        if($products) {
+            foreach($products as $product)
             {
-                $product->addEquipment($object);
+                $productEquipment = $product->getEquipment();
+
+                if(!$productEquipment->contains($object))
+                {
+                    $product->addEquipment($object);
+                }
             }
         }
+
 
         // add remove defects
         $removeDefects = $object->getRemoveDefects();
 
-        foreach($removeDefects as $removeDefect)
-        {
+        if($removeDefects) {
+            foreach($removeDefects as $removeDefect)
+            {
 
-            if(!$removeDefects->contains($object)) {
+                if(!$removeDefects->contains($object)) {
 
-                $removeDefect->setEquipment($object);
+                    $removeDefect->setEquipment($object);
+                }
             }
         }
 
         //get el powers
         $elPowers = $object->getElPowers();
 
-        foreach($elPowers as $elPower)
-        {
+        if($elPowers) {
+            foreach($elPowers as $elPower)
+            {
 
-            if(!$elPowers->contains($object)) {
+                if(!$elPowers->contains($object)) {
 
-                $elPower->setEquipment($object);
+                    $elPower->setEquipment($object);
+                }
             }
         }
 
@@ -52,26 +59,32 @@ trait Equipment
         // add spares
         $spares = $object->getSpares();
 
-        foreach($spares as $spare)
-        {
-            if(!$spares->contains($object)){
+        if($spares) {
+            foreach($spares as $spare)
+            {
+                if(!$spares->contains($object)){
 
-                $spare->setEquipment($object);
+                    $spare->setEquipment($object);
+                }
             }
         }
+
 
         // add moulds
         $moulds = $object->getMould();
 
-        foreach($moulds as $mould)
-        {
-            $mouldEquipment = $mould->getEquipment();
+        if($moulds) {
+            foreach($moulds as $mould)
+            {
+                $mouldEquipment = $mould->getEquipment();
 
-            if(!$mouldEquipment->contains($object)){
+                if(!$mouldEquipment->contains($object)){
 
-                $mould->addEquipment($object);
+                    $mould->addEquipment($object);
+                }
             }
         }
+
     }
 
     public function removeRelations($object)
@@ -82,9 +95,11 @@ trait Equipment
         //get removed products in Equipment
         $removed = $products->getDeleteDiff();
 
-        foreach($removed as $remove)
-        {
-            $remove->removeEquipment($object);
+        if($removed) {
+            foreach($removed as $remove)
+            {
+                $remove->removeEquipment($object);
+            }
         }
 
         //remove spares
