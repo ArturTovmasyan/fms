@@ -19,16 +19,14 @@ class ToolsCategoryAdmin extends Admin
     {
         $showMapper
             ->add('id')
-            ->add('name')
-        ;
+            ->add('name');
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name')
-        ;
+            ->add('name');
     }
 
     // Fields to be shown on filter forms
@@ -36,8 +34,7 @@ class ToolsCategoryAdmin extends Admin
     {
         $datagridMapper
             ->add('id')
-            ->add('name')
-        ;
+            ->add('name');
     }
 
     // Fields to be shown on lists

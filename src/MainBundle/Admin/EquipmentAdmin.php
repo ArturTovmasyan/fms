@@ -19,6 +19,7 @@ class EquipmentAdmin extends Admin
     use Equipment;
 
     const imageClassName = 'EquipmentImage';
+    public $showIds;
 
     /**
      * override list query
@@ -102,8 +103,10 @@ class EquipmentAdmin extends Admin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
+        $this->generateShowId();
+
         $showMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Show:equipment_id_show.html.twig'])
             ->add('name')
             ->add('code')
             ->add('workshop', null, array('label'=>'equipment_workshop'))
@@ -239,6 +242,7 @@ class EquipmentAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $showFields = null;
+        $this->generateShowId();
 
         //get cookies data
         $cookies = $this->getRequest()->cookies;
@@ -254,6 +258,8 @@ class EquipmentAdmin extends Admin
             {
                 if($field == 'getEquipmentImages') {
                     $listMapper->add($field, null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'] );
+                }elseif($field == 'id') {
+                    $listMapper->add($field, null, ['label' => 'Id', 'template'=>'MainBundle:Admin/List:equipment_id_list.html.twig']);
                 }elseif($field == 'purchaseDate'){
                     $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'purchase_date'));
                 }elseif($field == 'inspectionNextDate'){
@@ -262,20 +268,18 @@ class EquipmentAdmin extends Admin
                     $listMapper->add($field, null, ['label'=>'responsible_person']);
                 }elseif($field == 'removeDefects'){
                     $listMapper->add($field, 'date', array('label' => 'remove_defects', 'template' => 'MainBundle:Admin/List:remove_defects_list.html.twig'));
-                }
-                elseif($field == 'created'){
+                }elseif($field == 'created'){
                     $listMapper->add($field, 'date', array('widget' => 'single_text'));
-                }
-                elseif($field == 'length'){
+                }elseif($field == 'length'){
                     $listMapper->add('getOverSize', null, ['label'=>'over_size']);
-                }
-                else{
+                }else{
                     $listMapper->add($field);
                 }
+
             }
         } else{
             $listMapper
-                ->add('id', null, ['label'=>'id'])
+                ->add('id', null, ['template'=>'MainBundle:Admin/List:equipment_id_list.html.twig'])
                 ->add('name', null, ['label'=>'name'])
                 ->add('code', null, ['label'=>'code'])
                 ->add('workshop', null, array('label'=>'equipment_workshop'))
@@ -343,5 +347,24 @@ class EquipmentAdmin extends Admin
         $images = $this->getImages($imageClassName);
         $this->addImages($object, $images);
         $this->setRelations($object);
+    }
+
+    /**
+     * This function is used to generate show id in equipment
+     */
+    public function generateShowId()
+    {
+        //get row number for show id
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+        $connection = $em->getConnection();
+        $sql = "SELECT eq.id, @ROW := @ROW + 1 AS row  FROM equipment as eq 
+                JOIN (SELECT @ROW := 0) as r 
+                ORDER BY eq.id
+                ";
+
+        $query = $connection->prepare($sql);
+        $query->execute();
+        $results = $query->fetchAll();
+        $this->showIds = $results;
     }
 }
