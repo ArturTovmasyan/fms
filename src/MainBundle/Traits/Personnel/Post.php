@@ -160,4 +160,39 @@ trait Post
 
         return $data;
     }
+
+    /**
+     * @param $object
+     */
+    public function setRelation($object)
+    {
+        //get el powers
+        $workers = $object->getWorkers();
+
+        if($workers) {
+
+            foreach($workers as $worker)
+            {
+                $worker->setSubordination($object);
+            }
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    public function removeRelations($object)
+    {
+        //get products
+        $workers= $object->getWorkers();
+
+        //get removed products in Equipment
+        $removed = $workers->getDeleteDiff();
+
+        if ($removed) {
+            foreach ($removed as $remove) {
+                $remove->setSubordination(null);
+            }
+        }
+    }
 }

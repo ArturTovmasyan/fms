@@ -78,6 +78,10 @@
                                 <th><input type="checkbox" class="check" name="elPowers" value="elPowers" {% if showFields.elPowers is defined %}checked{% endif %}></th>
                             </tr>
                             <tr>
+                                <th>{{ 'equipment_state'|trans }}</th>
+                                <th><input type="checkbox" class="check" name="eqState" value="eqState" {% if showFields.eqState is defined %}checked{% endif %}></th>
+                            </tr>
+                            <tr>
                                 <th>{{ 'repair_job'|trans }}</th>
                                 <th><input type="checkbox" class="check" name="repairJob" value="repairJob" {% if showFields.repairJob is defined %}checked{% endif %}></th>
                             </tr>

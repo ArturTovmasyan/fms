@@ -124,11 +124,15 @@ class Post
     private $requirement;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="workers", type="integer", nullable=true)
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="subordination", cascade={"persist", "remove"})
      */
     private $workers;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Post", inversedBy="workers")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+     */
+    private $subordination;
 
     /**
      * @var string
@@ -341,29 +345,6 @@ class Post
     public function getRequirement()
     {
         return $this->requirement;
-    }
-
-    /**
-     * Set workers
-     *
-     * @param integer $workers
-     * @return Post
-     */
-    public function setWorkers($workers)
-    {
-        $this->workers = $workers;
-
-        return $this;
-    }
-
-    /**
-     * Get workers
-     *
-     * @return integer
-     */
-    public function getWorkers()
-    {
-        return $this->workers;
     }
 
     /**
@@ -897,5 +878,61 @@ class Post
     public function getHistory()
     {
         return $this->history;
+    }
+
+    /**
+     * Add workers
+     *
+     * @param \MainBundle\Entity\Post $workers
+     * @return Post
+     */
+    public function addWorker(\MainBundle\Entity\Post $workers)
+    {
+        $this->workers[] = $workers;
+
+        return $this;
+    }
+
+    /**
+     * Remove workers
+     *
+     * @param \MainBundle\Entity\Post $workers
+     */
+    public function removeWorker(\MainBundle\Entity\Post $workers)
+    {
+        $this->workers->removeElement($workers);
+    }
+
+    /**
+     * Get workers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWorkers()
+    {
+        return $this->workers;
+    }
+
+    /**
+     * Set subordination
+     *
+     * @param \MainBundle\Entity\Post $subordination
+     * @return Post
+     */
+    public function setSubordination(\MainBundle\Entity\Post $subordination = null)
+    {
+        $this->subordination = $subordination;
+
+        return $this;
+    }
+
+    /**
+     * Get subordination
+     *
+     * @return \MainBundle\Entity\Post 
+     */
+    public function getSubordination()
+    {
+        return $this->subordination;
     }
 }

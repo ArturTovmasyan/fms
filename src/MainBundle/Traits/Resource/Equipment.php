@@ -8,6 +8,90 @@ namespace MainBundle\Traits\Resource;
  */
 trait Equipment
 {
+    /**
+     * Add some fields from mapped entities; the simplest way;
+     * @return array
+     */
+    public function getExportFields()
+    {
+        //set default null value
+        $showFields = null;
+        $showFields = null;
+
+        //get cookies data
+        $cookies = $this->getRequest()->cookies;
+
+        if ($cookies->has('EQUIPMENT_FILTERS')) {
+            $showFields = unserialize($cookies->get('EQUIPMENT_FILTERS'));
+        }
+
+        if($showFields) {
+
+            if(array_key_exists('workshop', $showFields)) {
+                $showFields['workshop'] = 'getWorkshopString';
+            }
+            if(array_key_exists('product', $showFields)) {
+                $showFields['product'] = 'getProductsString';
+            }
+            if(array_key_exists('mould', $showFields)) {
+                $showFields['mould'] = 'getMouldsString';
+            }
+            if(array_key_exists('deployment', $showFields)) {
+                $showFields['deployment'] = 'getDeploymentString';
+            }
+            if(array_key_exists('type', $showFields)) {
+                $showFields['type'] = 'getTypeString';
+            }
+            if(array_key_exists('responsiblePersons', $showFields)) {
+                $showFields['responsiblePersons'] = 'getPersonString';
+            }
+            if(array_key_exists('eqState', $showFields)) {
+                $showFields['eqState'] = 'getStateString';
+            }
+            if(array_key_exists('image', $showFields)) {
+                $showFields['image'] = 'getFilesString';
+            }
+            if(array_key_exists('length', $showFields)) {
+                $showFields['length'] = 'getOverSize';
+            }
+            if(array_key_exists('removeDefects', $showFields)) {
+                $showFields['removeDefects'] = 'getDefectsString';
+            }
+            if(array_key_exists('elPowers', $showFields)) {
+                $showFields['elPowers'] = 'getElPowerString';
+            }
+
+            $fieldsArray = $showFields;
+
+        }else{
+
+            $fieldsArray = $this->getModelManager()->getExportFields($this->getClass());
+
+            //add custom get string functions for relations
+            $fieldsArray[] = 'getOverSize';
+            $fieldsArray[] = 'getProductsString';
+            $fieldsArray[] = 'getMouldsString';
+            $fieldsArray[] = 'getWorkshopString';
+            $fieldsArray[] = 'getStateString';
+            $fieldsArray[] = 'getDeploymentString';
+            $fieldsArray[] = 'getTypeString';
+            $fieldsArray[] = 'getPersonString';
+            $fieldsArray[] = 'getFilesString';
+        }
+
+        return $fieldsArray;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExportFormats()
+    {
+        return array(
+            'csv', 'xls'
+        );
+    }
+
     //set relations for Equipment
     public function setRelations($object)
     {

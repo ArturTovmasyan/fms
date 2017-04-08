@@ -25,10 +25,12 @@ class PostAdmin extends AbstractAdmin
         $query = parent::createQuery($context);
 
         // add selected
-        $query->addSelect('d, ins, p, cg, cd');
+        $query->addSelect('d, ins, p, h, w, cg, cd');
         $query->leftJoin($query->getRootAlias() . '.division', 'd');
         $query->leftJoin($query->getRootAlias() . '.instructions', 'ins');
         $query->leftJoin($query->getRootAlias() . '.personnel', 'p');
+        $query->leftJoin($query->getRootAlias() . '.history', 'h');
+        $query->leftJoin($query->getRootAlias() . '.workers', 'w');
         $query->leftJoin($query->getRootAlias() . '.changing', 'cg');
         $query->leftJoin($query->getRootAlias() . '.changed', 'cd');
 
@@ -86,7 +88,6 @@ class PostAdmin extends AbstractAdmin
             ->add('language', null, ['label'=>'language', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('compKnowledge', null, ['label'=>'comp_knowledge', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('requirement', null, ['template' => 'MainBundle:Admin/List:post_array_list.html.twig', 'label'=>'post_req'])
-//            ->add('chief', null, ['label'=>'chief'])
             ->add('workers', null, ['label'=>'workers'])
             ->add('functions', null, ['label'=>'functions'])
             ->add('powers', null, ['label'=>'powers'])
@@ -118,7 +119,6 @@ class PostAdmin extends AbstractAdmin
         $id = $subject ? $subject->getId() : null;
 
         $personnelId = $subject->getPersonnel() ? $subject->getPersonnel()->getId() : null;
-
 
         //generate array fields data
         $langArrayData = $this->generateLanguageArray($subject);
@@ -170,7 +170,6 @@ class PostAdmin extends AbstractAdmin
             ->add('profession', null, ['label'=>'profession'])
             ->add('age', null, ['label'=>'age'])
             ->add('experience', null, ['label'=>'experience'])
-//            ->add('chief', null, ['label'=>'chief'])
             ->end()
             ->end()
             ->tab('job_info')
@@ -212,7 +211,6 @@ class PostAdmin extends AbstractAdmin
             ->add('experience', null, ['label'=>'experience'])
             ->add('compKnowledge', null, ['label'=>'comp_knowledge', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
             ->add('requirement', null, ['label'=>'requirement', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig', 'label'=>'post_req'])
-//            ->add('chief', null, ['label'=>'chief'])
             ->end()
             ->end()
             ->tab('job_info')
@@ -259,6 +257,9 @@ class PostAdmin extends AbstractAdmin
         $this->checkAndSetLanguages($object);
         $this->checkAndSetCompEducation($object);
         $this->checkAndSetRequirement($object);
+
+        $this->removeRelations($object);
+        $this->setRelation($object);
     }
 }
 

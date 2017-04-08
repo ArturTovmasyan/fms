@@ -33,7 +33,7 @@ class ElPower
     /**
      * @var string
      *
-     * @ORM\Column(name="text", type="string", length=50, nullable=true)
+     * @ORM\Column(name="text", type="string", length=50)
      */
     private $text;
 

@@ -20,8 +20,8 @@ class EquipmentElPowerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('value', TextType::class, ['label'=>'el_power_value', 'required'=>true])
-            ->add('text', TextType::class, ['label'=>false, 'required'=>false]);
+            ->add('value', TextType::class, ['label'=>'el_power_value'])
+            ->add('text', TextType::class, ['label'=>false]);
     }
 
     /**
@@ -31,7 +31,9 @@ class EquipmentElPowerType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'MainBundle\Entity\ElPower',
-            'error_mapping'=>true
+            'error_mapping'=>true,
+            'error_bubbling'=>true,
+            'cascade_validation'=>true
         ));
     }
 

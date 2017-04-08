@@ -59,6 +59,10 @@ RubberCategory: Ռետ.-տեխ.հումքի կատեգ.
 IlliquidMaterials: Ոչ լիկվիդային հումք
 HouseholdMaterials: Տնտեսական հումք
 SalariesType: Գործավարձի տեսակը
+Type: Սարք. տիպը
+El Powers: Էլ. հզ.
+Eq State: Վիճակը
+removeDefects: Վերացման ենթ. թեր.
 Category: Կատեգորիան
 rubber_materials: Ռետ.-տեխ հումք
 raw_materials: Հումքեր
@@ -199,6 +203,8 @@ Get Deployment String: Սարք.-ն Տեղ.
 Get Type String: Սարք. տիպը
 Get Person String: Պատասխ. անձինք
 Get Files String: Ֆայլերի քանակը
+Get El Power String:  Էլ. հզ.
+Get Defects String: Վերացման ենթ. թեր.
 
 file:
     max_extension: The minimum file size is 400x400 px

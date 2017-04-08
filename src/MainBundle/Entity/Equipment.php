@@ -967,6 +967,42 @@ class Equipment
         return $mouldNames;
     }
 
+
+    /**
+     * This function is used to get equipment defects string for export
+     */
+    public function getDefectsString()
+    {
+        $defects = $this->removeDefects;
+
+        $defectsString = '';
+
+        if(count($defects) > 0) {
+            foreach ($defects as $defect) {
+                $defectsString.= substr($defect->getDescription(), 0, 50)."\n";
+            }
+        }
+
+        return $defectsString;
+    }
+
+    /**
+     * This function is used to get el power string for export
+     */
+    public function getElPowerString()
+    {
+        $elPowers = $this->elPowers;
+        $elPowersString = '';
+
+        if(count($elPowers) > 0) {
+            foreach ($elPowers as $elPower) {
+                $elPowersString .= $elPower->getText().'  -  '.$elPower->getValue()."\n";
+            }
+        }
+
+        return $elPowersString;
+    }
+
     /**
      * @return string
      */

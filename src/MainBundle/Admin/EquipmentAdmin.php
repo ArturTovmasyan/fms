@@ -75,28 +75,6 @@ class EquipmentAdmin extends Admin
     }
 
     /**
-     * Add some fields from mapped entities; the simplest way;
-     * @return array
-     */
-    public function getExportFields() {
-
-        $fieldsArray = $this->getModelManager()->getExportFields($this->getClass());
-
-        //add custom get string functions for relations
-        $fieldsArray[] = 'getOverSize';
-        $fieldsArray[] = 'getProductsString';
-        $fieldsArray[] = 'getMouldsString';
-        $fieldsArray[] = 'getWorkshopString';
-        $fieldsArray[] = 'getStateString';
-        $fieldsArray[] = 'getDeploymentString';
-        $fieldsArray[] = 'getTypeString';
-        $fieldsArray[] = 'getPersonString';
-        $fieldsArray[] = 'getFilesString';
-
-        return $fieldsArray;
-    }
-
-    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
@@ -179,7 +157,7 @@ class EquipmentAdmin extends Admin
             ->end()
             ->end()
             ->with('remove_defects')
-            ->add('removeDefects', 'collection', ['label'=>'remove_defects', 'type' => new EquipmentDefectType(),'required'=>false,
+            ->add('removeDefects', 'collection', ['label'=>'remove_defects', 'type' => new EquipmentDefectType(),
                 'allow_add'=>true, 'allow_delete'=>true])
             ->end()
             ->with('over_size')
@@ -215,7 +193,7 @@ class EquipmentAdmin extends Admin
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
             ->end()
             ->with('el_power')
-            ->add('elPowers', 'collection', ['label'=>false, 'type' => new EquipmentElPowerType(),'required'=>false,
+            ->add('elPowers', 'collection', ['label'=>false, 'type' => new EquipmentElPowerType(),
                 'allow_add'=>true, 'allow_delete'=>true])
             ->end()
             ->add('imageIds', 'hidden', ['mapped'=>false])
@@ -226,13 +204,12 @@ class EquipmentAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('code')
             ->add('name')
             ->add('spares')
-            ->add('length', null, ['label'=>'length'])
-            ->add('width', null, ['label'=>'width'])
-            ->add('height', null, ['label'=>'height'])
+            ->add('type', null,  ['label'=>'equipment_type'])
+            ->add('deployment', null, ['label' => 'Deployment'])
+            ->add('workshop', null, ['label' => 'equipment_workshop'])
         ;
     }
 
