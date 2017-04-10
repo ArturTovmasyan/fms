@@ -11,6 +11,7 @@ composer.lock
 /web/uploads/
 /web/node_modules/
 .idea/
+/web/media/
 /web/images/*
 /app/phpunit.xml
 /composer.phar
