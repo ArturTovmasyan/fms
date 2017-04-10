@@ -10,8 +10,3 @@ services:
             tags:
                   - { name: twig.extension }
 
-     app.image_filter.twig_extension:
-            class: MainBundle\Twig\Extension\ImageFilterExtension
-            arguments: [ '@service_container' ]
-            tags:
-                  - { name: twig.extension }
