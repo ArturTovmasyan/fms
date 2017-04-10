@@ -9,7 +9,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "symfony/symfony": "2.8.*",
+        "symfony/symfony": "2.8.18",
         "doctrine/orm": "~2.2,>=2.2.3,<2.5",
         "doctrine/dbal": "<2.5",
         "doctrine/doctrine-bundle": "~1.4",
@@ -27,7 +27,8 @@
         "sonata-project/doctrine-orm-admin-bundle": "3.1.*",
         "sonata-project/user-bundle": "3.0.*",
         "sonata-project/easy-extends-bundle" :"2.1.*",
-        "sonata-project/intl-bundle": "2.2.x"
+        "sonata-project/intl-bundle": "2.2.x",
+        "liip/imagine-bundle" : "1.5.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
