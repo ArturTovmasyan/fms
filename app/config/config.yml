@@ -176,5 +176,5 @@ liip_imagine:
         list_images:
             quality: 100
             filters:
-                thumbnail: { size: [370, 230] }
+                thumbnail: { size: [150, 100] }
 
