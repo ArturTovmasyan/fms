@@ -15,7 +15,7 @@ class ChaneElPowerCommand extends ContainerAwareCommand
     {
         $this
             ->setName('fms:change:el-power')
-            ->setDescription('Change equipment state');
+            ->setDescription('Change el power values');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -29,21 +29,51 @@ class ChaneElPowerCommand extends ContainerAwareCommand
 
         $progress->start();
 
-        if($elPowers)
-        {
+        if($elPowers) {
+
+            foreach ($elPowers as $power) {
+                $value = $power->getValue();
+                $value = str_replace(",", ".", $value);
+
+                $text = $power->getText();
+                $power->setValue($value);
+
+                if ($text) {
+                    $text = str_replace(",", ".", $text);
+                    $power->setText($text);
+                }
+
+                $em->persist($power);
+            }
+
+            $em->flush();
+        }
+
+        $elPowers = $em->getRepository('MainBundle:ElPower')->findAll();
+
+        if($elPowers) {
+
             foreach($elPowers as $power)
             {
                 $value = $power->getValue();
+                $text = $power->getText();
 
-                if(!$value) {
-                    $em->remove($power);
+                if($text) {
+                    $sum = $value + $text;
+                }else{
+                    $sum = $value;
                 }
+
+                $power->setValue($sum);
+                $power->setText(null);
+                $em->persist($power);
             }
+
+            $em->flush();
 
             $output->writeln("<info>Success.Equipment elPower has been changed</info>");
         }
 
-        $em->flush();
         $progress->finish();
     }
 }

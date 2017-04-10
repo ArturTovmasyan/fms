@@ -986,22 +986,6 @@ class Equipment
         return $defectsString;
     }
 
-    /**
-     * This function is used to get el power string for export
-     */
-    public function getElPowerString()
-    {
-        $elPowers = $this->elPowers;
-        $elPowersString = '';
-
-        if(count($elPowers) > 0) {
-            foreach ($elPowers as $elPower) {
-                $elPowersString .= $elPower->getText().'  -  '.$elPower->getValue()."\n";
-            }
-        }
-
-        return $elPowersString;
-    }
 
     /**
      * @return string
@@ -1167,5 +1151,23 @@ class Equipment
     public function getElPowers()
     {
         return $this->elPowers;
+    }
+
+    /**
+     * @return int
+     */
+    public function getElPowerSum()
+    {
+        $sum = 0;
+        $elPowers = $this->getElPowers();
+
+        if(count($elPowers) > 0) {
+            foreach ($elPowers as $elPower)
+            {
+                $sum += (float)$elPower->getValue();
+            }
+        }
+
+        return $sum;
     }
 }

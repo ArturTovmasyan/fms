@@ -25,7 +25,7 @@ class ElPower
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="string", length=50)
+     * @ORM\Column(name="value", type="string", length=10)
      * @Assert\Regex("/[0-9]/")
      */
     private $value;
@@ -33,7 +33,7 @@ class ElPower
     /**
      * @var string
      *
-     * @ORM\Column(name="text", type="string", length=50)
+     * @ORM\Column(name="text", type="string", length=50, nullable=true)
      */
     private $text;
 

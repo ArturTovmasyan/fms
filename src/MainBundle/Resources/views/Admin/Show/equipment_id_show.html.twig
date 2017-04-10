@@ -1,9 +1,0 @@
-{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
-
-{% block field %}
-    {% for data in admin.showIds %}
-        {% if data.id == object.id %}
-            {{ data.row }}
-        {% endif %}
-    {% endfor %}
-{% endblock %}

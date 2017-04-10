@@ -64,7 +64,6 @@ class ProductAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id', null, array('label' => 'code'))
             ->add('name')
 //            ->add('getSumRawExpense', null, array('label' => 'raw_expense'))
 //            ->add('getSumRouteCard', null, array('label' => 'route_card'))
@@ -177,7 +176,6 @@ class ProductAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id', null, array('label' => 'code'))
             ->add('name', null, ['show_filter' => true])
             ->add('gost')
         ;
@@ -187,7 +185,7 @@ class ProductAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id', null, array('label' => 'code'))
+            ->add('id', null, ['label'=>'code', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
 //            ->addIdentifier('getSumRawExpense', null, array('label' => 'raw_expense'))
 //            ->addIdentifier('getSumRouteCard', null, array('label' => 'route_card'))

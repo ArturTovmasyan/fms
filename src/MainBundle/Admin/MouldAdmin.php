@@ -121,7 +121,6 @@ class MouldAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id', null, array('label' => 'code'))
             ->add('placeWarehouse')
             ->add('mouldType', null, array('label' => 'mould_type'))
             ->add('purposeList', null, array('label' => 'Purpose'))
@@ -133,7 +132,7 @@ class MouldAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['label'=>'code', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('code')
             ->add('product')
             ->add('mouldType', null, array('label' => 'mould_type'))

@@ -62,7 +62,6 @@ class PostAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
             ->add('code')
             ->add('postStatus', null, ['label'=>'post_status'])
@@ -75,7 +74,7 @@ class PostAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('code')
             ->add('personnel', null, ['label'=>'personnel'])
@@ -198,7 +197,6 @@ class PostAdmin extends AbstractAdmin
     {
         $showMapper
             ->tab('global_info')
-            ->add('id')
             ->add('name')
             ->add('code')
             ->add('division', null, ['label'=>'division_chief'])

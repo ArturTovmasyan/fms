@@ -19,7 +19,6 @@ class EquipmentAdmin extends Admin
     use Equipment;
 
     const imageClassName = 'EquipmentImage';
-    public $showIds;
 
     /**
      * override list query
@@ -81,10 +80,7 @@ class EquipmentAdmin extends Admin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
-        $this->generateShowId();
-
         $showMapper
-            ->add('id', null, ['template'=>'MainBundle:Admin/Show:equipment_id_show.html.twig'])
             ->add('name')
             ->add('code')
             ->add('workshop', null, array('label'=>'equipment_workshop'))
@@ -217,11 +213,12 @@ class EquipmentAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $showFields = null;
-        $this->generateShowId();
+        $request = $this->getRequest();
 
         //get cookies data
-        $cookies = $this->getRequest()->cookies;
+        $cookies = $request->cookies;
 
+        //check if cookies exist
         if ($cookies->has('EQUIPMENT_FILTERS')) {
             $showFields = unserialize($cookies->get('EQUIPMENT_FILTERS'));
         }
@@ -234,9 +231,11 @@ class EquipmentAdmin extends Admin
                 if($field == 'getEquipmentImages') {
                     $listMapper->add($field, null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'] );
                 }elseif($field == 'id') {
-                    $listMapper->add($field, null, ['label' => 'Id', 'template'=>'MainBundle:Admin/List:equipment_id_list.html.twig']);
-                }elseif($field == 'purchaseDate'){
-                    $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'purchase_date'));
+                    $listMapper->add($field, null, ['label' => 'Id', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig']);
+                }elseif($field == 'purchaseDate') {
+                    $listMapper->add($field, 'date', array('widget' => 'single_text', 'label' => 'purchase_date'));
+                }elseif($field == 'elPowers'){
+                    $listMapper->add('getElPowerSum', null, array('label'=>'el_power'));
                 }elseif($field == 'inspectionNextDate'){
                     $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'));
                 }elseif($field == 'responsiblePersons'){
@@ -254,7 +253,7 @@ class EquipmentAdmin extends Admin
             }
         } else{
             $listMapper
-                ->add('id', null, ['template'=>'MainBundle:Admin/List:equipment_id_list.html.twig'])
+                ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
                 ->add('name', null, ['label'=>'name'])
                 ->add('code', null, ['label'=>'code'])
                 ->add('workshop', null, array('label'=>'equipment_workshop'))
@@ -268,7 +267,7 @@ class EquipmentAdmin extends Admin
                 ->add('spares', null, ['label'=>'code'])
                 ->add('responsiblePersons', null, ['label'=>'responsible_person'])
                 ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
-                ->add('elPowers', null, ['label'=>'el_power'])
+                ->add('getElPowerSum', null, ['label'=>'el_power'])
                 ->add('repairJob', null, ['label' => 'repair_job'])
                 ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
                 ->add('getOverSize', null, ['label'=>'over_size'])
@@ -324,22 +323,4 @@ class EquipmentAdmin extends Admin
         $this->setRelations($object);
     }
 
-    /**
-     * This function is used to generate show id in equipment
-     */
-    public function generateShowId()
-    {
-        //get row number for show id
-        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
-        $connection = $em->getConnection();
-        $sql = "SELECT eq.id, @ROW := @ROW + 1 AS row  FROM equipment as eq 
-                JOIN (SELECT @ROW := 0) as r 
-                ORDER BY eq.id
-                ";
-
-        $query = $connection->prepare($sql);
-        $query->execute();
-        $results = $query->fetchAll();
-        $this->showIds = $results;
-    }
 }

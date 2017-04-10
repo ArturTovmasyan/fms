@@ -5,7 +5,7 @@
     {% if value  %}
         {% set data = value.first ? value.first : '' %}
         {% if data %}
-            {% set url = '/admin/main/removedefects/'~data.id~'/edit' %}
+            {% set url = '/admin/remove_defects/'~data.id~'/edit' %}
             <ul>
                 <li>
                     <a href="{{ url }}" target="_blank">

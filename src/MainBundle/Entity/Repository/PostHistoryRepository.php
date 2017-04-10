@@ -3,7 +3,6 @@
 namespace MainBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query;
 
 /**
  * Class PostHistoryRepository
@@ -45,7 +44,6 @@ class PostHistoryRepository extends EntityRepository
                             WHERE pt.id = :postId
                            ")
             ->setParameter('postId', $postId)
-            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getResult();
     }
 }

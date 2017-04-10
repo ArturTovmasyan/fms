@@ -15,6 +15,8 @@ class SparePartAdmin extends Admin
 
     const imageClassName = 'SparePartImages';
 
+    protected $baseRoutePattern = 'spare_part';
+
     /**
      * override list query
      *
@@ -127,6 +129,7 @@ class SparePartAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('vendors')
             ->add('equipment', null, array('label' => 'equipment'))

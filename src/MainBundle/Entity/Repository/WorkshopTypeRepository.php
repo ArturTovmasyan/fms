@@ -24,5 +24,6 @@ class WorkshopTypeRepository extends EntityRepository
                            ")
             ->setParameter('workshopId', $workshopId)
             ->getResult();
+//        ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
     }
 }

@@ -11,14 +11,14 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PostHistoryAdmin extends AbstractAdmin
 {
+    protected $baseRoutePattern = 'post_history';
+
     /**
      * @param string $context
      * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface
      */
     public function createQuery($context = 'list')
     {
-//        //get postId in request
-//        $postId = $this->getRequest()->query->get('postId');
         // call parent query
         $query = parent::createQuery($context);
 
@@ -26,11 +26,6 @@ class PostHistoryAdmin extends AbstractAdmin
         $query->addSelect('pt, ps');
         $query->leftJoin($query->getRootAlias() . '.post', 'pt');
         $query->leftJoin($query->getRootAlias() . '.personnel', 'ps');
-
-//        if($postId) {
-//            $query->where('pt.id = :postId')
-//                ->setParameter('postId', $postId);
-//        }
 
         return $query;
     }
@@ -41,7 +36,6 @@ class PostHistoryAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('post', null, ['show_filter'=>true, 'label'=>'post'])
             ->add('personnel', null, ['show_filter'=>true, 'label'=>'personnel'])
             ->add('fromDate', null, ['label'=>'from_date'])
@@ -55,7 +49,7 @@ class PostHistoryAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('post', null, ['label'=>'post'])
             ->add('personnel', null, ['label'=>'personnel'])
             ->add('fromDate', null, ['label'=>'from_date'])
@@ -88,7 +82,6 @@ class PostHistoryAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('post', null, ['label'=>'post'])
             ->add('personnel', null, ['label'=>'personnel'])
             ->add('fromDate')

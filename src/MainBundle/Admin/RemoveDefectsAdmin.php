@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class RemoveDefectsAdmin extends AbstractAdmin
 {
+    protected $baseRoutePattern = 'remove_defects';
 
     //hide remove and edit buttons
     protected function configureRoutes(RouteCollection $collection)
@@ -24,7 +25,6 @@ class RemoveDefectsAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('description')
             ->add('equipment')
         ;
@@ -36,7 +36,7 @@ class RemoveDefectsAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('description')
             ->add('equipment')
             ->add('_action', null, array(

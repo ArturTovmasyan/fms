@@ -11,6 +11,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ElPowerAdmin extends AbstractAdmin
 {
+    protected $baseRoutePattern = 'el_power';
+
     //hide remove and edit buttons
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -23,7 +25,6 @@ class ElPowerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('value', null, ['label'=>'el_power_value'])
             ->add('text', null, ['label'=>'description'])
         ;
@@ -35,7 +36,7 @@ class ElPowerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('value', null, ['label'=>'el_power_value'])
             ->add('text', null, ['label'=>'description'])
             ->add('equipment')
@@ -66,7 +67,6 @@ class ElPowerAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('value', null, ['label'=>'el_power_value'])
             ->add('text', null, ['label'=>'description'])
         ;

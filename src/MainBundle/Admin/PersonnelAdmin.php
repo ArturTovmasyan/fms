@@ -38,7 +38,6 @@ class PersonnelAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
             ->add('birthDate')
             ->add('created')
@@ -52,7 +51,7 @@ class PersonnelAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('getImagePath', null, ['template' => 'MainBundle:Admin/List:personnel_image_list.html.twig', 'label'=>'person_image'])
             ->add('getDiplomaCount', null, ['template' => 'MainBundle:Admin/List:diploma_image_list.html.twig', 'label'=>'diploma'])

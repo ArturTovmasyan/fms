@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EquipmentController extends Controller
+class CRUDController extends Controller
 {
     /**
      * List action.
@@ -24,11 +24,29 @@ class EquipmentController extends Controller
      */
     public function listAction()
     {
+        //get request
         $request = $this->getRequest();
+        $listIds = null;
+
+        //get current route
+        $uri = $request->getUri();
+        $path = parse_url($uri);
+        $path = explode('/',$path['path']);
+
+        if(end($path) == 'list') {
+            $key = count($path) -2;
+            $path = $path[$key];
+
+            //generate custom list ids
+            $listIds = $this->generateListId($path);
+        }
 
         //save cookie
         $response = null;
-        $this->listFilterChangeByCookie($request);
+
+        if($path == 'equipment') {
+            $this->listFilterChangeByCookie($request);
+        }
 
         $this->admin->checkAccess('list');
 
@@ -44,9 +62,11 @@ class EquipmentController extends Controller
         $datagrid = $this->admin->getDatagrid();
         $formView = $datagrid->getForm()->createView();
 
-        // set the theme for the current Admin Form
+        //set the theme for the current Admin Form
         $this->get('twig')->getExtension('form')->renderer->setTheme($formView, $this->admin->getFilterTheme());
 
+        //set listIds data in request
+        $request->request->set('listIds', $listIds);
 
         return $this->render($this->admin->getTemplate('list'), array(
             'action' => 'list',
@@ -161,5 +181,31 @@ class EquipmentController extends Controller
             $response->send();
             $request->cookies->set('EQUIPMENT_FILTERS', $formData);
         }
+    }
+
+    /**
+     * This function is used to generate show id in equipment
+     *
+     * @param $path
+     * @return mixed
+     */
+    public function generateListId($path)
+    {
+        //get entity manager
+        $em = $this->get('doctrine')->getManager();
+        $connection = $em->getConnection();
+
+        //generate sql query
+        $sql = "SELECT eq.id, @ROW := @ROW + 1 AS row FROM ".$path." as eq 
+                JOIN (SELECT @ROW := 0) as r 
+                ORDER BY eq.id
+                ";
+
+        $query = $connection->prepare($sql);
+        $query->execute();
+        $results = $query->fetchAll();
+
+        return $results;
+
     }
 }

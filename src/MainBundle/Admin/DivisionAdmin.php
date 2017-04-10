@@ -33,7 +33,6 @@ class DivisionAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('type', null, ['show_filter'=>true, 'label'=>'division_type'])
             ->add('subordination', null, ['show_filter'=>true, 'label'=>'subordination'])
         ;
@@ -45,7 +44,7 @@ class DivisionAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])
             ->add('post', null, ['label'=>'post'])
@@ -107,7 +106,6 @@ class DivisionAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('name')
             ->add('type', null, ['label'=>'division_type'])
             ->add('subordination', null, ['label'=>'subordination'])

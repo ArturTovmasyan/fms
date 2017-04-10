@@ -20,8 +20,8 @@ class EquipmentElPowerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('value', TextType::class, ['label'=>'el_power_value'])
-            ->add('text', TextType::class, ['label'=>false]);
+            ->add('value', TextType::class, ['label'=>'el_power_value', 'pattern' => '^[0-9.]+$'])
+            ->add('text', TextType::class, ['label'=>false, 'required'=>false]);
     }
 
     /**
@@ -30,10 +30,7 @@ class EquipmentElPowerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'MainBundle\Entity\ElPower',
-            'error_mapping'=>true,
-            'error_bubbling'=>true,
-            'cascade_validation'=>true
+            'data_class' => 'MainBundle\Entity\ElPower'
         ));
     }
 

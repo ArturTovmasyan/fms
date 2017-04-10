@@ -58,7 +58,7 @@ trait Equipment
                 $showFields['removeDefects'] = 'getDefectsString';
             }
             if(array_key_exists('elPowers', $showFields)) {
-                $showFields['elPowers'] = 'getElPowerString';
+                $showFields['elPowers'] = 'getElPowerSum';
             }
 
             $fieldsArray = $showFields;
@@ -77,6 +77,8 @@ trait Equipment
             $fieldsArray[] = 'getTypeString';
             $fieldsArray[] = 'getPersonString';
             $fieldsArray[] = 'getFilesString';
+            $fieldsArray[] = 'getDefectsString';
+            $fieldsArray[] = 'getElPowerSum';
         }
 
         return $fieldsArray;

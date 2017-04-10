@@ -10,13 +10,14 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class DivisionTypeAdmin extends AbstractAdmin
 {
+    protected $baseRoutePattern = 'division_type';
+
     /**
      * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
         ;
     }
@@ -27,7 +28,7 @@ class DivisionTypeAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('_action', null, array(
                 'actions' => array(

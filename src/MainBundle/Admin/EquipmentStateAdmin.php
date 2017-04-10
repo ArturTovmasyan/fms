@@ -10,13 +10,14 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class EquipmentStateAdmin extends AbstractAdmin
 {
+    protected $baseRoutePattern = 'equipment_state';
+
     /**
      * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
         ;
     }
@@ -27,7 +28,7 @@ class EquipmentStateAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('_action', null, array(
                 'actions' => array(
@@ -55,7 +56,6 @@ class EquipmentStateAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('name')
         ;
     }
