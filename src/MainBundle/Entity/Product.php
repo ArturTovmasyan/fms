@@ -72,6 +72,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductWorkshop")
+     * @ORM\JoinColumn(name="product_workshop_id", referencedColumnName="id")
      */
     private $workshop;
 
@@ -105,14 +106,9 @@ class Product
     protected $purposeList;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist", "remove"})
      */
     protected $productRawExpense;
-
-    /**
-     * @ORM\OneToMany(targetEntity="ProductComponent", mappedBy="product", cascade={"persist", "remove"})
-     */
-    protected $productComponent;
 
     //relations
     //private $price;
@@ -346,23 +342,6 @@ class Product
     {
         //set sum expense
         $sumRouteCard = 0;
-
-        $productComponents = $this->getProductComponent();
-
-        foreach($productComponents as $productComponent)
-        {
-            //get product route cards
-            $productRouteCards = $productComponent->getProductRouteCard();
-
-            foreach($productRouteCards as $productRouteCard)
-            {
-                //get product route card price
-                $routeCardPrice = $productRouteCard->getRouteCardPrice();
-
-                //sum routeCardPrice
-                $sumRouteCard += $routeCardPrice;
-            }
-        }
 
         return $sumRouteCard;
     }
@@ -726,36 +705,4 @@ class Product
 //        }
 //    }
 
-    /**
-     * Add productComponent
-     *
-     * @param \MainBundle\Entity\ProductComponent $productComponent
-     * @return Product
-     */
-    public function addProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
-    {
-        $this->productComponent[] = $productComponent;
-
-        return $this;
-    }
-
-    /**
-     * Remove productComponent
-     *
-     * @param \MainBundle\Entity\ProductComponent $productComponent
-     */
-    public function removeProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
-    {
-        $this->productComponent->removeElement($productComponent);
-    }
-
-    /**
-     * Get productComponent
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductComponent()
-    {
-        return $this->productComponent;
-    }
 }

@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * RawMaterials
  *
  * @ORM\Table(name="raw_materials")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\RawMaterialsRepository")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",

@@ -177,10 +177,6 @@
             <argument/>
             <argument>MainBundle\Entity\ProductRawExpense</argument>
             <argument/>
-            <call method="setTemplate">
-                <argument>list</argument>
-                <argument>MainBundle:Admin/List:productRawExpenseList.html.twig</argument>
-            </call>
         </service>
 
         <!--ProfessionCategory-->

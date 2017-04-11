@@ -4,6 +4,7 @@ namespace MainBundle\EventListener;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\PersistentCollection;
+use MainBundle\Entity\Product;
 use MainBundle\Entity\ProductRouteCard;
 use MainBundle\Entity\SalariesType;
 use Symfony\Component\DependencyInjection\Container;
@@ -45,13 +46,13 @@ class UpdateTariffListener
 //        // for update
 //        foreach ($uow->getScheduledEntityUpdates() AS $entity)
 //        {
-//            //if product object
-////            if ($entity instanceof Product) {
-////
-////                $productCards = $entity->getProductRouteCard();
-////
-////                $this->getPrice($productCards, $uow, $em);
-////            }
+////            if product object
+//            if ($entity instanceof Product) {
+//
+//                $productCards = $entity->getProductRouteCard();
+//
+//                $this->getPrice($productCards, $uow, $em);
+//            }
 //
 //            //if product route card object
 //            if ($entity instanceof ProductRouteCard) {
@@ -96,7 +97,7 @@ class UpdateTariffListener
 //                $this->getPrice($productCards, $uow, $em);
 //            }
 //        }
-    }
+//    }
 //
 //    /**
 //     * @param SalariesType $entity
@@ -182,5 +183,5 @@ class UpdateTariffListener
 //            $entity->setOperationCode($routeCardCode);
 //
 //        }
-//    }
+    }
 }
