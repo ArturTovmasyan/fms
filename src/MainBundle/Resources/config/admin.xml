@@ -12,10 +12,6 @@
             <argument>MainBundle\Entity\Product</argument>
             <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
-            <call method="setTemplate">
-                <argument>edit</argument>
-                <argument>MainBundle:Admin:productEdit.html.twig</argument>
-            </call>
         </service>
 
         <!--Mould-->
@@ -330,6 +326,14 @@
             <tag name="sonata.admin" manager_type="orm" group="Resource" label="el_power" show_in_dashboard="true" />
             <argument/>
             <argument>MainBundle\Entity\ElPower</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
+            <argument/>
+        </service>
+
+        <service id="sonata.admin.product_workshop" class="MainBundle\Admin\ProductWorkshopAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="workshop" show_in_dashboard="true" />
+            <argument/>
+            <argument>MainBundle\Entity\ProductWorkshop</argument>
             <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>

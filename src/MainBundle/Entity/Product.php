@@ -30,7 +30,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=50, unique=true)
      * @Assert\NotNull()
      */
     private $name;
@@ -38,14 +38,14 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="description", type="string", length=50, nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gost", type="string", length=255, nullable=true)
+     * @ORM\Column(name="gost", type="string", length=50, nullable=true)
      */
     private $gost;
 
@@ -71,9 +71,7 @@ class Product
     private $countInWarehouse;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="product_workshop", type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="ProductWorkshop")
      */
     private $workshop;
 
@@ -402,35 +400,6 @@ class Product
     }
 
     /**
-     * This function is used to get producing workshop string name
-     *
-     * @return null|string
-     */
-    public function getStringWorkshop()
-    {
-
-        $stringWorkshop = null;
-
-        switch($this->workshop) {
-            case 0:
-                $stringWorkshop = "Ռեզինե";
-                break;
-            case 1:
-                $stringWorkshop = "Մեխանիկական";
-                break;
-            case 2:
-                $stringWorkshop = "Համատեղ";
-                break;
-
-            default:
-                $stringWorkshop= "";
-        }
-
-        return $stringWorkshop;
-    }
-
-
-    /**
      * Set purposeList
      *
      * @param \MainBundle\Entity\PurposeList $purposeList
@@ -681,6 +650,7 @@ class Product
      */
     public function addProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
     {
+        $productRawExpense->setProduct($this);
         $this->productRawExpense[] = $productRawExpense;
 
         return $this;

@@ -73,7 +73,7 @@ class ProductRawExpense
      */
     public function getProductRawPrice()
     {
-        $rawActualCost = $this->getRawMaterials()->getActualCost();
+        $rawActualCost = $this->getRawMaterials() ? $this->getRawMaterials()->getActualCost() : 0;
 
         $rawPrice = $this->count * $rawActualCost;
 

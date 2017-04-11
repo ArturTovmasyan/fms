@@ -1,5 +1,7 @@
 {% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
 
 {%- block field %}
-    {{ object.rawMaterials.getStringSize() }}
+    {% if object.rawMaterials is not empty %}
+            {{ object.rawMaterials.getStringSize() }}
+    {% endif %}
 {% endblock -%}

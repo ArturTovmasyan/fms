@@ -29,12 +29,12 @@ class ProfessionCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="SalariesType", mappedBy="professionCategory", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="SalariesType", mappedBy="professionCategory", cascade={"persist", "remove"})
      */
     protected $salariesType;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="professionCategory", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="professionCategory", cascade={"persist", "remove"})
      */
     protected $productRouteCard;
 
