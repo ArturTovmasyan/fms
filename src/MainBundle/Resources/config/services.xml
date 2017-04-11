@@ -20,10 +20,6 @@
             <tag name="form.type" alias="component_type" />
         </service>
 
-        <service id="fms.listener.resolver" class="MainBundle\Listener\MyEntityListenerResolver">
-            <argument type="service" id="service_container" />
-        </service>
-
         <!-- service doctrine listener -->
         <service id="fms.doctrine.listener" class="MainBundle\Listener\DoctrineListener">
             <argument type="service" id="service_container" />
