@@ -153,7 +153,7 @@ class EquipmentAdmin extends Admin
             ->end()
             ->end()
             ->with('remove_defects')
-            ->add('removeDefects', 'collection', ['label'=>'remove_defects', 'type' => new EquipmentDefectType(),
+            ->add('removeDefects', 'collection', ['required'=>false, 'label'=>'remove_defects', 'type' => new EquipmentDefectType(),
                 'allow_add'=>true, 'allow_delete'=>true])
             ->end()
             ->with('over_size')
@@ -189,7 +189,7 @@ class EquipmentAdmin extends Admin
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
             ->end()
             ->with('el_power')
-            ->add('elPowers', 'collection', ['label'=>false, 'type' => new EquipmentElPowerType(),
+            ->add('elPowers', 'collection', ['required'=>false, 'label'=>false, 'type' => new EquipmentElPowerType(),
                 'allow_add'=>true, 'allow_delete'=>true])
             ->end()
             ->add('imageIds', 'hidden', ['mapped'=>false])

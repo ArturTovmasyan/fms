@@ -119,9 +119,7 @@ trait Equipment
         if($removeDefects) {
             foreach($removeDefects as $removeDefect)
             {
-
-                if(!$removeDefects->contains($object)) {
-
+                if(!$removeDefect->getId()) {
                     $removeDefect->setEquipment($object);
                 }
             }
@@ -131,13 +129,18 @@ trait Equipment
         $elPowers = $object->getElPowers();
 
         if($elPowers) {
+
             foreach($elPowers as $elPower)
             {
 
-                if(!$elPowers->contains($object)) {
-
+                if(!$elPower->getId()) {
                     $elPower->setEquipment($object);
                 }
+
+//                if(!$elPowers->contains($object)) {
+//
+//                    $elPower->setEquipment($object);
+//                }
             }
         }
 

@@ -26,7 +26,7 @@ class ElPower
      * @var string
      *
      * @ORM\Column(name="value", type="string", length=10)
-     * @Assert\Regex("/[0-9]/")
+     * @Assert\Regex(pattern="/[0-9]/", message="This value cannot contain a letter")
      */
     private $value;
 
