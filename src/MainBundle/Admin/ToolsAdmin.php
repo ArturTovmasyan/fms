@@ -83,13 +83,13 @@ class ToolsAdmin extends Admin
 
         $formMapper
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
-            ->add('category', null, array('required' => true))
+            ->add('category', null, array('required' => false))
             ->add('vendors')
             ->add('actualCost', null, array('label' => 'actual_cost'))
             ->add('balanceCost', null, array('label' => 'balance_cost'))
-            ->add('description', 'textarea')
+            ->add('description', 'textarea', ['required'=>false])
             ->add('code')
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
+            ->add('size', 'choice', array('label' => 'size', 'required'=>false,  'choices' => array(
                 "Կգ",
                 "Մետր",
                 "Հատ",
@@ -118,6 +118,7 @@ class ToolsAdmin extends Admin
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
+            ->add('description')
             ->add('category')
             ->add('vendors')
             ->add('actualCost', null, array('label' => 'actual_cost'))

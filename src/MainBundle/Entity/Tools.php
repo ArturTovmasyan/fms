@@ -38,30 +38,31 @@ class Tools
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=50, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="code", type="integer", unique=true)
+     * @ORM\Column(name="code", type="string", unique=true)
      * @Assert\NotNull()
-     * @Assert\Length(min="6")
+     * @Assert\Length(min = 3, max=3)
+     * @Assert\Regex("/[0-9]/")
      */
     private $code;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="size", type="smallint")
+     * @ORM\Column(name="size", type="smallint", nullable=true)
      */
     private $size;
 
@@ -74,7 +75,7 @@ class Tools
     /**
      * @var integer
      *
-     * @ORM\Column(name="count_in_warehouse", type="integer")
+     * @ORM\Column(name="count_in_warehouse", type="integer", nullable=true)
      */
     private $countInWarehouse;
 
@@ -85,12 +86,12 @@ class Tools
     protected $vendors;
 
     /**
-     * @ORM\Column(name="actual_cost", type="integer", nullable=false)
+     * @ORM\Column(name="actual_cost", type="integer", nullable=true)
      */
     private $actualCost = 1;
 
     /**
-     * @ORM\Column(name="balance_cost", type="integer")
+     * @ORM\Column(name="balance_cost", type="integer", nullable=true)
      */
     private $balanceCost;
 

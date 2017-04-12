@@ -48,3 +48,6 @@ app_main_rest:
     type:     rest
     resource: MainBundle\Controller\Rest\MainRestController
     prefix:   /
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"

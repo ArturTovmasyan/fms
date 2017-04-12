@@ -118,7 +118,7 @@ class Equipment
      * @ORM\ManyToOne(targetEntity="EquipmentState")
      */
     private $eqState;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="ElPower", mappedBy="equipment", cascade={"persist", "remove"})
      */
@@ -211,7 +211,7 @@ class Equipment
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -251,7 +251,7 @@ class Equipment
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -296,7 +296,7 @@ class Equipment
     /**
      * Get product
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProduct()
     {
@@ -329,7 +329,7 @@ class Equipment
     /**
      * Get mould
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMould()
     {
@@ -352,7 +352,7 @@ class Equipment
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -375,7 +375,7 @@ class Equipment
     /**
      * Get purchaseDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getPurchaseDate()
     {
@@ -408,7 +408,7 @@ class Equipment
     /**
      * Get responsiblePersons
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getResponsiblePersons()
     {
@@ -432,7 +432,7 @@ class Equipment
     /**
      * Get weight
      *
-     * @return integer 
+     * @return integer
      */
     public function getWeight()
     {
@@ -455,7 +455,7 @@ class Equipment
     /**
      * Get code
      *
-     * @return integer 
+     * @return integer
      */
     public function getCode()
     {
@@ -478,7 +478,7 @@ class Equipment
     /**
      * Get carryingPrice
      *
-     * @return integer 
+     * @return integer
      */
     public function getCarryingPrice()
     {
@@ -501,7 +501,7 @@ class Equipment
     /**
      * Get factualPrice
      *
-     * @return integer 
+     * @return integer
      */
     public function getFactualPrice()
     {
@@ -524,7 +524,7 @@ class Equipment
     /**
      * Get inspectionNextDate
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getInspectionNextDate()
     {
@@ -557,7 +557,7 @@ class Equipment
     /**
      * Get spares
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSpares()
     {
@@ -584,7 +584,7 @@ class Equipment
     /**
      * Get inspectionPeriod
      *
-     * @return integer 
+     * @return integer
      */
     public function getInspectionPeriod()
     {
@@ -608,7 +608,7 @@ class Equipment
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -631,7 +631,7 @@ class Equipment
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -654,7 +654,7 @@ class Equipment
     /**
      * Get deployment
      *
-     * @return \MainBundle\Entity\Deployment 
+     * @return \MainBundle\Entity\Deployment
      */
     public function getDeployment()
     {
@@ -689,7 +689,7 @@ class Equipment
     /**
      * Get images
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getImages()
     {
@@ -712,7 +712,7 @@ class Equipment
     /**
      * Get repairJob
      *
-     * @return string 
+     * @return string
      */
     public function getRepairJob()
     {
@@ -758,7 +758,7 @@ class Equipment
     /**
      * Get type
      *
-     * @return \MainBundle\Entity\WorkshopType 
+     * @return \MainBundle\Entity\WorkshopType
      */
     public function getType()
     {
@@ -781,7 +781,7 @@ class Equipment
     /**
      * Get report
      *
-     * @return \MainBundle\Entity\EquipmentReport 
+     * @return \MainBundle\Entity\EquipmentReport
      */
     public function getReport()
     {
@@ -814,7 +814,7 @@ class Equipment
     /**
      * Get sparePart
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getSparePart()
     {
@@ -837,7 +837,7 @@ class Equipment
     /**
      * Get length
      *
-     * @return string 
+     * @return string
      */
     public function getLength()
     {
@@ -860,7 +860,7 @@ class Equipment
     /**
      * Get width
      *
-     * @return string 
+     * @return string
      */
     public function getWidth()
     {
@@ -883,7 +883,7 @@ class Equipment
     /**
      * Get height
      *
-     * @return string 
+     * @return string
      */
     public function getHeight()
     {
@@ -920,7 +920,7 @@ class Equipment
     /**
      * Get eqState
      *
-     * @return \MainBundle\Entity\EquipmentState 
+     * @return \MainBundle\Entity\EquipmentState
      */
     public function getEqState()
     {
@@ -930,22 +930,22 @@ class Equipment
     /**
      * This function is used to get products name
      */
-   public function getProductsString()
-   {
-       $products = $this->getProduct();
+    public function getProductsString()
+    {
+        $products = $this->getProduct();
 
-       $productNames = "";
+        $productNames = "";
 
-       if(count($products) > 0) {
+        if(count($products) > 0) {
 
-           foreach ($products as $product)
-           {
-               $productNames .= $product->getName() . ', ';
-           }
-       }
+            foreach ($products as $product)
+            {
+                $productNames .= $product->getName() . ', ';
+            }
+        }
 
-       return $productNames;
-   }
+        return $productNames;
+    }
 
     /**
      * This function is used to get moulds name
@@ -1086,7 +1086,7 @@ class Equipment
     /**
      * Get removeDefects
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getRemoveDefects()
     {

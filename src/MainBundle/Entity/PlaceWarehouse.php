@@ -24,13 +24,11 @@ class PlaceWarehouse
     private $id;
 
     /**
-     * @var
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
     
     /**
-     * @var
      * @ORM\ManyToOne(targetEntity="Warehouse", inversedBy="placeWarehouse", cascade={"persist"})
      */
     private $warehouse;

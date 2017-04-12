@@ -11,7 +11,7 @@
                 {% else %}
                     {% set imagePath = asset('bundles/main/images/file-icon.jpg') %}
                 {% endif %}
-                <img src="{{ imagePath }}" width="100px" height="100px"/>
+                <img src="{{ imagePath|imagine_filter('list_images') }}"/>
             </a>
     {% endif %}
 
