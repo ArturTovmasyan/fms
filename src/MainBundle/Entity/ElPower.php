@@ -25,8 +25,8 @@ class ElPower
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="string", length=10)
-     * @Assert\Regex(pattern="/[0-9]/", message="This value cannot contain a letter")
+     * @ORM\Column(name="value", type="string", length=20)
+     * @Assert\Regex(pattern="/^[0-9]\d*[\/, \.]{0,1}(\d+)?$/", message="This value must contain only number . or one /")
      */
     private $value;
 
@@ -34,6 +34,7 @@ class ElPower
      * @var string
      *
      * @ORM\Column(name="text", type="string", length=50, nullable=true)
+     * @Assert\Regex(pattern="/^[a-zA-Z]+$/", message="This value must be only text")
      */
     private $text;
 

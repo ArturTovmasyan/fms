@@ -1154,6 +1154,8 @@ class Equipment
     }
 
     /**
+     * This function is used to get sum elPowers
+     *
      * @return int
      */
     public function getElPowerSum()
@@ -1164,7 +1166,14 @@ class Equipment
         if(count($elPowers) > 0) {
             foreach ($elPowers as $elPower)
             {
-                $sum += (float)$elPower->getValue();
+                if (strpos($elPower->getValue(), "/") !== false) {
+                    $elPower = explode('/', $elPower);
+                    $elPower = $elPower[0]/$elPower[1];
+                    $sum+= (float)$elPower;
+
+                }else{
+                    $sum += (float)$elPower->getValue();
+                }
             }
         }
 
