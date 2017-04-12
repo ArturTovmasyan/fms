@@ -14,7 +14,7 @@ use JMS\Serializer\Annotation\Groups;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\EquipmentRepository")
- * @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
+ * @UniqueEntity(fields={"code"}, errorPath="code", message="This code is already exist")
  */
 class Equipment
 {

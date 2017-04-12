@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation\Groups;
@@ -12,6 +13,7 @@ use JMS\Serializer\Annotation\Groups;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\ToolsRepository")
+ * @UniqueEntity(fields={"code"}, errorPath="code", message="This code is already exist")
  */
 class Tools
 {
