@@ -383,16 +383,21 @@ class MainRestController extends FOSRestController
      *  },
      * )
      *
-     * @Rest\Get("/raw-expense/{id}", name="main_rest_mainrest_getrawexpense", options={"method_prefix"=false})
+     * @Rest\Post("/raw-expense", name="main_rest_mainrest_getrawexpense", options={"method_prefix"=false})
      * @Security("has_role('ROLE_ADMIN')")
      * @Rest\View()
-     * @param $id
      * @return Response
      */
-    public function getRawExpenseAction($id)
+    public function getRawExpenseAction(Request $request)
     {
+        //get content and add it in request after json decode
+        $content = $request->getContent();
+        $request->request->add(json_decode($content, true));
+
+        $ids = $request->request->get('ids');
+
         //check if one is parameters not exist
-        if(!$id) {
+        if(!$ids) {
             return new Response('Invalid request parameters', Response::HTTP_BAD_REQUEST);
         }
 
@@ -400,7 +405,7 @@ class MainRestController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
 
         //get all related files
-        $ramMaterials = $em->getRepository('MainBundle:RawMaterials')->findById($id);
+        $ramMaterials = $em->getRepository('MainBundle:RawMaterials')->findById($ids);
 
         return $ramMaterials;
     }

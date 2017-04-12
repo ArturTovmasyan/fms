@@ -1,45 +1,169 @@
 $( document ).ready(function() {
 
+    //get form token id
     var fieldId = $("input[id$='_token']").attr("id");
     var pos = fieldId.indexOf("_token");
     var fieldToken = fieldId.slice(0, pos);
 
-    var typeSelector = "#"+fieldToken+"productRawExpense_0_rawMaterials";
-    var sizeSelector = "#"+fieldToken+"productRawExpense_0_size";
-    var costSelector = "#"+fieldToken+"productRawExpense_0_cost";
+    //FOR PRODUCT RAW EXPENSE CREATE OR EDIT PAGE
+    var expenseMaterialSelector = "#"+fieldToken+"rawMaterials";
+    var expenseSizeSelector = "#"+fieldToken+"size";
+    var expenseCostSelector = "#"+fieldToken+"cost";
+    var expenseSumSelector = "#"+fieldToken+"sum";
+    var expenseCountSelector = "#"+fieldToken+"count";
 
-     var materialId = $(typeSelector).val();
+    var expenseMaetrailId = $(expenseMaterialSelector).val();
 
-     if(materialId) {
-         getTypes(materialId);
-     }
+    if(expenseMaetrailId) {
+        setRawExpenseData(expenseMaetrailId);
+    }
 
-    $('body').on('change', typeSelector, function() {
+    //set default values
+    var ids = [];
+
+    //get raw expense fields count
+    var counts = $('tbody.sonata-ba-tbody tr').length;
+
+    if(counts > 0) {
+
+        for(var i =0; i<counts; i++)
+        {
+            var materialSelector = "#"+fieldToken+"productRawExpense_"+i+"_rawMaterials";
+
+            if($(materialSelector).val()) {
+                ids.push($(materialSelector).val());
+            }
+        }
+
+        if(ids) {
+            setMaterialsData(ids);
+        }
+    }
+
+    //detect change expense on product page
+    $('body').on('change', "tbody.sonata-ba-tbody tr td select", function(event) {
+        ids = [];
         var id = $(this).val();
-        getTypes(id);
+
+        if(id) {
+            ids.push(id);
+            var number = event.target.id;
+            var idNumber = number.split('_')[2];
+            setSingleMaterialsData(ids, idNumber);
+        }
     });
+
+    //detect change on product raw expense page
+    $(expenseMaterialSelector).change(function () {
+        ids = [];
+        var id = $(this).val();
+
+        if(id) {
+            ids.push(id);
+            setRawExpenseData(ids);
+        }
+    });
+
 
     /**
      *
-     * @param id
+     * @param ids
      */
-    function getTypes(id) {
+    function setMaterialsData(ids) {
 
-        $.get("/admin/api/v1.0/raw-expense/"+id, function(data) {
+        $.post("/admin/api/v1.0/raw-expense", JSON.stringify({'ids' : ids }), function(data) {
 
             if(data) {
-                var size = getSizeValue(data.size);
-                $(sizeSelector).val(size);
-                $(costSelector).val(data.actualCost);
+
+                for(var i=0; i<counts;i++)
+                {
+                    var sizeSelector = "#"+fieldToken+"productRawExpense_"+i+"_size";
+                    var costSelector = "#"+fieldToken+"productRawExpense_"+i+"_cost";
+                    var sumSelector = "#"+fieldToken+"productRawExpense_"+i+"_sum";
+                    var countSelector = "#"+fieldToken+"productRawExpense_"+i+"_count";
+
+                    var size = getSizeValue(data[i].size);
+                    var count = $(countSelector).val();
+
+                    if(count) {
+                        var sum = count*data[i].actualCost;
+                    }else{
+                        sum = 0;
+                    }
+
+                    $(sizeSelector).val(size);
+                    $(costSelector).val(data[i].actualCost);
+                    $(sumSelector).val(sum);
+                }
             }
         });
     }
 
     /**
      *
+     * @param ids
+     * @param idNumber
+     */
+    function setSingleMaterialsData(ids, idNumber) {
+
+        $.post("/admin/api/v1.0/raw-expense", JSON.stringify({'ids' : ids }), function(data) {
+
+            if(data) {
+
+                var sizeSelector = "#"+fieldToken+"productRawExpense_"+idNumber+"_size";
+                var costSelector = "#"+fieldToken+"productRawExpense_"+idNumber+"_cost";
+                var sumSelector = "#"+fieldToken+"productRawExpense_"+idNumber+"_sum";
+                var countSelector = "#"+fieldToken+"productRawExpense_"+idNumber+"_count";
+                var count = $(countSelector).val();
+
+                if(count) {
+                    var sum = count*data[0].actualCost;
+                }else{
+                    sum = 0;
+                }
+
+                var size = getSizeValue(data[0].size);
+
+                $(sizeSelector).val(size);
+                $(costSelector).val(data[0].actualCost);
+                $(sumSelector).val(sum);
+            }
+        });
+
+    }
+
+    /**
+     *
+     * @param ids
+     */
+    function setRawExpenseData(ids) {
+
+        $.post("/admin/api/v1.0/raw-expense", JSON.stringify({'ids' : ids }), function(data) {
+
+            if(data) {
+                var count = $(expenseCountSelector).val();
+
+                if(count) {
+                    var sum = count*data[0].actualCost;
+                }else{
+                    sum = 0;
+                }
+
+                var size = getSizeValue(data[0].size);
+
+                $(expenseSizeSelector).val(size);
+                $(expenseCostSelector).val(data[0].actualCost);
+                $(expenseSumSelector).val(sum);
+            }
+        });
+    }
+
+
+    /**
+     *
      * @param size
      */
-  function getSizeValue(size) {
+    function getSizeValue(size) {
 
         switch(size) {
             case 0:

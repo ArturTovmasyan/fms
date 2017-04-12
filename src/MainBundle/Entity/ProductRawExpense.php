@@ -40,9 +40,9 @@ class ProductRawExpense
     protected $product;
 
     /**
-     * @ORM\Column(name="count", type="integer")
+     * @ORM\Column(name="count", type="integer", nullable=true)
      */
-    private $count;
+    private $count = 0;
 
     /**
      * @var datetime $created
@@ -204,5 +204,22 @@ class ProductRawExpense
     public function getRawMaterials()
     {
         return $this->rawMaterials;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getRawMaterialPrice()
+    {
+        $price = 0;
+
+        $rawMaterial = $this->getRawMaterials();
+
+        if($rawMaterial) {
+            $price = $rawMaterial->getActualCost();
+        }
+
+        return $price;
+
     }
 }

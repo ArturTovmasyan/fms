@@ -10,18 +10,18 @@ use Doctrine\ORM\EntityRepository;
 class RawMaterialsRepository extends EntityRepository
 {
     /**
-     * @param $id
+     * @param $ids
      * @return array
      */
-    public function findById($id)
+    public function findById($ids)
     {
         $result = $this->getEntityManager()
             ->createQuery("SELECT rm.size, rm.actualCost
                                 FROM MainBundle:RawMaterials rm
-                                WHERE rm.id = :id
+                                WHERE rm.id in (:ids)
                            ")
-            ->setParameter('id', $id)
-            ->getOneOrNullResult();
+            ->setParameter('ids', $ids)
+            ->getResult();
 
         return $result;
     }
