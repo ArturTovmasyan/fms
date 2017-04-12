@@ -39,13 +39,13 @@ class RemoveDefectsAdmin extends AbstractAdmin
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('description')
             ->add('equipment')
-            ->add('_action', null, array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

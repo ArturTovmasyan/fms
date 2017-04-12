@@ -30,13 +30,13 @@ class EquipmentStateAdmin extends AbstractAdmin
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
-            ->add('_action', null, array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

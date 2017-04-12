@@ -66,33 +66,44 @@ class ProductRawExpenseAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('product')
-            ->add('rawMaterials.name', null, array('label' => 'raw_name'))
-            ->add('rawMaterials.size', null, array('template' => 'MainBundle:Admin\Show:stringSizeInShow.html.twig', 'label' => 'size'))
+            ->add('rawMaterials.name', null, ['label' => 'raw_name'])
+            ->add('rawMaterials.size', null, ['template' => 'MainBundle:Admin\Show:stringSizeInShow.html.twig', 'label' => 'size'])
             ->add('count')
-            ->add('rawMaterials.actualCost', null, array('label' => 'raw_price'))
-            ->add('getProductRawPrice', null, array('label' => 'price'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('rawMaterials.actualCost', null, ['label' => 'raw_price'])
+            ->add('getProductRawPrice', null, ['label' => 'price'])
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-//        $request = $this->getRequest();
-//        $isAjax = $request->request->get('_xml_http_request');
-//        $subject = $this->getSubject();
+        $materialIds = [];
+        $subject = $this->getSubject();
 
-////        //get product id
-//        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
-////        //get product id for edit
-//        $editProductId = $subject ? $subject->getProduct() ? $subject->getProduct()->getId() : null : null;
+//        $editProductId = $subject && $subject->getProduct() ? $subject->getProduct()->getId() : null;
+
+//        $expenseId = $subject ? $subject->getId() : null;
+//        $productId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription() ?
+//        $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
+//        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+//        if($productId) {
+//            $product = $em->getRepository('MainBundle:Product')->find($productId);
+//            $rawExpenses = $product->getProductRawExpense();
+//
+//            foreach ($rawExpenses as $rawExpense)
+//            {
+//                $materialIds[] = $rawExpense->getRawMaterials()->getId();
+//            }
+//        }
 
         $formMapper
             ->add('rawMaterials', null, array(
                 'label'=>'raw_materials', 'required' => false,
-//            'query_builder' => function ($query) use ($productId, $editProductId) {
+//            'query_builder' => function ($query) use ($productId, $materialIds) {
 //                $result = $query->createQueryBuilder('rm');
-//                if(!$editProductId){
+//
+//                if($productId){
 //                    $result
 //                        ->where("rm.id NOT IN (
 //                                 SELECT t.id from MainBundle:ProductRawExpense re
@@ -123,7 +134,7 @@ class ProductRawExpenseAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('product')
-            ->add('rawMaterials.name', null, array('label' => 'raw_name'))
+            ->add('rawMaterials.name', null, ['label' => 'raw_name'])
         ;
     }
 
@@ -133,18 +144,18 @@ class ProductRawExpenseAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('product')
-            ->add('rawMaterials.name', null, array('label' => 'raw_name'))
-            ->add('rawMaterials.size', null, array('label' => 'size', 'template' => 'MainBundle:Admin\List:stringSizeInList.html.twig'))
+            ->add('rawMaterials.name', null, ['label' => 'raw_name'])
+            ->add('rawMaterials.size', null, ['label' => 'size', 'template' => 'MainBundle:Admin\List:stringSizeInList.html.twig'])
             ->add('count')
-            ->add('rawMaterials.actualCost', null, array('label' => 'raw_price'))
-            ->add('getProductRawPrice', null, array('label' => 'price'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('rawMaterials.actualCost', null, ['label' => 'raw_price'])
+            ->add('getProductRawPrice', null, ['label' => 'price'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

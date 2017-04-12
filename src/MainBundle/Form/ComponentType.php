@@ -26,9 +26,9 @@ class ComponentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null, array('attr' => array(
-                'placeholder' => 'Hello ARTUR')))
-            ->add('productRouteCard', 'route_card_type', array('label' => false));
+            ->add('name', null, ['attr' => [
+                'placeholder' => 'Hello ARTUR']])
+            ->add('productRouteCard', 'route_card_type', ['label' => false]);
 
     }
     /**
@@ -36,9 +36,9 @@ class ComponentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'MainBundle\Entity\ProductComponent'
-        ));
+        ]);
     }
     /**
      * @return string

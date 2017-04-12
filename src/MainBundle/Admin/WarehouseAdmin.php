@@ -36,7 +36,7 @@ class WarehouseAdmin extends Admin
     {
         $datagridMapper
             ->add('id')
-            ->add('name', null, array('show_filter' => true))
+            ->add('name', null, ['show_filter' => true])
         ;
     }
 
@@ -46,13 +46,13 @@ class WarehouseAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

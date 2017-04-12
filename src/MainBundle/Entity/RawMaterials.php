@@ -469,7 +469,7 @@ abstract class RawMaterials
 
             return $this->images->toArray();
         }
-        return array();
+        return [];
     }
 
     /**

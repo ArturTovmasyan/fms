@@ -44,13 +44,13 @@ class DeploymentAdmin extends Admin
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

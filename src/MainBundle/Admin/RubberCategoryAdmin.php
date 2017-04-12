@@ -20,8 +20,8 @@ class RubberCategoryAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('rubberMaterials', null, ['label' => 'rubber_materials'])
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
@@ -48,14 +48,14 @@ class RubberCategoryAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('rubberMaterials', null, array('label' => 'rubber_materials'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('rubberMaterials', null, ['label' => 'rubber_materials'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

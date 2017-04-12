@@ -12,10 +12,10 @@ $( document ).ready(function() {
     var expenseSumSelector = "#"+fieldToken+"sum";
     var expenseCountSelector = "#"+fieldToken+"count";
 
-    var expenseMaetrailId = $(expenseMaterialSelector).val();
+    var expenseMaterialId = $(expenseMaterialSelector).val();
 
-    if(expenseMaetrailId) {
-        setRawExpenseData(expenseMaetrailId);
+    if(expenseMaterialId) {
+        setRawExpenseData(expenseMaterialId);
     }
 
     //set default values

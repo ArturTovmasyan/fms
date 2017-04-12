@@ -59,14 +59,14 @@ class RawMaterialsAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('description')
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+            ->add('getStringSize', null, ['label' => 'size'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
             ->add('vendors')
             ->add('actualCost')
             ->add('balanceCost')
-            ->add('updated', 'date', array('widget' => 'single_text'))
-            ->add('created', 'date', array('widget' => 'single_text'));
+            ->add('updated', 'date', ['widget' => 'single_text'])
+            ->add('created', 'date', ['widget' => 'single_text']);
         ;
     }
 
@@ -86,18 +86,18 @@ class RawMaterialsAdmin extends Admin
 
         $formMapper
             ->add('description')
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
             ->add('vendors')
             ->add('actualCost')
             ->add('balanceCost')
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
+            ->add('size', 'choice', ['label' => 'size', 'choices' => [
                 "Կգ",
                 "Մետր",
                 "Հատ",
                 "Կոմպլեկտ",
-                "Լիտր")))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+                "Լիտր"]])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
             ->add('imageIds', 'hidden', ['mapped'=>false])
             ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
     }
@@ -106,8 +106,8 @@ class RawMaterialsAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id', null, array('show_filters' => true))
-            ->add('name', null, array('show_filters' => true))
+            ->add('id', null, ['show_filters' => true])
+            ->add('name', null, ['show_filters' => true])
         ;
     }
 
@@ -118,19 +118,19 @@ class RawMaterialsAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('description')
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
             ->add('vendors')
             ->add('actualCost')
             ->add('balanceCost')
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('getStringSize', null, ['label' => 'size'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

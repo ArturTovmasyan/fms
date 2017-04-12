@@ -248,7 +248,7 @@ trait File
         //get image height
         $height = $size[1];
 
-        return array('width' => $width, 'height' => $height);
+        return ['width' => $width, 'height' => $height];
     }
 
 }

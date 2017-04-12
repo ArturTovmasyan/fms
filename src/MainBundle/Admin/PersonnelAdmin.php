@@ -75,13 +75,13 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('compKnowledge', null, ['label'=>'comp_knowledge', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('created', null, ['label'=>'created'])
             ->add('updated', null, ['label'=>'updated'])
-            ->add('_action', null, array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 
@@ -139,7 +139,7 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('positionDate', 'sonata_type_date_picker', ['required'=>false, 'label'=>'position_date'])
             ->add('education', null, ['label'=>'education'])
             ->add('profession', null, ['label'=>'profession'])
-            ->add('post', null, array(
+            ->add('post', null, [
                 'label' => 'post',
                 'query_builder' => function($query) use ($id, $relatedPostId)  {
                     $result = $query->createQueryBuilder('p');
@@ -157,7 +157,7 @@ class PersonnelAdmin extends AbstractAdmin
 
                     return $result;
                 }
-            ))
+            ])
             ->add('language', 'choice', ['choices'=> $langArrayData, 'required'=>false, 'multiple'=>true, 'label'=>'language'])
             ->add('anotherLang', 'text', ['mapped'=>false, 'attr' => ['class' => 'hidden-field', 'placeholder'=> 'another_language'],  'label'=>false, 'required'=>false])
             ->add('compKnowledge', 'choice', ['choices'=> $compEducationArrayData, 'required'=>false, 'label'=>'comp_knowledge','multiple'=>true])

@@ -2,7 +2,6 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Form\ProductRawExpenseType;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -12,9 +11,9 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class ProductAdmin extends Admin
 {
     //set fields option
-    protected $formOptions = array(
+    protected $formOptions = [
         'cascade_validation' => true
-    );
+    ];
 
     /**
      * override list query
@@ -65,19 +64,19 @@ class ProductAdmin extends Admin
     {
         $showMapper
             ->add('name')
-            ->add('getSumRawExpense', null, array('label' => 'raw_expense'))
+            ->add('getSumRawExpense', null, ['label' => 'raw_expense'])
             ->add('description','textarea')
             ->add('gost')
-            ->add('generalCount', null, array('label' => 'general_count'))
-            ->add('purposeList', null, array('label' => 'Purpose'))
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('workshop', null, array('label' => 'workshop'))
+            ->add('generalCount', null, ['label' => 'general_count'])
+            ->add('purposeList', null, ['label' => 'Purpose'])
+            ->add('getStringSize', null, ['label' => 'size'])
+            ->add('workshop', null, ['label' => 'workshop'])
             ->add('weight')
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('equipment', null, array('label' => 'equipment'))
-            ->add('mould', null, array('label' => 'mould'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('equipment', null, ['label' => 'equipment'])
+            ->add('mould', null, ['label' => 'mould'])
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
@@ -97,9 +96,10 @@ class ProductAdmin extends Admin
         }
 
         $formMapper
+            ->tab('Ընդհանուր')
             ->add('name')
             ->add('client')
-            ->add('equipment', null, array(
+            ->add('equipment', null, [
                 'label' => 'equipment',
                 'query_builder' => function($query)  {
                     $result = $query->createQueryBuilder('p');
@@ -112,8 +112,8 @@ class ProductAdmin extends Admin
 
                     return $result;
                 }
-            ))
-            ->add('mould', null, array(
+            ])
+            ->add('mould', null, [
                 'label' => 'mould',
                 'query_builder' => function($query) use ($editProductId, $mouldIds) {
                     $result = $query->createQueryBuilder('p');
@@ -135,39 +135,43 @@ class ProductAdmin extends Admin
 
                     return $result;
                 }
-            ))
-            ->add('description', 'textarea', array('required' => false))
+            ])
+            ->add('description', 'textarea', ['required' => false])
             ->add('gost')
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('generalCount', null, array('label' => 'general_count'))
-            ->add('purposeList', null, array('label' => 'Purpose'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('size', 'choice', array('choices'=> array(
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
+            ->add('generalCount', null, ['label' => 'general_count'])
+            ->add('purposeList', null, ['label' => 'Purpose'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('size', 'choice', ['choices'=> [
                 'Կգ',
                 'Մետր',
                 'Հատ',
                 'Կոմպլեկտ',
-                'Լիտր')))
-            ->add('workshop', 'sonata_type_model', array('label' => 'workshop', 'required'=>false))
+                'Լիտր']])
+            ->add('workshop', 'sonata_type_model', ['label' => 'workshop', 'required'=>false, 'btn_add' => "Ավելացնել արտադրամաս",])
             ->add('weight')
-
+            ->end()
             ->end()
 
-            ->with('operationCard')
-
-            ->add('productRawExpense', 'sonata_type_collection', array(
-                'label' => 'product_expense',
+            ->tab('operation_card')
+            ->with('product_expense')
+            ->add('productRawExpense', 'sonata_type_collection', [
+                'label' => false,
                 'by_reference' => false,
                 'required' => false,
                 'btn_add' => "Ավելացնել նյութածախս",
-                'type_options' => array(
-                    'delete' => true)
-                ),
-                array(
+                'type_options' => [
+                    'delete' => true]
+            ],
+                [
                     'edit' => 'inline',
                     'inline' => 'table'
-                ))
+                ])
+            ->end()
+            ->with('operation_card')
 
+            ->add('routerCard', 'text', ['label'=>'THIS PART IS IN PROCESS ...', 'required' => false, 'mapped'=>false, 'attr'=>['readonly' => true, 'disabled'=>true]])
+            ->end()
             ->end();
     }
 
@@ -186,20 +190,20 @@ class ProductAdmin extends Admin
         $listMapper
             ->add('id', null, ['label'=>'code', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
-            ->addIdentifier('getSumRawExpense', null, array('label' => 'raw_expense'))
+            ->addIdentifier('getSumRawExpense', null, ['label' => 'raw_expense'])
             ->add('client')
             ->add('gost')
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('workshop', null, array('label' => 'workshop'))
-            ->add('equipment', null, array('label' => 'equipment'))
-            ->add('mould', null, array('label' => 'mould'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('getStringSize', null, ['label' => 'size'])
+            ->add('workshop', null, ['label' => 'workshop'])
+            ->add('equipment', null, ['label' => 'equipment'])
+            ->add('mould', null, ['label' => 'mould'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

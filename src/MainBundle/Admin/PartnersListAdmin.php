@@ -20,9 +20,9 @@ class PartnersListAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('name')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
-            ->add('lastName', null, array('label' => 'lastName'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('rawMaterials', null, ['label' => 'raw_materials'])
+            ->add('lastName', null, ['label' => 'lastName'])
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
@@ -31,7 +31,7 @@ class PartnersListAdmin extends Admin
     {
         $formMapper
             ->add('name')
-            ->add('lastName', null, array('label' => 'lastName'))
+            ->add('lastName', null, ['label' => 'lastName'])
         ;
     }
 
@@ -41,7 +41,7 @@ class PartnersListAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('lastName', null, array('label' => 'lastName'))
+            ->add('lastName', null, ['label' => 'lastName'])
         ;
     }
 
@@ -51,15 +51,15 @@ class PartnersListAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
-            ->add('lastName', null, array('label' => 'lastName'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('rawMaterials', null, ['label' => 'raw_materials'])
+            ->add('lastName', null, ['label' => 'lastName'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

@@ -45,15 +45,15 @@ class ProfessionsTariffAdmin extends Admin
     {
         $formMapper
             ->add('name')
-            ->add('salariesType', 'sonata_type_collection', array(
+            ->add('salariesType', 'sonata_type_collection', [
                 'label' => 'salaries_type',
                 'by_reference' => false,
                 'mapped'   => true,
-                'required' => true),
-                array(
+                'required' => true],
+                [
                     'edit' => 'inline',
                     'inline' => 'table'
-                ))
+                ])
         ;
     }
 
@@ -63,7 +63,7 @@ class ProfessionsTariffAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('salariesType.professionCategory.name', null, array('label' => 'profession_category'));
+            ->add('salariesType.professionCategory.name', null, ['label' => 'profession_category']);
         ;
     }
 
@@ -73,14 +73,14 @@ class ProfessionsTariffAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('salariesType', null, array('label' => 'profession_category'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('salariesType', null, ['label' => 'profession_category'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

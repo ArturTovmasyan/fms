@@ -96,13 +96,13 @@ class PostAdmin extends AbstractAdmin
             ->add('changed', null, ['label'=>'changed'])
             ->add('instructions', null, ['label'=>'instructions'])
             ->add('jobAgreement', null, ['label'=>'job_agreement'])
-            ->add('_action', null, array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 
@@ -137,7 +137,7 @@ class PostAdmin extends AbstractAdmin
             ->add('name')
             ->add('code')
             ->add('division', null, ['label'=>'division_chief'])
-             ->add('personnel', null, array(
+             ->add('personnel', null, [
                 'label' => 'personnel',
                 'query_builder' => function($query) use ($id, $personnelId)  {
                     $result = $query->createQueryBuilder('p');
@@ -155,7 +155,7 @@ class PostAdmin extends AbstractAdmin
 
                     return $result;
                 }
-            ));
+             ]);
 
         $formMapper
             ->add('postStatus', null, ['label'=>'post_status'])
@@ -208,7 +208,7 @@ class PostAdmin extends AbstractAdmin
             ->add('age', null, ['label'=>'age'])
             ->add('experience', null, ['label'=>'experience'])
             ->add('compKnowledge', null, ['label'=>'comp_knowledge', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
-            ->add('requirement', null, ['label'=>'requirement', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig', 'label'=>'post_req'])
+            ->add('requirement', null, ['template' => 'MainBundle:Admin/Show:post_array_show.html.twig', 'label'=>'post_req'])
             ->end()
             ->end()
             ->tab('job_info')

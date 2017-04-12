@@ -37,7 +37,7 @@ class MetalMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('category')
             ->add('code')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
             ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
         ;
         parent::configureShowFields($showMapper);
@@ -57,7 +57,7 @@ class MetalMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('code')
             ->add('category')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
         ;
 
     }
@@ -69,7 +69,7 @@ class MetalMaterialsAdmin extends RawMaterialsAdmin
             ->add('code')
             ->add('gost')
             ->add('category')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
         ;
         parent::configureDatagridFilters($datagridMapper);
     }
@@ -81,7 +81,7 @@ class MetalMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('code')
             ->add('category')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
             ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])        ;
 
         parent::configureListFields($listMapper);

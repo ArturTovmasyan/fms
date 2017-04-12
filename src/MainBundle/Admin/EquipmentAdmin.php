@@ -19,9 +19,9 @@ class EquipmentAdmin extends Admin
     use Equipment;
 
     //set fields option
-    protected $formOptions = array(
+    protected $formOptions = [
         'cascade_validation' => true
-    );
+    ];
 
     const imageClassName = 'EquipmentImage';
 
@@ -88,10 +88,10 @@ class EquipmentAdmin extends Admin
         $showMapper
             ->add('name')
             ->add('code')
-            ->add('workshop', null, array('label'=>'equipment_workshop'))
-            ->add('eqState', null, array('label'=>'equipment_state'))
+            ->add('workshop', null, ['label'=>'equipment_workshop'])
+            ->add('eqState', null, ['label'=>'equipment_state'])
             ->add('description')
-            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
+            ->add('purchaseDate', 'date', ['widget'=>'single_text', 'label'=>'purchase_date'])
             ->add('product')
             ->add('mould')
             ->end()
@@ -102,7 +102,7 @@ class EquipmentAdmin extends Admin
             ->add('getOverSize', null, ['label'=>'over_size'])
             ->end()
             ->add('type', null, ['label' => 'equipment_type'])
-            ->add('responsiblePersons', null, array('label' => 'responsible_person'))
+            ->add('responsiblePersons', null, ['label' => 'responsible_person'])
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('spares')
             ->end()
@@ -111,12 +111,12 @@ class EquipmentAdmin extends Admin
             ->end()
             ->add('repairJob', null, ['label' => 'repair_job'])
             ->add('weight')
-            ->add('carryingPrice', null, array('label'=>'balance_cost'))
-            ->add('factualPrice', null, array('label'=>'actual_cost'))
+            ->add('carryingPrice', null, ['label'=>'balance_cost'])
+            ->add('factualPrice', null, ['label'=>'actual_cost'])
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
             ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
-            ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('inspectionNextDate', 'date', ['widget'=>'single_text', 'label'=>'inspection_next_date'])
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
@@ -153,7 +153,7 @@ class EquipmentAdmin extends Admin
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('description')
             ->add('repairJob', null, ['label' => 'repair_job'])
-            ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date', 'required'=>false))
+            ->add('purchaseDate', 'date', ['widget'=>'single_text', 'label'=>'purchase_date', 'required'=>false])
             ->add('product')
             ->end()
             ->end()
@@ -166,7 +166,7 @@ class EquipmentAdmin extends Admin
             ->add('width', null, ['label'=>'width'])
             ->add('height', null, ['label'=>'height'])
             ->end()
-            ->add('mould', null, array(
+            ->add('mould', null, [
                 'label' => 'mould',
                 'query_builder' => function($query) use ($id, $mouldIds) {
                     $result = $query->createQueryBuilder('p');
@@ -185,12 +185,12 @@ class EquipmentAdmin extends Admin
 
                     return $result;
                 }
-            ))
-            ->add('responsiblePersons', null, array('label' => 'responsible_person'))
+            ])
+            ->add('responsiblePersons', null, ['label' => 'responsible_person'])
             ->add('spares')
             ->add('weight')
-            ->add('carryingPrice', null, array('label'=>'balance_cost'))
-            ->add('factualPrice', null, array('label'=>'actual_cost'))
+            ->add('carryingPrice', null, ['label'=>'balance_cost'])
+            ->add('factualPrice', null, ['label'=>'actual_cost'])
             ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
             ->end()
             ->with('el_power')
@@ -238,17 +238,17 @@ class EquipmentAdmin extends Admin
                 }elseif($field == 'id') {
                     $listMapper->add($field, null, ['label' => 'Id', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig']);
                 }elseif($field == 'purchaseDate') {
-                    $listMapper->add($field, 'date', array('widget' => 'single_text', 'label' => 'purchase_date'));
+                    $listMapper->add($field, 'date', ['widget' => 'single_text', 'label' => 'purchase_date']);
                 }elseif($field == 'elPowers'){
-                    $listMapper->add('getElPowerSum', null, array('label'=>'el_power'));
+                    $listMapper->add('getElPowerSum', null, ['label'=>'el_power']);
                 }elseif($field == 'inspectionNextDate'){
-                    $listMapper->add($field, 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'));
+                    $listMapper->add($field, 'date', ['widget'=>'single_text', 'label'=>'inspection_next_date']);
                 }elseif($field == 'responsiblePersons'){
                     $listMapper->add($field, null, ['label'=>'responsible_person']);
                 }elseif($field == 'removeDefects'){
-                    $listMapper->add($field, 'date', array('label' => 'remove_defects', 'template' => 'MainBundle:Admin/List:remove_defects_list.html.twig'));
+                    $listMapper->add($field, 'date', ['label' => 'remove_defects', 'template' => 'MainBundle:Admin/List:remove_defects_list.html.twig']);
                 }elseif($field == 'created'){
-                    $listMapper->add($field, 'date', array('widget' => 'single_text'));
+                    $listMapper->add($field, 'date', ['widget' => 'single_text']);
                 }elseif($field == 'length'){
                     $listMapper->add('getOverSize', null, ['label'=>'over_size']);
                 }else{
@@ -261,8 +261,8 @@ class EquipmentAdmin extends Admin
                 ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
                 ->add('name', null, ['label'=>'name'])
                 ->add('code', null, ['label'=>'code'])
-                ->add('workshop', null, array('label'=>'equipment_workshop'))
-                ->add('eqState', null, array('label'=>'equipment_state'))
+                ->add('workshop', null, ['label'=>'equipment_workshop'])
+                ->add('eqState', null, ['label'=>'equipment_state'])
                 ->add('product', null, ['label'=>'product'])
                 ->add('removeDefects', null, ['label' => 'remove_defects', 'template' => 'MainBundle:Admin/List:remove_defects_list.html.twig'])
                 ->add('mould', null, ['label'=>'mould'])
@@ -271,27 +271,27 @@ class EquipmentAdmin extends Admin
                 ->add('type', null, ['label' => 'equipment_type'])
                 ->add('spares', null, ['label'=>'code'])
                 ->add('responsiblePersons', null, ['label'=>'responsible_person'])
-                ->add('purchaseDate', 'date', array('widget'=>'single_text', 'label'=>'purchase_date'))
+                ->add('purchaseDate', 'date', ['widget'=>'single_text', 'label'=>'purchase_date'])
                 ->add('getElPowerSum', null, ['label'=>'el_power'])
                 ->add('repairJob', null, ['label' => 'repair_job'])
                 ->add('getEquipmentImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
                 ->add('getOverSize', null, ['label'=>'over_size'])
-                ->add('carryingPrice', null, array('label'=>'balance_cost'))
-                ->add('factualPrice', null, array('label'=>'actual_cost'))
+                ->add('carryingPrice', null, ['label'=>'balance_cost'])
+                ->add('factualPrice', null, ['label'=>'actual_cost'])
                 ->add('inspectionPeriod', null, ['label' => 'inspection_period'])
-                ->add('inspectionNextDate', 'date', array('widget'=>'single_text', 'label'=>'inspection_next_date'))
-                ->add('created', 'date', array('widget' => 'single_text'));
+                ->add('inspectionNextDate', 'date', ['widget'=>'single_text', 'label'=>'inspection_next_date'])
+                ->add('created', 'date', ['widget' => 'single_text']);
         }
 
         $listMapper
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
                     'report' => ['template' => 'MainBundle:Admin/Action:equipment_report_action.html.twig']
-                )
-            ))
+                ]
+            ])
         ;
     }
 

@@ -27,11 +27,11 @@ class ProductComponentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'type' => new ComponentType(),
             'allow_add' => true,
             'allow_delete' => true,
-        ));
+        ]);
     }
     /**
      * @return string

@@ -39,7 +39,7 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('code')
             ->add('category')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
             ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
         ;
         parent::configureShowFields($showMapper);
@@ -59,7 +59,7 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('code')
             ->add('category')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
         ;
     }
 
@@ -70,7 +70,7 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('code')
             ->add('category')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
         ;
         parent::configureDatagridFilters($datagridMapper);
     }
@@ -82,7 +82,7 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
             ->add('gost')
             ->add('code')
             ->add('category')
-            ->add('minimalVolume', null, array('label' => 'minimal_volume'))
+            ->add('minimalVolume', null, ['label' => 'minimal_volume'])
             ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])        ;
 
         parent::configureListFields($listMapper);
