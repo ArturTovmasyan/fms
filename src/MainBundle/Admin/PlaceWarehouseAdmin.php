@@ -56,7 +56,6 @@ class PlaceWarehouseAdmin extends Admin
             ->add('mould')
             ->add('product')
             ->add('rawMaterials')
-            ->add('prepackMaterials', null, ['label' => 'prepack_materials'])
             ->add('sparePart', null, array('label' => 'spare_parts'))
         ;
     }
@@ -79,7 +78,6 @@ class PlaceWarehouseAdmin extends Admin
             ->add('warehouse')
             ->add('mould')
             ->add('product')
-            ->add('prepackMaterials', null, array('label' => 'prepack_materials'))
             ->add('rawMaterials', null, array('label' => 'raw_materials'))
             ->add('sparePart', null, array('label' => 'spare_parts'))
             ->add('_action', 'actions', array(
