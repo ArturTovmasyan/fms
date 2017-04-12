@@ -18,6 +18,11 @@ class EquipmentAdmin extends Admin
     use FmsAdmin;
     use Equipment;
 
+    //set fields option
+    protected $formOptions = array(
+        'cascade_validation' => true
+    );
+
     const imageClassName = 'EquipmentImage';
 
     /**

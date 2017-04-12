@@ -20,7 +20,7 @@ class EquipmentElPowerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('value', TextType::class, ['label'=>'el_power_value', 'pattern' => '^[0-9.]+$'])
+            ->add('value', TextType::class, ['label'=>'el_power_value'])
             ->add('text', TextType::class, ['label'=>false, 'required'=>false]);
     }
 
