@@ -78,42 +78,32 @@ class ProductRawExpenseAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $materialIds = [];
         $subject = $this->getSubject();
-
-//        $editProductId = $subject && $subject->getProduct() ? $subject->getProduct()->getId() : null;
-
-//        $expenseId = $subject ? $subject->getId() : null;
-//        $productId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription() ?
-//        $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
-//        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
-//        if($productId) {
-//            $product = $em->getRepository('MainBundle:Product')->find($productId);
-//            $rawExpenses = $product->getProductRawExpense();
-//
-//            foreach ($rawExpenses as $rawExpense)
-//            {
-//                $materialIds[] = $rawExpense->getRawMaterials()->getId();
-//            }
-//        }
+        $expenseId = $subject ? $subject->getId() : null;
+        $productId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription() ?
+                $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
 
         $formMapper
-            ->add('rawMaterials', null, array(
+            ->add('rawMaterials', null, [
                 'label'=>'raw_materials', 'required' => false,
-//            'query_builder' => function ($query) use ($productId, $materialIds) {
-//                $result = $query->createQueryBuilder('rm');
-//
-//                if($productId){
-//                    $result
-//                        ->where("rm.id NOT IN (
-//                                 SELECT t.id from MainBundle:ProductRawExpense re
-//                                 LEFT JOIN re.rawMaterials t
-//                                 WHERE re.product = :prodId
-//                                 )")
-//                        ->setParameter('prodId', $productId);
-//                }
-//                return $result;}
-            ))
+                'query_builder' => function ($query) use ($productId, $expenseId) {
+
+                $result = $query->createQueryBuilder('rm');
+
+                if($productId){
+
+                    $result
+                        ->where("rm.id NOT IN (
+                                 SELECT m.id from MainBundle:ProductRawExpense re
+                                 LEFT JOIN re.rawMaterials m
+                                 WHERE re.product = :prodId AND (re.id != :expenseId OR :expenseId IS NULL) 
+                                 )")
+                        ->setParameter('prodId', $productId)
+                        ->setParameter('expenseId', $expenseId);
+                }
+
+                return $result;}
+            ])
 
             ->add('size', 'number', ['mapped'=>false, 'label'=>'size', 'attr' => [
                 'readonly' => true,

@@ -24,21 +24,8 @@ $( document ).ready(function() {
     //get raw expense fields count
     var counts = $('tbody.sonata-ba-tbody tr').length;
 
-    if(counts > 0) {
-
-        for(var i =0; i<counts; i++)
-        {
-            var materialSelector = "#"+fieldToken+"productRawExpense_"+i+"_rawMaterials";
-
-            if($(materialSelector).val()) {
-                ids.push($(materialSelector).val());
-            }
-        }
-
-        if(ids) {
-            setMaterialsData(ids);
-        }
-    }
+    //generate material ids
+    generateIds(counts);
 
     //detect change expense on product page
     $('body').on('change', "tbody.sonata-ba-tbody tr td select", function(event) {
@@ -64,6 +51,14 @@ $( document ).ready(function() {
         }
     });
 
+    // //detect change expense on product page
+    // $('document').on('click', "#field_actions_s58ef2af76596a_productRawExpense", function() {
+    //     var currentCounts = $('tbody.sonata-ba-tbody tr').length;
+    //     alert(currentCounts);
+    //     setTimeout(function () {
+    //         generateIds(counts);
+    //     }, 2000);
+    // });
 
     /**
      *
@@ -158,6 +153,27 @@ $( document ).ready(function() {
         });
     }
 
+    /**
+     *
+     * @param counts
+     */
+    function generateIds(counts) {
+
+        if(counts > 0) {
+            for(var i =0; i<counts; i++)
+            {
+                var materialSelector = "#"+fieldToken+"productRawExpense_"+i+"_rawMaterials";
+
+                if($(materialSelector).val()) {
+                    ids.push($(materialSelector).val());
+                }
+            }
+        }
+
+        if(ids) {
+            setMaterialsData(ids);
+        }
+    }
 
     /**
      *
