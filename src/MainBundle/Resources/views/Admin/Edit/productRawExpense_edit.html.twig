@@ -1,0 +1,17 @@
+{% extends "SonataAdminBundle:CRUD:base_edit.html.twig" %}
+
+{#{% block actions %}#}
+    {#{{ parent() }}#}
+    {#{% if object.id %}#}
+        {#<li>#}
+            {#<a class="sonata-action-element" href="{{ admin.generateObjectUrl('equipment-report', object) }}">#}
+                {#<i class="glyphicon glyphicon-asterisk">   Report</i>#}
+            {#</a>#}
+        {#</li>#}
+    {#{% endif %}#}
+{#{% endblock %}#}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/main/js/product.js') }}"></script>
+{% endblock %}

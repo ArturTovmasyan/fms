@@ -53,26 +53,26 @@ class MouldAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('code', null, array('label' => 'code'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('purposeList', null, array('label' => 'Purpose'))
-            ->add('getStringState', null, array('label' => 'current_state'))
-            ->add('preparationTime', 'date', array('widget'=>'single_text', 'label' => 'preparation_time'))
-            ->add('lastRepair', 'date', array('label' => 'last_repair', 'widget' => 'single_text'))
-            ->add('cost', null, array('label' => 'cost_price'))
-            ->add('actualPrice', null, array('label' => 'actual_price'))
-            ->add('accountingPrice', null, array('label' => 'accounting_price'))
-            ->add('generalCount', null, array('label' => 'general_count'))
-            ->add('created', 'datetime', array('widget' => 'single_text'))
+            ->add('code', null, ['label' => 'code'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('purposeList', null, ['label' => 'Purpose'])
+            ->add('getStringState', null, ['label' => 'current_state'])
+            ->add('preparationTime', 'date', ['widget'=>'single_text', 'label' => 'preparation_time'])
+            ->add('lastRepair', 'date', ['label' => 'last_repair', 'widget' => 'single_text'])
+            ->add('cost', null, ['label' => 'cost_price'])
+            ->add('actualPrice', null, ['label' => 'actual_price'])
+            ->add('accountingPrice', null, ['label' => 'accounting_price'])
+            ->add('generalCount', null, ['label' => 'general_count'])
+            ->add('created', 'datetime', ['widget' => 'single_text'])
             ->add('product')
             ->add('bandwidth')
-            ->add('mouldType', null, array('label' => 'mould_type'))
+            ->add('mouldType', null, ['label' => 'mould_type'])
             ->add('equipment')
             ->add('description')
             ->add('image')
             ->add('sketch')
             ->add('weight')
-            ->add('overSize', null, array('label' => 'over_size'))
+            ->add('overSize', null, ['label' => 'over_size'])
         ;
     }
 
@@ -82,7 +82,7 @@ class MouldAdmin extends Admin
         $formMapper
             ->add('code')
             ->add('product')
-            ->add('equipment', null, array(
+            ->add('equipment', null, [
                 'label' => 'equipment',
                 'query_builder' => function($query) {
                     $result = $query->createQueryBuilder('m');
@@ -95,25 +95,25 @@ class MouldAdmin extends Admin
 
                     return $result;
                 }
-            ))
-            ->add('mouldType', null, array('label' => 'mould_type'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
+            ])
+            ->add('mouldType', null, ['label' => 'mould_type'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('description')
-            ->add('purposeList', null, array('label' => 'Purpose'))
-            ->add('currentState', 'choice', array('label' => 'current_state', 'choices'=> array(
+            ->add('purposeList', null, ['label' => 'Purpose'])
+            ->add('currentState', 'choice', ['label' => 'current_state', 'choices'=> [
                 "Նորմալ",
                 "Վերանորոգման ենթակա",
                 "Անպիտան",
-                "Ձևափոխված")))
+                "Ձևափոխված"]])
             ->add('bandwidth')
-            ->add('generalCount', null, array('label' => 'general_count'))
-            ->add('preparationTime', 'date', array('widget' => 'single_text', 'label' => 'preparation_time'))
-            ->add('lastRepair', 'date', array('label' => 'last_repair', 'widget' => 'single_text'))
+            ->add('generalCount', null, ['label' => 'general_count'])
+            ->add('preparationTime', 'date', ['widget' => 'single_text', 'label' => 'preparation_time'])
+            ->add('lastRepair', 'date', ['label' => 'last_repair', 'widget' => 'single_text'])
             ->add('cost')
-            ->add('actualPrice', null, array('label' => 'actual_price'))
-            ->add('accountingPrice', null, array('label' => 'accounting_price'))
+            ->add('actualPrice', null, ['label' => 'actual_price'])
+            ->add('accountingPrice', null, ['label' => 'accounting_price'])
             ->add('weight')
-            ->add('overSize', null, array('label' => 'over_size'))
+            ->add('overSize', null, ['label' => 'over_size'])
         ;
     }
 
@@ -122,8 +122,8 @@ class MouldAdmin extends Admin
     {
         $datagridMapper
             ->add('placeWarehouse')
-            ->add('mouldType', null, array('label' => 'mould_type'))
-            ->add('purposeList', null, array('label' => 'Purpose'))
+            ->add('mouldType', null, ['label' => 'mould_type'])
+            ->add('purposeList', null, ['label' => 'Purpose'])
             ->add('code')
         ;
     }
@@ -135,22 +135,22 @@ class MouldAdmin extends Admin
             ->add('id', null, ['label'=>'code', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('code')
             ->add('product')
-            ->add('mouldType', null, array('label' => 'mould_type'))
-            ->add('purposeList', null, array('label' => 'Purpose'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
+            ->add('mouldType', null, ['label' => 'mould_type'])
+            ->add('purposeList', null, ['label' => 'Purpose'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('equipment')
-            ->add('getStringState', null, array('label' => 'current_state'))
-            ->add('generalCount', null, array('label' => 'general_count'))
+            ->add('getStringState', null, ['label' => 'current_state'])
+            ->add('generalCount', null, ['label' => 'general_count'])
             ->add('cost')
-            ->add('actualPrice', null, array('label' => 'actual_price'))
-            ->add('accountingPrice', null, array('label' => 'accounting_price'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('actualPrice', null, ['label' => 'actual_price'])
+            ->add('accountingPrice', null, ['label' => 'accounting_price'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

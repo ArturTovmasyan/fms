@@ -40,13 +40,13 @@ class ElPowerAdmin extends AbstractAdmin
             ->add('value', null, ['label'=>'el_power_value'])
             ->add('text', null, ['label'=>'description'])
             ->add('equipment')
-            ->add('_action', null, array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

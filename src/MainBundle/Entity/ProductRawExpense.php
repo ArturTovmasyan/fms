@@ -40,9 +40,10 @@ class ProductRawExpense
     protected $product;
 
     /**
-     * @ORM\Column(name="count", type="integer")
+     * @ORM\Column(name="count", type="string", length=20)
+     * @Assert\Regex(pattern="/^[0-9]\d*[, \.]{0,1}(\d+)?$/", message="This value must contain only number")
      */
-    private $count;
+    private $count = 0;
 
     /**
      * @var datetime $created
@@ -73,7 +74,7 @@ class ProductRawExpense
      */
     public function getProductRawPrice()
     {
-        $rawActualCost = $this->getRawMaterials()->getActualCost();
+        $rawActualCost = $this->getRawMaterials() ? $this->getRawMaterials()->getActualCost() : 0;
 
         $rawPrice = $this->count * $rawActualCost;
 
@@ -204,5 +205,22 @@ class ProductRawExpense
     public function getRawMaterials()
     {
         return $this->rawMaterials;
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getRawMaterialPrice()
+    {
+        $price = 0;
+
+        $rawMaterial = $this->getRawMaterials();
+
+        if($rawMaterial) {
+            $price = $rawMaterial->getActualCost();
+        }
+
+        return $price;
+
     }
 }

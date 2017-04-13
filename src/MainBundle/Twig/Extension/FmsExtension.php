@@ -21,9 +21,9 @@ class FmsExtension extends \Twig_Extension
 
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('unserialize', array($this, 'unserialize')),
-        );
+        return [
+            new \Twig_SimpleFilter('unserialize', [$this, 'unserialize']),
+        ];
     }
 
     /**

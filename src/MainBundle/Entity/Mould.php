@@ -88,7 +88,7 @@ class Mould
     private $overSize = 0;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Product", mappedBy="mould")
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="mould", fetch="EXTRA_LAZY")
      */
     private $product;
 

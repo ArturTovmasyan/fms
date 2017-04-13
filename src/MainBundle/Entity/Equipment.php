@@ -1104,7 +1104,7 @@ class Equipment
             return $this->removeDefects->toArray();
         }
 
-        return array();
+        return [];
     }
 
     /**

@@ -57,7 +57,7 @@ class ProductRouteCardAdmin extends Admin
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime')
-            ->add('tariff', null, array('template' => 'MainBundle:Admin/Show:professionTariffPriceShow.html.twig'))
+            ->add('tariff', null, ['template' => 'MainBundle:Admin/Show:professionTariffPriceShow.html.twig'])
             ->add('routeCardPrice')
             ->add('specificPercent')
         ;
@@ -79,7 +79,7 @@ class ProductRouteCardAdmin extends Admin
             ->add('operation')
             ->add('operationCode')
             ->add('dependency')
-            ->add('equipment', null, array(
+            ->add('equipment', null, [
 //                'query_builder' => function ($query) use ($productId) {
 //                    $result = $query->createQueryBuilder('eq');
 //                    $result
@@ -89,8 +89,8 @@ class ProductRouteCardAdmin extends Admin
 //                        ->setParameter('productId', $productId);
 //                    return $result;
 //                }
-            ))
-            ->add('mould', null, array(
+            ])
+            ->add('mould', null, [
 //                'query_builder' => function ($query) use ($productId) {
 //                    $result = $query->createQueryBuilder('ml');
 //                    $result
@@ -100,16 +100,16 @@ class ProductRouteCardAdmin extends Admin
 //                        ->setParameter('productId', $productId);
 //                    return $result;
 //                }
-            ))
+            ])
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime');
 
         if($routeCardPrice) {
             $formMapper
-                ->add('getRouteCardPrice', 'integer', array('label' => 'route_card_price', 'attr' => array(
+                ->add('getRouteCardPrice', 'integer', ['label' => 'route_card_price', 'attr' => [
                     'readonly' => true,
-                    'disabled' => true)));
+                    'disabled' => true]]);
         }
         ;
     }
@@ -142,16 +142,16 @@ class ProductRouteCardAdmin extends Admin
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime')
-            ->add('tariff', null, array('template' => 'MainBundle:Admin/List:professionTariffPriceList.html.twig'))
+            ->add('tariff', null, ['template' => 'MainBundle:Admin/List:professionTariffPriceList.html.twig'])
             ->add('routeCardPrice')
             ->add('specificPercent')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

@@ -63,13 +63,13 @@ class SparePartAdmin extends Admin
         $showMapper
             ->add('name')
             ->add('vendors')
-            ->add('equipment', null, array('label' => 'equipment'))
-            ->add('actualCost', null, array('label' => 'actual_cost'))
-            ->add('balanceCost', null, array('label' => 'balance_cost'))
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('equipment', null, ['label' => 'equipment'])
+            ->add('actualCost', null, ['label' => 'actual_cost'])
+            ->add('balanceCost', null, ['label' => 'balance_cost'])
+            ->add('getStringSize', null, ['label' => 'size'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
+            ->add('created', 'date', ['widget' => 'single_text'])
             ->add('images', null, ['template' => 'MainBundle:Admin/Show:fms_image_show.html.twig', 'label'=>'files'])
         ;
     }
@@ -86,7 +86,7 @@ class SparePartAdmin extends Admin
         $formMapper
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('vendors')
-            ->add('equipment', null, array(
+            ->add('equipment', null, [
                 'label' => 'equipment',
                 'query_builder' => function($query)  {
                     $result = $query->createQueryBuilder('sp');
@@ -99,14 +99,14 @@ class SparePartAdmin extends Admin
 
                     return $result;
                 }
-            ))
+            ])
 
             ->add('description', 'textarea')
-            ->add('actualCost', null, array('label' => 'actual_cost'))
-            ->add('balanceCost', null, array('label' => 'balance_cost'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array( "Կգ", "Մետր","Հատ","Կոմպլեկտ", "Լիտր")))
+            ->add('actualCost', null, ['label' => 'actual_cost'])
+            ->add('balanceCost', null, ['label' => 'balance_cost'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
+            ->add('size', 'choice', ['label' => 'size', 'choices' => ["Կգ", "Մետր","Հատ","Կոմպլեկտ", "Լիտր"]])
             ->add('imageIds', 'hidden', ['mapped'=>false])
             ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
     }
@@ -116,12 +116,12 @@ class SparePartAdmin extends Admin
     {
         $datagridMapper
             ->add('name')
-            ->add('vendors.name', null, array('show_filters' => true))
-            ->add('equipment.id', null, array('label' => 'equipment', 'show_filters' => true))
-            ->add('description', null, array('show_filters' => true))
-            ->add('actualCost', null, array('label' => 'actual_cost', 'show_filters' => true))
-            ->add('balanceCost', null, array('label' => 'balance_cost', 'show_filters' => true))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
+            ->add('vendors.name', null, ['show_filters' => true])
+            ->add('equipment.id', null, ['label' => 'equipment', 'show_filters' => true])
+            ->add('description', null, ['show_filters' => true])
+            ->add('actualCost', null, ['label' => 'actual_cost', 'show_filters' => true])
+            ->add('balanceCost', null, ['label' => 'balance_cost', 'show_filters' => true])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
         ;
     }
 
@@ -132,26 +132,26 @@ class SparePartAdmin extends Admin
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('vendors')
-            ->add('equipment', null, array('label' => 'equipment'))
-            ->add('getStringSize', null, array('label' => 'size'))
-            ->add('actualCost', null, array('label' => 'actual_cost'))
-            ->add('balanceCost', null, array('label' => 'balance_cost'))
-            ->add('placeWarehouse', null, array('label' => 'place_warehouse'))
-            ->add('countInWarehouse', null, array('label' => 'counts_in_warehouse'))
-            ->add('size', 'choice', array('label' => 'size', 'choices' => array(
+            ->add('equipment', null, ['label' => 'equipment'])
+            ->add('getStringSize', null, ['label' => 'size'])
+            ->add('actualCost', null, ['label' => 'actual_cost'])
+            ->add('balanceCost', null, ['label' => 'balance_cost'])
+            ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
+            ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
+            ->add('size', 'choice', ['label' => 'size', 'choices' => [
                 "Կգ",
                 "Մետր",
                 "Հատ",
                 "Կոմպլեկտ",
-                "Լիտր")))
+                "Լիտր"]])
             ->add('getSparePartImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

@@ -369,4 +369,44 @@ class MainRestController extends FOSRestController
 
         return $files;
     }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get raw material data by id",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         404="Bad request",
+     *         403="Forbidden"
+     *  },
+     * )
+     *
+     * @Rest\Post("/raw-expense", name="main_rest_mainrest_getrawexpense", options={"method_prefix"=false})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Rest\View()
+     * @return Response
+     */
+    public function getRawExpenseAction(Request $request)
+    {
+        //get content and add it in request after json decode
+        $content = $request->getContent();
+        $request->request->add(json_decode($content, true));
+
+        $ids = $request->request->get('ids');
+
+        //check if one is parameters not exist
+        if(!$ids) {
+            return new Response('Invalid request parameters', Response::HTTP_BAD_REQUEST);
+        }
+
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get all related files
+        $ramMaterials = $em->getRepository('MainBundle:RawMaterials')->findById($ids);
+
+        return $ramMaterials;
+    }
 }

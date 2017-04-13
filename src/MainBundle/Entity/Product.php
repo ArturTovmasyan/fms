@@ -30,7 +30,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, unique=true)
+     * @ORM\Column(name="name", type="string", length=50, unique=true)
      * @Assert\NotNull()
      */
     private $name;
@@ -38,14 +38,14 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
+     * @ORM\Column(name="description", type="string", length=50, nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gost", type="string", length=255, nullable=true)
+     * @ORM\Column(name="gost", type="string", length=50, nullable=true)
      */
     private $gost;
 
@@ -66,14 +66,13 @@ class Product
     /**
      * @var integer
      *
-     * @ORM\Column(name="count_in_warehouse", type="integer")
+     * @ORM\Column(name="count_in_warehouse", type="integer", nullable=true)
      */
     private $countInWarehouse;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="product_workshop", type="smallint", nullable=true)
+     * @ORM\ManyToOne(targetEntity="ProductWorkshop")
+     * @ORM\JoinColumn(name="product_workshop_id", referencedColumnName="id")
      */
     private $workshop;
 
@@ -107,14 +106,9 @@ class Product
     protected $purposeList;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="product", cascade={"persist", "remove"})
      */
     protected $productRawExpense;
-
-    /**
-     * @ORM\OneToMany(targetEntity="ProductComponent", mappedBy="product", cascade={"persist", "remove"})
-     */
-    protected $productComponent;
 
     //relations
     //private $price;
@@ -124,7 +118,7 @@ class Product
 
     /**
      * @var integer
-     * @ORM\Column(name="general_count", type="integer")
+     * @ORM\Column(name="general_count", type="integer", nullable=true)
      */
     private $generalCount;
 
@@ -349,23 +343,6 @@ class Product
         //set sum expense
         $sumRouteCard = 0;
 
-        $productComponents = $this->getProductComponent();
-
-        foreach($productComponents as $productComponent)
-        {
-            //get product route cards
-            $productRouteCards = $productComponent->getProductRouteCard();
-
-            foreach($productRouteCards as $productRouteCard)
-            {
-                //get product route card price
-                $routeCardPrice = $productRouteCard->getRouteCardPrice();
-
-                //sum routeCardPrice
-                $sumRouteCard += $routeCardPrice;
-            }
-        }
-
         return $sumRouteCard;
     }
 
@@ -400,35 +377,6 @@ class Product
 
         return $stringSize;
     }
-
-    /**
-     * This function is used to get producing workshop string name
-     *
-     * @return null|string
-     */
-    public function getStringWorkshop()
-    {
-
-        $stringWorkshop = null;
-
-        switch($this->workshop) {
-            case 0:
-                $stringWorkshop = "Ռեզինե";
-                break;
-            case 1:
-                $stringWorkshop = "Մեխանիկական";
-                break;
-            case 2:
-                $stringWorkshop = "Համատեղ";
-                break;
-
-            default:
-                $stringWorkshop= "";
-        }
-
-        return $stringWorkshop;
-    }
-
 
     /**
      * Set purposeList
@@ -681,6 +629,7 @@ class Product
      */
     public function addProductRawExpense(\MainBundle\Entity\ProductRawExpense $productRawExpense)
     {
+        $productRawExpense->setProduct($this);
         $this->productRawExpense[] = $productRawExpense;
 
         return $this;
@@ -756,36 +705,4 @@ class Product
 //        }
 //    }
 
-    /**
-     * Add productComponent
-     *
-     * @param \MainBundle\Entity\ProductComponent $productComponent
-     * @return Product
-     */
-    public function addProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
-    {
-        $this->productComponent[] = $productComponent;
-
-        return $this;
-    }
-
-    /**
-     * Remove productComponent
-     *
-     * @param \MainBundle\Entity\ProductComponent $productComponent
-     */
-    public function removeProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
-    {
-        $this->productComponent->removeElement($productComponent);
-    }
-
-    /**
-     * Get productComponent
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductComponent()
-    {
-        return $this->productComponent;
-    }
 }

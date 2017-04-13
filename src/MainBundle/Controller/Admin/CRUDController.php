@@ -68,12 +68,12 @@ class CRUDController extends Controller
         //set listIds data in request
         $request->request->set('listIds', $listIds);
 
-        return $this->render($this->admin->getTemplate('list'), array(
+        return $this->render($this->admin->getTemplate('list'), [
             'action' => 'list',
             'form' => $formView,
             'datagrid' => $datagrid,
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
-        ), $response, $request);
+        ], $response, $request);
     }
 
     /**
@@ -121,9 +121,9 @@ class CRUDController extends Controller
             }
         }
 
-        return $this->render('MainBundle:Admin/Custom:equipment_report.html.twig', array(
+        return $this->render('MainBundle:Admin/Custom:equipment_report.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**

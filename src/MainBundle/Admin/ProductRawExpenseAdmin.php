@@ -14,6 +14,25 @@ class ProductRawExpenseAdmin extends Admin
 {
 
     /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'list':
+                return 'MainBundle:Admin/List:productRawExpenseList.html.twig';
+                break;
+            case 'edit':
+                return 'MainBundle:Admin/Edit:productRawExpense_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
+    /**
      * override list query
      *
      * @param string $context
@@ -21,11 +40,21 @@ class ProductRawExpenseAdmin extends Admin
 
     public function createQuery($context = 'list')
     {
+        $request = $this->getRequest();
+        $productId = $request->query->get('productId');
+
         // call parent query
         $query = parent::createQuery($context);
         // add selected
         $query->addSelect('rm');
         $query->leftJoin($query->getRootAlias() . '.rawMaterials', 'rm');
+
+        if($productId) {
+            $query->leftJoin($query->getRootAlias() . '.product', 'pr');
+            $query->where('pr.id = :productId')
+                ->setParameter('productId', $productId);
+        }
+
         return $query;
 
     }
@@ -34,10 +63,8 @@ class ProductRawExpenseAdmin extends Admin
     protected function configureRoutes(RouteCollection $collection)
     {
 //        $collection->remove('delete');
-        $collection->remove('edit');
+//        $collection->remove('edit');
     }
-
-    public $supportsPreviewMode = true;
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -49,66 +76,88 @@ class ProductRawExpenseAdmin extends Admin
         $showMapper
             ->add('id')
             ->add('product')
-            ->add('rawMaterials.name', null, array('label' => 'raw_name'))
-            ->add('rawMaterials.size', null, array('template' => 'MainBundle:Admin\Show:stringSizeInShow.html.twig', 'label' => 'size'))
+            ->add('rawMaterials.name', null, ['label' => 'raw_name'])
+            ->add('rawMaterials.size', null, ['template' => 'MainBundle:Admin\Show:stringSizeInShow.html.twig', 'label' => 'size'])
             ->add('count')
-            ->add('rawMaterials.actualCost', null, array('label' => 'raw_price'))
-            ->add('getProductRawPrice', null, array('label' => 'price'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('rawMaterials.actualCost', null, ['label' => 'raw_price'])
+            ->add('getProductRawPrice', null, ['label' => 'price'])
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        //get product id
-//        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
-
-        //get product id for edit
-//        $editProductId = $this->getSubject()? $this->getSubject()->getProduct()? $this->getSubject()->getProduct()->getId() : null : null;
+        $subject = $this->getSubject();
+        $expenseId = $subject ? $subject->getId() : null;
+        $productId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription() ?
+            $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
 
         $formMapper
-//            ->add('rawMaterials', null, array(
-//            'query_builder' => function ($query) use ($productId, $editProductId) {
-//                $result = $query->createQueryBuilder('rm');
-//                if(!$editProductId){
-//                    $result
-//                        ->where("rm.id NOT IN (
-//                                 SELECT t.id from MainBundle:ProductRawExpense re
-//                                 LEFT JOIN re.rawMaterials t
-//                                 WHERE re.product = :prodId
-//                                 )")
-//                        ->setParameter('prodId', $productId);
-//                }
-//                return $result;}
-//            ))
-            ->add('count')
-        ;
+            ->add('rawMaterials', null, [
+                'label'=>'raw_materials', 'required' => false,
+                'query_builder' => function ($query) use ($productId, $expenseId) {
+                    $result = $query->createQueryBuilder('rm');
+                    if($productId){
+                        $result
+                            ->where("rm.id NOT IN (
+                                 SELECT m.id from MainBundle:ProductRawExpense re
+                                 LEFT JOIN re.rawMaterials m
+                                 WHERE re.product = :prodId AND (re.id != :expenseId OR :expenseId IS NULL) 
+                                 )")
+                            ->setParameter('prodId', $productId)
+                            ->setParameter('expenseId', $expenseId);
+                    }
 
-        //get materials actual cost
-        $actualCost = $this->getSubject() ? $this->getSubject()->getRawMaterials() ?
-            $this->getSubject()->getRawMaterials()->getActualCost() : null : null;
+                    return $result;}
+            ]);
 
-        //check exist materials actual cost
-        if($actualCost) {
+        if(!$productId) {
+            $formMapper
+                ->add('product', null, [
+                    'query_builder' => function($query) use ($expenseId) {
+                        $result = $query->createQueryBuilder('prd');
+                        $material = clone $result;
+                        $currentMaterialId = $material
+                            ->select('mat.id')
+                            ->from('MainBundle:RawMaterials', 'mat')
+                            ->leftJoin('mat.productRawExpense', 'exp')
+                            ->groupBy('mat.id')
+                            ->where('exp.id = :expenseId')
+                            ->setParameter('expenseId', $expenseId)
+                            ->getQuery()->getResult();
 
-            //get product raw price
-            $productRawPrice = $this->getSubject() ? $this->getSubject()->getProductRawPrice() ?
-                $this->getSubject()->getProductRawPrice() : null : null;
+                        if($currentMaterialId) {
+                            $currentMaterialId = $currentMaterialId[0]['id'];
+                        }
 
-            //check exist product raw price
-            if($productRawPrice) {
+                        $result
+                            ->select('pr')
+                            ->from('MainBundle:Product', 'pr')
+                            ->leftJoin('pr.productRawExpense', 'pre')
+                            ->leftJoin('pre.rawMaterials', 'rm')
+                            ->where(':curMatId NOT IN 
+                                                (SELECT COALESCE(rm1.id, 0) FROM MainBundle:Product p 
+                                                LEFT JOIN p.productRawExpense exp LEFT JOIN exp.rawMaterials rm1 
+                                                WHERE p.id = pr.id)')
+                            ->setParameter('curMatId', $currentMaterialId);
 
-                $formMapper
-                    ->add('rawMaterials.actualCost', null, array('label' => 'actual_price', 'attr' => array(
-                        'readonly' => true,
-                        'disabled' => true)))
-                    ->add('getProductRawPrice', 'integer', array('label' => 'raw_price', 'attr' => array(
-                        'readonly' => true,
-                        'disabled' => true)))
-                ;
-            }
+                        return $result;}
+                ]);
         }
+
+        $formMapper
+            ->add('size', 'number', ['mapped'=>false, 'label'=>'size', 'attr' => [
+                'readonly' => true,
+                'disabled' => true]])
+            ->add('count')
+            ->add('cost', 'number', ['mapped'=>false, 'label'=>'actual_cost', 'attr' => [
+                'readonly' => true,
+                'disabled' => true]])
+            ->add('sum', 'number', ['mapped'=>false, 'label'=>'raw_price', 'attr' => [
+                'readonly' => true,
+                'disabled' => true]])
+        ;
     }
 
     // Fields to be shown on filter forms
@@ -117,8 +166,7 @@ class ProductRawExpenseAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('product')
-            ->add('rawMaterials.name', null, array('label' => 'raw_name'))
-            ->add('rawMaterials.actualCost', null, array('label' => 'raw_price'))
+            ->add('rawMaterials.name', null, ['label' => 'raw_name'])
         ;
     }
 
@@ -128,18 +176,18 @@ class ProductRawExpenseAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('product')
-            ->add('rawMaterials.name', null, array('label' => 'raw_name'))
-            ->add('rawMaterials.size', null, array('label' => 'size', 'template' => 'MainBundle:Admin\List:stringSizeInList.html.twig'))
+            ->add('rawMaterials.name', null, ['label' => 'raw_name'])
+            ->add('rawMaterials.size', null, ['label' => 'size', 'template' => 'MainBundle:Admin\List:stringSizeInList.html.twig'])
             ->add('count')
-            ->add('rawMaterials.actualCost', null, array('label' => 'raw_price'))
-            ->add('getProductRawPrice', null, array('label' => 'price'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('rawMaterials.actualCost', null, ['label' => 'raw_price'])
+            ->add('getProductRawPrice', null, ['label' => 'price'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

@@ -40,10 +40,10 @@ class PlaceWarehouseAdmin extends Admin
             ->add('name')
             ->add('warehouse')
             ->add('mould')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
+            ->add('rawMaterials', null, ['label' => 'raw_materials'])
             ->add('product')
-            ->add('sparePart', null, array('label' => 'spare_parts'))
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('sparePart', null, ['label' => 'spare_parts'])
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
@@ -56,7 +56,7 @@ class PlaceWarehouseAdmin extends Admin
             ->add('mould')
             ->add('product')
             ->add('rawMaterials')
-            ->add('sparePart', null, array('label' => 'spare_parts'))
+            ->add('sparePart', null, ['label' => 'spare_parts'])
         ;
     }
 
@@ -78,15 +78,15 @@ class PlaceWarehouseAdmin extends Admin
             ->add('warehouse')
             ->add('mould')
             ->add('product')
-            ->add('rawMaterials', null, array('label' => 'raw_materials'))
-            ->add('sparePart', null, array('label' => 'spare_parts'))
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('rawMaterials', null, ['label' => 'raw_materials'])
+            ->add('sparePart', null, ['label' => 'spare_parts'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

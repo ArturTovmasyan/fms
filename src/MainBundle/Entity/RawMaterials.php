@@ -4,7 +4,6 @@ namespace MainBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 //* @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
@@ -13,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * RawMaterials
  *
  * @ORM\Table(name="raw_materials")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\RawMaterialsRepository")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",
@@ -87,21 +86,17 @@ abstract class RawMaterials
     private $balanceCost = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist", "remove"})
      */
     protected $productRawExpense;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
@@ -422,9 +417,7 @@ abstract class RawMaterials
     }
 
     /**
-     * Get updated
-     *
-     * @return \DateTime 
+     * @return datetime
      */
     public function getUpdated()
     {
@@ -476,7 +469,7 @@ abstract class RawMaterials
 
             return $this->images->toArray();
         }
-        return array();
+        return [];
     }
 
     /**

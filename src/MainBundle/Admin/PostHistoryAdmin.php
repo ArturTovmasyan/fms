@@ -54,13 +54,13 @@ class PostHistoryAdmin extends AbstractAdmin
             ->add('personnel', null, ['label'=>'personnel'])
             ->add('fromDate', null, ['label'=>'from_date'])
             ->add('toDate', null, ['label'=>'to_date'])
-            ->add('_action', null, array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', null, [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 

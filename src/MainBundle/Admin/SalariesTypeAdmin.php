@@ -29,7 +29,7 @@ class SalariesTypeAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('professionCategory', null, array('label' => 'profession_category'))
+            ->add('professionCategory', null, ['label' => 'profession_category'])
             ->add('hourSalary')
             ->add('daySalary')
             ->add('rate')
@@ -52,17 +52,17 @@ class SalariesTypeAdmin extends Admin
     {
         $listMapper
             ->add('id')
-            ->add('professionCategory', null, array('label' => 'profession_category'))
+            ->add('professionCategory', null, ['label' => 'profession_category'])
             ->add('hourSalary')
             ->add('daySalary')
             ->add('rate')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

@@ -38,18 +38,18 @@ class RouteCardType extends AbstractType
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime')
-            ->add('routeCardPrice', null, array('attr' => array(
+            ->add('routeCardPrice', null, ['attr' => [
                 'readonly' => true,
-                'disabled' => true)));
+                'disabled' => true]]);
     }
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'MainBundle\Entity\ProductRouteCard'
-        ));
+        ]);
     }
     /**
      * @return string

@@ -22,7 +22,7 @@ class SparesAdmin extends Admin
             ->add('id')
             ->add('name')
             ->add('equipment')
-            ->add('created', 'date', array('widget' => 'single_text'))
+            ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
 
@@ -48,13 +48,13 @@ class SparesAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
-            ->add('_action', 'actions', array(
-                'actions' => array(
-                    'show' => array(),
-                    'edit' => array(),
-                    'delete' => array(),
-                )
-            ))
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ])
         ;
     }
 }

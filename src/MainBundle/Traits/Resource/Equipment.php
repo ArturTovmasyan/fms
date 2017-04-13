@@ -89,9 +89,9 @@ trait Equipment
      */
     public function getExportFormats()
     {
-        return array(
+        return [
             'csv', 'xls'
-        );
+        ];
     }
 
     //set relations for Equipment
