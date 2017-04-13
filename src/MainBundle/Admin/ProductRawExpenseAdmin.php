@@ -40,11 +40,21 @@ class ProductRawExpenseAdmin extends Admin
 
     public function createQuery($context = 'list')
     {
+        $request = $this->getRequest();
+        $productId = $request->query->get('productId');
+
         // call parent query
         $query = parent::createQuery($context);
         // add selected
         $query->addSelect('rm');
         $query->leftJoin($query->getRootAlias() . '.rawMaterials', 'rm');
+
+        if($productId) {
+            $query->leftJoin($query->getRootAlias() . '.product', 'pr');
+            $query->where('pr.id = :productId')
+                ->setParameter('productId', $productId);
+        }
+
         return $query;
 
     }
@@ -103,8 +113,26 @@ class ProductRawExpenseAdmin extends Admin
                 }
 
                 return $result;}
-            ])
+            ]);
 
+            if(!$productId) {
+                $formMapper
+                    ->add('product', null, [
+//                        'query_builder' => function ($query) use ($expenseId) {
+//                            $result = $query->createQueryBuilder('pr');
+//                            $result
+//                               ->where("pr.id IN (
+//                             SELECT p.id from MainBundle:Product p
+//                             LEFT JOIN p.productRawExpense re
+//                             LEFT JOIN re.rawMaterials rm
+//                             WHERE (re.id != :expenseId OR re.id IS NULL))")
+//                             ->setParameter('expenseId', $expenseId);
+//
+//                            return $result;}
+                    ]);
+            }
+
+            $formMapper
             ->add('size', 'number', ['mapped'=>false, 'label'=>'size', 'attr' => [
                 'readonly' => true,
                 'disabled' => true]])

@@ -142,12 +142,9 @@ class ProductAdmin extends Admin
             ->add('generalCount', null, ['label' => 'general_count'])
             ->add('purposeList', null, ['label' => 'Purpose'])
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
-            ->add('size', 'choice', ['choices'=> [
-                'Կգ',
-                'Մետր',
-                'Հատ',
-                'Կոմպլեկտ',
-                'Լիտր']])
+            ->add('size', 'choice', ['required'=>false,
+                'choices'=> ['Կգ', 'Մետր','Հատ','Կոմպլեկտ', 'Լիտր']
+               ])
             ->add('workshop', 'sonata_type_model', ['label' => 'workshop', 'required'=>false, 'btn_add' => "Ավելացնել արտադրամաս",])
             ->add('weight')
             ->end()
@@ -190,7 +187,7 @@ class ProductAdmin extends Admin
         $listMapper
             ->add('id', null, ['label'=>'code', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
-            ->addIdentifier('getSumRawExpense', null, ['label' => 'raw_expense'])
+            ->add('getSumRawExpense', null, ['label' => 'raw_expense', 'template'=>'MainBundle:Admin/List:product_expense_list.html.twig'])
             ->add('client')
             ->add('gost')
             ->add('getStringSize', null, ['label' => 'size'])

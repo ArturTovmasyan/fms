@@ -66,7 +66,7 @@ class Product
     /**
      * @var integer
      *
-     * @ORM\Column(name="count_in_warehouse", type="integer")
+     * @ORM\Column(name="count_in_warehouse", type="integer", nullable=true)
      */
     private $countInWarehouse;
 
@@ -118,7 +118,7 @@ class Product
 
     /**
      * @var integer
-     * @ORM\Column(name="general_count", type="integer")
+     * @ORM\Column(name="general_count", type="integer", nullable=true)
      */
     private $generalCount;
 
