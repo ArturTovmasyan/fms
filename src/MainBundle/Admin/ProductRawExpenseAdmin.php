@@ -91,48 +91,62 @@ class ProductRawExpenseAdmin extends Admin
         $subject = $this->getSubject();
         $expenseId = $subject ? $subject->getId() : null;
         $productId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription() ?
-                $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
+            $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
 
         $formMapper
             ->add('rawMaterials', null, [
                 'label'=>'raw_materials', 'required' => false,
                 'query_builder' => function ($query) use ($productId, $expenseId) {
-
-                $result = $query->createQueryBuilder('rm');
-
-                if($productId){
-
-                    $result
-                        ->where("rm.id NOT IN (
+                    $result = $query->createQueryBuilder('rm');
+                    if($productId){
+                        $result
+                            ->where("rm.id NOT IN (
                                  SELECT m.id from MainBundle:ProductRawExpense re
                                  LEFT JOIN re.rawMaterials m
                                  WHERE re.product = :prodId AND (re.id != :expenseId OR :expenseId IS NULL) 
                                  )")
-                        ->setParameter('prodId', $productId)
-                        ->setParameter('expenseId', $expenseId);
-                }
+                            ->setParameter('prodId', $productId)
+                            ->setParameter('expenseId', $expenseId);
+                    }
 
-                return $result;}
+                    return $result;}
             ]);
 
-            if(!$productId) {
-                $formMapper
-                    ->add('product', null, [
-//                        'query_builder' => function ($query) use ($expenseId) {
-//                            $result = $query->createQueryBuilder('pr');
-//                            $result
-//                               ->where("pr.id IN (
-//                             SELECT p.id from MainBundle:Product p
-//                             LEFT JOIN p.productRawExpense re
-//                             LEFT JOIN re.rawMaterials rm
-//                             WHERE (re.id != :expenseId OR re.id IS NULL))")
-//                             ->setParameter('expenseId', $expenseId);
-//
-//                            return $result;}
-                    ]);
-            }
-
+        if(!$productId) {
             $formMapper
+                ->add('product', null, [
+                    'query_builder' => function($query) use ($expenseId) {
+                        $result = $query->createQueryBuilder('prd');
+                        $material = clone $result;
+                        $currentMaterialId = $material
+                            ->select('mat.id')
+                            ->from('MainBundle:RawMaterials', 'mat')
+                            ->leftJoin('mat.productRawExpense', 'exp')
+                            ->groupBy('mat.id')
+                            ->where('exp.id = :expenseId')
+                            ->setParameter('expenseId', $expenseId)
+                            ->getQuery()->getResult();
+
+                        if($currentMaterialId) {
+                            $currentMaterialId = $currentMaterialId[0]['id'];
+                        }
+
+                        $result
+                            ->select('pr')
+                            ->from('MainBundle:Product', 'pr')
+                            ->leftJoin('pr.productRawExpense', 'pre')
+                            ->leftJoin('pre.rawMaterials', 'rm')
+                            ->where(':curMatId NOT IN 
+                                                (SELECT COALESCE(rm1.id, 0) FROM MainBundle:Product p 
+                                                LEFT JOIN p.productRawExpense exp LEFT JOIN exp.rawMaterials rm1 
+                                                WHERE p.id = pr.id)')
+                            ->setParameter('curMatId', $currentMaterialId);
+
+                        return $result;}
+                ]);
+        }
+
+        $formMapper
             ->add('size', 'number', ['mapped'=>false, 'label'=>'size', 'attr' => [
                 'readonly' => true,
                 'disabled' => true]])

@@ -40,7 +40,8 @@ class ProductRawExpense
     protected $product;
 
     /**
-     * @ORM\Column(name="count", type="integer", nullable=true)
+     * @ORM\Column(name="count", type="string", length=20)
+     * @Assert\Regex(pattern="/^[0-9]\d*[, \.]{0,1}(\d+)?$/", message="This value must contain only number")
      */
     private $count = 0;
 
