@@ -51,19 +51,17 @@ $( document ).ready(function() {
 
     //detect change expense on product page
     $('body').on('change', "tbody.sonata-ba-tbody tr td input", function(event) {
-        ids = [];
-            var number = event.target.id;
-            var formId = number.split('_')[2];
+        var count = $(this).val();
+        var number = event.target.id;
+        var formId = number.split('_')[2];
 
-            if(formId) {
-                var materialSelect = '#'+fieldToken+'productRawExpense_'+formId+'_rawMaterials';
-                var id = $(materialSelect).val();
+        var costSelector = "#"+fieldToken+"productRawExpense_"+formId+"_cost";
+        var materialSelect = '#'+fieldToken+'productRawExpense_'+formId+'_sum';
 
-                if(id) {
-                    ids.push(id);
-                    setSingleMaterialsData(ids, formId);
-                }
-            }
+        var cost = $(costSelector).val();
+        var sum = count*cost;
+
+        $(materialSelect).val(sum);
     });
 
 
