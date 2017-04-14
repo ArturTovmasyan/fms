@@ -186,13 +186,16 @@ trait Post
         //get products
         $workers= $object->getWorkers();
 
-        //get removed products in Equipment
-        $removed = $workers->getDeleteDiff();
+        if($workers) {
+            //get removed products in Equipment
+            $removed = $workers->getDeleteDiff();
 
-        if ($removed) {
-            foreach ($removed as $remove) {
-                $remove->setSubordination(null);
+            if ($removed) {
+                foreach ($removed as $remove) {
+                    $remove->setSubordination(null);
+                }
             }
         }
+
     }
 }

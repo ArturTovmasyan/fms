@@ -9,6 +9,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class HouseholdMaterialsAdmin extends RawMaterialsAdmin
 {
+    protected $baseRoutePattern = 'household_materials';
+
     /**
      * override list query
      *
@@ -64,11 +66,18 @@ class HouseholdMaterialsAdmin extends RawMaterialsAdmin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
+        parent::configureListFields($listMapper);
+
         $listMapper
             ->add('code')
             ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
-        ;
-        parent::configureListFields($listMapper);
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ]);
     }
 }
 

@@ -9,6 +9,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class IlliquidMaterialsAdmin extends RawMaterialsAdmin
 {
+    protected $baseRoutePattern = 'illiquid_materials';
+
     /**
      * override list query
      *
@@ -61,10 +63,17 @@ class IlliquidMaterialsAdmin extends RawMaterialsAdmin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
+        parent::configureListFields($listMapper);
+
         $listMapper
             ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
-        ;
-        parent::configureListFields($listMapper);
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ]);
     }
 }
 

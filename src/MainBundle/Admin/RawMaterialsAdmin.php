@@ -12,7 +12,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class RawMaterialsAdmin extends Admin
 {
     use FmsAdmin;
-
     const imageClassName = 'RawMaterialImages';
 
     /**
@@ -56,7 +55,6 @@ class RawMaterialsAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('name')
             ->add('description')
             ->add('getStringSize', null, ['label' => 'size'])
@@ -106,7 +104,6 @@ class RawMaterialsAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id', null, ['show_filters' => true])
             ->add('name', null, ['show_filters' => true])
         ;
     }
@@ -116,21 +113,15 @@ class RawMaterialsAdmin extends Admin
     {
         $listMapper
             ->add('id')
+//            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_material_id_show.html.twig'])
             ->add('name')
             ->add('description')
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
             ->add('vendors')
-            ->add('actualCost')
-            ->add('balanceCost')
+            ->add('actualCost',  null, ['label' => 'actual_price'])
+            ->add('balanceCost', null, ['label' => 'accounting_price'])
             ->add('getStringSize', null, ['label' => 'size'])
-            ->add('_action', 'actions', [
-                'actions' => [
-                    'show' => [],
-                    'edit' => [],
-                    'delete' => [],
-                ]
-            ])
         ;
     }
 
