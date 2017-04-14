@@ -132,7 +132,7 @@
 
         <!--ExtraRates-->
         <service id="sonata.admin.main.extra.rates.list" class="MainBundle\Admin\ExtraRatesListAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Salary" label="ExtraRatesList"/>
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="Salary" label="ExtraRatesList"/>
             <argument/>
             <argument>MainBundle\Entity\ExtraRatesList</argument>
             <argument/>
