@@ -9,6 +9,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PrepackMaterialsAdmin extends RawMaterialsAdmin
 {
+    protected $baseRoutePattern = 'prepack_materials';
+
     /**
      * override list query
      *
@@ -78,14 +80,21 @@ class PrepackMaterialsAdmin extends RawMaterialsAdmin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
+        parent::configureListFields($listMapper);
+
         $listMapper
             ->add('product')
             ->add('equipment')
             ->add('workshop')
             ->add('weight')
             ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
-        ;
-        parent::configureListFields($listMapper);
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ]);
     }
 
     /**

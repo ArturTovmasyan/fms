@@ -1,0 +1,12 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    {% set listIds = app.request.get('listIds') %}
+
+    {#{% for data in listIds %}#}
+        {#{% if data.id == object.id %}#}
+            {#{{ data.row }}#}
+        {#{% endif %}#}
+    {#{% endfor %}#}
+
+{% endblock -%}

@@ -11,6 +11,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class RubberMaterialsAdmin extends RawMaterialsAdmin
 {
+    protected $baseRoutePattern = 'rubber_materials';
+
     /**
      * override list query
      *
@@ -78,14 +80,21 @@ class RubberMaterialsAdmin extends RawMaterialsAdmin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
+        parent::configureListFields($listMapper);
+
         $listMapper
             ->add('gost')
             ->add('code')
             ->add('category')
             ->add('minimalVolume', null, ['label' => 'minimal_volume'])
-            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])        ;
-
-        parent::configureListFields($listMapper);
+            ->add('getMaterialImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
+            ->add('_action', 'actions', [
+                'actions' => [
+                    'show' => [],
+                    'edit' => [],
+                    'delete' => [],
+                ]
+            ]);
     }
 }
 
