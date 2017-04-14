@@ -181,25 +181,28 @@
 
         <!--ProfessionCategory-->
         <service id="sonata.admin.main.profession.category" class="MainBundle\Admin\ProfessionCategoryAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="Salary" label="ProfessionCategory"/>
+            <tag name="sonata.admin" manager_type="orm"  group="Profession Tariff" label="profession_category"/>
             <argument/>
             <argument>MainBundle\Entity\ProfessionCategory</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
-        <!--ProfessionsTariff-->
-        <service id="sonata.admin.main.professions.tariff" class="MainBundle\Admin\ProfessionsTariffAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Salary" label="ProfessionsTariff"/>
+        <!--Profession-->
+        <service id="sonata.admin.main.professions" class="MainBundle\Admin\ProfessionsAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Profession Tariff" label="Professionsss"/>
             <argument/>
             <argument>MainBundle\Entity\Professions</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
         <!--SalariesType-->
-        <service id="sonata.admin.main.salaries.type" class="MainBundle\Admin\SalariesTypeAdmin">
-            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="Salary" label="SalariesType"/>
+        <service id="sonata.admin.main.salaries.type" class="MainBundle\Admin\TariffAdmin">
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="true" group="Profession Tariff" label="Tariff"/>
             <argument/>
-            <argument>MainBundle\Entity\SalariesType</argument>
+            <argument>MainBundle\Entity\Tariff</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 

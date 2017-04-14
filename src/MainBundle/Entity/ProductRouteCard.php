@@ -48,15 +48,15 @@ class ProductRouteCard
 //     */
 //    protected $equipment;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="ProfessionCategory", inversedBy="productRouteCard", cascade={"persist"})
-     */
-    protected $professionCategory;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Professions", inversedBy="productRouteCard", cascade={"persist"})
-     */
-    protected $profession;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="ProfessionCategory", inversedBy="productRouteCard", cascade={"persist"})
+//     */
+//    protected $professionCategory;
+//
+//    /**
+//     * @ORM\ManyToOne(targetEntity="Professions", inversedBy="productRouteCard", cascade={"persist"})
+//     */
+//    protected $profession;
 
     /**
      * @var string

@@ -29,21 +29,21 @@ class Professions
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="SalariesType", mappedBy="profession", indexBy="profession_category_id", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Tariff", mappedBy="profession", indexBy="id", cascade={"persist"}, orphanRemoval=true)
      */
-    protected $salariesType;
+    protected $tariff;
 
-    /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="profession", cascade={"persist"})
-     */
-    protected $productRouteCard;
+//    /**
+//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="profession", cascade={"persist"})
+//     */
+//    protected $productRouteCard;
 
     /**
      * @return string
      */
     function __toString()
     {
-        return ((string)$this->name) ? (string)$this->name : '';
+        return (string)$this->name ? (string)$this->name : '';
     }
 
     /**
@@ -78,77 +78,46 @@ class Professions
     {
         return $this->name;
     }
+
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->salariesType = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tariff = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add salariesType
+     * Add tariff
      *
-     * @param \MainBundle\Entity\SalariesType $salariesType
+     * @param \MainBundle\Entity\Tariff $tariff
      * @return Professions
      */
-    public function addSalariesType(\MainBundle\Entity\SalariesType $salariesType)
+    public function addTariff(\MainBundle\Entity\Tariff $tariff)
     {
-        $this->salariesType[] = $salariesType;
+        $this->tariff[] = $tariff;
 
         return $this;
     }
 
     /**
-     * Remove salariesType
+     * Remove tariff
      *
-     * @param \MainBundle\Entity\SalariesType $salariesType
+     * @param \MainBundle\Entity\Tariff $tariff
      */
-    public function removeSalariesType(\MainBundle\Entity\SalariesType $salariesType)
+    public function removeTariff(\MainBundle\Entity\Tariff $tariff)
     {
-        $this->salariesType->removeElement($salariesType);
+        $this->tariff->removeElement($tariff);
     }
 
     /**
-     * Get salariesType
+     * Get tariff
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getSalariesType()
+    public function getTariff()
     {
-        return $this->salariesType;
-    }
-
-    /**
-     * Add productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     * @return Professions
-     */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard[] = $productRouteCard;
-
-        return $this;
-    }
-
-    /**
-     * Remove productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard->removeElement($productRouteCard);
-    }
-
-    /**
-     * Get productRouteCard
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductRouteCard()
-    {
-        return $this->productRouteCard;
+        return $this->tariff;
     }
 }

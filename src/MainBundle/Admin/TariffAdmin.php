@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class SalariesTypeAdmin extends Admin
+class TariffAdmin extends Admin
 {
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -18,7 +18,6 @@ class SalariesTypeAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('hourSalary')
             ->add('daySalary')
             ->add('rate')
@@ -28,11 +27,39 @@ class SalariesTypeAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $subject = $this->getSubject();
+        $tariffId = $subject ? $subject->getId() : null;
+        $addBtn = 'Ավելացնել կարգ';
+
+        //hide add button if tariff has category
+        if($subject && $subject->getProfessionCategory()) {
+            $addBtn = false;
+        }
+
+        $em = $this->modelManager->getEntityManager('MainBundle:ProfessionCategory');
+        $query = $em->createQueryBuilder('c');
+
+        $query->select('c')
+            ->from('MainBundle:ProfessionCategory', 'c')
+            ->leftJoin('c.tariff', 'tf')
+            ->where('tf.id IS NULL');
+
+        if($tariffId) {
+            $query
+                ->orWhere('tf.id = :id')
+                ->setParameter('id', $tariffId);
+        }
+
         $formMapper
-            ->add('professionCategory', null, ['label' => 'profession_category'])
-            ->add('hourSalary')
-            ->add('daySalary')
-            ->add('rate')
+            ->add('professionCategory', 'sonata_type_model', [
+                'label' => 'profession_category',
+                'required'=>false,
+                'btn_add' => $addBtn,
+                'query' => $query
+            ])
+            ->add('hourSalary', null, ['required'=>true, 'label'=>'salary_hour'])
+            ->add('daySalary', null, ['required'=>true, 'label'=>'salary_day'])
+            ->add('rate', null, ['required'=>true, 'label'=>'salary_rate'])
         ;
     }
 
@@ -40,7 +67,6 @@ class SalariesTypeAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('hourSalary')
             ->add('daySalary')
             ->add('rate')
@@ -51,7 +77,7 @@ class SalariesTypeAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('professionCategory', null, ['label' => 'profession_category'])
             ->add('hourSalary')
             ->add('daySalary')

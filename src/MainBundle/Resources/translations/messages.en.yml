@@ -51,7 +51,6 @@ State: Վիճակը
 equipment_workshop: Թող․ արտադ․
 Workshop: Արտադրամասը
 preparation_time: Հանձնման ժամկետը
-ProfessionCategory: Գործավարձի կարգը
 general_count: Ընդհանուր քանակը
 technical_file: Տեխ. ֆայլ
 minimal_volume: Մինիմալ ծավալը
@@ -137,9 +136,11 @@ position_date: Պաշտոնը ստանձ. ամս.
 mobile_phone: Բջջ. հեռախոս
 fixed_phone: Քաղ. հեռախոս
 alternate_phone: Այլ. հեռ.
+profession_category: Կարգը
 email: Էլ․ հասցե
 car_number: Ավոտ. համարանիշը
 diploma: Դիպլոմը
+tariff: Տարիֆը
 address: Հասցե
 husband: Ամուսին
 children: Երեխա
@@ -180,6 +181,9 @@ remove_defects: Վերացման ենթ. թեր.
 from_date: Զբաղեցրել է
 to_date: Ազատվել է
 el_power_value: Էլ․ արժեքը
+salary_hour: Ժամավարձ
+salary_day: Օրավարձ
+salary_rate: Դրույքը
 
 ################################################## TRANSLATIONS FOR EXPORT ##########################################################
 
