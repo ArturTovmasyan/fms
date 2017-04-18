@@ -11,33 +11,48 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ProductRouteCardAdmin extends Admin
+class RouteCardAdmin extends Admin
 {
-    /**
-     * override list query
-     *
-     * @param string $context
-     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
-
-    public function createQuery($context = 'list')
-    {
-        // call parent query
-        $query = parent::createQuery($context);
-        // add selected
-        $query->addSelect('pr, prc, ml');
+//    /**
+//     * override list query
+//     *
+//     * @param string $context
+//     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+//
+//    public function createQuery($context = 'list')
+//    {
+//        $query = parent::createQuery($context);
+//        $query->addSelect('eq, pr, prc, ml');
 //        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
-        $query->leftJoin($query->getRootAlias() . '.profession', 'pr');
-        $query->leftJoin($query->getRootAlias() . '.professionCategory', 'prc');
-        $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
-        return $query;
+//        $query->leftJoin($query->getRootAlias() . '.profession', 'pr');
+//        $query->leftJoin($query->getRootAlias() . '.professionCategory', 'prc');
+//        $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
+//        return $query;
+//    }
 
+    protected $baseRoutePattern = 'route_card';
+
+    /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'list':
+                return 'MainBundle:Admin/List:productRouteCardList.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
     }
 
     //hide remove and edit buttons
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->remove('delete');
-        $collection->remove('edit');
+//        $collection->remove('delete');
+//        $collection->remove('edit');
     }
 
     /**
@@ -57,7 +72,6 @@ class ProductRouteCardAdmin extends Admin
             ->add('profession')
             ->add('professionCategory')
             ->add('jobTime')
-            ->add('tariff', null, ['template' => 'MainBundle:Admin/Show:professionTariffPriceShow.html.twig'])
             ->add('routeCardPrice')
             ->add('specificPercent')
         ;
@@ -68,17 +82,17 @@ class ProductRouteCardAdmin extends Admin
     {
 
         //get route card price
-        $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
-            $this->getSubject()->getRouteCardPrice() : null : null;
+//        $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
+//            $this->getSubject()->getRouteCardPrice() : null : null;
 
         //get product id
 //        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
 
         $formMapper
 //            ->add('productComponent')
-            ->add('operation')
-            ->add('operationCode')
-            ->add('dependency')
+            ->add('operation', null, ['label'=>'route_card_operation'])
+            ->add('operationCode', null, ['label'=>'code'])
+            ->add('dependency', null, ['label'=>'dependency'])
             ->add('equipment', null, [
 //                'query_builder' => function ($query) use ($productId) {
 //                    $result = $query->createQueryBuilder('eq');
@@ -101,16 +115,16 @@ class ProductRouteCardAdmin extends Admin
 //                    return $result;
 //                }
             ])
-            ->add('profession')
-            ->add('professionCategory')
-            ->add('jobTime');
-
-        if($routeCardPrice) {
-            $formMapper
-                ->add('getRouteCardPrice', 'integer', ['label' => 'route_card_price', 'attr' => [
-                    'readonly' => true,
-                    'disabled' => true]]);
-        }
+            ->add('profession', null, ['label'=>'profession_route_card'])
+            ->add('professionCategory', 'number', ['mapped'=>false, 'required'=>false, 'label'=>'profession_category'])
+            ->add('jobTime', null, ['label'=>'job_time'])
+            ->add('tariff', 'number', ['required'=>false, 'mapped'=>false, 'label'=>'tariff', 'attr' => [
+                'readonly' => true,
+                'disabled' => true]])
+            ->add('sum', 'number', ['required'=>false, 'mapped'=>false,'label'=>'sum', 'attr' => [
+                'readonly' => true,
+                'disabled' => true]])
+            ->add('specificPercent', null, ['label'=>'specific_percent'])
         ;
     }
 
@@ -118,13 +132,9 @@ class ProductRouteCardAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-//            ->add('productComponent.product', null, array('query_builder' => function(EntityRepository $er) {
-//                return $er->createQueryBuilder('pc, pp')
-//                    ->leftJoin('pc.product', 'pp');
-//            }))
-                ->add('productComponent.product')
             ->add('profession')
+            ->add('operation')
+            ->add('operationCode')
         ;
     }
 
@@ -132,19 +142,16 @@ class ProductRouteCardAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
-            ->add('productComponent.product')
-            ->add('operation')
-            ->add('operationCode')
-            ->add('dependency')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
+            ->add('operation', null, ['label'=>'route_card_operation'])
+            ->add('operationCode', null, ['label'=>'code'])
+            ->add('dependency', null, ['label'=>'dependency'])
             ->add('equipment')
             ->add('mould')
-            ->add('profession')
-            ->add('professionCategory')
-            ->add('jobTime')
-            ->add('tariff', null, ['template' => 'MainBundle:Admin/List:professionTariffPriceList.html.twig'])
-            ->add('routeCardPrice')
-            ->add('specificPercent')
+            ->add('profession', null, ['label'=>'profession_route_card'])
+            ->add('professionCategory', null, ['label'=>'profession_category'])
+            ->add('jobTime', null, ['label'=>'job_time'])
+            ->add('specificPercent', null, ['label'=>'specific_percent'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],

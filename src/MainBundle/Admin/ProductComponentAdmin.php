@@ -27,8 +27,19 @@ class ProductComponentAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name')
-            ->add('productRouteCard', 'route_card_type')
+            ->add('name', null, ['label'=>'component_name'])
+            ->add('routeCard', 'sonata_type_collection', [
+                'label' => 'route_card_operation',
+                'by_reference' => false,
+                'required' => false,
+                'btn_add' => "Ավելացնել օպերացիյա",
+                'type_options' => [
+                    'delete' => true]
+            ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'table'
+                ])
         ;
     }
 
@@ -56,4 +67,68 @@ class ProductComponentAdmin extends Admin
             ])
         ;
     }
+
+
+    //set rawMaterial in rawExpense
+    public function setRelations($object)
+    {
+        //get route card
+        $routeCards = $object->getRouteCard();
+
+        //if route card exist
+        if($routeCards) {
+
+            foreach($routeCards as $routeCard)
+            {
+                if(!$routeCard->getId()) {
+                    $routeCard->setProductComponent($object);
+                }
+            }
+        }
+    }
+
+
+    public function removeRelations($object)
+    {
+        //get container
+        $container = $this->getConfigurationPool()->getContainer();
+
+        //get entity manager
+        $em = $container->get('doctrine')->getManager();
+
+        //get route card
+        $routeCards = $object->getRouteCard();
+
+
+        if($routeCards) {
+
+            //get delete diff
+            $routeCardsRemoved = $routeCards->getDeleteDiff();
+
+            //removed raw expense
+            if($routeCardsRemoved) {
+                foreach ($routeCardsRemoved as $remove) {
+                    $em->remove($remove);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function prePersist($object)
+    {
+        $this->preUpdate($object);
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function preUpdate($object)
+    {
+        $this->setRelations($object);
+        $this->removeRelations($object);
+    }
+
 }

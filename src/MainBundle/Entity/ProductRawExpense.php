@@ -15,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @UniqueEntity(
  *     fields={"rawMaterials", "product"},
  *     errorPath="rawMaterials",
- *     message="Dublicate raw materials"
+ *     message="Duplicate raw materials"
  * )
  */
 class ProductRawExpense
@@ -46,16 +46,12 @@ class ProductRawExpense
     private $count = 0;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */

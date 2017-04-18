@@ -1,29 +1,29 @@
 {% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
 
-{% set price = 0 %}
+{#{% set price = 0 %}#}
 
- {% block table_body %}
-     <tbody>
-     {% for object in admin.datagrid.results %}
+ {#{% block table_body %}#}
+     {#<tbody>#}
+     {#{% for object in admin.datagrid.results %}#}
 
-         {% set routeCardPrice = object.routeCardPrice %}
+         {#{% set routeCardPrice = object.routeCardPrice %}#}
 
-         {% set price = price + routeCardPrice %}
+         {#{% set price = price + routeCardPrice %}#}
 
-         <tr>
-             {% include admin.getTemplate('inner_list_row') %}
-         </tr>
-     {% endfor %}
+         {#<tr>#}
+             {#{% include admin.getTemplate('inner_list_row') %}#}
+         {#</tr>#}
+     {#{% endfor %}#}
 
-     <tr>
-         <td colspan="11">
-             {{ "Ընդամենը" }}
-         </td>
-         <td colspan="1">
-             {{ price }}
-         </td>
-     </tr>
+     {#<tr>#}
+         {#<td colspan="11">#}
+             {#{{ "Ընդամենը" }}#}
+         {#</td>#}
+         {#<td colspan="1">#}
+             {#{{ price }}#}
+         {#</td>#}
+     {#</tr>#}
 
-     </tbody>
+     {#</tbody>#}
 
- {% endblock %}
+ {#{% endblock %}#}

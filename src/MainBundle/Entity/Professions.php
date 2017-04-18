@@ -33,10 +33,10 @@ class Professions
      */
     protected $tariff;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="profession", cascade={"persist"})
-//     */
-//    protected $productRouteCard;
+    /**
+     * @ORM\OneToMany(targetEntity="RouteCard", mappedBy="profession", cascade={"persist"})
+     */
+    protected $routeCard;
 
     /**
      * @return string

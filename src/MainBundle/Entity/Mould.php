@@ -56,8 +56,6 @@ class Mould
     private $bandwidth;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="last_repair", type="datetime")
      */
     private $lastRepair;
@@ -92,7 +90,6 @@ class Mould
      */
     private $product;
 
-    //TODO
     /**
      * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="mould", cascade={"persist"})
      * @ORM\JoinTable(name="mould_place")
@@ -104,16 +101,15 @@ class Mould
      */
     private $equipment;
 
-    //TODO
     /**
      * @ORM\ManyToOne(targetEntity="PurposeList", inversedBy="mould", cascade={"persist"})
      */
     private $purposeList;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="mould", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RouteCard", mappedBy="mould", cascade={"persist"})
      */
-    protected $productRouteCard;
+    protected $routeCard;
 
     /**
      * @var integer
@@ -134,16 +130,12 @@ class Mould
 //    private $chronology for SHOW ;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime", nullable=true)
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime", nullable=true)
      */
@@ -676,35 +668,35 @@ class Mould
     }
 
     /**
-     * Add productRouteCard
+     * Add routeCard
      *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @param \MainBundle\Entity\RouteCard $routeCard
      * @return Mould
      */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    public function addRouteCard(\MainBundle\Entity\RouteCard $routeCard)
     {
-        $this->productRouteCard[] = $productRouteCard;
+        $this->routeCard[] = $routeCard;
 
         return $this;
     }
 
     /**
-     * Remove productRouteCard
+     * Remove routeCard
      *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
+     * @param \MainBundle\Entity\RouteCard $routeCard
      */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
+    public function removeRouteCard(\MainBundle\Entity\RouteCard $routeCard)
     {
-        $this->productRouteCard->removeElement($productRouteCard);
+        $this->routeCard->removeElement($routeCard);
     }
 
     /**
-     * Get productRouteCard
+     * Get routeCard
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProductRouteCard()
+    public function getRouteCard()
     {
-        return $this->productRouteCard;
+        return $this->routeCard;
     }
 }

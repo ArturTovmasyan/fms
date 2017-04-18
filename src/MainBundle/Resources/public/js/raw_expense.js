@@ -32,7 +32,7 @@ $( document ).ready(function() {
     $('body').on('click', addNew, function() {
             setTimeout(function () {
                 generateIds(counts);
-            }, 1000);
+            }, 2000);
     });
 
     //detect change expense on product page
@@ -93,18 +93,21 @@ $( document ).ready(function() {
                     var sumSelector = "#"+fieldToken+"productRawExpense_"+i+"_sum";
                     var countSelector = "#"+fieldToken+"productRawExpense_"+i+"_count";
 
-                    var size = getSizeValue(data[i].size);
-                    var count = $(countSelector).val();
+                    if(data[i]) {
+                        var size = getSizeValue(data[i].size);
+                        $(sizeSelector).val(size);
 
-                    if(count) {
-                        var sum = count*data[i].actualCost;
-                    }else{
-                        sum = 0;
+                        var count = $(countSelector).val();
+
+                        if(count) {
+                            var sum = count*data[i].actualCost;
+                        }else{
+                            sum = 0;
+                        }
+
+                        $(costSelector).val(data[i].actualCost);
+                        $(sumSelector).val(sum);
                     }
-
-                    $(sizeSelector).val(size);
-                    $(costSelector).val(data[i].actualCost);
-                    $(sumSelector).val(sum);
                 }
             }
         });

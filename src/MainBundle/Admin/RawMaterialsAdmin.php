@@ -112,8 +112,7 @@ class RawMaterialsAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
-//            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_material_id_show.html.twig'])
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_material_id_show.html.twig'])
             ->add('name')
             ->add('description')
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])

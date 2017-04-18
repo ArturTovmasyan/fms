@@ -5,14 +5,14 @@ namespace MainBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-
-//* @UniqueEntity(fields={"code"}, errorPath="code", message="this code is already exist")
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * RawMaterials
  *
  * @ORM\Table(name="raw_materials")
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\RawMaterialsRepository")
+ * @UniqueEntity(fields={"code"}, errorPath="code", message="This code is already exist")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",

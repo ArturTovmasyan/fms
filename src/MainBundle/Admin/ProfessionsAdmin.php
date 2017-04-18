@@ -11,23 +11,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class ProfessionsAdmin extends Admin
 {
 
-//    /**
-//     * override list query
-//     *
-//     * @param string $context
-//     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
-//
-//    public function createQuery($context = 'list')
-//    {
-//        // call parent query
-//        $query = parent::createQuery($context);
-//        // add selected
-//        $query->addSelect('ps, pc');
-//        $query->leftJoin($query->getRootAlias() . '.salariesType', 'ps');
-//        $query->leftJoin('ps.professionCategory', 'pc');
-//        return $query;
-//    }
-
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -84,14 +67,14 @@ class ProfessionsAdmin extends Admin
 
     public function setRelations($object)
     {
-        //get salariesType
-        $salariesTypes = $object->getTariff();
+        //get tariffs
+        $tariffs = $object->getTariff();
 
-        foreach($salariesTypes as $salariesType)
+        foreach($tariffs as $tariff)
         {
-            if(!$salariesTypes->contains($object))
+            if(!$tariffs->contains($object))
             {
-                $salariesType->setProfession($object);
+                $tariff->setProfession($object);
             }
         }
     }

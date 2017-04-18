@@ -179,10 +179,10 @@ class Equipment
      */
     protected $images;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
-//     */
-//    protected $productRouteCard;
+    /**
+     * @ORM\OneToMany(targetEntity="RouteCard", mappedBy="equipment", cascade={"persist"})
+     */
+    protected $routeCard;
 
     /**
      * @var datetime $created

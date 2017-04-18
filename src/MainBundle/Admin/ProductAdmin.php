@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Traits\Resource\Product;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -10,6 +11,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ProductAdmin extends Admin
 {
+    use Product;
+
     //set fields option
     protected $formOptions = [
         'cascade_validation' => true
@@ -165,9 +168,23 @@ class ProductAdmin extends Admin
                     'inline' => 'table'
                 ])
             ->end()
-            ->with('operation_card')
+            ->with('route_card')
 
-            ->add('routerCard', 'text', ['label'=>'THIS PART IS IN PROCESS ...', 'required' => false, 'mapped'=>false, 'attr'=>['readonly' => true, 'disabled'=>true]])
+//            ->add('routerCard', 'text', ['label'=>'THIS PART IS IN PROCESS ...', 'required' => false, 'mapped'=>false, 'attr'=>['readonly' => true, 'disabled'=>true]])
+
+            ->add('productComponent', 'sonata_type_collection', [
+                'label' => false,
+                'by_reference' => false,
+                'required' => false,
+                'btn_add' => 'Ավելացնել երթուղային քարտ',
+                'type_options' => [
+                    'delete' => true]
+            ],
+                [
+                    'edit' => 'inline',
+                    'inline' => 'inline'
+                ])
+
             ->end()
             ->end();
     }
@@ -202,48 +219,6 @@ class ProductAdmin extends Admin
                 ]
             ])
         ;
-    }
-
-    //set rawMaterial in rawExpense
-    public function setRelations($object)
-    {
-        // get product raw expenses
-        $productRawExpense = $object->getProductRawExpense();
-
-        // if product raw expenses is exist
-        if($productRawExpense) {
-
-            foreach($productRawExpense as $productRawExpens)
-            {
-                if(!$productRawExpens->getId() || !$productRawExpense->contains($object)) {
-                    $productRawExpens->setProduct($object);
-                }
-            }
-        }
-    }
-
-    public function removeRelations($object)
-    {
-        //get container
-        $container = $this->getConfigurationPool()->getContainer();
-
-        //get entity manager
-        $em = $container->get('doctrine')->getManager();
-
-        // get productRawExpenses
-        $productRawExpense = $object->getProductRawExpense();
-
-        if($productRawExpense) {
-            //get delete diff
-            $rawExpenseRemoved = $productRawExpense->getDeleteDiff();
-
-            //removed raw expense
-            if($rawExpenseRemoved) {
-                foreach ($rawExpenseRemoved as $remove) {
-                    $em->remove($remove);
-                }
-            }
-        }
     }
 
 

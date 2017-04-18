@@ -3,15 +3,15 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * ProductRouteCard
- *
+ * Class RouteCard
+ * @package MainBundle\Entity
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity
  */
-class ProductRouteCard
+class RouteCard
 {
     /**
      * @var integer
@@ -25,45 +25,43 @@ class ProductRouteCard
     /**
      * @var string
      *
-     * @ORM\Column(name="operation", type="string", length=255)
+     * @ORM\Column(name="operation", type="string", length=50, nullable=true)
      */
     private $operation;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="operationCode", type="string", length=255)
+     * @ORM\Column(name="operationCode", type="string", length=50, nullable=true)
      */
     private $operationCode;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="dependency", type="string", length=255)
+     * @ORM\Column(name="dependency", type="string", length=50, nullable=true)
      */
     private $dependency;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="productRouteCard", cascade={"persist"})
-//     */
-//    protected $equipment;
-
-//    /**
-//     * @ORM\ManyToOne(targetEntity="ProfessionCategory", inversedBy="productRouteCard", cascade={"persist"})
-//     */
-//    protected $professionCategory;
-//
-//    /**
-//     * @ORM\ManyToOne(targetEntity="Professions", inversedBy="productRouteCard", cascade={"persist"})
-//     */
-//    protected $profession;
+    /**
+     * @ORM\ManyToOne(targetEntity="Professions", inversedBy="routeCard", cascade={"persist"})
+     */
+    protected $profession;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="jobTime", type="string", length=255)
+     * @ORM\Column(name="jobTime", type="string", length=50, nullable=true)
+     * @Assert\Regex(pattern="/^[0-9]\d*[\.]{0,1}(\d+)?$/", message="This value must contain only number and decimal")
      */
     private $jobTime;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="sum", type="integer", nullable=true)
+     */
+    private $sum;
 
     /**
      * @var integer
@@ -73,24 +71,19 @@ class ProductRouteCard
     private $specificPercent = 100;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProductComponent", inversedBy="productRouteCard", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="ProductComponent", inversedBy="routeCard", cascade={"persist", "remove"})
      */
     protected $productComponent;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Mould", inversedBy="productRouteCard", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Mould", inversedBy="routeCard", cascade={"persist"})
      */
     protected $mould;
 
-      /**
-     * @var integer
-     *
-     * @ORM\Column(name="route_card_price", type="integer")
+    /**
+     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="routeCard", cascade={"persist"})
      */
-    protected $routeCardPrice = 0;
-
-    // set profession tariff in productRouteCard list and show
-    protected $tariff;
+    protected $equipment;
 
     /**
      * @return string
@@ -111,10 +104,8 @@ class ProductRouteCard
     }
 
     /**
-     * Set operation
-     *
-     * @param string $operation
-     * @return ProductRouteCard
+     * @param $operation
+     * @return $this
      */
     public function setOperation($operation)
     {
@@ -133,54 +124,10 @@ class ProductRouteCard
         return $this->operation;
     }
 
-    /**
-     * Set tariff
-     *
-     * @param string $tariff
-     * @return ProductRouteCard
-     */
-    public function setTariff($tariff)
-    {
-        $this->tariff = $tariff;
-
-        return $this;
-    }
 
     /**
-     * Get tariff
-     *
-     * @return string
-     */
-    public function getTariff()
-    {
-        return $this->tariff;
-    }
-
-    /**
-     * @param $routeCardPrice
+     * @param $operationCode
      * @return $this
-     */
-    public function setRouteCardPrice($routeCardPrice)
-    {
-        $this->routeCardPrice = $routeCardPrice;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-
-    public function getRouteCardPrice()
-    {
-        return $this->routeCardPrice;
-    }
-
-    /**
-     * Set operationCode
-     *
-     * @param string $operationCode
-     * @return ProductRouteCard
      */
     public function setOperationCode($operationCode)
     {
@@ -200,10 +147,8 @@ class ProductRouteCard
     }
 
     /**
-     * Set dependency
-     *
-     * @param string $dependency
-     * @return ProductRouteCard
+     * @param $dependency
+     * @return $this
      */
     public function setDependency($dependency)
     {
@@ -222,34 +167,9 @@ class ProductRouteCard
         return $this->dependency;
     }
 
-//    /**
-//     * Set equipment
-//     *
-//     * @param string $equipment
-//     * @return ProductRouteCard
-//     */
-//    public function setEquipment($equipment)
-//    {
-//        $this->equipment = $equipment;
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * Get equipment
-//     *
-//     * @return string
-//     */
-//    public function getEquipment()
-//    {
-//        return $this->equipment;
-//    }
-
     /**
-     * Set jobTime
-     *
-     * @param string $jobTime
-     * @return ProductRouteCard
+     * @param $jobTime
+     * @return $this
      */
     public function setJobTime($jobTime)
     {
@@ -269,10 +189,8 @@ class ProductRouteCard
     }
 
     /**
-     * Set specificPercent
-     *
-     * @param integer $specificPercent
-     * @return ProductRouteCard
+     * @param $specificPercent
+     * @return $this
      */
     public function setSpecificPercent($specificPercent)
     {
@@ -292,10 +210,8 @@ class ProductRouteCard
     }
 
     /**
-     * Set productComponent
-     *
-     * @param \MainBundle\Entity\ProductComponent $productComponent
-     * @return ProductRouteCard
+     * @param ProductComponent|null $productComponent
+     * @return $this
      */
     public function setProductComponent(\MainBundle\Entity\ProductComponent $productComponent = null)
     {
@@ -315,10 +231,8 @@ class ProductRouteCard
     }
 
     /**
-     * Set mould
-     *
-     * @param \MainBundle\Entity\Mould $mould
-     * @return ProductRouteCard
+     * @param Mould|null $mould
+     * @return $this
      */
     public function setMould(\MainBundle\Entity\Mould $mould = null)
     {
@@ -338,33 +252,33 @@ class ProductRouteCard
     }
 
     /**
-     * Set professionCategory
+     * Set equipment
      *
-     * @param \MainBundle\Entity\ProfessionCategory $professionCategory
-     * @return ProductRouteCard
+     * @param \MainBundle\Entity\Equipment $equipment
+     * @return RouteCard
      */
-    public function setProfessionCategory(\MainBundle\Entity\ProfessionCategory $professionCategory = null)
+    public function setEquipment(\MainBundle\Entity\Equipment $equipment = null)
     {
-        $this->professionCategory = $professionCategory;
+        $this->equipment = $equipment;
 
         return $this;
     }
 
     /**
-     * Get professionCategory
+     * Get equipment
      *
-     * @return \MainBundle\Entity\ProfessionCategory
+     * @return \MainBundle\Entity\Equipment 
      */
-    public function getProfessionCategory()
+    public function getEquipment()
     {
-        return $this->professionCategory;
+        return $this->equipment;
     }
 
     /**
      * Set profession
      *
      * @param \MainBundle\Entity\Professions $profession
-     * @return ProductRouteCard
+     * @return RouteCard
      */
     public function setProfession(\MainBundle\Entity\Professions $profession = null)
     {
@@ -376,10 +290,52 @@ class ProductRouteCard
     /**
      * Get profession
      *
-     * @return \MainBundle\Entity\Professions
+     * @return \MainBundle\Entity\Professions 
      */
     public function getProfession()
     {
         return $this->profession;
+    }
+
+//    /**
+//     * @return mixed
+//     */
+//    public function getProductRouteCardPrice()
+//    {
+//        $tariffs = $this->getProfession()->getTariff();
+//
+//        if($tariffs) {
+//            foreach ($tariffs as $tariff)
+//            {
+//                $catId = $tariff->getProfessionCategory()->getId();
+//
+//                if($catId) {
+//                }
+//            }
+//        }
+//        return $rawPrice;
+//    }
+
+    /**
+     * Set sum
+     *
+     * @param string $sum
+     * @return RouteCard
+     */
+    public function setSum($sum)
+    {
+        $this->sum = $sum;
+
+        return $this;
+    }
+
+    /**
+     * Get sum
+     *
+     * @return string 
+     */
+    public function getSum()
+    {
+        return $this->sum;
     }
 }

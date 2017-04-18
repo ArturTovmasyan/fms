@@ -5,7 +5,6 @@ namespace MainBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Model\MultipleFileInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation\Groups;
 
 /**
