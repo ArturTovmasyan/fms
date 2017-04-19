@@ -59,9 +59,9 @@ class RouteCard
     /**
      * @var string
      *
-     * @ORM\Column(name="sum", type="integer", nullable=true)
+     * @ORM\Column(name="sum", type="integer")
      */
-    private $sum;
+    private $sum = 0;
 
     /**
      * @var integer
@@ -71,7 +71,7 @@ class RouteCard
     private $specificPercent = 100;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ProductComponent", inversedBy="routeCard", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="ProductComponent", inversedBy="routeCard", cascade={"persist"})
      */
     protected $productComponent;
 

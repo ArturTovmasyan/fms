@@ -92,7 +92,9 @@ class RouteCardAdmin extends Admin
 //            ->add('productComponent')
             ->add('operation', null, ['label'=>'route_card_operation'])
             ->add('operationCode', null, ['label'=>'code'])
-            ->add('dependency', null, ['label'=>'dependency'])
+            ->add('dependency', 'choice', ['label'=>'dependency', 'required'=>false,
+
+            ])
             ->add('equipment', null, [
 //                'query_builder' => function ($query) use ($productId) {
 //                    $result = $query->createQueryBuilder('eq');
