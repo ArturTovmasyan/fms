@@ -66,7 +66,7 @@ class RouteCard
     /**
      * @var integer
      *
-     * @ORM\Column(name="specificPercent", type="integer")
+     * @ORM\Column(name="specificPercent", type="integer", nullable=true)
      */
     private $specificPercent = 100;
 

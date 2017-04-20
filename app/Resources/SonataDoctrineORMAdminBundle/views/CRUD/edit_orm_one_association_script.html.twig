@@ -23,6 +23,8 @@ This code manage the one-to-many association field popup
     <script type="text/javascript">
 
         var classArray = ['productComponent'];
+
+        //my custom request call back
         var requestCallBack = function (content) {
           return content;
         };
@@ -34,7 +36,6 @@ This code manage the one-to-many association field popup
             event.stopPropagation();
 
             var form = jQuery(this).closest('form');
-
 
             // the ajax post
             jQuery(form).ajaxSubmit({
@@ -53,43 +54,35 @@ This code manage the one-to-many association field popup
                         return;
                     }
 
-    //custom code for get id name ###############################################
+// ###############################################
+
                     var id = '{{ id }}';
                     id = id.split('_');
                     var className= id[id.length-1];
-                    var token = id[0];
+                    var operationCount = jQuery('#field_container_{{ id }}').find('tr:last').length;
+                    var $appendRow = jQuery(jQuery.parseHTML(html)).find('tr:last');
 
-                    if(jQuery.inArray(className, classArray) !== -1) {
+                    if((jQuery.inArray(className, classArray) !== -1) ||
+                    (className === 'productRawExpense' && (operationCount === 0)) || (operationCount === 0)) {
                         jQuery('#field_container_{{ id }}').replaceWith(html);
-                    }
-
-                    if(className === 'productRawExpense') {
-                        var rawExpenseBlock = "#field_container_"+token+"_productRawExpense";
-                        var expenseCount = $(rawExpenseBlock + ' tbody.sonata-ba-tbody tr').length;
-
-                        if(expenseCount === 0) {
-                            jQuery('#field_container_{{ id }}').replaceWith(html);
-                        }else{
-                            var $appendRow = jQuery(jQuery.parseHTML(html)).find('tr:last');
-                            jQuery('#field_container_{{ id }}').find('tr:last').after($appendRow);
-                        }
+                    }else{
+                        $appendRow = requestCallBack($appendRow);
+                        jQuery('#field_container_{{ id }}').find('tr:last').after($appendRow);
                     }
 
                     if(className === 'routeCard') {
-                        var number = id[id.length-2];
-                        var opId = '#sonata-ba-field-container-'+token+'_productComponent_'+number+'_routeCard tbody.sonata-ba-tbody tr';
-                        var existOpLength = $(opId).length;
 
-                        html = requestCallBack(html);
-
-                        if(existOpLength === 0) {
+                        if(operationCount === 0){
                             jQuery('#field_container_{{ id }}').replaceWith(html);
+
                         }else{
-                            $appendRow = jQuery(jQuery.parseHTML(html)).find('tr:last');
+                            $appendRow = requestCallBack($appendRow);
                             jQuery('#field_container_{{ id }}').find('tr:last').after($appendRow);
                         }
                     }
 
+
+// ###############################################
                     Admin.shared_setup(jQuery('#field_container_{{ id }}'));
 
                     if(jQuery('input[type="file"]', form).length > 0) {
@@ -118,13 +111,11 @@ This code manage the one-to-many association field popup
             // add the jQuery event to the a element
             jQuery(link)
                 .click(field_add_{{ id }})
-                .trigger('click')
-            ;
+                .trigger('click');
 
             return false;
         }
-    </script>
 
-    <!-- / edit one association -->
+    </script>
 
 {% endautoescape %}

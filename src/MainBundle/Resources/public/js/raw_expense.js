@@ -29,31 +29,44 @@ $( document ).ready(function() {
 
     //detect change expense on product page
     $('body').on('change', "tbody.sonata-ba-tbody tr td select", function(event) {
-        ids = [];
-        var id = $(this).val();
+        var number = event.target.id;
+        var splitId = number.split('_');
+        var ifMaterialSelect  = splitId[splitId.length -1];
 
-        if(id) {
-            ids.push(id);
-            var number = event.target.id;
-            var idNumber = number.split('_')[2];
-            setSingleMaterialsData(ids, idNumber);
+        if(ifMaterialSelect === 'rawMaterials') {
+
+            var idNumber = splitId[2];
+            ids = [];
+            var id = $(this).val();
+
+            if(id) {
+                ids.push(id);
+                setSingleMaterialsData(ids, idNumber);
+            }
         }
+
     });
 
 
     //detect change expense on product page
     $('body').on('change', "tbody.sonata-ba-tbody tr td input", function(event) {
-        var count = $(this).val();
+
         var number = event.target.id;
-        var formId = number.split('_')[2];
+        var splitId = number.split('_');
+        var ifCountSelect  = splitId[splitId.length -1];
 
-        var costSelector = "#"+fieldToken+"productRawExpense_"+formId+"_cost";
-        var materialSelect = '#'+fieldToken+'productRawExpense_'+formId+'_sum';
+        if(ifCountSelect === 'count') {
+            var count = $(this).val();
+            var formId = splitId[2];
 
-        var cost = $(costSelector).val();
-        var sum = count*cost;
+            var costSelector = "#"+fieldToken+"productRawExpense_"+formId+"_cost";
+            var materialSelect = '#'+fieldToken+'productRawExpense_'+formId+'_sum';
 
-        $(materialSelect).val(sum);
+            var cost = $(costSelector).val();
+            var sum = count*cost;
+
+            $(materialSelect).val(sum);
+        }
     });
 
     //detect change on product raw expense page

@@ -80,21 +80,19 @@ class RouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+      //$productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
 
-        //get route card price
-//        $routeCardPrice = $this->getSubject() ? $this->getSubject()->getRouteCardPrice() ?
-//            $this->getSubject()->getRouteCardPrice() : null : null;
-
-        //get product id
-//        $productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
+        $helpText = 'First manually';
 
         $formMapper
-//            ->add('productComponent')
             ->add('operation', null, ['label'=>'route_card_operation'])
-            ->add('operationCode', null, ['label'=>'code'])
-            ->add('dependency', 'choice', ['label'=>'dependency', 'required'=>false,
-
+            ->add('operationCode', null, ['label'=>'code', 'sonata_help' => $helpText])
+            ->add('dep', 'choice', [
+                'label'=>'dependency',
+                'required'=>false,
+                'mapped'=>false,
             ])
+            ->add('dependency', 'hidden', ['label'=>false, 'data'=>''])
             ->add('equipment', null, [
 //                'query_builder' => function ($query) use ($productId) {
 //                    $result = $query->createQueryBuilder('eq');
@@ -118,15 +116,24 @@ class RouteCardAdmin extends Admin
 //                }
             ])
             ->add('profession', null, ['label'=>'profession_route_card'])
-            ->add('professionCategory', 'number', ['mapped'=>false, 'required'=>false, 'label'=>'profession_category'])
-            ->add('jobTime', null, ['label'=>'job_time'])
+            ->add('professionCategory', 'number', [
+                'mapped'=>false,
+                'required'=>false,
+                'label'=>'profession_category', 'attr' => [
+                    'readonly' => true,
+                    'disabled' => true]])
+            ->add('jobTime', null, ['label'=>'job_time', 'attr' => [
+                'readonly' => true,
+                'disabled' => true]])
             ->add('tariff', 'number', ['required'=>false, 'mapped'=>false, 'label'=>'tariff', 'attr' => [
                 'readonly' => true,
                 'disabled' => true]])
             ->add('sum', 'number', ['required'=>false, 'mapped'=>false,'label'=>'sum', 'attr' => [
                 'readonly' => true,
                 'disabled' => true]])
-            ->add('specificPercent', null, ['label'=>'specific_percent'])
+            ->add('specificPercent', null, ['label'=>'specific_percent', 'attr' => [
+                'readonly' => true,
+                'disabled' => true]])
         ;
     }
 

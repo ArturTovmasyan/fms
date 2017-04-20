@@ -106,12 +106,12 @@ class ProductAdmin extends Admin
                 'label' => 'equipment',
                 'query_builder' => function($query)  {
                     $result = $query->createQueryBuilder('p');
-                        $result
-                            ->select('eq')
-                            ->from('MainBundle:Equipment','eq')
-                            ->leftJoin('eq.product', 'ep')
-                            ->where('eq.type = :type')
-                            ->setParameter(':type', 1);
+                    $result
+                        ->select('eq')
+                        ->from('MainBundle:Equipment','eq')
+                        ->leftJoin('eq.product', 'ep')
+                        ->where('eq.type = :type')
+                        ->setParameter(':type', 1);
 
                     return $result;
                 }
@@ -120,13 +120,13 @@ class ProductAdmin extends Admin
                 'label' => 'mould',
                 'query_builder' => function($query) use ($editProductId, $mouldIds) {
                     $result = $query->createQueryBuilder('p');
-                        $result
-                            ->select('m')
-                            ->from('MainBundle:Mould', 'm')
-                            ->leftJoin('m.product', 'mp')
-                            ->groupBy('m.id')
-                            ->where('mp.id is null')
-                            ->having('COUNT(mp.id) < m.mouldType');
+                    $result
+                        ->select('m')
+                        ->from('MainBundle:Mould', 'm')
+                        ->leftJoin('m.product', 'mp')
+                        ->groupBy('m.id')
+                        ->where('mp.id is null')
+                        ->having('COUNT(mp.id) < m.mouldType');
                     if($editProductId) {
 
                         $result->resetDqlPart('having');
@@ -147,7 +147,7 @@ class ProductAdmin extends Admin
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('size', 'choice', ['required'=>false,
                 'choices'=> ['Կգ', 'Մետր','Հատ','Կոմպլեկտ', 'Լիտր']
-               ])
+            ])
             ->add('workshop', 'sonata_type_model', ['label' => 'workshop', 'required'=>false, 'btn_add' => "Ավելացնել արտադրամաս",])
             ->add('weight')
             ->end()
@@ -217,8 +217,7 @@ class ProductAdmin extends Admin
                     'edit' => [],
                     'delete' => [],
                 ]
-            ])
-        ;
+            ]);
     }
 
 
