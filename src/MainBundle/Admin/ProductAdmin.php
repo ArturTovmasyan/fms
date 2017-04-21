@@ -15,7 +15,7 @@ class ProductAdmin extends Admin
 
     //set fields option
     protected $formOptions = [
-        'cascade_validation' => true
+        'cascade_validation' => true,
     ];
 
     /**
@@ -87,7 +87,7 @@ class ProductAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //get product id for edit
-        $editProductId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+        $editProductId = $this->getSubject() ? $this->getSubject()->getId() :  null;
 
         $mouldIds = [];
 
@@ -151,42 +151,45 @@ class ProductAdmin extends Admin
             ->add('workshop', 'sonata_type_model', ['label' => 'workshop', 'required'=>false, 'btn_add' => "Ավելացնել արտադրամաս",])
             ->add('weight')
             ->end()
-            ->end()
-
-            ->tab('operation_card')
-            ->with('product_expense')
-            ->add('productRawExpense', 'sonata_type_collection', [
-                'label' => false,
-                'by_reference' => false,
-                'required' => false,
-                'btn_add' => "Ավելացնել նյութածախս",
-                'type_options' => [
-                    'delete' => true]
-            ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'table'
-                ])
-            ->end()
-            ->with('route_card')
-
-//            ->add('routerCard', 'text', ['label'=>'THIS PART IS IN PROCESS ...', 'required' => false, 'mapped'=>false, 'attr'=>['readonly' => true, 'disabled'=>true]])
-
-            ->add('productComponent', 'sonata_type_collection', [
-                'label' => false,
-                'by_reference' => false,
-                'required' => false,
-                'btn_add' => 'Ավելացնել երթուղային քարտ',
-                'type_options' => [
-                    'delete' => true]
-            ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'inline'
-                ])
-
-            ->end()
             ->end();
+        if($editProductId) {
+            $formMapper
+            ->tab('raw_expense')
+                ->with('product_expense')
+                ->add('productRawExpense', 'sonata_type_collection', [
+                    'label' => false,
+                    'by_reference' => false,
+                    'required' => false,
+                    'btn_add' => "Ավելացնել նյութածախս",
+                    'type_options' => [
+                        'delete' => true]
+                ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table'
+                    ])
+                ->end()
+                ->end()
+
+            ->tab('route_card')
+
+                ->add('productComponent', 'sonata_type_collection', [
+                    'label' => false,
+                    'by_reference' => false,
+                    'required' => false,
+                    'btn_add' => 'Ավելացնել երթուղային քարտ',
+                    'type_options' => [
+                        'delete' => true]
+                ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'inline'
+                    ])
+
+                ->end()
+                ->end();
+        };
+
     }
 
     // Fields to be shown on filter forms

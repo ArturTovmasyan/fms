@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use Doctrine\ORM\PersistentCollection;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -99,16 +100,17 @@ class ProductComponentAdmin extends Admin
         //get route card
         $routeCards = $object->getRouteCard();
 
-
         if($routeCards) {
 
-            //get delete diff
-            $routeCardsRemoved = $routeCards->getDeleteDiff();
+            if($routeCards instanceof PersistentCollection) {
+                //get delete diff
+                $routeCardsRemoved = $routeCards->getDeleteDiff();
 
-            //removed raw expense
-            if($routeCardsRemoved) {
-                foreach ($routeCardsRemoved as $remove) {
-                    $em->remove($remove);
+                //removed raw expense
+                if($routeCardsRemoved) {
+                    foreach ($routeCardsRemoved as $remove) {
+                        $em->remove($remove);
+                    }
                 }
             }
         }

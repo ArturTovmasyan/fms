@@ -62,30 +62,8 @@ $( document ).ready(function() {
     });
 
 
-    $(routeCardBlock).on("change", "select", function(e) {
-
-        var number = e.target.id;
-        var splitId = number.split('_');
-
-        var ifDependencySelected = splitId[splitId.length - 1];
-        var componentNumber = splitId[2];
-        var operationNumber = splitId[splitId.length - 2];
-
-        if(ifDependencySelected === 'dep') {
-            var dependencyVal = $(this).val();
-
-            var fieldToken = splitId[0];
-
-            var dependencySelector = '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
-                operationNumber + '_dependency';
-
-            $(dependencySelector).val(dependencyVal);
-        }
-
-    });
-
-
     /**
+     * This function is used to set dependency fields value
      *
      * @param componentCount
      */
@@ -102,18 +80,30 @@ $( document ).ready(function() {
 
             if(operationCount > 0) {
 
-                options += '<option value=""></option>';
+                // options += '<option value=""> </option>';
 
-                for(var i =0; i<operationCount; i++)
+                for(var i = 0; i<operationCount; i++)
                 {
                     var codeSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_operationCode';
-                    var depSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_dep';
+                    var depSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_dependency';
+                    var myClass = $(depSelector).attr('class');
+                    var codeVal = $(codeSelector).val();
 
-                    if($(codeSelector).val()) {
-                        codes.push($(codeSelector).val());
-                        options += (option.replace('id', codes[i]).replace('name',codes[i]))
+                    //generate dependency values
+                    codes.push(codeVal);
+                    options += (option.replace('id', codes[i]).replace('name',codes[i]));
+
+                    //check id dependencies exist(EDIT PAGE)
+                    if(myClass) {
+                        var index = options.indexOf(myClass);
+                        if(index === -1) {
+                            var setOpt = '<option value="id" selected>name</option>';
+                                setOpt = setOpt.replace('id', myClass).replace('name', myClass);
+                                options += setOpt;
+                        } else {
+                            options = options.slice(0, index + myClass.length + 1) + ' selected' + options.slice(index + myClass.length + 1);
+                        }
                     }
-
                     $(depSelector).html(options);
                 }
             }
@@ -121,4 +111,52 @@ $( document ).ready(function() {
     }
 
 
+    $(routeCardBlock).on("change", "select", function(e) {
+
+        var number = e.target.id;
+        var splitId = number.split('_');
+        var selector = splitId[splitId.length - 1];
+
+        if(selector === 'profession') {
+
+            var professionId = $(this).val();
+            var componentNumber = splitId[2];
+            var operationNumber = splitId[splitId.length - 2];
+            var fieldToken = splitId[0];
+
+            var categorySelector = '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
+                operationNumber + '_professionCategory';
+
+            if(professionId) {
+                getCategoryByProfessionValue(professionId, categorySelector);
+            }
+        }
+    });
+
+
+    /**
+     * This function is used to get profession categories by id
+     *
+     * @param id
+     * @param selector
+     */
+    function getCategoryByProfessionValue(id, selector) {
+
+        $.get("/admin/api/v1.0/profession-category/"+id, function(data) {
+
+            if(data.length > 0) {
+                console.log(data);
+
+                var option = '<option value="id">name</option>';
+                var options = '';
+
+                for(var i = 0; i< data.length;i++)
+                {
+                    options += (option.replace('id', data[i].id).replace('name',data[i].name))
+                }
+
+                $(selector).html(options);
+            }
+        });
+    }
 });

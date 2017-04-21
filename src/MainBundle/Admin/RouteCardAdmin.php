@@ -9,26 +9,34 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RouteCardAdmin extends Admin
 {
-//    /**
-//     * override list query
-//     *
-//     * @param string $context
-//     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
-//
-//    public function createQuery($context = 'list')
-//    {
-//        $query = parent::createQuery($context);
-//        $query->addSelect('eq, pr, prc, ml');
-//        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
-//        $query->leftJoin($query->getRootAlias() . '.profession', 'pr');
-//        $query->leftJoin($query->getRootAlias() . '.professionCategory', 'prc');
-//        $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
-//        return $query;
-//    }
+    //set fields option
+    protected $formOptions = [
+        'cascade_validation' => true,
+    ];
+
+    /**
+     * override list query
+     *
+     * @param string $context
+     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
+
+    public function createQuery($context = 'list')
+    {
+        $query = parent::createQuery($context);
+        $query->addSelect('pr, pc, eq, ml');
+        $query->leftJoin($query->getRootAlias() . '.profession', 'pr');
+        $query->leftJoin($query->getRootAlias() . '.productComponent', 'pc');
+        $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
+        $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
+
+        return $query;
+    }
 
     protected $baseRoutePattern = 'route_card';
 
@@ -80,48 +88,52 @@ class RouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-      //$productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
-
+       //$productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
+        $builder = $formMapper->getFormBuilder();
+        $factory = $builder->getFormFactory();
+        $currentId = $this->getSubject() ? $this->getSubject()->getId() : null;
         $helpText = 'First manually';
+        $choices = null;
+
+
+        if($currentId) {
+            $choices = $this->getSubject()->getDependency();
+        }
+
+        $changeDependency = function (FormEvent $event) use ($factory) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            $form->add('dependency', 'choice', [
+                'choices' => [
+                    $data['dependency'] => $data['dependency'],
+                ]
+            ]);
+        };
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, $changeDependency);
 
         $formMapper
             ->add('operation', null, ['label'=>'route_card_operation'])
-            ->add('operationCode', null, ['label'=>'code', 'sonata_help' => $helpText])
-            ->add('dep', 'choice', [
+            ->add('operationCode', null, ['label'=>'code', 'sonata_help' => $helpText, 'attr' => [
+                'readonly' => false
+                ]])
+            ->add('dependency', 'choice', [
                 'label'=>'dependency',
                 'required'=>false,
-                'mapped'=>false,
+                'choices'=> [$choices => $choices],
+                'attr'=> ['class'=>$choices]
             ])
-            ->add('dependency', 'hidden', ['label'=>false, 'data'=>''])
+
             ->add('equipment', null, [
-//                'query_builder' => function ($query) use ($productId) {
-//                    $result = $query->createQueryBuilder('eq');
-//                    $result
-//                        ->select('eq')
-//                        ->leftJoin('eq.product', 'pr')
-//                        ->where('pr.id = :productId')
-//                        ->setParameter('productId', $productId);
-//                    return $result;
-//                }
             ])
             ->add('mould', null, [
-//                'query_builder' => function ($query) use ($productId) {
-//                    $result = $query->createQueryBuilder('ml');
-//                    $result
-//                        ->select('ml')
-//                        ->leftJoin('ml.product', 'pr')
-//                        ->where('pr.id = :productId')
-//                        ->setParameter('productId', $productId);
-//                    return $result;
-//                }
             ])
             ->add('profession', null, ['label'=>'profession_route_card'])
-            ->add('professionCategory', 'number', [
+            ->add('professionCategory', 'choice', [
                 'mapped'=>false,
                 'required'=>false,
-                'label'=>'profession_category', 'attr' => [
-                    'readonly' => true,
-                    'disabled' => true]])
+                'label'=>'profession_category'])
             ->add('jobTime', null, ['label'=>'job_time', 'attr' => [
                 'readonly' => true,
                 'disabled' => true]])

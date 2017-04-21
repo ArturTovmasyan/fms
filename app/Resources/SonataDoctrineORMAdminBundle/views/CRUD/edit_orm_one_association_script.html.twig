@@ -54,7 +54,7 @@ This code manage the one-to-many association field popup
                         return;
                     }
 
-// ###############################################
+// ############################################### MY CUSTOM JS FOR DON'T RESET ALL ROW IN FORM
 
                     var id = '{{ id }}';
                     id = id.split('_');
@@ -71,7 +71,6 @@ This code manage the one-to-many association field popup
                     }
 
                     if(className === 'routeCard') {
-
                         if(operationCount === 0){
                             jQuery('#field_container_{{ id }}').replaceWith(html);
 
@@ -82,7 +81,7 @@ This code manage the one-to-many association field popup
                     }
 
 
-// ###############################################
+// ##############################################################################
                     Admin.shared_setup(jQuery('#field_container_{{ id }}'));
 
                     if(jQuery('input[type="file"]', form).length > 0) {

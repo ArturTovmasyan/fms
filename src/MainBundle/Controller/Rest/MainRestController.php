@@ -409,4 +409,39 @@ class MainRestController extends FOSRestController
 
         return $ramMaterials;
     }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get category by profession id",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         404="Bad request",
+     *         403="Forbidden"
+     *  },
+     * )
+     *
+     * @Rest\Get("/profession-category/{id}", name="main_rest_mainrest_getprofessioncategory", options={"method_prefix"=false})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Rest\View()
+     * @param $id
+     * @return Response
+     */
+    public function getProfessionCategoryAction($id)
+    {
+        //check if id not exist
+        if(!$id) {
+            return new Response('Invalid request parameter', Response::HTTP_BAD_REQUEST);
+        }
+
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get all category for profession by id
+        $category = $em->getRepository('MainBundle:Professions')->findCategoryByProfId($id);
+
+        return $category;
+    }
 }
