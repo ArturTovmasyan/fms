@@ -208,6 +208,7 @@ class ProductAdmin extends Admin
             ->add('id', null, ['label'=>'code', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('getSumRawExpense', null, ['label' => 'raw_expense', 'template'=>'MainBundle:Admin/List:product_expense_list.html.twig'])
+            ->add('getSumRouteCard', null, ['label' => 'route_card', 'template'=>'MainBundle:Admin/List:product_routeCard_list.html.twig'])
             ->add('client')
             ->add('gost')
             ->add('getStringSize', null, ['label' => 'size'])

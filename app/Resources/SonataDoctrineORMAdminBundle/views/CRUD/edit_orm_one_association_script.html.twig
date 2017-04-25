@@ -54,6 +54,10 @@ This code manage the one-to-many association field popup
                         return;
                     }
 
+                    var location = window.location.pathname;
+                    var locData = location.split('/');
+                    location = locData[locData.length - 3];
+
 // ############################################### MY CUSTOM JS FOR DON'T RESET ALL ROW IN FORM
 
                     var id = '{{ id }}';
@@ -62,23 +66,28 @@ This code manage the one-to-many association field popup
                     var operationCount = jQuery('#field_container_{{ id }}').find('tr:last').length;
                     var $appendRow = jQuery(jQuery.parseHTML(html)).find('tr:last');
 
-                    if((jQuery.inArray(className, classArray) !== -1) ||
-                    (className === 'productRawExpense' && (operationCount === 0)) || (operationCount === 0)) {
-                        jQuery('#field_container_{{ id }}').replaceWith(html);
-                    }else{
-                        $appendRow = requestCallBack($appendRow);
-                        jQuery('#field_container_{{ id }}').find('tr:last').after($appendRow);
-                    }
-
-                    if(className === 'routeCard') {
-                        if(operationCount === 0){
+                    if(location === 'product') {
+                        if((jQuery.inArray(className, classArray) !== -1) ||
+                            (className === 'productRawExpense' && (operationCount === 0)) || (operationCount === 0)) {
                             jQuery('#field_container_{{ id }}').replaceWith(html);
-
                         }else{
                             $appendRow = requestCallBack($appendRow);
                             jQuery('#field_container_{{ id }}').find('tr:last').after($appendRow);
                         }
+
+                        if(className === 'routeCard') {
+                            if(operationCount === 0){
+                                jQuery('#field_container_{{ id }}').replaceWith(html);
+
+                            }else{
+                                $appendRow = requestCallBack($appendRow);
+                                jQuery('#field_container_{{ id }}').find('tr:last').after($appendRow);
+                            }
+                        }
+                    }else{
+                        jQuery('#field_container_{{ id }}').replaceWith(html);
                     }
+
 
 
 // ##############################################################################

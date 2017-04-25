@@ -90,6 +90,7 @@ class ProductRawExpenseAdmin extends Admin
     {
         $subject = $this->getSubject();
         $expenseId = $subject ? $subject->getId() : null;
+
         $productId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription() ?
             $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
 

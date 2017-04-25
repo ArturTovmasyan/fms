@@ -338,6 +338,7 @@ class Product
         return $sumExpense;
     }
 
+
     /**
      * This function is used to get product route card sum
      *
@@ -345,8 +346,22 @@ class Product
      */
     public function getSumRouteCard()
     {
-        //set sum expense
-        $sumRouteCard = 0;
+       $components = $this->getProductComponent();
+       $sumRouteCard = 0;
+
+       if(count($components) > 0) {
+           foreach ($components as $component)
+           {
+               $routeCards = $component->getRouteCard();
+
+               if(count($routeCards) > 0) {
+                   foreach ($routeCards as $routeCard)
+                   {
+                       $sumRouteCard += $routeCard->getSum();
+                   }
+               }
+           }
+       }
 
         return $sumRouteCard;
     }

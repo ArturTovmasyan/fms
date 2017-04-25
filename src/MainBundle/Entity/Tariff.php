@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class Tariff
  * @package MainBundle\Entity
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="create_tariff", columns={"id", "profession_category_id", "profession_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\TariffRepository")
  */
 class Tariff
 {

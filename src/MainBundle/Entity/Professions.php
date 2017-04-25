@@ -29,7 +29,7 @@ class Professions
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="Tariff", mappedBy="profession", indexBy="id", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Tariff", mappedBy="profession", cascade={"persist"}, orphanRemoval=true)
      */
     protected $tariff;
 

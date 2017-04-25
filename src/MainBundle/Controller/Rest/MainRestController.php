@@ -444,4 +444,80 @@ class MainRestController extends FOSRestController
 
         return $category;
     }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get category by profession id",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         404="Bad request",
+     *         403="Forbidden"
+     *  },
+     * )
+     *
+     * @Rest\Get("/route-card/tariff/{professionId}/{categoryName}", name="main_rest_mainrest_gettariff", options={"method_prefix"=false})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Rest\View()
+     * @param $professionId
+     * @param $categoryName
+     * @return Response
+     */
+    public function getTariffAction($professionId, $categoryName)
+    {
+        //check if id not exist
+        if(!$professionId || !$categoryName) {
+            return new Response('Invalid request parameter', Response::HTTP_BAD_REQUEST);
+        }
+
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get all category for profession by id
+        $tariff = $em->getRepository('MainBundle:Tariff')->findByCategoryAndProfessionId($professionId, $categoryName);
+
+        return $tariff;
+    }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get categories by ids",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         404="Bad request",
+     *         403="Forbidden"
+     *  },
+     * )
+     *
+     * @Rest\Post("/route-card/categories", name="main_rest_mainrest_getcategorybyids", options={"method_prefix"=false})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Rest\View()
+     * @return Response
+     */
+    public function getCategoryByIdsAction(Request $request)
+    {
+        //get content and add it in request after json decode
+        $content = $request->getContent();
+        $request->request->add(json_decode($content, true));
+
+        $ids = $request->request->get('ids');
+
+        //check if one is parameters not exist
+        if(!$ids) {
+            return new Response('Invalid request parameters', Response::HTTP_BAD_REQUEST);
+        }
+
+        //get entity manager
+        $em = $this->getDoctrine()->getManager();
+
+        //get all categories
+        $categories = $em->getRepository('MainBundle:tariff')->findByProfessionIds($ids);
+
+        return $categories;
+    }
 }

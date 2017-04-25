@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProfessionCategory
  *
- * @ORM\Table()
+ * @ORM\Table(name="profession_category", indexes={@ORM\Index(name="search_category", columns={"name"})})
  * @ORM\Entity
  */
 class ProfessionCategory

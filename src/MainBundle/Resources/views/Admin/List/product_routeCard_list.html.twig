@@ -1,0 +1,12 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    {% if value %}
+        {% set url = '/admin/route_card/list?productId='~object.id %}
+        <a href="{{ url }}" target="_blank">{{ value }}</a>
+    {% endif %}
+{% endblock -%}
+
+
+
+

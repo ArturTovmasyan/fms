@@ -49,6 +49,20 @@ class RouteCard
     protected $profession;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="tariff", type="integer")
+     */
+    private $tariff;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="profession_category", type="string", length=50, nullable=true)
+     */
+    private $professionCategory;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="jobTime", type="string", length=50, nullable=true)
@@ -337,5 +351,51 @@ class RouteCard
     public function getSum()
     {
         return $this->sum;
+    }
+
+    /**
+     * Set professionCategory
+     *
+     * @param string $professionCategory
+     * @return RouteCard
+     */
+    public function setProfessionCategory($professionCategory)
+    {
+        $this->professionCategory = $professionCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get professionCategory
+     *
+     * @return string 
+     */
+    public function getProfessionCategory()
+    {
+        return $this->professionCategory;
+    }
+
+    /**
+     * Set tariff
+     *
+     * @param integer $tariff
+     * @return RouteCard
+     */
+    public function setTariff($tariff)
+    {
+        $this->tariff = $tariff;
+
+        return $this;
+    }
+
+    /**
+     * Get tariff
+     *
+     * @return integer 
+     */
+    public function getTariff()
+    {
+        return $this->tariff;
     }
 }

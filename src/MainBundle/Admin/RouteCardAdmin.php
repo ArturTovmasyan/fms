@@ -11,7 +11,6 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RouteCardAdmin extends Admin
 {
@@ -28,12 +27,21 @@ class RouteCardAdmin extends Admin
 
     public function createQuery($context = 'list')
     {
+        $request = $this->getRequest();
+        $productId = $request->query->get('productId');
+
         $query = parent::createQuery($context);
         $query->addSelect('pr, pc, eq, ml');
         $query->leftJoin($query->getRootAlias() . '.profession', 'pr');
         $query->leftJoin($query->getRootAlias() . '.productComponent', 'pc');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'eq');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
+
+        if($productId) {
+            $query->leftJoin('pc.product', 'prd');
+            $query->where('prd.id = :productId')
+                ->setParameter('productId', $productId);
+        }
 
         return $query;
     }
@@ -88,19 +96,26 @@ class RouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-       //$productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
+        //$productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
         $builder = $formMapper->getFormBuilder();
-        $factory = $builder->getFormFactory();
         $currentId = $this->getSubject() ? $this->getSubject()->getId() : null;
+
+        $parentId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject() ?
+            $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
+
         $helpText = 'First manually';
-        $choices = null;
+        $choice = null;
+        $profCategory = null;
 
-
+        //check if page is edit
         if($currentId) {
-            $choices = $this->getSubject()->getDependency();
+            $choice = $this->getSubject()->getDependency();
+            $profCategory = $this->getSubject()->getProfessionCategory();
         }
 
-        $changeDependency = function (FormEvent $event) use ($factory) {
+        //change and save choices value
+        $changeSelectedFields = function (FormEvent $event) {
+
             $form = $event->getForm();
             $data = $event->getData();
 
@@ -109,40 +124,60 @@ class RouteCardAdmin extends Admin
                     $data['dependency'] => $data['dependency'],
                 ]
             ]);
+
+            $form->add('professionCategory', 'choice', [
+                'choices' => [
+                    $data['professionCategory'] => $data['professionCategory']
+                ]
+            ]);
         };
 
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, $changeDependency);
+        //create form events for manage dependency data in form
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, $changeSelectedFields);
 
         $formMapper
             ->add('operation', null, ['label'=>'route_card_operation'])
             ->add('operationCode', null, ['label'=>'code', 'sonata_help' => $helpText, 'attr' => [
                 'readonly' => false
-                ]])
+            ]])
             ->add('dependency', 'choice', [
                 'label'=>'dependency',
                 'required'=>false,
-                'choices'=> [$choices => $choices],
-                'attr'=> ['class'=>$choices]
+                'choices'=> [$choice => $choice]
             ])
+            ->add('equipment', null, [])
+            ->add('mould', null, [])
+            ->add('profession', null, ['required'=>true, 'label'=>'profession_route_card',
+//                'query_builder' => function ($query) use ($currentId, $parentId) {
+//                    $result = $query->createQueryBuilder('pr');
+//                    if($parentId){
+//                        $result
+//                            ->where("pr.id NOT IN (
+//                                 SELECT p.id from MainBundle:RouteCard rc
+//                                 LEFT JOIN rc.productComponent pc
+//                                 LEFT JOIN rc.profession p
+//                                 WHERE pc.id = :parentId AND (rc.id != :routeId OR :routeId IS NULL)
+//                                 )")
+//
+//                            ->setParameter('parentId', $parentId)
+//                            ->setParameter('routeId', $currentId);
+//                    }
 
-            ->add('equipment', null, [
+//                    return $result;
+//                }
             ])
-            ->add('mould', null, [
-            ])
-            ->add('profession', null, ['label'=>'profession_route_card'])
             ->add('professionCategory', 'choice', [
-                'mapped'=>false,
-                'required'=>false,
-                'label'=>'profession_category'])
-            ->add('jobTime', null, ['label'=>'job_time', 'attr' => [
-                'readonly' => true,
-                'disabled' => true]])
-            ->add('tariff', 'number', ['required'=>false, 'mapped'=>false, 'label'=>'tariff', 'attr' => [
-                'readonly' => true,
-                'disabled' => true]])
-            ->add('sum', 'number', ['required'=>false, 'mapped'=>false,'label'=>'sum', 'attr' => [
-                'readonly' => true,
-                'disabled' => true]])
+                'label'=>'profession_category',
+                'required'=>true,
+                'choices'=> [$profCategory => $profCategory]
+            ])
+            ->add('jobTime', null, ['label'=>'job_time'])
+            ->add('tariff', 'number', ['required'=>true, 'label'=>'tariff', 'attr' => [
+                'readonly' => true
+            ]])
+            ->add('sum', 'number', ['required'=>true, 'label'=>'sum', 'attr' => [
+                'readonly' => true
+            ]])
             ->add('specificPercent', null, ['label'=>'specific_percent', 'attr' => [
                 'readonly' => true,
                 'disabled' => true]])
@@ -172,6 +207,8 @@ class RouteCardAdmin extends Admin
             ->add('profession', null, ['label'=>'profession_route_card'])
             ->add('professionCategory', null, ['label'=>'profession_category'])
             ->add('jobTime', null, ['label'=>'job_time'])
+            ->add('tariff', 'number', ['required'=>true, 'label'=>'tariff'])
+            ->add('sum', 'number', ['required'=>true, 'label'=>'sum'])
             ->add('specificPercent', null, ['label'=>'specific_percent'])
             ->add('_action', 'actions', [
                 'actions' => [
