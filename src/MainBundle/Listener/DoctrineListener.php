@@ -3,11 +3,13 @@
 namespace MainBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use MainBundle\Entity\Personnel;
 use MainBundle\Entity\Post;
 use MainBundle\Entity\PostHistory;
+use MainBundle\Entity\Tariff;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -170,6 +172,54 @@ class DoctrineListener implements ContainerAwareInterface
 
             $this->histories = [];
             $em->flush();
+        }
+    }
+
+    /**
+     * This function is used to update route card category after remove it in tariff
+     *
+     * @param OnFlushEventArgs $args
+     */
+    public function onFlush(OnFlushEventArgs $args)
+    {
+        // get entity manager
+        $em = $args->getEntityManager();
+
+        // get unit work
+        $uow = $em->getUnitOfWork();
+
+        //for deletions
+        foreach ($uow->getScheduledEntityDeletions() AS $entity)
+        {
+            //if product object
+            if ($entity instanceof Tariff) {
+
+                //get removed category and profession data
+                $removedCategory = $entity->getProfessionCategory()->getName();
+                $profession = $entity->getProfession();
+
+                if($profession) {
+                    //get route cards
+                    $routeCards = $profession->getRouteCard();
+
+                    foreach ($routeCards as $routeCard)
+                    {
+                        //get route card category
+                       $category = $routeCard->getProfessionCategory();
+
+                       $routeCardProf = $routeCard->getProfession();
+
+                       //check if categories is equal
+                       if($category == $removedCategory && ($routeCardProf && $profession->getId() == $routeCardProf->getId())) {
+
+                           $routeCard->setProfessionCategory(null);
+
+                           // persist changes
+                           $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:RouteCard'), $routeCard);
+                       }
+                    }
+                }
+            }
         }
     }
 }

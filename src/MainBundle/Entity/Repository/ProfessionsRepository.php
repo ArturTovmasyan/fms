@@ -28,4 +28,25 @@ class ProfessionsRepository extends EntityRepository
 
         return $result;
     }
+
+    /**
+     * This function is used to get categories by profession ids
+     *
+     * @param $professionIds
+     * @return array
+     */
+    public function findByProfessionIds($professionIds)
+    {
+        $result = $this->getEntityManager()
+            ->createQuery("SELECT p, ct.id, ct.name
+                            FROM MainBundle:Professions p
+                            LEFT JOIN p.tariff t
+                            LEFT JOIN t.professionCategory ct
+                            WHERE p.id IN (:profIds)
+                           ")
+            ->setParameter('profIds', $professionIds)
+            ->getArrayResult();
+
+        return $result;
+    }
 }

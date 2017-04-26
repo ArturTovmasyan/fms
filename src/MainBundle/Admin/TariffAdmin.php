@@ -53,7 +53,7 @@ class TariffAdmin extends Admin
         $formMapper
             ->add('professionCategory', 'sonata_type_model', [
                 'label' => 'profession_category',
-                'required'=>false,
+                'required'=>true,
                 'btn_add' => $addBtn,
                 'query' => $query
             ])

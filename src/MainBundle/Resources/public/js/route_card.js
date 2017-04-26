@@ -9,8 +9,6 @@ $( document ).ready(function() {
 
     var componentCount = $(routeCardBlock + ' div.sonata-ba-tabs > div').length;
 
-    // setDependency(componentCount);
-
      setValuesInEditPage(componentCount);
 
     // detect change expense on product page
@@ -63,17 +61,16 @@ $( document ).ready(function() {
     /**
      * This function is used to set all dynamically values
      *
-     * @param componentCount
      */
-    function setValuesInEditPage(componentCount) {
+    function setValuesInEditPage() {
+
+        var professionIds = [];
 
         for(var c = 0; c <= componentCount; c++)
         {
-            var professionIds = [];
-
-            // var codes = [];
-            // var option = '<option value="id">name</option>';
-            // var options = '<option value=""></option>';
+            var codes = [];
+            var option = '<option value="id">name</option>';
+            var options = '<option value=""></option>';
 
             var opSelector = '#field_container_' + fieldToken + 'productComponent_'+c+'_routeCard';
             var operationCount = $(opSelector+' tbody.sonata-ba-tbody tr').length;
@@ -82,20 +79,53 @@ $( document ).ready(function() {
 
                 for(var i = 0; i < operationCount; i++)
                 {
+                    options = '';
+
+                    var codeSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_operationCode';
+                    var depSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_dependency';
+                    var codeVal = $(codeSelector).val();
+                    var depVal = $(depSelector).val();
+
                     var profSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_profession';
                     var profVal = $(profSelector).val();
+                    var categorySelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_professionCategory';
 
-                    var index = professionIds.indexOf(profVal);
+                    $(categorySelector).attr('prof-id', profVal);
+
+                    var index = professionIds.indexOf(+profVal);
 
                     if(index === -1) {
-                        professionIds.push(profVal);
+                        professionIds.push(+profVal);
                     }
+
+
+
+                    //generate dependency values
+                    codes.push(codeVal);
+
+                    for(var z = 0; z< codes.length;z++)
+                    {
+                        if(i !== z) {
+                            if(codes[z] === depVal) {
+                                var setOpt = '<option value="id" selected>name</option>';
+                                setOpt = setOpt.replace('id', depVal).replace('name', depVal);
+                                options += setOpt;
+                            }else{
+                                options += (option.replace('id', codes[z]).replace('name', codes[z]))
+                            }
+                        }
+                    }
+
+                    $(depSelector).html(options);
+
                 }
+
+                getAllCategoriesValue(professionIds);
+
             }
         }
-
-        console.log(professionIds);
     }
+
 
     $(routeCardBlock).on('change', "input", function(e) {
 
@@ -240,4 +270,100 @@ $( document ).ready(function() {
         });
     }
 
+    /**
+     * This function is used to get and generate profession categories by ids
+     *
+     * @param ids
+     * @param componentCount
+     * @param fieldToken
+     */
+    function getAllCategoriesValue(ids) {
+
+       var dataArray = [];
+
+        $.post("/admin/api/v1.0/route-card/categories", JSON.stringify({'ids' : ids }), function(data) {
+
+            if(data) {
+
+                for(var i=0; i<data.length;i++)
+                {
+                    var pid = data[i][0].id;
+                    var cid = data[i].id;
+                    var cname = data[i].name;
+                    var index = ids.indexOf(pid);
+
+                    if(index > -1) {
+
+                       var key = ids[index];
+
+                       if(key) {
+                           if(dataArray[key]) {
+                               dataArray[key].push({
+                                   'id':cid,
+                                   'name':cname
+                               });
+                           } else {
+                               dataArray[key] = [{
+                                   'id':cid,
+                                   'name':cname
+                               }]
+                           }
+                       }
+                    }
+                }
+            }
+
+            if(dataArray.length > 0) {
+                setCategoriesValueByAjax(dataArray);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param dataArray
+     */
+    function setCategoriesValueByAjax(dataArray) {
+
+            for(var cm = 0; cm <= componentCount; cm++)
+            {
+                var opSelector = '#field_container_' + fieldToken + 'productComponent_'+cm+'_routeCard';
+                var operationCount = $(opSelector+' tbody.sonata-ba-tbody tr').length;
+
+                if(operationCount > 0) {
+
+                    for(var ic = 0; ic < operationCount; ic++)
+                    {
+                        var categorySelector = '#' + fieldToken + 'productComponent_'+cm+'_routeCard_'+ic+'_professionCategory';
+                        var attrId = $(categorySelector).attr('prof-id');
+                        var catIndex = dataArray[attrId];
+
+                        if(catIndex) {
+
+                            var categoryVal = $(categorySelector).val();
+
+                            if(!categoryVal) {
+                              $(categorySelector).val(null);
+                            }
+
+                            var option = '<option value="id">name</option>';
+                            var options = '<option value=""></option>';
+
+                            for(var i = 0; i< catIndex.length;i++)
+                            {
+                                if(catIndex[i].name === categoryVal) {
+                                    var setOpt = '<option value="id" selected>name</option>';
+                                    setOpt = setOpt.replace('id', categoryVal).replace('name', categoryVal);
+                                    options += setOpt;
+                                }else{
+                                    options += (option.replace('id', catIndex[i].name).replace('name', catIndex[i].name))
+                                }
+                            }
+
+                            $(categorySelector).html(options);
+                        }
+                    }
+                }
+            }
+    }
 });

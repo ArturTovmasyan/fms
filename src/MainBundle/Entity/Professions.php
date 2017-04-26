@@ -120,4 +120,37 @@ class Professions
     {
         return $this->tariff;
     }
+
+    /**
+     * Add routeCard
+     *
+     * @param \MainBundle\Entity\RouteCard $routeCard
+     * @return Professions
+     */
+    public function addRouteCard(\MainBundle\Entity\RouteCard $routeCard)
+    {
+        $this->routeCard[] = $routeCard;
+
+        return $this;
+    }
+
+    /**
+     * Remove routeCard
+     *
+     * @param \MainBundle\Entity\RouteCard $routeCard
+     */
+    public function removeRouteCard(\MainBundle\Entity\RouteCard $routeCard)
+    {
+        $this->routeCard->removeElement($routeCard);
+    }
+
+    /**
+     * Get routeCard
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRouteCard()
+    {
+        return $this->routeCard;
+    }
 }

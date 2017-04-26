@@ -17,6 +17,7 @@ class RouteCardAdmin extends Admin
     //set fields option
     protected $formOptions = [
         'cascade_validation' => true,
+        'error_bubbling' => true,
     ];
 
     /**
@@ -100,8 +101,8 @@ class RouteCardAdmin extends Admin
         $builder = $formMapper->getFormBuilder();
         $currentId = $this->getSubject() ? $this->getSubject()->getId() : null;
 
-        $parentId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject() ?
-            $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
+//        $parentId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject() ?
+//            $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
 
         $helpText = 'First manually';
         $choice = null;
@@ -119,17 +120,21 @@ class RouteCardAdmin extends Admin
             $form = $event->getForm();
             $data = $event->getData();
 
-            $form->add('dependency', 'choice', [
-                'choices' => [
-                    $data['dependency'] => $data['dependency'],
-                ]
-            ]);
+            if(array_key_exists('dependency', $data)) {
+                $form->add('dependency', 'choice', [
+                    'choices' => [
+                        $data['dependency'] => $data['dependency'],
+                    ]
+                ]);
+            }
 
-            $form->add('professionCategory', 'choice', [
-                'choices' => [
-                    $data['professionCategory'] => $data['professionCategory']
-                ]
-            ]);
+            if(array_key_exists('professionCategory', $data)) {
+                $form->add('professionCategory', 'choice', [
+                    'choices' => [
+                        $data['professionCategory'] => $data['professionCategory']
+                    ]
+                ]);
+            }
         };
 
         //create form events for manage dependency data in form
@@ -168,7 +173,7 @@ class RouteCardAdmin extends Admin
             ])
             ->add('professionCategory', 'choice', [
                 'label'=>'profession_category',
-                'required'=>true,
+                'required'=>false,
                 'choices'=> [$profCategory => $profCategory]
             ])
             ->add('jobTime', null, ['label'=>'job_time'])

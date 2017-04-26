@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Tariff
@@ -44,6 +45,7 @@ class Tariff
 
     /**
      * @ORM\OneToOne(targetEntity="ProfessionCategory", inversedBy="tariff", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="profession_category_id", referencedColumnName="id", nullable=false)
      */
     protected $professionCategory;
 

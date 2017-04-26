@@ -26,6 +26,7 @@
             <tag name="doctrine.event_listener" event = "preUpdate" method="preUpdate" />
             <tag name="doctrine.event_listener" event = "postFlush" method="postFlush" />
             <tag name="doctrine.event_listener" event = "prePersist" method="prePersist" />
+            <tag name="doctrine.event_listener" event = "onFlush" method="onFlush" />
         </service>
 
         <!-- service for update route card sum  -->

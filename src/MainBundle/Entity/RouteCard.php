@@ -3,13 +3,19 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * Class RouteCard
  * @package MainBundle\Entity
- * @ORM\Table()
- * @ORM\Entity
+ *
+ * @ORM\Table(name="route_card",uniqueConstraints={@UniqueConstraint(name="unique_route_card_idx", columns=
+ *     {"profession_id", "profession_category", "product_component_id"})})
+ * @ORM\Entity()
+ * @UniqueEntity(fields={"profession", "professionCategory", "productComponent"}, errorPath="name",
+ * message="Route card by this profession and category already exist")
  */
 class RouteCard
 {
@@ -311,24 +317,6 @@ class RouteCard
         return $this->profession;
     }
 
-//    /**
-//     * @return mixed
-//     */
-//    public function getProductRouteCardPrice()
-//    {
-//        $tariffs = $this->getProfession()->getTariff();
-//
-//        if($tariffs) {
-//            foreach ($tariffs as $tariff)
-//            {
-//                $catId = $tariff->getProfessionCategory()->getId();
-//
-//                if($catId) {
-//                }
-//            }
-//        }
-//        return $rawPrice;
-//    }
 
     /**
      * Set sum

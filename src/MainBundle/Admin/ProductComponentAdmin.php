@@ -11,6 +11,12 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ProductComponentAdmin extends Admin
 {
+    //set fields option
+    protected $formOptions = [
+        'cascade_validation' => true,
+        'error_bubbling' => true,
+    ];
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *

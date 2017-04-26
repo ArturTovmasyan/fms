@@ -18,7 +18,7 @@ class Product
 {
 //* @Assert\Callback(methods={"validate"})
 
-/**
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -128,7 +128,6 @@ class Product
     private $generalCount;
 
     /**
-     * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
@@ -136,7 +135,6 @@ class Product
     private $created;
 
     /**
-     * @var datetime $updated
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
@@ -146,7 +144,7 @@ class Product
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -169,7 +167,7 @@ class Product
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -192,7 +190,7 @@ class Product
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -261,7 +259,7 @@ class Product
     /**
      * Get size
      *
-     * @return integer 
+     * @return integer
      */
     public function getSize()
     {
@@ -307,7 +305,7 @@ class Product
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -346,22 +344,22 @@ class Product
      */
     public function getSumRouteCard()
     {
-       $components = $this->getProductComponent();
-       $sumRouteCard = 0;
+        $components = $this->getProductComponent();
+        $sumRouteCard = 0;
 
-       if(count($components) > 0) {
-           foreach ($components as $component)
-           {
-               $routeCards = $component->getRouteCard();
+        if(count($components) > 0) {
+            foreach ($components as $component)
+            {
+                $routeCards = $component->getRouteCard();
 
-               if(count($routeCards) > 0) {
-                   foreach ($routeCards as $routeCard)
-                   {
-                       $sumRouteCard += $routeCard->getSum();
-                   }
-               }
-           }
-       }
+                if(count($routeCards) > 0) {
+                    foreach ($routeCards as $routeCard)
+                    {
+                        $sumRouteCard += $routeCard->getSum();
+                    }
+                }
+            }
+        }
 
         return $sumRouteCard;
     }
@@ -414,7 +412,7 @@ class Product
     /**
      * Get purposeList
      *
-     * @return \MainBundle\Entity\PurposeList 
+     * @return \MainBundle\Entity\PurposeList
      */
     public function getPurposeList()
     {
@@ -445,7 +443,7 @@ class Product
     /**
      * Get workshop
      *
-     * @return string 
+     * @return string
      */
     public function getWorkshop()
     {
@@ -478,7 +476,7 @@ class Product
     /**
      * Get equipment
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEquipment()
     {
@@ -511,7 +509,7 @@ class Product
     /**
      * Get mould
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMould()
     {
@@ -556,7 +554,7 @@ class Product
     /**
      * Get client
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getClient()
     {
@@ -579,7 +577,7 @@ class Product
     /**
      * Get generalCount
      *
-     * @return integer 
+     * @return integer
      */
     public function getGeneralCount()
     {
@@ -612,7 +610,7 @@ class Product
     /**
      * Get placeWarehouse
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPlaceWarehouse()
     {
@@ -635,7 +633,7 @@ class Product
     /**
      * Get countInWarehouse
      *
-     * @return integer 
+     * @return integer
      */
     public function getCountInWarehouse()
     {
@@ -669,7 +667,7 @@ class Product
     /**
      * Get productRawExpense
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProductRawExpense()
     {
@@ -754,7 +752,7 @@ class Product
     /**
      * Get productComponent
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProductComponent()
     {

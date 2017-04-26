@@ -516,7 +516,7 @@ class MainRestController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
 
         //get all categories
-        $categories = $em->getRepository('MainBundle:tariff')->findByProfessionIds($ids);
+        $categories = $em->getRepository('MainBundle:Professions')->findByProfessionIds($ids);
 
         return $categories;
     }

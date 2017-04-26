@@ -31,22 +31,4 @@ class TariffRepository extends EntityRepository
         return $result;
     }
 
-    /**
-     * @param $professionIds
-     * @return array
-     */
-    public function findByProfessionIds($professionIds)
-    {
-//        $result = $this->getEntityManager()
-//            ->createQuery("SELECT t.hourSalary as tariff
-//                            FROM MainBundle:Professions p
-//                            LEFT JOIN t.professionCategory pc
-//                            LEFT JOIN t.profession p
-//                            WHERE p.id = :profIds
-//                           ")
-//            ->setParameter('profIds', $professionIds)
-//            ->getOneOrNullResult();
-
-//        return $result;
-    }
 }
