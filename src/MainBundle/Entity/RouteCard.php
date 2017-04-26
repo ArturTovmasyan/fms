@@ -11,9 +11,10 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * Class RouteCard
  * @package MainBundle\Entity
  *
+ * @ORM\Entity()
  * @ORM\Table(name="route_card",uniqueConstraints={@UniqueConstraint(name="unique_route_card_idx", columns=
  *     {"profession_id", "profession_category", "product_component_id"})})
- * @ORM\Entity()
+ *
  * @UniqueEntity(fields={"profession", "professionCategory", "productComponent"}, errorPath="name",
  * message="Route card by this profession and category already exist")
  */

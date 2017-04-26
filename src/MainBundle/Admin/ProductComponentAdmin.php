@@ -13,8 +13,7 @@ class ProductComponentAdmin extends Admin
 {
     //set fields option
     protected $formOptions = [
-        'cascade_validation' => true,
-        'error_bubbling' => true,
+        'cascade_validation' => true
     ];
 
     /**

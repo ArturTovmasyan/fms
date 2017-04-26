@@ -9,7 +9,9 @@ $( document ).ready(function() {
 
     var componentCount = $(routeCardBlock + ' div.sonata-ba-tabs > div').length;
 
-     setValuesInEditPage(componentCount);
+    //close left menu after page loaded
+    $('body.sonata-bc').addClass('sidebar-collapse');
+    setValuesInEditPage(componentCount);
 
     // detect change expense on product page
     $(addNewOperation).mousedown(function(event) {
@@ -30,7 +32,7 @@ $( document ).ready(function() {
 
             for(var i =0; i<operationCount; i++)
             {
-               var codeSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_operationCode';
+                var codeSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_operationCode';
 
                 if($(codeSelector).val()) {
                     codes.push($(codeSelector).val());
@@ -174,9 +176,6 @@ $( document ).ready(function() {
             //IMPORTANT REMOVE CATEGORY SELECT FIELD VALUE AFTER AJAX CALL
             $(categorySelector).select2('val', null);
             $(categorySelector).select2('data', null);
-            setTimeout(function () {
-                $(categorySelector).val(null);
-            }, 200);
 
             var tariffSelector = '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
                 operationNumber + '_tariff';
@@ -205,7 +204,7 @@ $( document ).ready(function() {
 
             if(categoryValue && profValue) {
                 //get prof. category with ajax
-             getTariffForRouteCard(profValue, categoryValue, tariffSelector, componentNumber, operationNumber, fieldToken);
+                getTariffForRouteCard(profValue, categoryValue, tariffSelector, componentNumber, operationNumber, fieldToken);
             }
         }
     });
@@ -228,7 +227,7 @@ $( document ).ready(function() {
 
             $(selector).val(data.tariff);
 
-           var sumSelector =  '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
+            var sumSelector =  '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
                 operationNumber + '_sum';
 
             var jobTimeSelector =  '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
@@ -258,7 +257,7 @@ $( document ).ready(function() {
             if(data.length > 0) {
 
                 var option = '<option value="id">name</option>';
-                var options = '';
+                var options = '<option value=""></option>';
 
                 for(var i = 0; i< data.length;i++)
                 {
@@ -274,12 +273,10 @@ $( document ).ready(function() {
      * This function is used to get and generate profession categories by ids
      *
      * @param ids
-     * @param componentCount
-     * @param fieldToken
      */
     function getAllCategoriesValue(ids) {
 
-       var dataArray = [];
+        var dataArray = [];
 
         $.post("/admin/api/v1.0/route-card/categories", JSON.stringify({'ids' : ids }), function(data) {
 
@@ -294,21 +291,21 @@ $( document ).ready(function() {
 
                     if(index > -1) {
 
-                       var key = ids[index];
+                        var key = ids[index];
 
-                       if(key) {
-                           if(dataArray[key]) {
-                               dataArray[key].push({
-                                   'id':cid,
-                                   'name':cname
-                               });
-                           } else {
-                               dataArray[key] = [{
-                                   'id':cid,
-                                   'name':cname
-                               }]
-                           }
-                       }
+                        if(key) {
+                            if(dataArray[key]) {
+                                dataArray[key].push({
+                                    'id':cid,
+                                    'name':cname
+                                });
+                            } else {
+                                dataArray[key] = [{
+                                    'id':cid,
+                                    'name':cname
+                                }]
+                            }
+                        }
                     }
                 }
             }
@@ -325,45 +322,45 @@ $( document ).ready(function() {
      */
     function setCategoriesValueByAjax(dataArray) {
 
-            for(var cm = 0; cm <= componentCount; cm++)
-            {
-                var opSelector = '#field_container_' + fieldToken + 'productComponent_'+cm+'_routeCard';
-                var operationCount = $(opSelector+' tbody.sonata-ba-tbody tr').length;
+        for(var cm = 0; cm <= componentCount; cm++)
+        {
+            var opSelector = '#field_container_' + fieldToken + 'productComponent_'+cm+'_routeCard';
+            var operationCount = $(opSelector+' tbody.sonata-ba-tbody tr').length;
 
-                if(operationCount > 0) {
+            if(operationCount > 0) {
 
-                    for(var ic = 0; ic < operationCount; ic++)
-                    {
-                        var categorySelector = '#' + fieldToken + 'productComponent_'+cm+'_routeCard_'+ic+'_professionCategory';
-                        var attrId = $(categorySelector).attr('prof-id');
-                        var catIndex = dataArray[attrId];
+                for(var ic = 0; ic < operationCount; ic++)
+                {
+                    var categorySelector = '#' + fieldToken + 'productComponent_'+cm+'_routeCard_'+ic+'_professionCategory';
+                    var attrId = $(categorySelector).attr('prof-id');
+                    var catIndex = dataArray[attrId];
 
-                        if(catIndex) {
+                    if(catIndex) {
 
-                            var categoryVal = $(categorySelector).val();
+                        var categoryVal = $(categorySelector).val();
 
-                            if(!categoryVal) {
-                              $(categorySelector).val(null);
+                        // if(!categoryVal) {
+                            // $(categorySelector).val(null);
+                        // }
+
+                        var option = '<option value="id">name</option>';
+                        var options = '<option value=""></option>';
+
+                        for(var i = 0; i< catIndex.length;i++)
+                        {
+                            if(catIndex[i].name === categoryVal) {
+                                var setOpt = '<option value="id" selected>name</option>';
+                                setOpt = setOpt.replace('id', categoryVal).replace('name', categoryVal);
+                                options += setOpt;
+                            }else{
+                                options += (option.replace('id', catIndex[i].name).replace('name', catIndex[i].name))
                             }
-
-                            var option = '<option value="id">name</option>';
-                            var options = '<option value=""></option>';
-
-                            for(var i = 0; i< catIndex.length;i++)
-                            {
-                                if(catIndex[i].name === categoryVal) {
-                                    var setOpt = '<option value="id" selected>name</option>';
-                                    setOpt = setOpt.replace('id', categoryVal).replace('name', categoryVal);
-                                    options += setOpt;
-                                }else{
-                                    options += (option.replace('id', catIndex[i].name).replace('name', catIndex[i].name))
-                                }
-                            }
-
-                            $(categorySelector).html(options);
                         }
+
+                        $(categorySelector).html(options);
                     }
                 }
             }
+        }
     }
 });

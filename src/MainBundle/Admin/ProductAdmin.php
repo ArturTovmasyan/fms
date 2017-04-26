@@ -15,7 +15,7 @@ class ProductAdmin extends Admin
 
     //set fields option
     protected $formOptions = [
-        'cascade_validation' => true,
+        'cascade_validation' => true
     ];
 
     /**

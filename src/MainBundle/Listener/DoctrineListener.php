@@ -213,6 +213,8 @@ class DoctrineListener implements ContainerAwareInterface
                        if($category == $removedCategory && ($routeCardProf && $profession->getId() == $routeCardProf->getId())) {
 
                            $routeCard->setProfessionCategory(null);
+                           $routeCard->setTariff(0);
+                           $routeCard->setSum(0);
 
                            // persist changes
                            $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:RouteCard'), $routeCard);
