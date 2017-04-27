@@ -1,15 +1,10 @@
 $( document ).ready(function() {
 
     var fieldId = $("input[id$='_token']").attr("id");
-
     var pos = fieldId.indexOf("_token");
-
     var fieldToken = fieldId.slice(0, pos);
-
     var typeSelector = "#"+fieldToken+"type";
-
     var workshopSelector = "#"+fieldToken+"workshop";
-
     var workshopValue = $(workshopSelector).val();
 
     var divSelect = 'div#sonata-ba-field-container-'+fieldToken+'type';
@@ -40,7 +35,7 @@ $( document ).ready(function() {
 
                 for(var i = 0; i< data.length;i++)
                 {
-                    if(data[i].name == typeVal) {
+                    if(data[i].name === typeVal) {
                         inArray = true;
                     }
 

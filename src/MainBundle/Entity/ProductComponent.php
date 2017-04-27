@@ -31,6 +31,7 @@ class ProductComponent
     private $name;
 
     /**
+     * @Assert\Valid
      * @ORM\OneToMany(targetEntity="RouteCard", mappedBy="productComponent", cascade={"persist", "remove"})
      */
     protected $routeCard;

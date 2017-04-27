@@ -53,14 +53,6 @@ trait FmsAdmin
                     $image->setTool($object);
                 }
 
-//                if ($image instanceof PostImages){
-//                    $image->setPost($object);
-//                }
-//
-//                if ($image instanceof PersonnelImages){
-//                    $image->setPersonnel($object);
-//                }
-
                 if ($image instanceof RawMaterialImages) {
                     $this->setRawMaterialsImage($image, $object);
                 }

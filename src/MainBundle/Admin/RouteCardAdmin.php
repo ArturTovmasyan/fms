@@ -67,8 +67,8 @@ class RouteCardAdmin extends Admin
     //hide remove and edit buttons
     protected function configureRoutes(RouteCollection $collection)
     {
-//        $collection->remove('delete');
-//        $collection->remove('edit');
+        $collection->remove('delete');
+        $collection->remove('edit');
     }
 
     /**
@@ -100,10 +100,9 @@ class RouteCardAdmin extends Admin
         $builder = $formMapper->getFormBuilder();
         $currentId = $this->getSubject() ? $this->getSubject()->getId() : null;
 
-//        $parentId = $formMapper->getAdmin() && $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject() ?
-//            $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId() : null;
+        //$parentFieldDesc = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject();
 
-        $helpText = 'First manually';
+        $helpText = 'First code set manually';
         $choice = null;
         $profCategory = null;
 
@@ -121,6 +120,7 @@ class RouteCardAdmin extends Admin
 
             if(array_key_exists('dependency', $data)) {
                 $form->add('dependency', 'choice', [
+                    'label'=>'dependency',
                     'choices' => [
                         $data['dependency'] => $data['dependency'],
                     ]
@@ -129,6 +129,7 @@ class RouteCardAdmin extends Admin
 
             if(array_key_exists('professionCategory', $data)) {
                 $form->add('professionCategory', 'choice', [
+                    'label'=>'profession_category',
                     'choices' => [
                         $data['professionCategory'] => $data['professionCategory']
                     ]
@@ -141,7 +142,8 @@ class RouteCardAdmin extends Admin
 
         $formMapper
             ->add('operation', null, ['label'=>'route_card_operation'])
-            ->add('operationCode', null, ['label'=>'code', 'sonata_help' => $helpText, 'attr' => [
+            ->add('operationCode', null, ['label'=>'code', 'sonata_help' => $helpText,
+                'attr' => [
                 'readonly' => false
             ]])
             ->add('dependency', 'choice', [
@@ -151,25 +153,7 @@ class RouteCardAdmin extends Admin
             ])
             ->add('equipment', null, [])
             ->add('mould', null, [])
-            ->add('profession', null, ['required'=>true, 'label'=>'profession_route_card',
-//                'query_builder' => function ($query) use ($currentId, $parentId) {
-//                    $result = $query->createQueryBuilder('pr');
-//                    if($parentId){
-//                        $result
-//                            ->where("pr.id NOT IN (
-//                                 SELECT p.id from MainBundle:RouteCard rc
-//                                 LEFT JOIN rc.productComponent pc
-//                                 LEFT JOIN rc.profession p
-//                                 WHERE pc.id = :parentId AND (rc.id != :routeId OR :routeId IS NULL)
-//                                 )")
-//
-//                            ->setParameter('parentId', $parentId)
-//                            ->setParameter('routeId', $currentId);
-//                    }
-
-//                    return $result;
-//                }
-            ])
+            ->add('profession', null, ['required'=>false, 'label'=>'profession_route_card'])
             ->add('professionCategory', 'choice', [
                 'label'=>'profession_category',
                 'required'=>false,

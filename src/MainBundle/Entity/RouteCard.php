@@ -13,10 +13,10 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *
  * @ORM\Entity()
  * @ORM\Table(name="route_card",uniqueConstraints={@UniqueConstraint(name="unique_route_card_idx", columns=
- *     {"profession_id", "profession_category", "product_component_id"})})
+ *                  {"profession_id", "profession_category", "product_component_id"})})
  *
- * @UniqueEntity(fields={"profession", "professionCategory", "productComponent"}, errorPath="name",
- * message="Route card by this profession and category already exist")
+ * @UniqueEntity(fields={"profession", "professionCategory", "productComponent"}, errorPath="profession",
+ *                  message="Route card by this profession and category already exist for this component")
  */
 class RouteCard
 {
@@ -32,14 +32,16 @@ class RouteCard
     /**
      * @var string
      *
-     * @ORM\Column(name="operation", type="string", length=50, nullable=true)
+     * @Assert\NotBlank()
+     * @ORM\Column(name="operation", type="string", length=50)
      */
     private $operation;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="operationCode", type="string", length=50, nullable=true)
+     * @Assert\NotBlank()
+     * @ORM\Column(name="operationCode", type="string", length=50)
      */
     private $operationCode;
 
@@ -65,13 +67,14 @@ class RouteCard
     /**
      * @var string
      *
-     * @ORM\Column(name="profession_category", type="string", length=50, nullable=true)
+     * @ORM\Column(name="profession_category", type="string", length=50)
      */
     private $professionCategory;
 
     /**
      * @var string
      *
+     * @Assert\NotBlank()
      * @ORM\Column(name="jobTime", type="string", length=50, nullable=true)
      * @Assert\Regex(pattern="/^[0-9]\d*[\.]{0,1}(\d+)?$/", message="This value must contain only number and decimal")
      */
@@ -98,11 +101,13 @@ class RouteCard
 
     /**
      * @ORM\ManyToOne(targetEntity="Mould", inversedBy="routeCard", cascade={"persist"})
+     * @ORM\JoinColumn(name="mould_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $mould;
 
     /**
      * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="routeCard", cascade={"persist"})
+     * @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $equipment;
 

@@ -36,7 +36,6 @@ class ProductComponentAdmin extends Admin
             ->add('name', null, ['label'=>'component_name'])
             ->add('routeCard', 'sonata_type_collection', [
                 'label' => 'route_card_operation',
-                'by_reference' => false,
                 'required' => false,
                 'btn_add' => "Ավելացնել օպերացիյա",
                 'type_options' => [

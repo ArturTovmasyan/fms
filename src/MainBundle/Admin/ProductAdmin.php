@@ -185,7 +185,6 @@ class ProductAdmin extends Admin
                         'edit' => 'inline',
                         'inline' => 'inline'
                     ])
-
                 ->end()
                 ->end();
         };

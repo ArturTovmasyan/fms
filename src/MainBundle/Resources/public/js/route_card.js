@@ -1,20 +1,23 @@
 $( document ).ready(function() {
 
-    //get form token id
+    //get data in forms
     var fieldId = $("input[id$='_token']").attr("id");
     var pos = fieldId.indexOf("_token");
     var fieldToken = fieldId.slice(0, pos);
     var routeCardBlock = "#sonata-ba-field-container-"+fieldToken+"productComponent";
     var addNewOperation = "span[id$=_routeCard] a.sonata-ba-action";
 
+    //get component count on page
     var componentCount = $(routeCardBlock + ' div.sonata-ba-tabs > div').length;
 
     //close left menu after page loaded
     $('body.sonata-bc').addClass('sidebar-collapse');
-    setValuesInEditPage(componentCount);
+
+    //generate operation card all dynamically fields data
+    generateDynamicallyValues(componentCount);
 
     // detect change expense on product page
-    $(addNewOperation).mousedown(function(event) {
+    $('body').on("mousedown", addNewOperation, function(event) {
 
         var codes = [];
         var option = '<option value="id">name</option>';
@@ -59,12 +62,10 @@ $( document ).ready(function() {
         return true;
     });
 
-
     /**
      * This function is used to set all dynamically values
-     *
      */
-    function setValuesInEditPage() {
+    function generateDynamicallyValues() {
 
         var professionIds = [];
 
@@ -81,26 +82,27 @@ $( document ).ready(function() {
 
                 for(var i = 0; i < operationCount; i++)
                 {
+                    //get profession ids and set it in category fields
                     options = '';
-
-                    var codeSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_operationCode';
-                    var depSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_dependency';
-                    var codeVal = $(codeSelector).val();
-                    var depVal = $(depSelector).val();
-
                     var profSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_profession';
                     var profVal = $(profSelector).val();
                     var categorySelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_professionCategory';
+                    var index = professionIds.indexOf(+profVal);
 
                     $(categorySelector).attr('prof-id', profVal);
-
-                    var index = professionIds.indexOf(+profVal);
 
                     if(index === -1) {
                         professionIds.push(+profVal);
                     }
 
+                    //get code and dependency values
+                    var codeSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_operationCode';
+                    var depSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_dependency';
+                    // var codeVal = $(codeSelector).val();
+                    var depVal = $(depSelector).val();
+                    var codeVal = 'K'+(c+1)+'O'+(i+1);
 
+                    $(codeSelector).val(codeVal);
 
                     //generate dependency values
                     codes.push(codeVal);
@@ -108,6 +110,7 @@ $( document ).ready(function() {
                     for(var z = 0; z< codes.length;z++)
                     {
                         if(i !== z) {
+
                             if(codes[z] === depVal) {
                                 var setOpt = '<option value="id" selected>name</option>';
                                 setOpt = setOpt.replace('id', depVal).replace('name', depVal);
@@ -119,16 +122,14 @@ $( document ).ready(function() {
                     }
 
                     $(depSelector).html(options);
-
                 }
 
                 getAllCategoriesValue(professionIds);
-
             }
         }
     }
 
-
+    //if input field is changed, generate by ajax dynamically values for fields
     $(routeCardBlock).on('change', "input", function(e) {
 
         var number = e.target.id;
@@ -156,6 +157,7 @@ $( document ).ready(function() {
         }
     });
 
+    //if select field is changed, generate by ajax dynamically values for fields
     $(routeCardBlock).on("change", "select", function(e) {
 
         var number = e.target.id;
@@ -173,7 +175,7 @@ $( document ).ready(function() {
             var categorySelector = '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
                 operationNumber + '_professionCategory';
 
-            //IMPORTANT REMOVE CATEGORY SELECT FIELD VALUE AFTER AJAX CALL
+            //IMPORTANT` REMOVE CATEGORY SELECT FIELD VALUE AFTER AJAX CALL
             $(categorySelector).select2('val', null);
             $(categorySelector).select2('data', null);
 
@@ -210,7 +212,7 @@ $( document ).ready(function() {
     });
 
     /**
-     * This function is used to get prof. category and dynamically change route card values
+     * This function is used to get tariff by prof. and category ids, generate sum and set data in form
      *
      * @param profId
      * @param categoryId
@@ -245,7 +247,7 @@ $( document ).ready(function() {
     }
 
     /**
-     * This function is used to get profession categories by id
+     * This function is used to get categories by profession id
      *
      * @param id
      * @param selector
@@ -270,7 +272,7 @@ $( document ).ready(function() {
     }
 
     /**
-     * This function is used to get and generate profession categories by ids
+     * This function is used to get and generate categories array for all profession in list
      *
      * @param ids
      */
@@ -311,16 +313,18 @@ $( document ).ready(function() {
             }
 
             if(dataArray.length > 0) {
-                setCategoriesValueByAjax(dataArray);
+                //set categories select options by generated dataArray
+                setCategoriesValue(dataArray);
             }
         });
     }
 
     /**
+     * This function is used to set categories selected options by generated dataArray via top ajax
      *
      * @param dataArray
      */
-    function setCategoriesValueByAjax(dataArray) {
+    function setCategoriesValue(dataArray) {
 
         for(var cm = 0; cm <= componentCount; cm++)
         {
@@ -338,11 +342,6 @@ $( document ).ready(function() {
                     if(catIndex) {
 
                         var categoryVal = $(categorySelector).val();
-
-                        // if(!categoryVal) {
-                            // $(categorySelector).val(null);
-                        // }
-
                         var option = '<option value="id">name</option>';
                         var options = '<option value=""></option>';
 
@@ -363,4 +362,5 @@ $( document ).ready(function() {
             }
         }
     }
+
 });
