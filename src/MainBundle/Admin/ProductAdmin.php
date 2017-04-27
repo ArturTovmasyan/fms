@@ -30,7 +30,7 @@ class ProductAdmin extends Admin
         $query = parent::createQuery($context);
 
         // add selected
-        $query->addSelect('m, e, c, pw, pl, pre, rm');
+        $query->addSelect('m, e, c, pw, pl, pre, rm', 'pc', 'rc');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'e');
         $query->leftJoin($query->getRootAlias() . '.client', 'c');
@@ -38,6 +38,8 @@ class ProductAdmin extends Admin
         $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
         $query->leftJoin($query->getRootAlias() . '.productRawExpense', 'pre');
         $query->leftJoin('pre.rawMaterials', 'rm');
+        $query->leftJoin($query->getRootAlias() . '.productComponent', 'pc');
+        $query->leftJoin('pc.routeCard', 'rc');
         return $query;
 
     }
