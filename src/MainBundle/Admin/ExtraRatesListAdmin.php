@@ -28,8 +28,8 @@ class ExtraRatesListAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('position')
-            ->add('extraRates')
+            ->add('position', null, ['label'=>'position'])
+            ->add('extraRates', null, ['label'=>'extra_rates'])
         ;
     }
 

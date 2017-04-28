@@ -6,7 +6,7 @@
      <tbody>
      {% for object in admin.datagrid.results %}
 
-         {% set routeCardPrice = object.routeCardPrice %}
+         {% set routeCardPrice = object.sum %}
 
          {% set price = price + routeCardPrice %}
 
@@ -16,11 +16,11 @@
      {% endfor %}
 
      <tr>
-         <td colspan="11">
+         <td colspan="12">
              {{ "Ընդամենը" }}
          </td>
          <td colspan="1">
-             {{ price }}
+             {{ price ~ " դր․" }}
          </td>
      </tr>
 

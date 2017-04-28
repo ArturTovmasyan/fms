@@ -20,6 +20,8 @@ $( document ).ready(function() {
         return;
     }
 
+    checkDisable(mouldTypeCount, productCount);
+
     $(mouldTypeSelector).change(function () {
 
         mouldTypeCount = $(this).val();
@@ -47,6 +49,7 @@ $( document ).ready(function() {
         if(productCount && productCount > mouldTypeCount && mouldTypeCount>0) {
 
             $(mouldTypeSelector).val(productCount);
+
             $(productSelector).parent().after(
                 "<div class='validation' id='error_product' style='color:red;margin-bottom: 20px;'>" +
                 "Product items more then mould type count" +

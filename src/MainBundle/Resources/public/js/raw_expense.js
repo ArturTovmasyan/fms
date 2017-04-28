@@ -11,8 +11,7 @@ $( document ).ready(function() {
     var expenseCostSelector = "#"+fieldToken+"cost";
     var expenseSumSelector = "#"+fieldToken+"sum";
     var expenseCountSelector = "#"+fieldToken+"count";
-    var addNew = "#field_actions_"+fieldToken+"productRawExpense";
-
+    var rawExpenseBlock = "#field_container_"+fieldToken+"productRawExpense";
     var expenseMaterialId = $(expenseMaterialSelector).val();
 
     if(expenseMaterialId) {
@@ -23,47 +22,52 @@ $( document ).ready(function() {
     var ids = [];
 
     //get raw expense fields count
-    var counts = $('tbody.sonata-ba-tbody tr').length;
+    var counts = $(rawExpenseBlock + ' tbody.sonata-ba-tbody tr').length;
 
     //generate material ids
     generateIds(counts);
 
     //detect change expense on product page
-    $('body').on('click', addNew, function() {
-            setTimeout(function () {
-                generateIds(counts);
-            }, 1000);
-    });
-
-    //detect change expense on product page
     $('body').on('change', "tbody.sonata-ba-tbody tr td select", function(event) {
-        ids = [];
-        var id = $(this).val();
+        var number = event.target.id;
+        var splitId = number.split('_');
+        var ifMaterialSelect  = splitId[splitId.length -1];
 
-        if(id) {
-            ids.push(id);
-            var number = event.target.id;
-            var idNumber = number.split('_')[2];
-            setSingleMaterialsData(ids, idNumber);
+        if(ifMaterialSelect === 'rawMaterials') {
+
+            var idNumber = splitId[2];
+            ids = [];
+            var id = $(this).val();
+
+            if(id) {
+                ids.push(id);
+                setSingleMaterialsData(ids, idNumber);
+            }
         }
+
     });
 
 
     //detect change expense on product page
     $('body').on('change', "tbody.sonata-ba-tbody tr td input", function(event) {
-        var count = $(this).val();
+
         var number = event.target.id;
-        var formId = number.split('_')[2];
+        var splitId = number.split('_');
+        var ifCountSelect  = splitId[splitId.length -1];
 
-        var costSelector = "#"+fieldToken+"productRawExpense_"+formId+"_cost";
-        var materialSelect = '#'+fieldToken+'productRawExpense_'+formId+'_sum';
+        if(ifCountSelect === 'count') {
+            var count = $(this).val();
+            var formId = splitId[2];
 
-        var cost = $(costSelector).val();
-        var sum = count*cost;
+            var costSelector = "#"+fieldToken+"productRawExpense_"+formId+"_cost";
+            var materialSelect = '#'+fieldToken+'productRawExpense_'+formId+'_sum';
 
-        $(materialSelect).val(sum);
+            var cost = $(costSelector).val();
+            var sum = count*cost;
+
+            $(materialSelect).val(sum);
+        }
     });
-
 
     //detect change on product raw expense page
     $(expenseMaterialSelector).change(function () {
@@ -93,18 +97,21 @@ $( document ).ready(function() {
                     var sumSelector = "#"+fieldToken+"productRawExpense_"+i+"_sum";
                     var countSelector = "#"+fieldToken+"productRawExpense_"+i+"_count";
 
-                    var size = getSizeValue(data[i].size);
-                    var count = $(countSelector).val();
+                    if(data[i]) {
+                        var size = getSizeValue(data[i].size);
+                        $(sizeSelector).val(size);
 
-                    if(count) {
-                        var sum = count*data[i].actualCost;
-                    }else{
-                        sum = 0;
+                        var count = $(countSelector).val();
+
+                        if(count) {
+                            var sum = count*data[i].actualCost;
+                        }else{
+                            sum = 0;
+                        }
+
+                        $(costSelector).val(data[i].actualCost);
+                        $(sumSelector).val(sum);
                     }
-
-                    $(sizeSelector).val(size);
-                    $(costSelector).val(data[i].actualCost);
-                    $(sumSelector).val(sum);
                 }
             }
         });
@@ -140,7 +147,6 @@ $( document ).ready(function() {
                 $(sumSelector).val(sum);
             }
         });
-
     }
 
     /**
@@ -186,7 +192,7 @@ $( document ).ready(function() {
             }
         }
 
-        if(ids) {
+        if(ids.length > 0) {
             setMaterialsData(ids);
         }
     }
@@ -220,5 +226,4 @@ $( document ).ready(function() {
 
         return size;
     }
-
 });

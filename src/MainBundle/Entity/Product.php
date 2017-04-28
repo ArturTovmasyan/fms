@@ -16,9 +16,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Product
 {
-//* @Assert\Callback(methods={"validate"})
-
-/**
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -110,6 +108,11 @@ class Product
      */
     protected $productRawExpense;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ProductComponent", mappedBy="product", cascade={"persist", "remove"})
+     */
+    protected $productComponent;
+
     //relations
     //private $price;
 
@@ -123,7 +126,6 @@ class Product
     private $generalCount;
 
     /**
-     * @var datetime $created
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
@@ -131,7 +133,6 @@ class Product
     private $created;
 
     /**
-     * @var datetime $updated
      *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
@@ -141,7 +142,7 @@ class Product
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -164,7 +165,7 @@ class Product
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -187,7 +188,7 @@ class Product
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -256,7 +257,7 @@ class Product
     /**
      * Get size
      *
-     * @return integer 
+     * @return integer
      */
     public function getSize()
     {
@@ -302,7 +303,7 @@ class Product
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -333,6 +334,7 @@ class Product
         return $sumExpense;
     }
 
+
     /**
      * This function is used to get product route card sum
      *
@@ -340,8 +342,22 @@ class Product
      */
     public function getSumRouteCard()
     {
-        //set sum expense
+        $components = $this->getProductComponent();
         $sumRouteCard = 0;
+
+        if(count($components) > 0) {
+            foreach ($components as $component)
+            {
+                $routeCards = $component->getRouteCard();
+
+                if(count($routeCards) > 0) {
+                    foreach ($routeCards as $routeCard)
+                    {
+                        $sumRouteCard += $routeCard->getSum();
+                    }
+                }
+            }
+        }
 
         return $sumRouteCard;
     }
@@ -394,7 +410,7 @@ class Product
     /**
      * Get purposeList
      *
-     * @return \MainBundle\Entity\PurposeList 
+     * @return \MainBundle\Entity\PurposeList
      */
     public function getPurposeList()
     {
@@ -425,7 +441,7 @@ class Product
     /**
      * Get workshop
      *
-     * @return string 
+     * @return string
      */
     public function getWorkshop()
     {
@@ -458,7 +474,7 @@ class Product
     /**
      * Get equipment
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getEquipment()
     {
@@ -491,7 +507,7 @@ class Product
     /**
      * Get mould
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getMould()
     {
@@ -507,6 +523,7 @@ class Product
         $this->mould = new \Doctrine\Common\Collections\ArrayCollection();
         $this->placeWarehouse = new \Doctrine\Common\Collections\ArrayCollection();
         $this->client = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productComponent = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -535,7 +552,7 @@ class Product
     /**
      * Get client
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getClient()
     {
@@ -558,7 +575,7 @@ class Product
     /**
      * Get generalCount
      *
-     * @return integer 
+     * @return integer
      */
     public function getGeneralCount()
     {
@@ -591,7 +608,7 @@ class Product
     /**
      * Get placeWarehouse
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPlaceWarehouse()
     {
@@ -614,7 +631,7 @@ class Product
     /**
      * Get countInWarehouse
      *
-     * @return integer 
+     * @return integer
      */
     public function getCountInWarehouse()
     {
@@ -648,61 +665,44 @@ class Product
     /**
      * Get productRawExpense
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getProductRawExpense()
     {
         return $this->productRawExpense;
     }
 
-//    /**
-//     * @param ExecutionContext $context
-//     */
-//    public function validate(ExecutionContext $context)
-//    {
-//        //get components
-//        $components = $this->getProductComponent();
-//
-//        //if components exist
-//        if($components) {
-//
-//            foreach($components as $component)
-//            {
-//                //get route card
-//                $routeCards = $component->getProductRouteCard();
-//
-//                //if route cards exist
-//                if($routeCards) {
-//
-//                    foreach($routeCards as $routeCard) {
-//
-//                        //get profession
-//                        $profession = $routeCard->getProfession();
-//
-//                        //get profession category
-//                        $professionCategory = $routeCard->getProfessionCategory();
-//
-//                        $name = $professionCategory->getName();
-//
-//                        //get all salaries type by profession indexBy category id
-//                        $salariesTypeArray = $profession->getSalariesType();
-//
-//                        //get salaries type by profession category id
-//                        $salariesType = $salariesTypeArray[$professionCategory->getId()];
-//
-//                        //check if salariesType exist
-//                        if (!$salariesType) {
-//                            $context->addViolationAt(
-//                                'productRouteCard',
-//                                'This profession by category not exist "%category%"',
-//                                array('%category%', $name),
-//                                null
-//                            );
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    /**
+     * Add productComponent
+     *
+     * @param \MainBundle\Entity\ProductComponent $productComponent
+     * @return Product
+     */
+    public function addProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
+    {
+        $productComponent->setProduct($this);
+        $this->productComponent[] = $productComponent;
 
+        return $this;
+    }
+
+    /**
+     * Remove productComponent
+     *
+     * @param \MainBundle\Entity\ProductComponent $productComponent
+     */
+    public function removeProductComponent(\MainBundle\Entity\ProductComponent $productComponent)
+    {
+        $this->productComponent->removeElement($productComponent);
+    }
+
+    /**
+     * Get productComponent
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductComponent()
+    {
+        return $this->productComponent;
+    }
 }

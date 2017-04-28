@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Traits\Resource\Product;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -10,6 +11,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class ProductAdmin extends Admin
 {
+    use Product;
+
     //set fields option
     protected $formOptions = [
         'cascade_validation' => true
@@ -27,7 +30,7 @@ class ProductAdmin extends Admin
         $query = parent::createQuery($context);
 
         // add selected
-        $query->addSelect('m, e, c, pw, pl, pre, rm');
+        $query->addSelect('m, e, c, pw, pl, pre, rm', 'pc', 'rc');
         $query->leftJoin($query->getRootAlias() . '.mould', 'm');
         $query->leftJoin($query->getRootAlias() . '.equipment', 'e');
         $query->leftJoin($query->getRootAlias() . '.client', 'c');
@@ -35,6 +38,8 @@ class ProductAdmin extends Admin
         $query->leftJoin($query->getRootAlias() . '.purposeList', 'pl');
         $query->leftJoin($query->getRootAlias() . '.productRawExpense', 'pre');
         $query->leftJoin('pre.rawMaterials', 'rm');
+        $query->leftJoin($query->getRootAlias() . '.productComponent', 'pc');
+        $query->leftJoin('pc.routeCard', 'rc');
         return $query;
 
     }
@@ -84,7 +89,7 @@ class ProductAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //get product id for edit
-        $editProductId = $this->getSubject() ? $this->getSubject() ? $this->getSubject()->getId() : null : null;
+        $editProductId = $this->getSubject() ? $this->getSubject()->getId() :  null;
 
         $mouldIds = [];
 
@@ -103,12 +108,12 @@ class ProductAdmin extends Admin
                 'label' => 'equipment',
                 'query_builder' => function($query)  {
                     $result = $query->createQueryBuilder('p');
-                        $result
-                            ->select('eq')
-                            ->from('MainBundle:Equipment','eq')
-                            ->leftJoin('eq.product', 'ep')
-                            ->where('eq.type = :type')
-                            ->setParameter(':type', 1);
+                    $result
+                        ->select('eq')
+                        ->from('MainBundle:Equipment','eq')
+                        ->leftJoin('eq.product', 'ep')
+                        ->where('eq.type = :type')
+                        ->setParameter(':type', 1);
 
                     return $result;
                 }
@@ -117,13 +122,13 @@ class ProductAdmin extends Admin
                 'label' => 'mould',
                 'query_builder' => function($query) use ($editProductId, $mouldIds) {
                     $result = $query->createQueryBuilder('p');
-                        $result
-                            ->select('m')
-                            ->from('MainBundle:Mould', 'm')
-                            ->leftJoin('m.product', 'mp')
-                            ->groupBy('m.id')
-                            ->where('mp.id is null')
-                            ->having('COUNT(mp.id) < m.mouldType');
+                    $result
+                        ->select('m')
+                        ->from('MainBundle:Mould', 'm')
+                        ->leftJoin('m.product', 'mp')
+                        ->groupBy('m.id')
+                        ->where('mp.id is null')
+                        ->having('COUNT(mp.id) < m.mouldType');
                     if($editProductId) {
 
                         $result->resetDqlPart('having');
@@ -144,32 +149,48 @@ class ProductAdmin extends Admin
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('size', 'choice', ['required'=>false,
                 'choices'=> ['Կգ', 'Մետր','Հատ','Կոմպլեկտ', 'Լիտր']
-               ])
+            ])
             ->add('workshop', 'sonata_type_model', ['label' => 'workshop', 'required'=>false, 'btn_add' => "Ավելացնել արտադրամաս",])
             ->add('weight')
             ->end()
-            ->end()
-
-            ->tab('operation_card')
-            ->with('product_expense')
-            ->add('productRawExpense', 'sonata_type_collection', [
-                'label' => false,
-                'by_reference' => false,
-                'required' => false,
-                'btn_add' => "Ավելացնել նյութածախս",
-                'type_options' => [
-                    'delete' => true]
-            ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'table'
-                ])
-            ->end()
-            ->with('operation_card')
-
-            ->add('routerCard', 'text', ['label'=>'THIS PART IS IN PROCESS ...', 'required' => false, 'mapped'=>false, 'attr'=>['readonly' => true, 'disabled'=>true]])
-            ->end()
             ->end();
+        if($editProductId) {
+            $formMapper
+            ->tab('raw_expense')
+                ->with('product_expense')
+                ->add('productRawExpense', 'sonata_type_collection', [
+                    'label' => false,
+                    'by_reference' => false,
+                    'required' => false,
+                    'btn_add' => "Ավելացնել նյութածախս",
+                    'type_options' => [
+                        'delete' => true]
+                ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'table'
+                    ])
+                ->end()
+                ->end()
+
+            ->tab('route_card')
+
+                ->add('productComponent', 'sonata_type_collection', [
+                    'label' => false,
+                    'by_reference' => false,
+                    'required' => false,
+                    'btn_add' => 'Ավելացնել երթուղային քարտ',
+                    'type_options' => [
+                        'delete' => true]
+                ],
+                    [
+                        'edit' => 'inline',
+                        'inline' => 'inline'
+                    ])
+                ->end()
+                ->end();
+        };
+
     }
 
     // Fields to be shown on filter forms
@@ -188,6 +209,7 @@ class ProductAdmin extends Admin
             ->add('id', null, ['label'=>'code', 'template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('getSumRawExpense', null, ['label' => 'raw_expense', 'template'=>'MainBundle:Admin/List:product_expense_list.html.twig'])
+            ->add('getSumRouteCard', null, ['label' => 'route_card', 'template'=>'MainBundle:Admin/List:product_routeCard_list.html.twig'])
             ->add('client')
             ->add('gost')
             ->add('getStringSize', null, ['label' => 'size'])
@@ -200,50 +222,7 @@ class ProductAdmin extends Admin
                     'edit' => [],
                     'delete' => [],
                 ]
-            ])
-        ;
-    }
-
-    //set rawMaterial in rawExpense
-    public function setRelations($object)
-    {
-        // get product raw expenses
-        $productRawExpense = $object->getProductRawExpense();
-
-        // if product raw expenses is exist
-        if($productRawExpense) {
-
-            foreach($productRawExpense as $productRawExpens)
-            {
-                if(!$productRawExpens->getId() || !$productRawExpense->contains($object)) {
-                    $productRawExpens->setProduct($object);
-                }
-            }
-        }
-    }
-
-    public function removeRelations($object)
-    {
-        //get container
-        $container = $this->getConfigurationPool()->getContainer();
-
-        //get entity manager
-        $em = $container->get('doctrine')->getManager();
-
-        // get productRawExpenses
-        $productRawExpense = $object->getProductRawExpense();
-
-        if($productRawExpense) {
-            //get delete diff
-            $rawExpenseRemoved = $productRawExpense->getDeleteDiff();
-
-            //removed raw expense
-            if($rawExpenseRemoved) {
-                foreach ($rawExpenseRemoved as $remove) {
-                    $em->remove($remove);
-                }
-            }
-        }
+            ]);
     }
 
 
@@ -252,7 +231,6 @@ class ProductAdmin extends Admin
      */
     public function prePersist($object)
     {
-        $this->setRelations($object);
         $this->preUpdate($object);
     }
 

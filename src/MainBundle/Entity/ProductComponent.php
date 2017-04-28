@@ -31,9 +31,10 @@ class ProductComponent
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="productComponent", cascade={"persist", "remove"})
+     * @Assert\Valid
+     * @ORM\OneToMany(targetEntity="RouteCard", mappedBy="productComponent", cascade={"persist", "remove"})
      */
-    protected $productRouteCard;
+    protected $routeCard;
 
     /**
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productComponent", cascade={"persist"})
@@ -41,28 +42,16 @@ class ProductComponent
     protected $product;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->productRouteCard = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * @return string
@@ -152,39 +141,6 @@ class ProductComponent
     }
 
     /**
-     * Add productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     * @return ProductComponent
-     */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard[] = $productRouteCard;
-
-        return $this;
-    }
-
-    /**
-     * Remove productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard->removeElement($productRouteCard);
-    }
-
-    /**
-     * Get productRouteCard
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductRouteCard()
-    {
-        return $this->productRouteCard;
-    }
-
-    /**
      * Set product
      *
      * @param \MainBundle\Entity\Product $product
@@ -205,5 +161,47 @@ class ProductComponent
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * Add routeCard
+     *
+     * @param \MainBundle\Entity\RouteCard $routeCard
+     * @return ProductComponent
+     */
+    public function addRouteCard(\MainBundle\Entity\RouteCard $routeCard)
+    {
+        $routeCard->setProductComponent($this);
+        $this->routeCard[] = $routeCard;
+
+        return $this;
+    }
+
+    /**
+     * Remove routeCard
+     *
+     * @param \MainBundle\Entity\RouteCard $routeCard
+     */
+    public function removeRouteCard(\MainBundle\Entity\RouteCard $routeCard)
+    {
+        $this->routeCard->removeElement($routeCard);
+    }
+
+    /**
+     * Get routeCard
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getRouteCard()
+    {
+        return $this->routeCard;
+    }
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->routeCard = new \Doctrine\Common\Collections\ArrayCollection();
     }
 }

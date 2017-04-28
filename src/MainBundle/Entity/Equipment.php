@@ -164,7 +164,7 @@ class Equipment
     private $inspectionNextDate;
 
     /**
-     * @ORM\OneToMany(targetEntity="Spares", mappedBy="equipment")
+     * @ORM\OneToMany(targetEntity="Spares", mappedBy="equipment", cascade={"persist"})
      */
     protected $spares;
 
@@ -179,22 +179,18 @@ class Equipment
      */
     protected $images;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="equipment", cascade={"persist"})
-//     */
-//    protected $productRouteCard;
+    /**
+     * @ORM\OneToMany(targetEntity="RouteCard", mappedBy="equipment", cascade={"persist"})
+     */
+    protected $routeCard;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */

@@ -3,7 +3,7 @@
 {%- block field %}
     {% if value %}
     {% set url = '/admin/main/productrawexpense/list?productId='~object.id %}
-    <a href="{{ url }}" target="_blank">{{ value }}</a>
+    <a href="{{ url }}" target="_blank">{{ value ~ ' դր'}}</a>
     {% endif %}
 {% endblock -%}
 

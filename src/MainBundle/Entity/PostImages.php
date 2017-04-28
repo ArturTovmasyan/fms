@@ -28,12 +28,12 @@ class PostImages implements ImageableInterface
      */
     private $id;
 
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="Post", inversedBy="images", cascade={"persist"}, fetch="LAZY")
-     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
-     */
-    protected $post;
+//    /**
+//     *
+//     * @ORM\ManyToOne(targetEntity="Post", inversedBy="images", cascade={"persist"}, fetch="LAZY")
+//     * @ORM\JoinColumn(name="post_id", referencedColumnName="id")
+//     */
+//    protected $post;
 
     /**
      * Get id
@@ -43,29 +43,6 @@ class PostImages implements ImageableInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set post
-     *
-     * @param string $post
-     * @return PostImages
-     */
-    public function setPost($post)
-    {
-        $this->post = $post;
-
-        return $this;
-    }
-
-    /**
-     * Get post
-     *
-     * @return string 
-     */
-    public function getPost()
-    {
-        return $this->post;
     }
 
     /**

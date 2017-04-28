@@ -23,7 +23,7 @@
             <argument/>
         </service>
 
-        <!--RubberMaterial-->
+        <!--RawMaterial-->
         <service id="sonata.admin.materials.raw" class="MainBundle\Admin\RawMaterialsAdmin">
             <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="RawMaterials" show_in_dashboard="false"/>
             <argument/>
@@ -133,7 +133,7 @@
 
         <!--ExtraRates-->
         <service id="sonata.admin.main.extra.rates.list" class="MainBundle\Admin\ExtraRatesListAdmin">
-            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="Salary" label="ExtraRatesList"/>
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="true" group="Profession and Tariff" label="ExtraRatesList"/>
             <argument/>
             <argument>MainBundle\Entity\ExtraRatesList</argument>
             <argument/>
@@ -182,38 +182,38 @@
 
         <!--ProfessionCategory-->
         <service id="sonata.admin.main.profession.category" class="MainBundle\Admin\ProfessionCategoryAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="Salary" label="ProfessionCategory"/>
+            <tag name="sonata.admin" manager_type="orm"  show_in_dashboard="false" group="Profession and Tariff" label="profession_category"/>
             <argument/>
             <argument>MainBundle\Entity\ProfessionCategory</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
-        <!--ProfessionsTariff-->
-        <service id="sonata.admin.main.professions.tariff" class="MainBundle\Admin\ProfessionsTariffAdmin">
-            <tag name="sonata.admin" manager_type="orm" group="Salary" label="ProfessionsTariff"/>
+        <!--Profession-->
+        <service id="sonata.admin.main.professions" class="MainBundle\Admin\ProfessionsAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Profession and Tariff" label="job"/>
             <argument/>
             <argument>MainBundle\Entity\Professions</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
         <!--SalariesType-->
-        <service id="sonata.admin.main.salaries.type" class="MainBundle\Admin\SalariesTypeAdmin">
-            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="Salary" label="SalariesType"/>
+        <service id="sonata.admin.main.salaries.type" class="MainBundle\Admin\TariffAdmin">
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="true" group="Profession and Tariff" label="tariff"/>
             <argument/>
-            <argument>MainBundle\Entity\SalariesType</argument>
+            <argument>MainBundle\Entity\Tariff</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
-        <!--ProductRouteCard-->
-        <service id="sonata.admin.main.product.route.card" class="MainBundle\Admin\ProductRouteCardAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductRouteCard" show_in_dashboard="false"/>
+        <!--RouteCard-->
+        <service id="sonata.admin.main.product.route.card" class="MainBundle\Admin\RouteCardAdmin">
+            <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductRouteCard" show_in_dashboard="true"/>
             <argument/>
-            <argument>MainBundle\Entity\ProductRouteCard</argument>
+            <argument>MainBundle\Entity\RouteCard</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
-            <call method="setTemplate">
-                <argument>list</argument>
-                <argument>MainBundle:Admin/List:productRouteCardList.html.twig</argument>
-            </call>
         </service>
 
         <!--ProductComponent-->

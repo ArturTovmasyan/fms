@@ -28,12 +28,12 @@ class PersonnelImages implements ImageableInterface
      */
     private $id;
 
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="Personnel", inversedBy="images", cascade={"persist"}, fetch="LAZY")
-     * @ORM\JoinColumn(name="personnel_id", referencedColumnName="id")
-     */
-    private $personnel;
+//    /**
+//     *
+//     * @ORM\ManyToOne(targetEntity="Personnel", inversedBy="images", cascade={"persist"}, fetch="LAZY")
+//     * @ORM\JoinColumn(name="personnel_id", referencedColumnName="id")
+//     */
+//    private $personnel;
 
     /**
      * Get id
@@ -43,29 +43,6 @@ class PersonnelImages implements ImageableInterface
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set personnel
-     *
-     * @param string $personnel
-     * @return PersonnelImages
-     */
-    public function setPersonnel($personnel)
-    {
-        $this->personnel = $personnel;
-
-        return $this;
-    }
-
-    /**
-     * Get personnel
-     *
-     * @return string 
-     */
-    public function getPersonnel()
-    {
-        return $this->personnel;
     }
 
     /**

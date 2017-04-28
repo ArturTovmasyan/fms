@@ -33,20 +33,17 @@ class Spares
 
     /**
      * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="spares", cascade={"persist"})
+     * @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $equipment;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */

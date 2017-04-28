@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProfessionCategory
  *
- * @ORM\Table()
+ * @ORM\Table(name="profession_category", indexes={@ORM\Index(name="search_category", columns={"name"})})
  * @ORM\Entity
  */
 class ProfessionCategory
@@ -29,14 +29,14 @@ class ProfessionCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="SalariesType", mappedBy="professionCategory", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="Tariff", mappedBy="professionCategory", cascade={"persist", "remove"})
      */
-    protected $salariesType;
+    protected $tariff;
 
-    /**
-     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="professionCategory", cascade={"persist", "remove"})
-     */
-    protected $productRouteCard;
+//    /**
+//     * @ORM\OneToMany(targetEntity="ProductRouteCard", mappedBy="professionCategory", cascade={"persist", "remove"})
+//     */
+//    protected $productRouteCard;
 
     /**
      * Get id
@@ -78,77 +78,27 @@ class ProfessionCategory
     {
         return $this->name;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->salariesType = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
-     * Add salariesType
+     * Set tariff
      *
-     * @param \MainBundle\Entity\SalariesType $salariesType
+     * @param \MainBundle\Entity\Tariff $tariff
      * @return ProfessionCategory
      */
-    public function addSalariesType(\MainBundle\Entity\SalariesType $salariesType)
+    public function setTariff(\MainBundle\Entity\Tariff $tariff = null)
     {
-        $this->salariesType[] = $salariesType;
+        $this->tariff = $tariff;
 
         return $this;
     }
 
     /**
-     * Remove salariesType
+     * Get tariff
      *
-     * @param \MainBundle\Entity\SalariesType $salariesType
+     * @return \MainBundle\Entity\Tariff
      */
-    public function removeSalariesType(\MainBundle\Entity\SalariesType $salariesType)
+    public function getTariff()
     {
-        $this->salariesType->removeElement($salariesType);
-    }
-
-    /**
-     * Get salariesType
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSalariesType()
-    {
-        return $this->salariesType;
-    }
-
-    /**
-     * Add productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     * @return ProfessionCategory
-     */
-    public function addProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard[] = $productRouteCard;
-
-        return $this;
-    }
-
-    /**
-     * Remove productRouteCard
-     *
-     * @param \MainBundle\Entity\ProductRouteCard $productRouteCard
-     */
-    public function removeProductRouteCard(\MainBundle\Entity\ProductRouteCard $productRouteCard)
-    {
-        $this->productRouteCard->removeElement($productRouteCard);
-    }
-
-    /**
-     * Get productRouteCard
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProductRouteCard()
-    {
-        return $this->productRouteCard;
+        return $this->tariff;
     }
 }

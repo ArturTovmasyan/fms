@@ -8,24 +8,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class ProfessionsTariffAdmin extends Admin
+class ProfessionsAdmin extends Admin
 {
-    /**
-     * override list query
-     *
-     * @param string $context
-     * @return \Sonata\AdminBundle\Datagrid\ProxyQueryInterface */
-
-    public function createQuery($context = 'list')
-    {
-        // call parent query
-        $query = parent::createQuery($context);
-        // add selected
-        $query->addSelect('ps, pc');
-        $query->leftJoin($query->getRootAlias() . '.salariesType', 'ps');
-        $query->leftJoin('ps.professionCategory', 'pc');
-        return $query;
-    }
 
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
@@ -35,9 +19,8 @@ class ProfessionsTariffAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('name')
-            ->add('salariesType');
+            ->add('tariff');
     }
 
     // Fields to be shown on create/edit forms
@@ -45,25 +28,24 @@ class ProfessionsTariffAdmin extends Admin
     {
         $formMapper
             ->add('name')
-            ->add('salariesType', 'sonata_type_collection', [
-                'label' => 'salaries_type',
+            ->add('tariff', 'sonata_type_collection', [
+                'label' => 'tariff',
+                'btn_add' => 'Ավելացնել տարիֆ',
                 'by_reference' => false,
                 'mapped'   => true,
                 'required' => true],
                 [
                     'edit' => 'inline',
                     'inline' => 'table'
-                ])
-        ;
+                ]
+            );
     }
 
     // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
-            ->add('salariesType.professionCategory.name', null, ['label' => 'profession_category']);
         ;
     }
 
@@ -71,9 +53,8 @@ class ProfessionsTariffAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
-            ->add('salariesType', null, ['label' => 'profession_category'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -86,14 +67,14 @@ class ProfessionsTariffAdmin extends Admin
 
     public function setRelations($object)
     {
-        //get salariesType
-        $salariesTypes = $object->getSalariesType();
+        //get tariffs
+        $tariffs = $object->getTariff();
 
-        foreach($salariesTypes as $salariesType)
+        foreach($tariffs as $tariff)
         {
-            if(!$salariesTypes->contains($object))
+            if(!$tariffs->contains($object))
             {
-                $salariesType->setProfession($object);
+                $tariff->setProfession($object);
             }
         }
     }

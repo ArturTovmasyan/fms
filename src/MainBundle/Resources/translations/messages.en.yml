@@ -37,21 +37,27 @@ cost_price: Ինքնարժեքը
 ProductRouteCard: Արտ․֊ի երթ․ քարտ
 actual_price: Փաստացի արժեքը
 accounting_price: Հաշվապահական արժեքը
+sum: Գումարը
+component_name: Կոմպոնենտի անունը
 renovate_data: Վերանորոգման բնույթը
 ProfessionsTariff: Գործավարձի տարիֆ
 last_repair: Վերջին վերանորոգում
 Image: Նկարներ
 Sketch: Էսքիզներ
 lastName: Ազգանուն
+job: Աշխատանքը
+dependency: Կախվածությունը
 Bandwidth: Թողունակությունը
 Deployment: Սարք.-ն Տեղ.
+route_card_operation: Օպերացիա
+#operation_code: Օպ․ կոդը
 over_size: Գաբ.չափ
 current_state: Ընթացիկ վիճակը
 State: Վիճակը
 equipment_workshop: Թող․ արտադ․
 Workshop: Արտադրամասը
 preparation_time: Հանձնման ժամկետը
-ProfessionCategory: Գործավարձի կարգը
+job_time: Ժամանակը
 general_count: Ընդհանուր քանակը
 technical_file: Տեխ. ֆայլ
 minimal_volume: Մինիմալ ծավալը
@@ -86,6 +92,7 @@ raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ
 salaries_type: Գործավարձի տեսակը
 profession_category: Կարգը
+profession_route_card: Արհես. տիպը
 actual_cost: Փ. արժեքը
 balance_cost: Հ. արժեքը
 prepack_materials: Կիսապատ.-ի հումք
@@ -98,6 +105,7 @@ files: Ֆայլեր
 repair_job: Վեր.-ն աշխ․
 inspection_period: Տեխզ․ պարբ.
 inspection_next_date: Տեխզ․ հերթ. ժամ.
+specific_percent: Տեսակարա կշիռը
 purchase_date: Ձեռքբ. ժամ.
 el_power: Էլ. հզ.
 report_create: ՀԱՇՎԵՏՎՈՒԹՅՈՒՆ
@@ -126,6 +134,8 @@ eq_list_filter: Ֆիլտրել սարք․֊ն աղյուսակը
 filter: Ֆիլտրել
 subordination: Ենթակայությունը
 head_position: Ղեակավար հաստիքը
+position: Հաստիք
+extra_rates: Հավելավճար
 post_req: Այլ պահանջներ
 add_division: Ավելացնել ենթաստորաբաժանում
 add_post: Ավելացնել հաստիք
@@ -137,9 +147,11 @@ position_date: Պաշտոնը ստանձ. ամս.
 mobile_phone: Բջջ. հեռախոս
 fixed_phone: Քաղ. հեռախոս
 alternate_phone: Այլ. հեռ.
+profession_category: Կարգը
 email: Էլ․ հասցե
 car_number: Ավոտ. համարանիշը
 diploma: Դիպլոմը
+tariff: Տարիֆը
 address: Հասցե
 husband: Ամուսին
 children: Երեխա
@@ -180,6 +192,9 @@ remove_defects: Վերացման ենթ. թեր.
 from_date: Զբաղեցրել է
 to_date: Ազատվել է
 el_power_value: Էլ․ արժեքը
+salary_hour: Ժամավարձ
+salary_day: Օրավարձ
+salary_rate: Դրույքը
 
 ################################################## TRANSLATIONS FOR EXPORT ##########################################################
 
@@ -208,6 +223,7 @@ Get El Power String: Էլ. հզ.
 Get Defects String: Վերացման ենթ. թեր.
 Get El Power Sum: Էլ. հզ.
 add_vendor: Ավելացնել մատակարար
+first_route_card: First operation code must be set manually
 
 file:
     max_extension: The minimum file size is 400x400 px
