@@ -40,7 +40,6 @@ $( document ).ready(function() {
                 var codeSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_operationCode';
                 var percentSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_specificPercent';
 
-
                 if($(codeSelector).val()) {
                     codes.push($(codeSelector).val());
                     options += (option.replace('id', codes[i]).replace('name',codes[i]))
