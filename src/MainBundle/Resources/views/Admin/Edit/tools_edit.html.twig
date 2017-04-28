@@ -1,0 +1,21 @@
+{% extends "SonataAdminBundle:CRUD:base_edit.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/main/css/admin.css") }}">
+    <link rel="stylesheet" href="{{ asset("node_modules/dropzone/dist/min/dropzone.min.css") }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("node_modules/dropzone/dist/min/dropzone.min.js") }}"></script>
+    <script src="{{ asset('bundles/main/js/multipleFile.js') }}"></script>
+    <script src="{{ asset('bundles/main/js/tools.js') }}"></script>
+{% endblock %}
+
+{% block form %}
+    {{ parent() }}
+    <div id="dZUpload" class="dropzone">
+        <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+    </div>
+{% endblock %}

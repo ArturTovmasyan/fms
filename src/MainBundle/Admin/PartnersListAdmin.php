@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class PartnersListAdmin extends Admin
 {
+    protected $baseRoutePattern = 'partners_list';
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -18,10 +20,8 @@ class PartnersListAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('name')
             ->add('rawMaterials', null, ['label' => 'raw_materials'])
-            ->add('lastName', null, ['label' => 'lastName'])
             ->add('created', 'date', ['widget' => 'single_text'])
         ;
     }
@@ -31,7 +31,6 @@ class PartnersListAdmin extends Admin
     {
         $formMapper
             ->add('name')
-            ->add('lastName', null, ['label' => 'lastName'])
         ;
     }
 
@@ -39,9 +38,7 @@ class PartnersListAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
-            ->add('lastName', null, ['label' => 'lastName'])
         ;
     }
 
@@ -49,10 +46,9 @@ class PartnersListAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('rawMaterials', null, ['label' => 'raw_materials'])
-            ->add('lastName', null, ['label' => 'lastName'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],

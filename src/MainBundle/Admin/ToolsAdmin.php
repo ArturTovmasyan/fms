@@ -12,7 +12,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class ToolsAdmin extends Admin
 {
     use FmsAdmin;
-
     const imageClassName = 'ToolImages';
 
     /**
@@ -42,7 +41,7 @@ class ToolsAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin/Edit:fms_edit.html.twig';
+                return 'MainBundle:Admin/Edit:tools_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
@@ -85,11 +84,13 @@ class ToolsAdmin extends Admin
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('category', null, ['required' => false])
             ->add('vendors')
+            ->add('newVendors', 'text', ['mapped'=>false, 'label'=>'add_vendor', 'required'=>false,
+                'attr' => ['class' => 'hidden-field', 'placeholder'=> 'add_vendor']])
             ->add('actualCost', null, ['label' => 'actual_cost'])
             ->add('balanceCost', null, ['label' => 'balance_cost'])
             ->add('description', 'textarea', ['required'=>false])
             ->add('code')
-            ->add('size', 'choice', ['label' => 'size', 'required'=>false,  'choices' => [
+            ->add('size', 'choice', ['label' => 'size', 'required'=>false, 'choices' => [
                 "Կգ",
                 "Մետր",
                 "Հատ",
@@ -156,6 +157,9 @@ class ToolsAdmin extends Admin
         //set relation for object and images
         $images = $this->getImages($imageClassName);
         $this->addImages($object, $images);
+
+        $this->addNewVendor($object);
+
     }
 }
 

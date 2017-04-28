@@ -52,17 +52,17 @@ $(document).ready(function () {
 
             $(d.previewElement).remove();
 
-            if(typeof(d.xhr.responseText) == 'string') {
+            if(typeof(d.xhr.responseText) === 'string') {
                 var text = JSON.parse(d.xhr.responseText);
                 var index = text.name.indexOf(d.name);
                 var removeImageId = text.id[index];
             }
 
-            if(typeof(d.xhr.responseText) == 'number') {
+            if(typeof(d.xhr.responseText) === 'number') {
                  removeImageId = d.xhr.responseText;
             }
 
-            if(imageClassName == 'RawMaterialImages') {
+            if(imageClassName === 'RawMaterialImages') {
                 var remUrl = "/admin/api/v1.0/remove-material-file/"+removeImageId+"/"+className
 
             }else{
@@ -99,7 +99,7 @@ $(document).ready(function () {
                         xhr: {responseText: item.id}
                     };
 
-                    if($.inArray(type, ['gif','png','jpg','jpeg']) == -1) {
+                    if($.inArray(type, ['gif','png','jpg','jpeg']) === -1) {
                         path = "/bundles/main/images/file-icon.jpg";
                     }
 

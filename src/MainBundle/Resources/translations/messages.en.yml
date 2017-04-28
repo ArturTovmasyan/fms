@@ -207,6 +207,7 @@ Get Files String: Ֆայլերի քանակը
 Get El Power String: Էլ. հզ.
 Get Defects String: Վերացման ենթ. թեր.
 Get El Power Sum: Էլ. հզ.
+add_vendor: Ավելացնել մատակարար
 
 file:
     max_extension: The minimum file size is 400x400 px

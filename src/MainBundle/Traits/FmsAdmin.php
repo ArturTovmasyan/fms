@@ -7,6 +7,7 @@ use MainBundle\Entity\EquipmentImage;
 use MainBundle\Entity\HouseholdMaterials;
 use MainBundle\Entity\IlliquidMaterials;
 use MainBundle\Entity\MetalMaterials;
+use MainBundle\Entity\PartnersList;
 use MainBundle\Entity\PersonnelImages;
 use MainBundle\Entity\PostImages;
 use MainBundle\Entity\PrepackMaterials;
@@ -52,14 +53,6 @@ trait FmsAdmin
                 if ($image instanceof ToolImages){
                     $image->setTool($object);
                 }
-
-//                if ($image instanceof PostImages){
-//                    $image->setPost($object);
-//                }
-//
-//                if ($image instanceof PersonnelImages){
-//                    $image->setPersonnel($object);
-//                }
 
                 if ($image instanceof RawMaterialImages) {
                     $this->setRawMaterialsImage($image, $object);
@@ -127,5 +120,28 @@ trait FmsAdmin
         $data = $request->request->get($uniqId);
 
         return $data;
+    }
+
+    /**
+     * @param $object
+     */
+    public function addNewVendor($object)
+    {
+        //get all request data
+        $data = $this->getRequestData();
+
+        //get added vendor value in request
+        $newVendor = $data['newVendors'];
+
+        if($newVendor) {
+
+            //create new vendor and related it with current tool
+            $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+            $vendor = new PartnersList();
+            $vendor->setName($newVendor);
+            $em->persist($vendor);
+            $em->flush();
+            $object->addVendor($vendor);
+        }
     }
 }

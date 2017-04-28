@@ -54,8 +54,7 @@ class Tools
     /**
      * @var integer
      *
-     * @ORM\Column(name="code", type="string", unique=true)
-     * @Assert\NotNull()
+     * @ORM\Column(name="code", type="string", nullable=true, unique=true)
      * @Assert\Length(min = 3, max=3)
      * @Assert\Regex("/[0-9]/")
      */
@@ -90,12 +89,12 @@ class Tools
     /**
      * @ORM\Column(name="actual_cost", type="integer", nullable=true)
      */
-    private $actualCost = 1;
+    private $actualCost = 0;
 
     /**
      * @ORM\Column(name="balance_cost", type="integer", nullable=true)
      */
-    private $balanceCost;
+    private $balanceCost = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="ProductRawExpense", mappedBy="rawMaterials", cascade={"persist"})
@@ -103,16 +102,12 @@ class Tools
     protected $productRawExpense;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */

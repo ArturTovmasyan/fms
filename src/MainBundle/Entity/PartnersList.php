@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -11,6 +12,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity(
+ *     fields={"name"},
+ *     errorPath="name",
+ *     message="This name already exist in partners.")
  */
 class PartnersList
 {
@@ -26,16 +31,9 @@ class PartnersList
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=255)
-     */
-    private $lastName;
 
     /**
      * @ORM\ManyToMany(targetEntity="Product", mappedBy="client", cascade={"persist"}, fetch="EXTRA_LAZY")
@@ -58,16 +56,12 @@ class PartnersList
     private $tools;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
@@ -120,29 +114,6 @@ class PartnersList
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     * @return PartnersList
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string 
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
     }
 
     /**
@@ -261,6 +232,7 @@ class PartnersList
      */
     public function addTool(\MainBundle\Entity\Tools $tools)
     {
+        $tools->addVendor($this);
         $this->tools[] = $tools;
 
         return $this;
