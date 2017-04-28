@@ -40,9 +40,17 @@ trait Product
                 if(!$productComponent->getId()) {
                     $productComponent->setProduct($object);
                 }
+
+                $routeCards = $productComponent->getRouteCard();
+
+                if(count($routeCards) > 0) {
+                    foreach ($routeCards as $routeCard)
+                    {
+                        $routeCard->setProductComponent($productComponent);
+                    }
+                }
             }
         }
-
     }
 
     /**
@@ -65,7 +73,8 @@ trait Product
 
             //removed raw expense
             if(count($rawExpenseRemoved) > 0) {
-                foreach ($rawExpenseRemoved as $remove) {
+                foreach ($rawExpenseRemoved as $remove)
+                {
                     $em->remove($remove);
                 }
             }
@@ -81,7 +90,8 @@ trait Product
 
             //removed raw expense
             if(count($componentsRemoved) > 0) {
-                foreach ($componentsRemoved as $remove) {
+                foreach ($componentsRemoved as $remove)
+                {
                     $em->remove($remove);
                 }
             }
@@ -90,17 +100,15 @@ trait Product
             {
                 $routeCards = $productComponent->getRouteCard();
 
-                if(count($routeCards) > 0) {
+                if($routeCards instanceof PersistentCollection) {
+                    //get delete diff
+                    $routeCardsRemoved = $routeCards->getDeleteDiff();
 
-                    if($routeCards instanceof PersistentCollection) {
-                        //get delete diff
-                        $routeCardsRemoved = $routeCards->getDeleteDiff();
-
-                        //removed raw expense
-                        if($routeCardsRemoved) {
-                            foreach ($routeCardsRemoved as $remove) {
-                                $em->remove($remove);
-                            }
+                    //removed raw expense
+                    if($routeCardsRemoved) {
+                        foreach ($routeCardsRemoved as $remove)
+                        {
+                            $em->remove($remove);
                         }
                     }
                 }

@@ -33,14 +33,29 @@ $( document ).ready(function() {
 
         if(operationCount > 0) {
 
+            var percentSum = 0;
+
             for(var i =0; i<operationCount; i++)
             {
                 var codeSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_operationCode';
+                var percentSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_specificPercent';
+
 
                 if($(codeSelector).val()) {
                     codes.push($(codeSelector).val());
                     options += (option.replace('id', codes[i]).replace('name',codes[i]))
                 }
+
+                //generate percent value
+                var percentVal = $(percentSelector).val();
+                percentSum += +percentVal;
+            }
+
+            //set percent value dynamically
+            if(percentSum < 100) {
+                var addedPercentValue = 100 - percentSum;
+            }else{
+                addedPercentValue = 0;
             }
         }
 
@@ -48,11 +63,15 @@ $( document ).ready(function() {
         if(requestCallBack) {
 
             requestCallBack = function (content) {
+                //get form fields value
                 var cells = content[0].cells;
                 var opCode = cells[2];
                 var opDependency = cells[3];
+                var opPercent = cells[11];
                 var opCodeValue = 'K'+(+componentNumber + 1)+'O'+(operationCount+1);
+
                 $(opCode).children("input").val(opCodeValue);
+                $(opPercent).children("input").val(addedPercentValue);
                 $(opDependency).children("select").html(options);
 
                 return content
@@ -155,6 +174,14 @@ $( document ).ready(function() {
             var sumValue = time * tariffValue;
             $(sumSelector).val(sumValue);
         }
+
+        // // check if job time is changed
+        // if(selector === 'specificPercent') {
+        //
+        //     var percentSelector = '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
+        //         operationNumber + '_specificPercent';
+        //     alert(selectedFieldValue);
+        // }
     });
 
     //if select field is changed, generate by ajax dynamically values for fields

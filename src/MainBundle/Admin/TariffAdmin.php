@@ -67,9 +67,9 @@ class TariffAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('hourSalary')
-            ->add('daySalary')
-            ->add('rate')
+            ->add('profession', null, ['label' => 'profession'])
+            ->add('professionCategory', null, ['label' => 'profession_category'])
+            ->add('rate', null, ['label'=>'salary_rate'])
         ;
     }
 
@@ -78,6 +78,7 @@ class TariffAdmin extends Admin
     {
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
+            ->add('profession', null, ['label' => 'profession'])
             ->add('professionCategory', null, ['label' => 'profession_category'])
             ->add('hourSalary')
             ->add('daySalary')

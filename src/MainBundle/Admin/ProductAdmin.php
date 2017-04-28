@@ -231,7 +231,6 @@ class ProductAdmin extends Admin
      */
     public function prePersist($object)
     {
-        $this->setRelations($object);
         $this->preUpdate($object);
     }
 

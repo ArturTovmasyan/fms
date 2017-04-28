@@ -62,7 +62,7 @@ class RouteCard
      *
      * @ORM\Column(name="tariff", type="integer")
      */
-    private $tariff;
+    private $tariff = 0;
 
     /**
      * @var string
@@ -83,6 +83,7 @@ class RouteCard
     /**
      * @var string
      *
+     * @Assert\Regex(pattern="/^[0-9]\d*$/", message="This value must not be negative number")
      * @ORM\Column(name="sum", type="integer")
      */
     private $sum = 0;
@@ -90,9 +91,11 @@ class RouteCard
     /**
      * @var integer
      *
-     * @ORM\Column(name="specificPercent", type="integer", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^[0-9]\d*$/", message="This value must not be negative number")
+     * @ORM\Column(name="specificPercent", type="integer")
      */
-    private $specificPercent = 100;
+    private $specificPercent;
 
     /**
      * @ORM\ManyToOne(targetEntity="ProductComponent", inversedBy="routeCard", cascade={"persist"})

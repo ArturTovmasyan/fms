@@ -192,7 +192,7 @@ $( document ).ready(function() {
             }
         }
 
-        if(ids) {
+        if(ids.length > 0) {
             setMaterialsData(ids);
         }
     }

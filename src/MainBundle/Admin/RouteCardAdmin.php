@@ -142,9 +142,11 @@ class RouteCardAdmin extends Admin
 
         $formMapper
             ->add('operation', null, ['label'=>'route_card_operation'])
-            ->add('operationCode', null, ['label'=>'code', 'sonata_help' => $helpText,
+            ->add('operationCode', null, ['label'=>'code',
+                'sonata_help' => $helpText,
                 'attr' => [
-                'readonly' => false
+                    'placeholder'=>'Example K1O1',
+                    'readonly' => false
             ]])
             ->add('dependency', 'choice', [
                 'label'=>'dependency',
@@ -166,9 +168,7 @@ class RouteCardAdmin extends Admin
             ->add('sum', 'number', ['required'=>true, 'label'=>'sum', 'attr' => [
                 'readonly' => true
             ]])
-            ->add('specificPercent', null, ['label'=>'specific_percent', 'attr' => [
-                'readonly' => true,
-                'disabled' => true]])
+            ->add('specificPercent', null, ['label'=>'specific_percent'])
         ;
     }
 
