@@ -6,7 +6,7 @@ $( document ).ready(function() {
     var fieldToken = fieldId.slice(0, pos);
     var codeSelector = '#'+fieldToken + 'operationCode';
     var codeVal = $(codeSelector).val();
-    // var depSelector = '#'+fieldToken + 'dependency';
+    var depSelector = '#'+fieldToken + 'dependency';
 
     if(codeVal) {
         generateDependency(codeVal);
@@ -15,6 +15,7 @@ $( document ).ready(function() {
     //close left menu after page loaded
     $('body.sonata-bc').addClass('sidebar-collapse');
 
+    //set event on change select and input fields
     $('body').on('change', 'select', function(e) {
 
         var number = e.target.id;
@@ -61,6 +62,24 @@ $( document ).ready(function() {
             }
         }
 
+    }).on('change', "input", function(e) {
+
+        var number = e.target.id;
+        var splitId = number.split('_');
+        var fieldToken = splitId[0];
+        var selector = splitId[1];
+
+        // check if job time is changed
+        if(selector === 'jobTime') {
+
+            var time = $(this).val();
+            var tariffSelector = '#'+fieldToken + '_tariff';
+            var sumSelector = '#'+fieldToken + '_sum';
+
+            var tariffValue = $(tariffSelector).val();
+            var sumValue = time * tariffValue;
+            $(sumSelector).val(sumValue);
+        }
     });
 
     /**
@@ -126,9 +145,24 @@ $( document ).ready(function() {
      */
     function generateDependency(codeVal) {
 
-        // var option = '<option value="id">name</option>';
-        // var options = '<option value=""></option>';
+        var option = '<option value="id">name</option>';
+        var options = '<option value=""></option>';
+
         console.log(codeVal);
+
+        // for(var i = 0; i < codes.length; i++)
+        // {
+        //
+        //     if(codes[i] === depVal) {
+        //         var setOpt = '<option value="id" selected>name</option>';
+        //         setOpt = setOpt.replace('id', depVal).replace('name', depVal);
+        //         options += setOpt;
+        //     }else{
+        //         options += (option.replace('id', codes[i]).replace('name', codes[i]))
+        //     }
+        // }
+        //
+        // $(depSelector).html(options);
     }
 
 });
