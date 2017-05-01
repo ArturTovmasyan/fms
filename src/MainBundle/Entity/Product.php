@@ -523,7 +523,7 @@ class Product
         $this->mould = new \Doctrine\Common\Collections\ArrayCollection();
         $this->placeWarehouse = new \Doctrine\Common\Collections\ArrayCollection();
         $this->client = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productComponent = new \Doctrine\Common\Collections\ArrayCollection();
+//        $this->productComponent = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
