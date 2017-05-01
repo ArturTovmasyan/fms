@@ -205,19 +205,17 @@ class CRUDController extends Controller
         $em = $this->get('doctrine')->getManager();
         $connection = $em->getConnection();
 
-        if(!$materials) {
-            //generate sql query
-            $sql = "SELECT eq.id, @ROW := @ROW + 1 AS row FROM ".$path." as eq 
-                JOIN (SELECT @ROW := 0) as r 
-                ORDER BY eq.id
-                ";
+        if($materials) {
+          $field = 'eq.code';
         } else {
-            //generate sql query
-            $sql = "SELECT eq.code, @ROW := @ROW + 1 AS row FROM ".$path." as eq 
+            $field = 'eq.id';
+        }
+
+        //generate sql query
+        $sql = "SELECT ".$field.", @ROW := @ROW + 1 AS row FROM ".$path." as eq 
                 JOIN (SELECT @ROW := 0) as r 
                 ORDER BY eq.id
                 ";
-        }
 
         $query = $connection->prepare($sql);
         $query->execute();
