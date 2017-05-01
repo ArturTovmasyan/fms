@@ -58,6 +58,9 @@ class RouteCardAdmin extends Admin
             case 'list':
                 return 'MainBundle:Admin/List:productRouteCardList.html.twig';
                 break;
+            case 'edit':
+                return 'MainBundle:Admin/Edit:route_card_edit.html.twig';
+                break;
             default:
                 return parent::getTemplate($name);
                 break;
