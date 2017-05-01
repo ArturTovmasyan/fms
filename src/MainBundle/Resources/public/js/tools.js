@@ -7,8 +7,9 @@ $( document ).ready(function() {
 
     //selectors for vendors
     var vendorSelector = "#"+fieldToken+"vendors";
-    var newdVendorSelector = "#"+fieldToken+"newVendors";
+    var newVendorSelector = 'div#sonata-ba-field-container-'+fieldToken+'newVendors';
 
+    $(newVendorSelector).hide();
     addVendorOptions();
 
     //add custom input for add vendor
@@ -21,13 +22,12 @@ $( document ).ready(function() {
         console.log(vendorVal);
         if($.inArray(itemRemove, vendorVal) > -1) {
 
-            $(newdVendorSelector).removeClass('hidden-field');
-
+            $(newVendorSelector).show();
             vendorVal.splice($.inArray(itemRemove, vendorVal), 1);
 
             $(this).select2('val', vendorVal);
         }else{
-            $(newdVendorSelector).addClass('hidden-field');
+            $(newVendorSelector).hide();
         }
 
     });

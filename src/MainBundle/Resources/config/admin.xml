@@ -185,6 +185,7 @@
             <tag name="sonata.admin" manager_type="orm" group="Operation Card" label="ProductRawExpense"/>
             <argument/>
             <argument>MainBundle\Entity\ProductRawExpense</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -208,7 +209,7 @@
 
         <!--SalariesType-->
         <service id="sonata.admin.main.salaries.type" class="MainBundle\Admin\TariffAdmin">
-            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="true" group="Profession and Tariff" label="tariff"/>
+            <tag name="sonata.admin" manager_type="orm" show_in_dashboard="false" group="Profession and Tariff" label="tariff"/>
             <argument/>
             <argument>MainBundle\Entity\Tariff</argument>
             <argument>MainBundle:Admin/CRUD</argument>

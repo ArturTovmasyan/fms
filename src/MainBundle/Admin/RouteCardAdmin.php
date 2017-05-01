@@ -67,8 +67,8 @@ class RouteCardAdmin extends Admin
     //hide remove and edit buttons
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->remove('delete');
-        $collection->remove('edit');
+//        $collection->remove('delete');
+//        $collection->remove('edit');
     }
 
     /**

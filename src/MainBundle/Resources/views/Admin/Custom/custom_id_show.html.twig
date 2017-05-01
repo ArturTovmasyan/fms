@@ -4,7 +4,7 @@
     {% set listIds = app.request.get('listIds') %}
 
     {% for data in listIds %}
-        {% if data.id == value %}
+        {% if data.id == object.id %}
             {{ data.row }}
         {% endif %}
     {% endfor %}

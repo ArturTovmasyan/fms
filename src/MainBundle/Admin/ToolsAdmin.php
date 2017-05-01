@@ -85,7 +85,7 @@ class ToolsAdmin extends Admin
             ->add('category', null, ['required' => false])
             ->add('vendors')
             ->add('newVendors', 'text', ['mapped'=>false, 'label'=>'add_vendor', 'required'=>false,
-                'attr' => ['class' => 'hidden-field', 'placeholder'=> 'add_vendor']])
+                'attr' => ['placeholder'=> 'add_vendor']])
             ->add('actualCost', null, ['label' => 'actual_cost'])
             ->add('balanceCost', null, ['label' => 'balance_cost'])
             ->add('description', 'textarea', ['required'=>false])

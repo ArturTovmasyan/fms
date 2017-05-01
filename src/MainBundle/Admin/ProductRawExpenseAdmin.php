@@ -13,6 +13,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class ProductRawExpenseAdmin extends Admin
 {
 
+    protected $baseRoutePattern = 'product_raw_expense';
+
     /**
      * @param string $name
      * @return mixed|null|string
@@ -74,7 +76,6 @@ class ProductRawExpenseAdmin extends Admin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('id')
             ->add('product')
             ->add('rawMaterials.name', null, ['label' => 'raw_name'])
             ->add('rawMaterials.size', null, ['template' => 'MainBundle:Admin\Show:stringSizeInShow.html.twig', 'label' => 'size'])
@@ -165,7 +166,6 @@ class ProductRawExpenseAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('product')
             ->add('rawMaterials.name', null, ['label' => 'raw_name'])
         ;
@@ -175,7 +175,7 @@ class ProductRawExpenseAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('product')
             ->add('rawMaterials.name', null, ['label' => 'raw_name'])
             ->add('rawMaterials.size', null, ['label' => 'size', 'template' => 'MainBundle:Admin\List:stringSizeInList.html.twig'])
