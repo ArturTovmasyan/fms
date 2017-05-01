@@ -34,11 +34,19 @@ class CRUDController extends Controller
         $path = explode('/',$path['path']);
 
         if(end($path) == 'list') {
-            $key = count($path) -2;
+            $key = count($path) - 2;
             $path = $path[$key];
+            $materials = explode('_', $path);
+            $materials = end($materials);
+
+            if($materials == 'materials') {
+                $materials = true;
+            } else{
+                $materials = false;
+            }
 
             //generate custom list ids
-            $listIds = $this->generateListId($path);
+            $listIds = $this->generateListId($path, $materials);
         }
 
         //save cookie
@@ -183,23 +191,33 @@ class CRUDController extends Controller
         }
     }
 
+
     /**
      * This function is used to generate show id in equipment
      *
      * @param $path
+     * @param bool $materials
      * @return mixed
      */
-    public function generateListId($path)
+    public function generateListId($path, $materials = false)
     {
         //get entity manager
         $em = $this->get('doctrine')->getManager();
         $connection = $em->getConnection();
 
-        //generate sql query
-        $sql = "SELECT eq.id, @ROW := @ROW + 1 AS row FROM ".$path." as eq 
+        if(!$materials) {
+            //generate sql query
+            $sql = "SELECT eq.id, @ROW := @ROW + 1 AS row FROM ".$path." as eq 
                 JOIN (SELECT @ROW := 0) as r 
                 ORDER BY eq.id
                 ";
+        } else {
+            //generate sql query
+            $sql = "SELECT eq.code, @ROW := @ROW + 1 AS row FROM ".$path." as eq 
+                JOIN (SELECT @ROW := 0) as r 
+                ORDER BY eq.id
+                ";
+        }
 
         $query = $connection->prepare($sql);
         $query->execute();

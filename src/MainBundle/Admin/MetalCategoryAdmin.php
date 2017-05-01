@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class MetalCategoryAdmin extends Admin
 {
+    protected $baseRoutePattern = 'metal_category';
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -35,7 +37,6 @@ class MetalCategoryAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
             ->add('name')
         ;
     }
@@ -44,7 +45,7 @@ class MetalCategoryAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('_action', 'actions', [
                 'actions' => [

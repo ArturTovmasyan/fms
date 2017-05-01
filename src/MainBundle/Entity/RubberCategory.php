@@ -31,7 +31,7 @@ class RubberCategory
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="RubberMaterials", mappedBy="category", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="RubberMaterials", mappedBy="category", cascade={"persist", "remove"})
      */
     protected $rubberMaterials;
 

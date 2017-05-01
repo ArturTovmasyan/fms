@@ -36,6 +36,7 @@
             <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="RubberMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\RubberMaterials</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -44,6 +45,7 @@
             <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="RubberCategory"/>
             <argument/>
             <argument>MainBundle\Entity\RubberCategory</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -70,6 +72,7 @@
             <tag name="sonata.admin" manager_type="orm"  group="Resource" label="ToolsCategory"/>
             <argument/>
             <argument>MainBundle\Entity\ToolsCategory</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -78,6 +81,7 @@
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="MetalMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\MetalMaterials</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -86,6 +90,7 @@
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="MetalCategory"/>
             <argument/>
             <argument>MainBundle\Entity\MetalCategory</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -94,6 +99,7 @@
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="ConductiveMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\ConductiveMaterials</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -102,6 +108,7 @@
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="IlliquidMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\IlliquidMaterials</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -110,6 +117,7 @@
             <tag name="sonata.admin" manager_type="orm"  group="RawMaterials" label="HouseholdMaterials"/>
             <argument/>
             <argument>MainBundle\Entity\HouseholdMaterials</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -229,6 +237,7 @@
             <tag name="sonata.admin" manager_type="orm" group="RawMaterials" label="prepack_materials"/>
             <argument/>
             <argument>MainBundle\Entity\PrepackMaterials</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
             <argument/>
         </service>
 
@@ -301,7 +310,6 @@
             <argument/>
         </service>
 
-        <!--show_in_dashboard="false"-->
         <!--PostHistory-->
         <service id="sonata.admin.post_history" class="MainBundle\Admin\PostHistoryAdmin">
             <tag name="sonata.admin" manager_type="orm" group="Personnel" label="post_history" show_in_dashboard="true" />

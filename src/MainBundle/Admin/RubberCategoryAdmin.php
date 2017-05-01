@@ -10,6 +10,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 
 class RubberCategoryAdmin extends Admin
 {
+    protected $baseRoutePattern = 'rubber_category';
+
     /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
@@ -46,7 +48,7 @@ class RubberCategoryAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
+            ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
             ->add('rubberMaterials', null, ['label' => 'rubber_materials'])
             ->add('_action', 'actions', [

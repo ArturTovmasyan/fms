@@ -111,6 +111,7 @@ class RawMaterialsAdmin extends Admin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
+        //TODO all codes in child must be required for generate materials id in list
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_material_id_show.html.twig'])
             ->add('name')
