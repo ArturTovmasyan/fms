@@ -1,9 +1,16 @@
 $( document ).ready(function() {
 
-    // //get data in forms
-    // var fieldId = $("input[id$='_token']").attr("id");
-    // var pos = fieldId.indexOf("_token");
-    // var fieldToken = fieldId.slice(0, pos);
+    //get data in forms
+    var fieldId = $("input[id$='_token']").attr("id");
+    var pos = fieldId.indexOf("_token");
+    var fieldToken = fieldId.slice(0, pos);
+    var codeSelector = '#'+fieldToken + 'operationCode';
+    var codeVal = $(codeSelector).val();
+    // var depSelector = '#'+fieldToken + 'dependency';
+
+    if(codeVal) {
+        generateDependency(codeVal);
+    }
 
     //close left menu after page loaded
     $('body.sonata-bc').addClass('sidebar-collapse');
@@ -110,6 +117,18 @@ $( document ).ready(function() {
                 $(sumSelector).val(sum);
             }
         });
+    }
+
+
+    /**
+     *
+     * @param codeVal
+     */
+    function generateDependency(codeVal) {
+
+        // var option = '<option value="id">name</option>';
+        // var options = '<option value=""></option>';
+        console.log(codeVal);
     }
 
 });
