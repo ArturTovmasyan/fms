@@ -119,7 +119,7 @@ class RouteCard
      */
     function __toString()
     {
-        return ((string)$this->id) ? (string)$this->id : '';
+        return ((string)$this->operationCode) ? (string)$this->operationCode : '';
     }
 
     /**

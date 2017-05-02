@@ -17,6 +17,22 @@ class ProductComponentAdmin extends Admin
     ];
 
     /**
+     * @param string $name
+     * @return mixed|null|string
+     */
+    public function getTemplate($name)
+    {
+        switch ($name) {
+            case 'edit':
+                return 'MainBundle:Admin/Edit:component_edit.html.twig';
+                break;
+            default:
+                return parent::getTemplate($name);
+                break;
+        }
+    }
+
+    /**
      * @param \Sonata\AdminBundle\Show\ShowMapper $showMapper
      *
      * @return void
@@ -32,6 +48,15 @@ class ProductComponentAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        //get parent fields
+        $parentField = $formMapper->getAdmin()->getParentFieldDescription();
+        $currentId = $this->getSubject() ? $this->getSubject()->getId() : null;
+
+        if(!$parentField && $currentId) {
+            $formMapper
+                ->add('product', null, ['label'=>'product']);
+        };
+
         $formMapper
             ->add('name', null, ['label'=>'component_name'])
             ->add('routeCard', 'sonata_type_collection', [
@@ -44,8 +69,7 @@ class ProductComponentAdmin extends Admin
                 [
                     'edit' => 'inline',
                     'inline' => 'table'
-                ])
-        ;
+                ]);
     }
 
     // Fields to be shown on filter forms
@@ -62,7 +86,9 @@ class ProductComponentAdmin extends Admin
     {
         $listMapper
             ->add('id')
-            ->add('name')
+            ->add('product')
+            ->add('name', null, ['label'=>'component_name'])
+            ->add('routeCard', null, ['label' => 'route_card_operation'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],

@@ -1,5 +1,9 @@
 {% extends 'SonataAdminBundle:CRUD:base_list.html.twig' %}
 
+{%- block actions -%}
+    {#remove add new in route_card#}
+{%- endblock -%}
+
 {% set price = 0 %}
 
  {% block table_body %}

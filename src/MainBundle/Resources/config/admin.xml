@@ -218,7 +218,7 @@
 
         <!--RouteCard-->
         <service id="sonata.admin.main.product.route.card" class="MainBundle\Admin\RouteCardAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductRouteCard" show_in_dashboard="true"/>
+            <tag name="sonata.admin" manager_type="orm" group="Operation Card" label="ProductComponent" show_in_dashboard="true"/>
             <argument/>
             <argument>MainBundle\Entity\RouteCard</argument>
             <argument>MainBundle:Admin/CRUD</argument>
@@ -227,7 +227,7 @@
 
         <!--ProductComponent-->
         <service id="sonata.admin.main.product.component" class="MainBundle\Admin\ProductComponentAdmin">
-            <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductComponent" show_in_dashboard="false"/>
+            <tag name="sonata.admin" manager_type="orm"  group="Operation Card" label="ProductRouteCard" show_in_dashboard="true"/>
             <argument/>
             <argument>MainBundle\Entity\ProductComponent</argument>
             <argument/>

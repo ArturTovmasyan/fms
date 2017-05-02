@@ -99,13 +99,10 @@ class RouteCardAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        //$productId = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject()->getId();
         $builder = $formMapper->getFormBuilder();
         $currentId = $this->getSubject() ? $this->getSubject()->getId() : null;
+//        $parentField = $formMapper->getAdmin()->getParentFieldDescription();
 
-        //$parentFieldDesc = $formMapper->getAdmin()->getParentFieldDescription()->getAdmin()->getSubject();
-
-        $helpText = 'First code set manually';
         $choice = null;
         $profCategory = null;
 
@@ -146,14 +143,12 @@ class RouteCardAdmin extends Admin
         $formMapper
             ->add('operation', null, ['label'=>'route_card_operation'])
             ->add('operationCode', null, ['label'=>'code',
-                'sonata_help' => $helpText,
                 'attr' => [
-                    'placeholder'=>'Example K1O1',
-                    'readonly' => false
+                    'placeholder'=>'Example K1O1'
             ]])
             ->add('dependency', 'choice', [
                 'label'=>'dependency',
-                'required'=>false,
+                'required' => false,
                 'choices'=> [$choice => $choice]
             ])
             ->add('equipment', null, [])
@@ -190,6 +185,7 @@ class RouteCardAdmin extends Admin
     {
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
+            ->add('productComponent', null, [ 'label'=> 'Կոմպոնենտ'])
             ->add('operation', null, ['label'=>'route_card_operation'])
             ->add('operationCode', null, ['label'=>'code'])
             ->add('dependency', null, ['label'=>'dependency'])

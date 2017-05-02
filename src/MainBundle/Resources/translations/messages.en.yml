@@ -86,7 +86,8 @@ MetalCategory: Մեխ․֊ն հումքերի կատեգ.
 ConductiveMaterials: Օժանդակ հումք
 Vendors: Մատակարար
 ProductRawExpense: Արտ․֊ի նյութածախս
-ProductComponent: Արտ․֊ի կոմպոնենտ
+ProductComponent: Օպերացիաների ցուցակ
+component_name: Կոմպոնենտի անունը
 Tools: Գործիքներ
 raw_expense: Նյութածախս
 ExtraRatesList: Հավելավճարներ

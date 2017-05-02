@@ -35,7 +35,7 @@ $( document ).ready(function() {
 
             var percentSum = 0;
 
-            for(var i =0; i<operationCount; i++)
+            for(var i = 0; i<operationCount; i++)
             {
                 var codeSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_operationCode';
                 var percentSelector = '#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_'+i+'_specificPercent';
@@ -51,11 +51,19 @@ $( document ).ready(function() {
             }
 
             //set percent value dynamically
-            if(percentSum < 100) {
+            if (percentSum < 100) {
                 var addedPercentValue = 100 - percentSum;
-            }else{
+            } else{
                 addedPercentValue = 0;
             }
+
+        } else{
+
+            setTimeout(function () {
+                var opCodeSelector = 'input#' + fieldToken + '_productComponent_'+componentNumber+'_routeCard_0_operationCode';
+                console.log(opCodeSelector);
+                $(opCodeSelector).after('<span class="help-block sonata-ba-field-widget-help">First code set manually</span>');
+            }, 1100);
         }
 
         //check if request call back is defined
@@ -68,8 +76,8 @@ $( document ).ready(function() {
                 var opDependency = cells[3];
                 var opPercent = cells[11];
                 var opCodeValue = 'K'+(+componentNumber + 1)+'O'+(operationCount+1);
-
-                $(opCode).children("input").val(opCodeValue);
+                var inputField = $(opCode).children("input");
+                inputField.val(opCodeValue);
                 $(opPercent).children("input").val(addedPercentValue);
                 $(opDependency).children("select").html(options);
 
@@ -116,7 +124,6 @@ $( document ).ready(function() {
                     //get code and dependency values
                     var codeSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_operationCode';
                     var depSelector = '#' + fieldToken + 'productComponent_'+c+'_routeCard_'+i+'_dependency';
-                    // var codeVal = $(codeSelector).val();
                     var depVal = $(depSelector).val();
                     var codeVal = 'K'+(c+1)+'O'+(i+1);
 
@@ -173,14 +180,6 @@ $( document ).ready(function() {
             var sumValue = time * tariffValue;
             $(sumSelector).val(sumValue);
         }
-
-        // // check if job time is changed
-        // if(selector === 'specificPercent') {
-        //
-        //     var percentSelector = '#'+fieldToken + '_productComponent_' + componentNumber +'_routeCard_' +
-        //         operationNumber + '_specificPercent';
-        //     alert(selectedFieldValue);
-        // }
     });
 
     //if select field is changed, generate by ajax dynamically values for fields

@@ -6,10 +6,19 @@ $( document ).ready(function() {
     var fieldToken = fieldId.slice(0, pos);
     var codeSelector = '#'+fieldToken + 'operationCode';
     var codeVal = $(codeSelector).val();
-    var depSelector = '#'+fieldToken + 'dependency';
+    var profSelector = '#'+fieldToken + 'profession';
+    var profVal = $(profSelector).val();
+
+    var categorySelector = '#'+fieldToken + 'professionCategory';
+    var categoryVal = $(categorySelector).val();
+    $(categorySelector).attr('prof-id', profVal);
 
     if(codeVal) {
         generateDependency(codeVal);
+    }
+
+    if(profVal) {
+        getCategoriesValue(profVal);
     }
 
     //close left menu after page loaded
@@ -138,8 +147,88 @@ $( document ).ready(function() {
         });
     }
 
+    /**
+     * This function is used to get and generate categories array for all profession in list
+     *
+     * @param ids
+     */
+    function getCategoriesValue(ids) {
+
+        var dataArray = [];
+
+        $.post("/admin/api/v1.0/route-card/categories", JSON.stringify({'ids' : ids }), function(data) {
+
+            if(data) {
+
+                for(var i=0; i<data.length;i++)
+                {
+                    var pid = data[i][0].id;
+                    var cid = data[i].id;
+                    var cname = data[i].name;
+                    var index = ids.indexOf(pid);
+
+                    if(index > -1) {
+
+                        var key = ids[index];
+
+                        if(key) {
+                            if(dataArray[key]) {
+                                dataArray[key].push({
+                                    'id':cid,
+                                    'name':cname
+                                });
+                            } else {
+                                dataArray[key] = [{
+                                    'id':cid,
+                                    'name':cname
+                                }]
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(dataArray.length > 0) {
+                //set categories select options by generated dataArray
+                setCategoriesValue(dataArray);
+            }
+        });
+    }
 
     /**
+     * This function is used to set categories selected options by generated dataArray via top ajax
+     *
+     * @param dataArray
+     */
+    function setCategoriesValue(dataArray) {
+
+        var option = '<option value="id">name</option>';
+        var options = '<option value=""></option>';
+
+        var attrId = $(categorySelector).attr('prof-id');
+        var categoryArray = dataArray[attrId];
+
+        if(categoryArray) {
+
+            for(var i = 0; i < categoryArray.length; i++)
+            {
+                if(categoryArray[i].name === categoryVal) {
+                    var setOpt = '<option value="id" selected>name</option>';
+                    setOpt = setOpt.replace('id', categoryVal).replace('name', categoryVal);
+                    options += setOpt;
+                }else{
+                    options += (option.replace('id', categoryArray[i].name).replace('name', categoryArray[i].name))
+                }
+            }
+
+            $(categorySelector).html(options);
+
+        }
+    }
+
+    /**
+     *
+     * This function is used to generate dependency for route card edit page
      *
      * @param codeVal
      */
@@ -148,21 +237,37 @@ $( document ).ready(function() {
         var option = '<option value="id">name</option>';
         var options = '<option value=""></option>';
 
-        console.log(codeVal);
+        var number = codeVal.replace(/[^0-9]/g, '_');
+        var arrayNumber = number.slice(1);
+        var kVal = arrayNumber.slice(0, arrayNumber.indexOf('_'));
+        var opVal = arrayNumber.slice(arrayNumber.indexOf('_') + 1);
+        var depSelector = '#'+fieldToken + 'dependency';
+        var depVal = $(depSelector).val();
 
-        // for(var i = 0; i < codes.length; i++)
-        // {
-        //
-        //     if(codes[i] === depVal) {
-        //         var setOpt = '<option value="id" selected>name</option>';
-        //         setOpt = setOpt.replace('id', depVal).replace('name', depVal);
-        //         options += setOpt;
-        //     }else{
-        //         options += (option.replace('id', codes[i]).replace('name', codes[i]))
-        //     }
-        // }
-        //
-        // $(depSelector).html(options);
+        if(opVal > 1) {
+            var codes = [];
+
+            for(var i = 1; i < opVal; i++) {
+                var setOpVal = opVal - i;
+                var depValues = 'K'+kVal+'O'+ setOpVal;
+                codes.push(depValues);
+            }
+        }
+
+        if(codes && codes.length > 0) {
+            for(i = 0; i < codes.length; i++)
+            {
+                if(codes[i] === depVal) {
+                    var setOpt = '<option value="id" selected>name</option>';
+                    setOpt = setOpt.replace('id', depVal).replace('name', depVal);
+                    options += setOpt;
+                }else{
+                    options += (option.replace('id', codes[i]).replace('name', codes[i]))
+                }
+            }
+
+            $(depSelector).html(options);
+        }
     }
 
 });
