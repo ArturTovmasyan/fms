@@ -78,6 +78,7 @@ class ProductComponentAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
+            ->add('product')
         ;
     }
 
