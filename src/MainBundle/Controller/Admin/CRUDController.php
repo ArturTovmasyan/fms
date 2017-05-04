@@ -174,7 +174,6 @@ class CRUDController extends Controller
         $jobDays = [];
         $year = date('Y'); // Year in 4 digit 2009 format.
 
-
         //generate job days count for each month in current and preview years
         for ($y = $year - 1; $y <= $year; $y++) {
 

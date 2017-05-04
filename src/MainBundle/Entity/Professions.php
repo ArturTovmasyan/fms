@@ -153,4 +153,24 @@ class Professions
     {
         return $this->routeCard;
     }
+
+    /**
+     * This function is used to get category names
+     *
+     * @return string
+     */
+    public function getCategoryNames()
+    {
+        $tariffs = $this->getTariff();
+        $categoryName = '';
+
+        if(count($tariffs) > 0) {
+            foreach ($tariffs as $tf)
+            {
+                $categoryName .= $tf->getProfessionCategory()->getName().', ';
+            }
+        }
+
+        return $categoryName;
+    }
 }

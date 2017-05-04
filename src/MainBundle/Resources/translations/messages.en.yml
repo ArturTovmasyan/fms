@@ -99,7 +99,8 @@ balance_cost: Հ. արժեքը
 prepack_materials: Կիսապատ.-ի հումք
 Warehouse: Պահեստ
 spare_parts: Պահեստամասեր
-job_days: Աշխ․ օրերը
+job_days: Աշխատանքային օրերի քանակը և դրույքը
+job_time_sum: Ժամահաշվարկ
 mould_type: Տեղերի քանակը
 equipment_type: Սարք. տիպը
 btn_delete: Remove

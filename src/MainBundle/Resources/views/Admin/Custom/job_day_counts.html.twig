@@ -11,12 +11,12 @@
 
 {% block breadcrumb %}
     <li class="hidden-xs"><a href="{{ url('sonata_admin_dashboard') }}">{% trans %}Dashboard{% endtrans %}</a></li>
-    <li class="active hidden-xs">JOB DAYS COUNT</li>
+    <li class="active hidden-xs">{{ 'job_days'|trans }}</li>
 {% endblock %}
 
 {% block content %}
 
-    {% set months = [
+    {% set monthsArray = [
     'months.january'|trans({}),
     'months.february'|trans({}),
     'months.march'|trans({}),
@@ -34,53 +34,130 @@
     <div class="page-header">
         <h1 class="text-center">{{ 'job_days'|trans({}) }}</h1>
     </div>
-    <br/>
-    <br/>
-    <div class="table-scroll">
-        <table>
-            <thead>
-            <tr>
-                <th rowspan="2">Ամիս</th>
-                <th colspan="2">Աշխատանքային օրերի քանակը</th>
-            <tr>
-                <th>{{ "now"|date("Y") - 1 }}</th>
-                <th>{{ "now"|date("Y") }}</th>
-            </tr>
-            </tr>
-            </thead>
 
-            <tbody>
-            {% for year, month in days %}
+    <br/>
+    <br/>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <table>
+                <thead>
+                <tr>
+                    <th rowspan="2" class="cell-width">Ամիս</th>
+                    <th colspan="2" class="cell-width">{{ 'job_days'|trans }}</th>
+                <tr>
+                    <th>{{ "now"|date("Y") - 1 }}</th>
+                    <th>{{ "now"|date("Y") }}</th>
+                </tr>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                {% set sumFirstYearDay = 0 %}
+                {% set sumLastYearDay = 0 %}
+
+                {% for i in 1..12 %}
+                    <tr>
+                        <td class="cell-width text-left">{{ monthsArray[i-1] }}</td>
+
+                        {#for first year column#}
+                        {% for key, countDay in days|first %}
+                            {% if i == key %}
+                                {% set sumFirstYearDay = sumFirstYearDay + countDay %}
+                                <td class=>{{ countDay }}</td>
+                            {% endif %}
+                        {% endfor %}
+
+                        {#for last year column#}
+                        {% for key, countDay in days|last %}
+                            {% if i == key %}
+                                {% set sumLastYearDay = sumLastYearDay + countDay %}
+                                <td class=>{{ countDay }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+                <tfoot>
+                <tr>
+                    <th>
+                        Ընդամենը տարեկա
+                        աշխատանքային
+                        օրերի քանակը
+                    </th>
+                    <th>{{ sumFirstYearDay }}</th>
+                    <th>{{ sumLastYearDay }}</th>
+                </tr>
+                <tr>
+                    <th>
+                        Միջին ամսական
+                        աշխատանքային
+                        օրերի քանակը
+                    </th>
+                    <th>{{ (sumFirstYearDay/12)|round(1, 'floor') }}</th>
+                    <th>{{ (sumLastYearDay/12)|round(1, 'floor') }}</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="col-sm-8">
+            <table>
+                <thead>
+                <tr>
+                    <th rowspan="2" class="cell-width">Դրույք</th>
+                    <th colspan="2" class="cell-width">{{ 'Ժամավճարը'|trans }}</th>
+                    <th colspan="2" class="cell-width">{{ 'Օրավճարը'|trans }}</th>
+                <tr>
+                    <th>{{ "now"|date("Y") - 1 }}</th>
+                    <th>{{ "now"|date("Y") }}</th>
+                    <th>{{ "now"|date("Y") - 1 }}</th>
+                    <th>{{ "now"|date("Y") }}</th>
+                </tr>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td>220000</td>
+                    <td>1086</td>
+                    <td>1071</td>
+                    <td>8684</td>
+                    <td>8571</td>
+                </tr>
 
                 <tr>
-                    <td>Հունվար</td>
-                    <td>23</td>
-                    <td>23</td>
+                    <td>220000</td>
+                    <td>1086</td>
+                    <td>1071</td>
+                    <td>8684</td>
+                    <td>8571</td>
                 </tr>
-            {% endfor %}
-            </tbody>
 
-            <tfoot>
-            <tr>
-                <th>
-                    Ընդամենը տարեկա
-                    աշխատանքային
-                    օրերի քանակը
-                </th>
-                <th>304</th>
-                <th>308</th>
-            </tr>
-            <tr>
-                <th>
-                    Միջին ամսական
-                    աշխատանքային
-                    օրերի քանակը
-                </th>
-                <th>25.3</th>
-                <th>25.7</th>
-            </tr>
-            </tfoot>
+                <tr>
+                    <td>220000</td>
+                    <td>1086</td>
+                    <td>1071</td>
+                    <td>8684</td>
+                    <td>8571</td>
+                </tr>
 
-        </table>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>
+                        Միջին ամսական
+                        աշխատանքային
+                        ժամերը
+                    </th>
+                    <th>205.3</th>
+                    <th>208.3</th>
+                </tr>
+
+                </tfoot>
+            </table>
+        </div>
     </div>
 {% endblock %}

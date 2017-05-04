@@ -80,6 +80,7 @@ class ProfessionsAdmin extends Admin
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
+            ->add('getCategoryNames', 'text', ['label' => 'profession_category'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
