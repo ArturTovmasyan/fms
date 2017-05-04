@@ -1,0 +1,86 @@
+{% extends base_template %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset("bundles/main/css/profession.css") }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="hidden-xs"><a href="{{ url('sonata_admin_dashboard') }}">{% trans %}Dashboard{% endtrans %}</a></li>
+    <li class="active hidden-xs">JOB DAYS COUNT</li>
+{% endblock %}
+
+{% block content %}
+
+    {% set months = [
+    'months.january'|trans({}),
+    'months.february'|trans({}),
+    'months.march'|trans({}),
+    'months.april'|trans({}),
+    'months.may'|trans({}),
+    'months.june'|trans({}),
+    'months.july'|trans({}),
+    'months.august'|trans({}),
+    'months.september'|trans({}),
+    'months.october'|trans({}),
+    'months.november'|trans({}),
+    'months.december'|trans({})
+    ] %}
+
+    <div class="page-header">
+        <h1 class="text-center">{{ 'job_days'|trans({}) }}</h1>
+    </div>
+    <br/>
+    <br/>
+    <div class="table-scroll">
+        <table>
+            <thead>
+            <tr>
+                <th rowspan="2">Ամիս</th>
+                <th colspan="2">Աշխատանքային օրերի քանակը</th>
+            <tr>
+                <th>{{ "now"|date("Y") - 1 }}</th>
+                <th>{{ "now"|date("Y") }}</th>
+            </tr>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for year, month in days %}
+
+                <tr>
+                    <td>Հունվար</td>
+                    <td>23</td>
+                    <td>23</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+            <tfoot>
+            <tr>
+                <th>
+                    Ընդամենը տարեկա
+                    աշխատանքային
+                    օրերի քանակը
+                </th>
+                <th>304</th>
+                <th>308</th>
+            </tr>
+            <tr>
+                <th>
+                    Միջին ամսական
+                    աշխատանքային
+                    օրերի քանակը
+                </th>
+                <th>25.3</th>
+                <th>25.7</th>
+            </tr>
+            </tfoot>
+
+        </table>
+    </div>
+{% endblock %}

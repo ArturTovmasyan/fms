@@ -163,6 +163,47 @@ class CRUDController extends Controller
     }
 
     /**
+     * This action is used to get job day count for years
+     *
+     * @return Response
+     */
+    public function jobDaysAction()
+    {
+        //set default data
+        $type = CAL_GREGORIAN;
+        $jobDays = [];
+        $year = date('Y'); // Year in 4 digit 2009 format.
+
+
+        //generate job days count for each month in current and preview years
+        for ($y = $year - 1; $y <= $year; $y++) {
+
+            for ($m = 1; $m <= 12; $m++) {
+
+                $workdaysCount = 0;
+                $day_counts = cal_days_in_month($type, $m, $y); // Get the amount of days by years and month
+
+                //loop through all days
+                for ($i = 1; $i <= $day_counts; $i++) {
+
+                    $date = $y.'/'.$m.'/'.$i;
+                    $getName = date('l', strtotime($date)); //Get day name
+                    $dayName = substr($getName, 0, 3); // Trim day name to 3 chars
+
+                    //if not a weekend add sum day
+                    if ($dayName != 'Sun' && $dayName != 'Sat') {
+                        $workdaysCount ++;
+                    }
+                }
+
+                $jobDays[$y][$m] = $workdaysCount;
+            }
+        }
+
+        return $this->render('MainBundle:Admin/Custom:job_day_counts.html.twig', ['days'=> $jobDays]);
+    }
+
+    /**
      * This function is used to rule equipment list filter by cookie
      *
      * @param Request $request
@@ -206,7 +247,7 @@ class CRUDController extends Controller
         $connection = $em->getConnection();
 
         if($materials) {
-          $field = 'eq.code';
+            $field = 'eq.code';
         } else {
             $field = 'eq.id';
         }
