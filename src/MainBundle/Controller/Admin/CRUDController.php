@@ -167,7 +167,7 @@ class CRUDController extends Controller
      *
      * @return Response
      */
-    public function jobDaysAction()
+    public function jobDaysTariffAction()
     {
         //set default data
         $type = CAL_GREGORIAN;
@@ -199,7 +199,7 @@ class CRUDController extends Controller
             }
         }
 
-        return $this->render('MainBundle:Admin/Custom:job_day_counts.html.twig', ['days'=> $jobDays]);
+        return $this->render('MainBundle:Admin/Custom:job_days_tariff.html.twig', ['days'=> $jobDays]);
     }
 
     /**
