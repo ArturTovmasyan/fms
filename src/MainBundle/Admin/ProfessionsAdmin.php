@@ -36,7 +36,7 @@ class ProfessionsAdmin extends Admin
      */
     protected function configureRoutes(RouteCollection $collection)
     {
-        $collection->add('job-days-tariff', 'job-days-tariff');
+        $collection->add('job-days-and-tariff', 'job-days-and-tariff');
     }
 
     /**

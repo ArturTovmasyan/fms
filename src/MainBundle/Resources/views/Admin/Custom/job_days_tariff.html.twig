@@ -41,89 +41,90 @@
     <br/>
     <br/>
 
-    <div class="row">
-        <div class="col-sm-4">
-            <table>
-                <thead>
-                <tr>
-                    <th rowspan="2" class="cell-width">Ամիս</th>
-                    <th colspan="2" class="cell-width">{{ 'job_days_tariff'|trans }}</th>
-                <tr>
-                    <th>{{ previewYear }}</th>
-                    <th>{{ currentYear }}</th>
-                </tr>
-                </tr>
-                </thead>
-
-                <tbody>
-
-                {% set sumPreviewsYearDays = jobDays|first[0] %}
-                {% set sumCurrentYearDays =  jobDays|last[0] %}
-
-                {% set sumPreviewsYearAverageJobTime = sumPreviewsYearDays * 8 %}
-                {% set sumCurrentYearAverageJobTime = sumCurrentYearDays * 8 %}
-
-                {% for i in 1..12 %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <table class="table-hover">
+                    <thead>
                     <tr>
-                        <td class="cell-width text-left">{{ monthsArray[i-1] }}</td>
-
-                        {#for first year column#}
-                        {% for key, countDay in jobDays|first %}
-                            {% if i == key %}
-                                <td class=>{{ countDay }}</td>
-                            {% endif %}
-                        {% endfor %}
-
-                        {#for last year column#}
-                        {% for key, countDay in jobDays|last %}
-                            {% if i == key %}
-                                <td class=>{{ countDay }}</td>
-                            {% endif %}
-                        {% endfor %}
+                        <th rowspan="2" class="cell-width">Ամիս</th>
+                        <th colspan="2" class="cell-width">{{ 'job_days_tariff'|trans }}</th>
+                    <tr>
+                        <th>{{ previewYear }}</th>
+                        <th>{{ currentYear }}</th>
                     </tr>
-                {% endfor %}
-                </tbody>
+                    </tr>
+                    </thead>
 
-                <tfoot>
-                <tr>
-                    <th>
-                        Ընդամենը տարեկա
-                        աշխատանքային
-                        օրերի քանակը
-                    </th>
-                    <th>{{ (sumPreviewsYearDays * 12)|round(0, 'floor') }}</th>
-                    <th>{{ (sumCurrentYearDays * 12)|round(0, 'floor') }}</th>
-                </tr>
-                <tr>
-                    <th>
-                        Միջին ամսական
-                        աշխատանքային
-                        օրերի քանակը
-                    </th>
-                    <th>{{ (sumPreviewsYearDays) }}</th>
-                    <th>{{ (sumCurrentYearDays) }}</th>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-        <div class="col-sm-8">
-            <table>
-                <thead>
-                <tr>
-                    <th rowspan="2" class="cell-width">Դրույք</th>
-                    <th colspan="2" class="cell-width">{{ 'Ժամավճարը'|trans }}</th>
-                    <th colspan="2" class="cell-width">{{ 'Օրավճարը'|trans }}</th>
-                <tr>
-                    <th>{{ previewYear }}</th>
-                    <th>{{ currentYear }}</th>
-                    <th>{{ previewYear }}</th>
-                    <th>{{ currentYear }}</th>
-                </tr>
+                    <tbody>
 
-                </tr>
-                </thead>
+                    {% set sumPreviewsYearDays = jobDays|first[0] %}
+                    {% set sumCurrentYearDays =  jobDays|last[0] %}
 
-                <tbody>
+                    {% set sumPreviewsYearAverageJobTime = sumPreviewsYearDays * 8 %}
+                    {% set sumCurrentYearAverageJobTime = sumCurrentYearDays * 8 %}
+
+                    {% for i in 1..12 %}
+                        <tr>
+                            <td class="cell-width text-left">{{ monthsArray[i-1] }}</td>
+
+                            {#for first year column#}
+                            {% for key, countDay in jobDays|first %}
+                                {% if i == key %}
+                                    <td class=>{{ countDay }}</td>
+                                {% endif %}
+                            {% endfor %}
+
+                            {#for last year column#}
+                            {% for key, countDay in jobDays|last %}
+                                {% if i == key %}
+                                    <td class=>{{ countDay }}</td>
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+
+                    <tfoot>
+                    <tr>
+                        <th>
+                            Ընդամենը տարեկա
+                            աշխատանքային
+                            օրերի քանակը
+                        </th>
+                        <th>{{ (sumPreviewsYearDays * 12)|round(0, 'floor') }}</th>
+                        <th>{{ (sumCurrentYearDays * 12)|round(0, 'floor') }}</th>
+                    </tr>
+                    <tr>
+                        <th>
+                            Միջին ամսական
+                            աշխատանքային
+                            օրերի քանակը
+                        </th>
+                        <th>{{ (sumPreviewsYearDays) }}</th>
+                        <th>{{ (sumCurrentYearDays) }}</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-sm-8">
+                <table class="table-hover">
+                    <thead>
+                    <tr>
+                        <th rowspan="2" class="cell-width">Դրույք</th>
+                        <th colspan="2" class="cell-width">{{ 'Ժամավճարը'|trans }}</th>
+                        <th colspan="2" class="cell-width">{{ 'Օրավճարը'|trans }}</th>
+                    <tr>
+                        <th>{{ previewYear }}</th>
+                        <th>{{ currentYear }}</th>
+                        <th>{{ previewYear }}</th>
+                        <th>{{ currentYear }}</th>
+                    </tr>
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
                     {% for rate in rates %}
                         <tr>
                             <td>{{ rate }}</td>
@@ -133,20 +134,22 @@
                             <td>{{ (rate / sumCurrentYearDays)|round(0, 'ceil') }}</td>
                         </tr>
                     {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <th>
-                        Միջին ամսական
-                        աշխատանքային
-                        ժամերը
-                    </th>
-                    <th>{{ sumPreviewsYearAverageJobTime }}</th>
-                    <th>{{ sumCurrentYearAverageJobTime }}</th>
-                </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>
+                            Միջին ամսական
+                            աշխատանքային
+                            ժամերը
+                        </th>
+                        <th>{{ sumPreviewsYearAverageJobTime }}</th>
+                        <th>{{ sumCurrentYearAverageJobTime }}</th>
+                    </tr>
 
-                </tfoot>
-            </table>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
+
 {% endblock %}

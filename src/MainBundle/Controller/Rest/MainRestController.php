@@ -5,8 +5,6 @@ namespace MainBundle\Controller\Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use MainBundle\Entity\EquipmentImage;
-use MainBundle\Entity\PersonnelImages;
-use MainBundle\Entity\PostImages;
 use MainBundle\Entity\SparePartImages;
 use MainBundle\Entity\ToolImages;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -383,6 +381,7 @@ class MainRestController extends FOSRestController
         $content = $request->getContent();
         $request->request->add(json_decode($content, true));
 
+        //get ids in request
         $ids = $request->request->get('ids');
 
         //check if one is parameters not exist
@@ -502,6 +501,7 @@ class MainRestController extends FOSRestController
         $content = $request->getContent();
         $request->request->add(json_decode($content, true));
 
+        //get ids in request
         $ids = $request->request->get('ids');
 
         //check if one is parameters not exist
@@ -523,12 +523,12 @@ class MainRestController extends FOSRestController
      * @ApiDoc(
      *  resource=true,
      *  section="Main",
-     *  description="This function is used to get tariff data by ids",
+     *  description="This function is used to get tariff data by rates",
      *  statusCodes={
      *         200="Returned when file was removed",
      *         404="Bad request",
      *         403="Forbidden"
-     *  },
+     *  }
      * )
      *
      * @Rest\Post("/tariff-data", name="main_rest_mainrest_gettariffdata", options={"method_prefix"=false})
@@ -542,6 +542,7 @@ class MainRestController extends FOSRestController
         $content = $request->getContent();
         $request->request->add(json_decode($content, true));
 
+        //get rates data in request
         $rates = $request->request->get('rates');
 
         //check if one is parameters not exist
@@ -549,10 +550,10 @@ class MainRestController extends FOSRestController
             return new Response('Invalid request parameters', Response::HTTP_BAD_REQUEST);
         }
 
-        //get job days by service
+        //get fms service
         $service = $this->container->get('fms_service');
 
-        //generate salary by rate
+        //generate salary by rates
         $salary = $service->getHourAndDaySalary($rates);
 
         return $salary;

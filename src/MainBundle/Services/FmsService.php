@@ -103,6 +103,8 @@ class FmsService
     }
 
     /**
+     * This function is used to generate and return salary by day and hour
+     *
      * @param $rates
      * @return array
      */
@@ -112,14 +114,14 @@ class FmsService
 
         if (count($rates) > 0) {
 
+            //get job days for preview and current years
             $jobDays = $this->getJobDays();
-
-//            $sumPreviewYearJobDays = reset($jobDays)[0];
             $sumCurrentYearJobDays = end($jobDays)[0];
 
-//            $sumPreviewsYearAverageJobTime = $sumPreviewYearJobDays * 8;
+            //get current year average job time by hour
             $sumCurrentYearAverageJobTime = $sumCurrentYearJobDays * 8;
 
+            //generate array for tariff by hour and day
             foreach ($rates as $key => $rate)
             {
                 $salary[$key]['hour'] = ceil($rate / $sumCurrentYearAverageJobTime);

@@ -167,7 +167,7 @@ class CRUDController extends Controller
      *
      * @return Response
      */
-    public function jobDaysTariffAction()
+    public function jobDaysAndTariffAction()
     {
         //get job days in service
         $service = $this->container->get('fms_service');
