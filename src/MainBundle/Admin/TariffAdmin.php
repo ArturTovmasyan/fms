@@ -57,8 +57,12 @@ class TariffAdmin extends Admin
                 'btn_add' => $addBtn,
                 'query' => $query
             ])
-            ->add('hourSalary', null, ['required'=>true, 'label'=>'salary_hour'])
-            ->add('daySalary', null, ['required'=>true, 'label'=>'salary_day'])
+            ->add('hourSalary', null, ['required'=>true, 'label'=>'salary_hour', 'attr' => [
+                'readonly' => true
+               ]])
+            ->add('daySalary', null, ['required'=>true, 'label'=>'salary_day', 'attr' => [
+                'readonly' => true
+               ]])
             ->add('rate', null, ['required'=>true, 'label'=>'salary_rate'])
         ;
     }

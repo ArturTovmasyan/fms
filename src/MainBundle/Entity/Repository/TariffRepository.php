@@ -18,7 +18,7 @@ class TariffRepository extends EntityRepository
     public function findByCategoryAndProfessionId($professionId, $categoryName)
     {
         $result = $this->getEntityManager()
-            ->createQuery("SELECT t.hourSalary as tariff
+            ->createQuery("SELECT t.rate as rate
                             FROM MainBundle:Tariff t
                             LEFT JOIN t.professionCategory pc
                             LEFT JOIN t.profession p
@@ -31,4 +31,26 @@ class TariffRepository extends EntityRepository
         return $result;
     }
 
+    /**
+     * This function is used to get all rates
+     *
+     * @return array
+     */
+    public function findAllRateInTariff()
+    {
+        $result = $this->getEntityManager()
+            ->createQuery("SELECT t.rate as rate
+                            FROM MainBundle:Tariff t
+                            GROUP BY rate
+                            ORDER BY rate DESC
+                           ")
+            ->getResult();
+
+        //filter array get rate
+        $result = array_map(function ($item) {
+            return $item['rate'];
+        }, $result);
+
+        return $result;
+    }
 }

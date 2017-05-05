@@ -163,43 +163,21 @@ class CRUDController extends Controller
     }
 
     /**
-     * This action is used to get job day count for years
+     * This action is used to get job day count and tariff for years
      *
      * @return Response
      */
     public function jobDaysTariffAction()
     {
-        //set default data
-        $type = CAL_GREGORIAN;
-        $jobDays = [];
-        $year = date('Y'); // Year in 4 digit 2009 format.
+        //get job days in service
+        $service = $this->container->get('fms_service');
+        $jobDays = $service->getJobDays();
 
-        //generate job days count for each month in current and preview years
-        for ($y = $year - 1; $y <= $year; $y++) {
+        //get all rate in tariff
+        $em = $this->get('doctrine')->getManager();
+        $allRate = $em->getRepository('MainBundle:Tariff')->findAllRateInTariff();
 
-            for ($m = 1; $m <= 12; $m++) {
-
-                $workdaysCount = 0;
-                $day_counts = cal_days_in_month($type, $m, $y); // Get the amount of days by years and month
-
-                //loop through all days
-                for ($i = 1; $i <= $day_counts; $i++) {
-
-                    $date = $y.'/'.$m.'/'.$i;
-                    $getName = date('l', strtotime($date)); //Get day name
-                    $dayName = substr($getName, 0, 3); // Trim day name to 3 chars
-
-                    //if not a weekend add sum day
-                    if ($dayName != 'Sun' && $dayName != 'Sat') {
-                        $workdaysCount ++;
-                    }
-                }
-
-                $jobDays[$y][$m] = $workdaysCount;
-            }
-        }
-
-        return $this->render('MainBundle:Admin/Custom:job_days_tariff.html.twig', ['days'=> $jobDays]);
+        return $this->render('MainBundle:Admin/Custom:job_days_tariff.html.twig', ['jobDays' => $jobDays, 'rates' => $allRate]);
     }
 
     /**

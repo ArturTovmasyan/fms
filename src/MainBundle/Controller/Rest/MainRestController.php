@@ -162,19 +162,8 @@ class MainRestController extends FOSRestController
             if (!is_null($class = $object->getSparePart())) {
                 $class->removeImage($object);
             }
-        }
-//        elseif($object instanceof PostImages) {
-//
-//            if (!is_null($class = $object->getPost())) {
-//                $class->removeImage($object);
-//            }
-//        } elseif($object instanceof PersonnelImages) {
-//
-//            if (!is_null($class = $object->getPersonnel())) {
-//                $class->removeImage($object);
-//            }
-//        }
-        else{
+
+        } else{
             return new Response("$className class name not found", Response::HTTP_NOT_FOUND);
         }
 
@@ -476,7 +465,15 @@ class MainRestController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
 
         //get all category for profession by id
-        $tariff = $em->getRepository('MainBundle:Tariff')->findByCategoryAndProfessionId($professionId, $categoryName);
+        $rate = $em->getRepository('MainBundle:Tariff')->findByCategoryAndProfessionId($professionId, $categoryName);
+
+        //get job days by service
+        $service = $this->container->get('fms_service');
+
+        //generate salary by rate
+        $salary = $service->getHourAndDaySalary($rate);
+
+        $tariff['tariff'] = reset($salary)['hour'];
 
         return $tariff;
     }
@@ -519,5 +516,45 @@ class MainRestController extends FOSRestController
         $categories = $em->getRepository('MainBundle:Professions')->findByProfessionIds($ids);
 
         return $categories;
+    }
+
+    /**
+     *
+     * @ApiDoc(
+     *  resource=true,
+     *  section="Main",
+     *  description="This function is used to get tariff data by ids",
+     *  statusCodes={
+     *         200="Returned when file was removed",
+     *         404="Bad request",
+     *         403="Forbidden"
+     *  },
+     * )
+     *
+     * @Rest\Post("/tariff-data", name="main_rest_mainrest_gettariffdata", options={"method_prefix"=false})
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Rest\View()
+     * @return Response
+     */
+    public function getTariffDataAction(Request $request)
+    {
+        //get content and add it in request after json decode
+        $content = $request->getContent();
+        $request->request->add(json_decode($content, true));
+
+        $rates = $request->request->get('rates');
+
+        //check if one is parameters not exist
+        if(!$rates) {
+            return new Response('Invalid request parameters', Response::HTTP_BAD_REQUEST);
+        }
+
+        //get job days by service
+        $service = $this->container->get('fms_service');
+
+        //generate salary by rate
+        $salary = $service->getHourAndDaySalary($rates);
+
+        return $salary;
     }
 }
