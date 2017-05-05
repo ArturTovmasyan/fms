@@ -45,11 +45,7 @@ $( document ).ready(function() {
             }
         }
 
-    });
-
-
-    //detect change expense on product page
-    $('body').on('change', "tbody.sonata-ba-tbody tr td input", function(event) {
+    }).on('input', "tbody.sonata-ba-tbody tr td input", function(event) {
 
         var number = event.target.id;
         var splitId = number.split('_');

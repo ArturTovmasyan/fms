@@ -67,7 +67,7 @@ $( document ).ready(function() {
             }
         }
 
-    }).on('change', 'input', function(e) {
+    }).on('input', 'input', function(e) {
 
         var number = e.target.id;
         var splitId = number.split('_');

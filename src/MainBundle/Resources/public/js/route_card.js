@@ -155,7 +155,7 @@ $( document ).ready(function() {
     }
 
     //if input field is changed, generate by ajax dynamically values for fields
-    $(routeCardBlock).on('change', "input", function(e) {
+    $(routeCardBlock).on('input', "input", function(e) {
 
         var number = e.target.id;
         var splitId = number.split('_');
