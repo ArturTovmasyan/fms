@@ -20,7 +20,10 @@ class ProfessionsAdmin extends Admin
     {
         switch ($name) {
             case 'list':
-                return 'MainBundle:Admin/List:job_days_tariff_list.html.twig';
+                return 'MainBundle:Admin/List:profession_list.html.twig';
+                break;
+            case 'edit':
+                return 'MainBundle:Admin/Edit:profession_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
