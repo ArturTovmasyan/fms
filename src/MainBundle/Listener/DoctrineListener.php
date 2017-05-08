@@ -254,14 +254,20 @@ class DoctrineListener implements ContainerAwareInterface
 
             //check if tool have chronology with personnel
             $tool = $entity->getTool();
-            $chronology = $tool->getToolsChronology();
+            $chronologies = $tool->getToolsChronology();
 
-            //change busy status
-            if (count($chronology) > 0) {
-                $tool->setBusy(true);
-            } else {
-                $tool->setBusy(false);
+            $busy = false;
+
+            foreach ($chronologies as $chronologe)
+            {
+                //change busy status
+                if (!$chronologe->getToDate()) {
+                    $busy = true;
+                    break;
+                }
             }
+
+            $tool->setBusy($busy);
 
             // persist changes
             $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:Tools'), $tool);
