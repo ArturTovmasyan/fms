@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table()
  * @ORM\Entity
- * @UniqueEntity(fields={"personnel"}, errorPath="personnel",
+ * @UniqueEntity(fields={"personnel", "tool"}, errorPath="personnel",
  *                  message= "This person already exist, please select another person")
  */
 class ToolsChronology
@@ -26,9 +26,7 @@ class ToolsChronology
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\OneToOne(targetEntity="Personnel")
+     * @ORM\ManyToOne(targetEntity="Personnel")
      */
     private $personnel;
 
@@ -62,29 +60,6 @@ class ToolsChronology
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set personnel
-     *
-     * @param string $personnel
-     * @return ToolsChronology
-     */
-    public function setPersonnel($personnel)
-    {
-        $this->personnel = $personnel;
-
-        return $this;
-    }
-
-    /**
-     * Get personnel
-     *
-     * @return string 
-     */
-    public function getPersonnel()
-    {
-        return $this->personnel;
     }
 
     /**
@@ -162,5 +137,28 @@ class ToolsChronology
     public function getTool()
     {
         return $this->tool;
+    }
+
+    /**
+     * Set personnel
+     *
+     * @param \MainBundle\Entity\Personnel $personnel
+     * @return ToolsChronology
+     */
+    public function setPersonnel(\MainBundle\Entity\Personnel $personnel = null)
+    {
+        $this->personnel = $personnel;
+
+        return $this;
+    }
+
+    /**
+     * Get personnel
+     *
+     * @return \MainBundle\Entity\Personnel 
+     */
+    public function getPersonnel()
+    {
+        return $this->personnel;
     }
 }
