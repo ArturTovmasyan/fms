@@ -10,6 +10,7 @@ use MainBundle\Entity\Personnel;
 use MainBundle\Entity\Post;
 use MainBundle\Entity\PostHistory;
 use MainBundle\Entity\Tariff;
+use MainBundle\Entity\ToolsChronology;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -188,9 +189,23 @@ class DoctrineListener implements ContainerAwareInterface
         // get unit work
         $uow = $em->getUnitOfWork();
 
+        //for update
+        foreach ($uow->getScheduledEntityInsertions() AS $entity)
+        {
+            $this->changeToolsStatus($entity, $uow, $em);
+        }
+
+        //for update
+        foreach ($uow->getScheduledEntityUpdates() AS $entity)
+        {
+           $this->changeToolsStatus($entity, $uow, $em);
+        }
+
         //for deletions
         foreach ($uow->getScheduledEntityDeletions() AS $entity)
         {
+            $this->changeToolsStatus($entity, $uow, $em);
+
             //if product object
             if ($entity instanceof Tariff) {
 
@@ -222,6 +237,34 @@ class DoctrineListener implements ContainerAwareInterface
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * This function is used to change tolls busy status dynamically
+     *
+     * @param $entity
+     * @param $uow
+     * @param $em
+     */
+    private function changeToolsStatus($entity, $uow, $em)
+    {
+        // check entity
+        if ($entity instanceof ToolsChronology) {
+
+            //check if tool have chronology with personnel
+            $tool = $entity->getTool();
+            $chronology = $tool->getToolsChronology();
+
+            //change busy status
+            if (count($chronology) > 0) {
+                $tool->setBusy(true);
+            } else {
+                $tool->setBusy(false);
+            }
+
+            // persist changes
+            $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:Tools'), $tool);
         }
     }
 }

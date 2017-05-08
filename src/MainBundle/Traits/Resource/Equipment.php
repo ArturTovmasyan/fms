@@ -136,14 +136,8 @@ trait Equipment
                 if(!$elPower->getId()) {
                     $elPower->setEquipment($object);
                 }
-
-//                if(!$elPowers->contains($object)) {
-//
-//                    $elPower->setEquipment($object);
-//                }
             }
         }
-
 
         // add spares
         $spares = $object->getSpares();
@@ -178,6 +172,9 @@ trait Equipment
 
     public function removeRelations($object)
     {
+        $container = $this->getConfigurationPool()->getContainer();
+        $em = $container->get('doctrine')->getManager();
+
         //get products
         $products = $object->getProduct();
 
@@ -210,12 +207,14 @@ trait Equipment
 
         if($removeDefects) {
 
+            $methods = get_class_methods($removeDefects);
+
             //check deleted defects
             $defects = $removeDefects->getDeleteDiff();
 
             foreach($defects as $defect)
             {
-                $defect->setEquipment(null);
+                $em->remove($defect);
             }
         }
 
@@ -228,7 +227,7 @@ trait Equipment
 
             foreach($powers as $power)
             {
-                $power->setEquipment(null);
+                $em->remove($power);
             }
         }
 

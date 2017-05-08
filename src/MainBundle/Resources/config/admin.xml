@@ -344,6 +344,25 @@
             <argument/>
         </service>
 
+        <!--ToolsRepairJob -->
+        <service id="sonata.admin.tools_repair_job" class="MainBundle\Admin\ToolsRepairJobAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="tools_repair_job" show_in_dashboard="true"/>
+            <argument/>
+            <argument>MainBundle\Entity\ToolsRepairJob</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
+            <argument/>
+        </service>
+
+        <!--ToolsChronology -->
+        <service id="sonata.admin.tools_chronology" class="MainBundle\Admin\ToolsChronologyAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Resource" label="tools_chronology" show_in_dashboard="true"/>
+            <argument/>
+            <argument>MainBundle\Entity\ToolsChronology</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
+            <argument/>
+        </service>
+
+
     </services>
 
 </container>

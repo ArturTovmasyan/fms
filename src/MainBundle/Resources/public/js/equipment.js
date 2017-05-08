@@ -1,5 +1,8 @@
 $( document ).ready(function() {
 
+    //close left menu after page loaded
+    $('body.sonata-bc').addClass('sidebar-collapse');
+
     var fieldId = $("input[id$='_token']").attr("id");
     var pos = fieldId.indexOf("_token");
     var fieldToken = fieldId.slice(0, pos);

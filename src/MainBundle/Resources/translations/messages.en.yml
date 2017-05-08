@@ -122,6 +122,8 @@ equipment_filling_title: Սարքավորումների լրացվածությա
 weight: Քաշը
 description: Բնութագիրը
 length: Երկարություն
+tools_repair_job: Վերանորոգման աշխատանքները
+tools_chronology: Շահ. խրոնոլոգիա
 width: Լայնություն
 height: Բարձրություն
 post: Հաստիք
@@ -198,6 +200,13 @@ el_power_value: Էլ․ արժեքը
 salary_hour: Ժամավարձ
 salary_day: Օրավարձ
 salary_rate: Դրույքը
+tools_chronology_from_date: Ստացել է
+tools_chronology_to_date: Հանձնել է
+tools_repair_from_date: Սկսել է
+tools_repair_to_date: Ավարտել է
+tools_person: Օգտագործող
+tools_status: Զբաղված է
+history: Պատմությունը
 
 ################################################## TRANSLATIONS FOR EXPORT ##########################################################
 

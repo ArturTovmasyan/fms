@@ -2,6 +2,8 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Form\ToolsChronologytType;
+use MainBundle\Form\ToolsRepairJobType;
 use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -13,6 +15,11 @@ class ToolsAdmin extends Admin
 {
     use FmsAdmin;
     const imageClassName = 'ToolImages';
+
+    //set fields option
+    protected $formOptions = [
+        'cascade_validation' => true
+    ];
 
     /**
      * override list query
@@ -99,7 +106,18 @@ class ToolsAdmin extends Admin
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
             ->add('imageIds', 'hidden', ['mapped'=>false])
-            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id]);
+            ->add('objectId', 'hidden', ['mapped'=>false, 'data'=>$id])
+            ->end()
+            ->with('tools_repair_job')
+            ->add('toolsRepairJob', 'collection', ['required'=>false, 'label'=>false,
+                'type' => new ToolsRepairJobType(),
+                'allow_add'=>true, 'allow_delete'=>true])
+            ->end()
+            ->with('tools_chronology')
+            ->add('toolsChronology', 'collection', ['required'=>false, 'label'=>false,
+                'type' => new ToolsChronologytType(),
+                'allow_add'=>true, 'allow_delete'=>true])
+            ->end();
     }
 
     // Fields to be shown on filter forms
@@ -128,6 +146,9 @@ class ToolsAdmin extends Admin
             ->add('getStringSize', null, ['label' => 'size'])
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
+            ->add('busy', null, ['label' => 'tools_status'])
+            ->add('toolsChronology', null, ['template' => 'MainBundle:Admin/List:tools_chronology_list.html.twig', 'label'=>'tools_chronology'])
+            ->add('toolsRepairJob', null, ['template' => 'MainBundle:Admin/List:tools_repair_list.html.twig', 'label'=>'tools_repair_job'])
             ->add('getToolImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', 'actions', [
                 'actions' => [
@@ -144,6 +165,7 @@ class ToolsAdmin extends Admin
     public function preUpdate($object)
     {
         $this->prePersist($object);
+        $this->removeRelations($object);
     }
 
     /**
@@ -159,7 +181,75 @@ class ToolsAdmin extends Admin
         $this->addImages($object, $images);
 
         $this->addNewVendor($object);
+        $this->setRelations($object);
 
+    }
+
+    /**
+     * @param $object
+     */
+    private function setRelations($object)
+    {
+        //get tools chronology
+        $toolsChronology = $object->getToolsChronology();
+
+        if($toolsChronology) {
+
+            foreach($toolsChronology as $chronology)
+            {
+                if(!$chronology->getId()) {
+                    $chronology->setTool($object);
+                }
+            }
+        }
+
+        //get tools repair job
+        $toolsRepairJob = $object->getToolsRepairJob();
+
+        if($toolsRepairJob) {
+
+            foreach($toolsRepairJob as $repairJob)
+            {
+                if(!$repairJob->getId()) {
+                    $repairJob->setTool($object);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    public function removeRelations($object)
+    {
+        $container = $this->getConfigurationPool()->getContainer();
+        $em = $container->get('doctrine')->getManager();
+
+        //get tools chronology
+        $toolsChronology = $object->getToolsChronology();
+
+        if($toolsChronology) {
+
+            $chronologies = $toolsChronology->getDeleteDiff();
+
+            foreach($chronologies as $chronologe)
+            {
+                $em->remove($chronologe);
+            }
+        }
+
+        //get tools repair job
+        $toolsRepairJob = $object->getToolsRepairJob();
+
+        if($toolsRepairJob) {
+
+            $repairJobs = $toolsRepairJob->getDeleteDiff();
+
+            foreach($repairJobs as $job)
+            {
+               $em->remove($job);
+            }
+        }
     }
 }
 

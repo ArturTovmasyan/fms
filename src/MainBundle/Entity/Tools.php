@@ -38,11 +38,27 @@ class Tools
     protected $images;
 
     /**
+     * @ORM\OneToMany(targetEntity="ToolsChronology", mappedBy="tool", cascade={"persist", "remove"})
+     */
+    private $toolsChronology;
+
+    /**
+     * @ORM\OneToMany(targetEntity="ToolsRepairJob", mappedBy="tool", cascade={"persist", "remove"})
+     */
+    private $toolsRepairJob;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=50, nullable=true)
      */
     private $name;
+
+    /**
+     *
+     * @ORM\Column(name="busy", type="boolean")
+     */
+    private $busy;
 
     /**
      * @var string
@@ -511,7 +527,7 @@ class Tools
     /**
      * Get category
      *
-     * @return \MainBundle\Entity\ToolsCategory 
+     * @return \MainBundle\Entity\ToolsCategory
      */
     public function getCategory()
     {
@@ -544,7 +560,7 @@ class Tools
     /**
      * Get images
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getImages()
     {
@@ -566,5 +582,94 @@ class Tools
         }
 
         return null;
+    }
+
+    /**
+     * Add toolsChronology
+     *
+     * @param \MainBundle\Entity\ToolsChronology $toolsChronology
+     * @return Tools
+     */
+    public function addToolsChronology(\MainBundle\Entity\ToolsChronology $toolsChronology)
+    {
+        $this->toolsChronology[] = $toolsChronology;
+
+        return $this;
+    }
+
+    /**
+     * Remove toolsChronology
+     *
+     * @param \MainBundle\Entity\ToolsChronology $toolsChronology
+     */
+    public function removeToolsChronology(\MainBundle\Entity\ToolsChronology $toolsChronology)
+    {
+        $this->toolsChronology->removeElement($toolsChronology);
+    }
+
+    /**
+     * Get toolsChronology
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getToolsChronology()
+    {
+        return $this->toolsChronology;
+    }
+
+    /**
+     * Add toolsRepairJob
+     *
+     * @param \MainBundle\Entity\ToolsRepairJob $toolsRepairJob
+     * @return Tools
+     */
+    public function addToolsRepairJob(\MainBundle\Entity\ToolsRepairJob $toolsRepairJob)
+    {
+        $this->toolsRepairJob[] = $toolsRepairJob;
+
+        return $this;
+    }
+
+    /**
+     * Remove toolsRepairJob
+     *
+     * @param \MainBundle\Entity\ToolsRepairJob $toolsRepairJob
+     */
+    public function removeToolsRepairJob(\MainBundle\Entity\ToolsRepairJob $toolsRepairJob)
+    {
+        $this->toolsRepairJob->removeElement($toolsRepairJob);
+    }
+
+    /**
+     * Get toolsRepairJob
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getToolsRepairJob()
+    {
+        return $this->toolsRepairJob;
+    }
+
+    /**
+     * Set busy
+     *
+     * @param boolean $busy
+     * @return Tools
+     */
+    public function setBusy($busy)
+    {
+        $this->busy = $busy;
+
+        return $this;
+    }
+
+    /**
+     * Get busy
+     *
+     * @return boolean 
+     */
+    public function getBusy()
+    {
+        return $this->busy;
     }
 }
