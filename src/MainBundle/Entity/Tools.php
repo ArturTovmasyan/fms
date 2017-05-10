@@ -58,7 +58,7 @@ class Tools
      *
      * @ORM\Column(name="busy", type="boolean")
      */
-    private $busy;
+    private $busy = false;
 
     /**
      * @var string

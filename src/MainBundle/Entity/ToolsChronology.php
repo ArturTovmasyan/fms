@@ -26,7 +26,8 @@ class ToolsChronology
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Personnel")
+     * @ORM\ManyToOne(targetEntity="Personnel", inversedBy="toolsChronology", cascade={"persist"}, fetch="LAZY")
+     * @ORM\JoinColumn(name="personnel_id", referencedColumnName="id")
      */
     private $personnel;
 

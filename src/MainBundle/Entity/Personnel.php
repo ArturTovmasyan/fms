@@ -172,6 +172,11 @@ class Personnel
     private $profession;
 
     /**
+     * @ORM\OneToMany(targetEntity="ToolsChronology", mappedBy="personnel", cascade={"persist", "remove"})
+     */
+    private $toolsChronology;
+
+    /**
      *
      * @ORM\Column(name="language", type="json_array", nullable=true)
      */
@@ -188,23 +193,18 @@ class Personnel
     private $tabel;
     private $salaryCard;
 
-
     /**
      * @ORM\ManyToMany(targetEntity="Equipment", mappedBy="responsiblePersons", fetch="EXTRA_LAZY")
      */
     private $equipment;
 
     /**
-     * @var datetime $created
-     *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
-     * @var datetime $updated
-     *
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
@@ -865,5 +865,38 @@ class Personnel
         }
 
         return null;
+    }
+
+    /**
+     * Add toolsChronology
+     *
+     * @param \MainBundle\Entity\ToolsChronology $toolsChronology
+     * @return Personnel
+     */
+    public function addToolsChronology(\MainBundle\Entity\ToolsChronology $toolsChronology)
+    {
+        $this->toolsChronology[] = $toolsChronology;
+
+        return $this;
+    }
+
+    /**
+     * Remove toolsChronology
+     *
+     * @param \MainBundle\Entity\ToolsChronology $toolsChronology
+     */
+    public function removeToolsChronology(\MainBundle\Entity\ToolsChronology $toolsChronology)
+    {
+        $this->toolsChronology->removeElement($toolsChronology);
+    }
+
+    /**
+     * Get toolsChronology
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getToolsChronology()
+    {
+        return $this->toolsChronology;
     }
 }

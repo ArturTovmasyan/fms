@@ -10,6 +10,7 @@ use MainBundle\Entity\Personnel;
 use MainBundle\Entity\Post;
 use MainBundle\Entity\PostHistory;
 use MainBundle\Entity\Tariff;
+use MainBundle\Entity\Tools;
 use MainBundle\Entity\ToolsChronology;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -249,33 +250,36 @@ class DoctrineListener implements ContainerAwareInterface
      */
     private function changeToolsStatus($entity, $uow, $em)
     {
-        // check entity
+        //check entity
         if ($entity instanceof ToolsChronology) {
 
             //check if tool have chronology with personnel
             $tool = $entity->getTool();
 
-            if ($tool) {
+            if (count($tool) > 0) {
 
                 $chronologies = $tool->getToolsChronology();
 
                 $busy = false;
 
-                foreach ($chronologies as $chronologe)
+                foreach ($chronologies as $chronology)
                 {
                     //change busy status
-                    if (!$chronologe->getToDate()) {
+                    if (!$chronology->getToDate()) {
                         $busy = true;
                         break;
                     }
                 }
 
-                $tool->setBusy($busy);
+                //check if tools is deleted
+                if(!$uow->isScheduledForDelete($tool)) {
+                    $tool->setBusy($busy);
 
-                // persist changes
-                $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:Tools'), $tool);
+                    // persist changes
+                    $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:Tools'), $tool);
+                }
+
             }
-
         }
     }
 }
