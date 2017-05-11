@@ -146,7 +146,7 @@ class ToolsAdmin extends Admin
             ->add('getStringSize', null, ['label' => 'size'])
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
-            ->add('busy', null, ['label' => 'tools_status'])
+            ->add('free', null, ['label' => 'tools_status'])
             ->add('toolsChronology', null, ['template' => 'MainBundle:Admin/List:tools_chronology_list.html.twig', 'label'=>'tools_chronology'])
             ->add('toolsRepairJob', null, ['template' => 'MainBundle:Admin/List:tools_repair_list.html.twig', 'label'=>'tools_repair_job'])
             ->add('getToolImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])

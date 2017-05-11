@@ -56,9 +56,9 @@ class Tools
 
     /**
      *
-     * @ORM\Column(name="busy", type="boolean")
+     * @ORM\Column(name="free", type="boolean")
      */
-    private $busy = false;
+    private $free = true;
 
     /**
      * @var string
@@ -651,25 +651,25 @@ class Tools
     }
 
     /**
-     * Set busy
+     * Set free
      *
-     * @param boolean $busy
+     * @param boolean $free
      * @return Tools
      */
-    public function setBusy($busy)
+    public function setFree($free)
     {
-        $this->busy = $busy;
+        $this->free = $free;
 
         return $this;
     }
 
     /**
-     * Get busy
+     * Get free
      *
      * @return boolean 
      */
-    public function getBusy()
+    public function getFree()
     {
-        return $this->busy;
+        return $this->free;
     }
 }

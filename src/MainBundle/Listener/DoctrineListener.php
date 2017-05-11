@@ -260,20 +260,20 @@ class DoctrineListener implements ContainerAwareInterface
 
                 $chronologies = $tool->getToolsChronology();
 
-                $busy = false;
+                $free = true;
 
                 foreach ($chronologies as $chronology)
                 {
                     //change busy status
                     if (!$chronology->getToDate()) {
-                        $busy = true;
+                        $free = false;
                         break;
                     }
                 }
 
                 //check if tools is deleted
                 if(!$uow->isScheduledForDelete($tool)) {
-                    $tool->setBusy($busy);
+                    $tool->setFree($free);
 
                     // persist changes
                     $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:Tools'), $tool);
