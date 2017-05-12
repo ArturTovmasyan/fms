@@ -8,8 +8,8 @@
         {% if repairJob|length > 0 %}
             {% set url = '/admin/tools_repair_job/list?toolId=' ~ object.id %}
 
-            <a href="{{ url }}" title="{{ 'history'|trans() }}" target="_blank">
-                {{ 'history'|trans() }}
+            <a href="{{ url }}" title="{{ 'job'|trans() }}" target="_blank">
+                {{ 'job'|trans() }}
             </a>
         {% endif %}
     {% endif %}

@@ -199,7 +199,7 @@ class DoctrineListener implements ContainerAwareInterface
         //for update
         foreach ($uow->getScheduledEntityUpdates() AS $entity)
         {
-           $this->changeToolsStatus($entity, $uow, $em);
+            $this->changeToolsStatus($entity, $uow, $em);
         }
 
         //for deletions
@@ -221,20 +221,20 @@ class DoctrineListener implements ContainerAwareInterface
                     foreach ($routeCards as $routeCard)
                     {
                         //get route card category
-                       $category = $routeCard->getProfessionCategory();
+                        $category = $routeCard->getProfessionCategory();
 
-                       $routeCardProf = $routeCard->getProfession();
+                        $routeCardProf = $routeCard->getProfession();
 
-                       //check if categories is equal
-                       if($category == $removedCategory && ($routeCardProf && $profession->getId() == $routeCardProf->getId())) {
+                        //check if categories is equal
+                        if($category == $removedCategory && ($routeCardProf && $profession->getId() == $routeCardProf->getId())) {
 
-                           $routeCard->setProfessionCategory(null);
-                           $routeCard->setTariff(0);
-                           $routeCard->setSum(0);
+                            $routeCard->setProfessionCategory(null);
+                            $routeCard->setTariff(0);
+                            $routeCard->setSum(0);
 
-                           // persist changes
-                           $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:RouteCard'), $routeCard);
-                       }
+                            // persist changes
+                            $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:RouteCard'), $routeCard);
+                        }
                     }
                 }
             }
@@ -256,10 +256,11 @@ class DoctrineListener implements ContainerAwareInterface
             //check if tool have chronology with personnel
             $tool = $entity->getTool();
 
-            if (count($tool) > 0) {
+            //check if tool not deleted
+            if (count($tool) > 0 && !$uow->isScheduledForDelete($tool)) {
 
+                //get chronology by tool
                 $chronologies = $tool->getToolsChronology();
-
                 $free = true;
 
                 foreach ($chronologies as $chronology)
@@ -272,13 +273,10 @@ class DoctrineListener implements ContainerAwareInterface
                 }
 
                 //check if tools is deleted
-                if(!$uow->isScheduledForDelete($tool)) {
-                    $tool->setFree($free);
+                $tool->setFree($free);
 
-                    // persist changes
-                    $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:Tools'), $tool);
-                }
-
+                // persist changes
+                $uow->recomputeSingleEntityChangeSet($em->getClassMetadata('MainBundle:Tools'), $tool);
             }
         }
     }

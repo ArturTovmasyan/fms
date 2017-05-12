@@ -207,8 +207,6 @@ trait Equipment
 
         if($removeDefects) {
 
-            $methods = get_class_methods($removeDefects);
-
             //check deleted defects
             $defects = $removeDefects->getDeleteDiff();
 
