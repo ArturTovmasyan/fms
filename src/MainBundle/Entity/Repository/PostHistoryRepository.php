@@ -26,7 +26,6 @@ class PostHistoryRepository extends EntityRepository
                            ")
             ->setParameter('postId', $postId)
             ->setParameter('personnelId', $personnelId)
-            ->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true)
             ->getOneOrNullResult();
     }
 

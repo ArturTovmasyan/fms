@@ -10,16 +10,6 @@
         <service id="fms_service" class="MainBundle\Services\FmsService">
         </service>
 
-        <!-- service for multiple route card form -->
-        <service id="fmc.multiple.route.card" class="MainBundle\Form\Type\ProductRouteCardType">
-            <tag name="form.type" alias="route_card_type" />
-        </service>
-
-        <!-- service for multiple component form -->
-        <service id="fmc.multiple.component" class="MainBundle\Form\Type\ProductComponentType">
-            <tag name="form.type" alias="component_type" />
-        </service>
-
         <!-- service doctrine listener -->
         <service id="fms.doctrine.listener" class="MainBundle\Listener\DoctrineListener">
             <argument type="service" id="service_container" />
@@ -27,12 +17,6 @@
             <tag name="doctrine.event_listener" event = "postFlush" method="postFlush" />
             <tag name="doctrine.event_listener" event = "prePersist" method="prePersist" />
             <tag name="doctrine.event_listener" event = "onFlush" method="onFlush" />
-        </service>
-
-        <!-- service for update route card sum  -->
-        <service id="tariff_update_listener" class="MainBundle\EventListener\UpdateTariffListener">
-            <argument type="service" id="service_container" />
-            <tag name="doctrine.event_listener" event = "onFlush" method = "onFlush"/>
         </service>
     </services>
 
