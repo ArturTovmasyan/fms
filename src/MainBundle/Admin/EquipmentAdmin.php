@@ -85,6 +85,8 @@ class EquipmentAdmin extends Admin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
+        $this->enableDoctrineFilter();
+
         $showMapper
             ->add('name')
             ->add('code')
@@ -125,6 +127,8 @@ class EquipmentAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $this->enableDoctrineFilter();
+
         $subject = $this->getSubject();
 
         //get current class name
@@ -217,6 +221,8 @@ class EquipmentAdmin extends Admin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
+        $this->enableDoctrineFilter();
+
         $showFields = null;
         $request = $this->getRequest();
 
@@ -328,4 +334,12 @@ class EquipmentAdmin extends Admin
         $this->setRelations($object);
     }
 
+    /**
+     * This function is used to disable custom doctrine filter
+     */
+    private function enableDoctrineFilter()
+    {
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+        $em->getFilters()->enable('visibility_filter');
+    }
 }

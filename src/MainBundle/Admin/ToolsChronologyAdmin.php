@@ -12,7 +12,6 @@ class ToolsChronologyAdmin extends AbstractAdmin
 {
     protected $baseRoutePattern = 'tools_chronology';
 
-
     /**
      * override list query
      *
@@ -67,8 +66,7 @@ class ToolsChronologyAdmin extends AbstractAdmin
                     'edit' => array(),
                     'delete' => array(),
                 )
-            ))
-        ;
+            ));
     }
 
     /**
@@ -79,8 +77,7 @@ class ToolsChronologyAdmin extends AbstractAdmin
         $formMapper
             ->add('personnel', null, ['label' => 'tools_person'])
             ->add('fromDate', 'sonata_type_date_picker', ['label' => 'tools_chronology_from_date'])
-            ->add('toDate', 'sonata_type_date_picker', ['label' => 'tools_chronology_to_date'])
-        ;
+            ->add('toDate', 'sonata_type_date_picker', ['label' => 'tools_chronology_to_date']);
     }
 
     /**
@@ -91,7 +88,6 @@ class ToolsChronologyAdmin extends AbstractAdmin
         $showMapper
             ->add('personnel')
             ->add('fromDate')
-            ->add('toDate')
-        ;
+            ->add('toDate');
     }
 }

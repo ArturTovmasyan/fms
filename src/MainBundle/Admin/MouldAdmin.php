@@ -72,8 +72,7 @@ class MouldAdmin extends Admin
             ->add('image')
             ->add('sketch')
             ->add('weight')
-            ->add('overSize', null, ['label' => 'over_size'])
-        ;
+            ->add('overSize', null, ['label' => 'over_size']);
     }
 
     // Fields to be shown on create/edit forms
@@ -124,8 +123,7 @@ class MouldAdmin extends Admin
             ->add('placeWarehouse')
             ->add('mouldType', null, ['label' => 'mould_type'])
             ->add('purposeList', null, ['label' => 'Purpose'])
-            ->add('code')
-        ;
+            ->add('code');
     }
 
     // Fields to be shown on lists

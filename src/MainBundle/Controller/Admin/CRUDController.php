@@ -7,11 +7,13 @@ use MainBundle\Entity\EquipmentReport;
 use MainBundle\Form\EquipmentReportType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sonata\AdminBundle\Controller\CRUDController as Controller;
+use Sonata\AdminBundle\Exception\ModelManagerException;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CRUDController extends Controller
 {
@@ -82,6 +84,99 @@ class CRUDController extends Controller
             'datagrid' => $datagrid,
             'csrf_token' => $this->getCsrfToken('sonata.batch'),
         ], $response, $request);
+    }
+    /**
+     * Delete action.
+     *
+     * @param int|string|null $id
+     *
+     * @return Response|RedirectResponse
+     *
+     * @throws NotFoundHttpException If the object does not exist
+     * @throws AccessDeniedException If access is not granted
+     */
+    public function deleteAction($id)
+    {
+        $request = $this->getRequest();
+        $id = $request->get($this->admin->getIdParameter());
+        $object = $this->admin->getObject($id);
+
+        if (!$object) {
+            throw $this->createNotFoundException(sprintf('unable to find the object with id : %s', $id));
+        }
+
+        $this->admin->checkAccess('delete', $object);
+
+        $preResponse = $this->preDelete($request, $object);
+
+        if ($preResponse !== null) {
+            return $preResponse;
+        }
+
+        if ($this->getRestMethod() == 'DELETE') {
+
+            // check the csrf token
+            $this->validateCsrfToken('sonata.delete');
+            $objectName = $this->admin->toString($object);
+
+            try {
+
+                //get current class name
+                $className = get_class($object);
+                $className = explode('\\', $className);
+                $className = end($className);
+
+                if($className && $className === 'Personnel') {
+
+                    //get entity manager
+                    $em = $this->get('doctrine')->getManager();
+
+                    $this->removePersonnelRelations($em, $object);
+
+
+                } else {
+                    $this->admin->delete($object);
+                }
+
+                if ($this->isXmlHttpRequest()) {
+                    return $this->renderJson(array('result' => 'ok'), 200, array());
+                }
+
+                $this->addFlash(
+                    'sonata_flash_success',
+                    $this->trans(
+                        'flash_delete_success',
+                        array('%name%' => $this->escapeHtml($objectName)),
+                        'SonataAdminBundle'
+                    )
+                );
+            } catch (ModelManagerException $e) {
+                $this->handleModelManagerException($e);
+
+                if ($this->isXmlHttpRequest()) {
+                    return $this->renderJson(array('result' => 'error'), 200, array());
+                }
+
+                $this->addFlash(
+                    'sonata_flash_error',
+                    $this->trans(
+                        'flash_delete_error',
+                        array('%name%' => $this->escapeHtml($objectName)),
+                        'SonataAdminBundle'
+                    )
+                );
+            }
+
+
+
+            return $this->redirectTo($object);
+        }
+
+        return $this->render($this->admin->getTemplate('delete'), array(
+            'object' => $object,
+            'action' => 'delete',
+            'csrf_token' => $this->getCsrfToken('sonata.delete'),
+        ), null);
     }
 
     /**
@@ -242,4 +337,30 @@ class CRUDController extends Controller
         return $results;
 
     }
+
+    /**
+     * @param $em
+     * @param $object
+     */
+    private function removePersonnelRelations($em, $object)
+    {
+        //get related equipments
+        $equipments = $object->getEquipment();
+
+        if(count($equipments) > 0) {
+
+            foreach ($equipments as $equipment)
+            {
+                $equipment->removeResponsiblePerson($object);
+            }
+        }
+
+        //remove relation with post and disable current person
+        $object->setPost(null);
+        $object->setDisabled(true);
+
+        $em->persist($object);
+        $em->flush();
+    }
+
 }

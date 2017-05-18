@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class PersonnelAdmin extends AbstractAdmin
@@ -32,6 +33,11 @@ class PersonnelAdmin extends AbstractAdmin
         }
     }
 
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->remove('batch');
+    }
+
     /**
      * @param DatagridMapper $datagridMapper
      */
@@ -39,7 +45,8 @@ class PersonnelAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('name')
-            ->add('birthDate')
+            ->add('birthDate', null, ['label' => 'birth_day'])
+            ->add('disabled')
             ->add('created')
             ->add('updated')
         ;
@@ -50,6 +57,7 @@ class PersonnelAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
+
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
@@ -61,6 +69,7 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('fixedPhone', null, ['label'=>'fixed_phone'])
             ->add('alternatePhone', null, ['label'=>'alternate_phone'])
             ->add('email', null, ['label'=>'email'])
+            ->add('disabled')
             ->add('carNumber', null, ['label'=>'car_number'])
             ->add('address', null, ['label'=>'address'])
             ->add('husband', null, ['label'=>'husband'])
@@ -90,6 +99,7 @@ class PersonnelAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+
         //get object id
         $subject = $this->getSubject();
         $id = $subject ? $subject->getId() : null;
@@ -135,6 +145,7 @@ class PersonnelAdmin extends AbstractAdmin
             ->add('name')
             ->add('file', 'file', $fileFieldOptions)
             ->add('diploma', 'file', $diplomaFieldOptions)
+            ->add('disabled')
             ->add('birthDate', 'sonata_type_date_picker', ['required'=>false, 'label'=>'birth_day'])
             ->add('positionDate', 'sonata_type_date_picker', ['required'=>false, 'label'=>'position_date'])
             ->add('education', null, ['label'=>'education'])
@@ -248,7 +259,7 @@ class PersonnelAdmin extends AbstractAdmin
 
         if($object->getDiploma() && (!$diploma)) {
             return;
-        }else{
+        } else {
             //create diploma for personnel
             $dip = new Diploma();
             $dip->setFile($diploma);

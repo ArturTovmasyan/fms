@@ -2,7 +2,7 @@
 
 namespace MainBundle\Admin;
 
-use MainBundle\Form\ToolsChronologytType;
+use MainBundle\Form\ToolsChronologyType;
 use MainBundle\Form\ToolsRepairJobType;
 use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
@@ -83,6 +83,16 @@ class ToolsAdmin extends Admin
     {
         //get object id
         $id = $this->getSubject() ? $this->getSubject()->getId() : null;
+        $toolChronologies = $this->getSubject() ? $this->getSubject()->getToolsChronology() : null;
+        $personnelIds = [];
+
+        //get personnel ids
+        if(count($toolChronologies) > 0) {
+            foreach ($toolChronologies as $chronology)
+            {
+                $personnelIds[] = $chronology->getPersonnel()->getId();
+            }
+        }
 
         //get current class name
         $className = $this->getClassnameLabel();
@@ -115,7 +125,7 @@ class ToolsAdmin extends Admin
             ->end()
             ->with('tools_chronology')
             ->add('toolsChronology', 'collection', ['required'=>false, 'label'=>false,
-                'type' => new ToolsChronologytType(),
+                'type' => new ToolsChronologyType($personnelIds),
                 'allow_add'=>true, 'allow_delete'=>true])
             ->end();
     }
@@ -251,5 +261,14 @@ class ToolsAdmin extends Admin
             }
         }
     }
+
+//    /**
+//     * This function is used to disable custom doctrine filter
+//     */
+//    private function enableDoctrineFilter()
+//    {
+//        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+//        $em->getFilters()->enable('visibility_filter');
+//    }
 }
 

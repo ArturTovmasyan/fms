@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 class PostAdmin extends AbstractAdmin
@@ -35,6 +36,11 @@ class PostAdmin extends AbstractAdmin
         $query->leftJoin($query->getRootAlias() . '.changed', 'cd');
 
         return $query;
+    }
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection->remove('batch');
     }
 
     /**
@@ -73,6 +79,8 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
+        $this->enableDoctrineFilter();
+
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
             ->add('name')
@@ -112,6 +120,8 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $this->enableDoctrineFilter();
+
         //get division id by request
         $divisionId = $this->getRequest()->query->get('divisionId');
         $subject = $this->getSubject();
@@ -195,6 +205,8 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
+        $this->enableDoctrineFilter();
+
         $showMapper
             ->tab('global_info')
             ->add('name')
@@ -258,6 +270,15 @@ class PostAdmin extends AbstractAdmin
 
         $this->removeRelations($object);
         $this->setRelation($object);
+    }
+
+    /**
+     * This function is used to disable custom doctrine filter
+     */
+    private function enableDoctrineFilter()
+    {
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+        $em->getFilters()->enable('visibility_filter');
     }
 }
 

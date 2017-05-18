@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use MainBundle\Model\DisableAwareInterface;
 use MainBundle\Traits\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +15,7 @@ use JMS\Serializer\Annotation\Groups;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\PersonnelRepository")
  */
-class Personnel
+class Personnel implements DisableAwareInterface
 {
     // use file trait
     use File;
@@ -34,12 +35,6 @@ class Personnel
      * @ORM\Column(name="name", type="string", length=100)
      */
     private $name;
-
-//    /**
-//     * @ORM\OneToMany(targetEntity="PersonnelImages", mappedBy="personnel", cascade={"persist", "remove"})
-//     * @Groups({"files"})
-//     */
-//    protected $images;
 
     /**
      * @ORM\OneToOne(targetEntity="Post", inversedBy="personnel", cascade={"persist"})
@@ -65,14 +60,6 @@ class Personnel
      * @ORM\Column(name="position_date", type="datetime", nullable=true)
      */
     private $positionDate;
-
-    /**
-     */
-    private $positionOrder;
-
-    /**
-     */
-    private $currentContract;
 
     /**
      * @var string
@@ -188,6 +175,11 @@ class Personnel
      */
     private $compKnowledge;
 
+    /**
+     * @ORM\Column(name="disabled", type="boolean")
+     */
+    private $disabled = false;
+
     private $awards;
     private $remarks;
     private $tabel;
@@ -253,10 +245,8 @@ class Personnel
      */
     function __toString()
     {
-        $cutName = $this->getCutName();
-        return ($cutName) ? $cutName : '';
+        return (string)($this->name) ? (string)($this->name) : '';
     }
-
 
     /**
      * Add equipment
@@ -751,23 +741,6 @@ class Personnel
         return $this->compKnowledge;
     }
 
-//    /**
-//     * @return bool|mixed
-//     */
-//    public function getPersonnelImages()
-//    {
-//        // get images
-//        $files = $this->getImages();
-//
-//        // check images
-//        if($files){
-//
-//            return $files;
-//        }
-//
-//        return null;
-//    }
-
     /**
      * Set post
      *
@@ -898,5 +871,28 @@ class Personnel
     public function getToolsChronology()
     {
         return $this->toolsChronology;
+    }
+
+    /**
+     * Set disabled
+     *
+     * @param boolean $disabled
+     * @return Personnel
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = $disabled;
+
+        return $this;
+    }
+
+    /**
+     * Get disabled
+     *
+     * @return boolean 
+     */
+    public function getDisabled()
+    {
+        return $this->disabled;
     }
 }
