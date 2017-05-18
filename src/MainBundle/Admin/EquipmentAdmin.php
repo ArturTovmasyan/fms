@@ -335,7 +335,7 @@ class EquipmentAdmin extends Admin
     }
 
     /**
-     * This function is used to disable custom doctrine filter
+     * This function is used to enable custom doctrine filter
      */
     private function enableDoctrineFilter()
     {

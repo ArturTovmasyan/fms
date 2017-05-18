@@ -128,11 +128,9 @@ class CRUDController extends Controller
 
                 if($className && $className === 'Personnel') {
 
-                    //get entity manager
+                    //remove personnel relations without history and set disabled true
                     $em = $this->get('doctrine')->getManager();
-
                     $this->removePersonnelRelations($em, $object);
-
 
                 } else {
                     $this->admin->delete($object);
@@ -166,8 +164,6 @@ class CRUDController extends Controller
                     )
                 );
             }
-
-
 
             return $this->redirectTo($object);
         }

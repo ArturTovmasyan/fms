@@ -261,14 +261,5 @@ class ToolsAdmin extends Admin
             }
         }
     }
-
-//    /**
-//     * This function is used to disable custom doctrine filter
-//     */
-//    private function enableDoctrineFilter()
-//    {
-//        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
-//        $em->getFilters()->enable('visibility_filter');
-//    }
 }
 
