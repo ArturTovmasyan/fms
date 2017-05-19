@@ -31,7 +31,8 @@ class ToolsChronologyType extends AbstractType
         //get personnel ids in constructor
         $personnelIds = $this->personnelIds;
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function ($event) use ($personnelIds) {
+        //generate dynamically chronology forms values in tool admin page
+        $generatedFields = function ($event) use ($personnelIds) {
 
             //get current personnel id
             $currentPersonnelId = $event->getData() ? $event->getData()->getPersonnel()->getId() : null;
@@ -52,7 +53,11 @@ class ToolsChronologyType extends AbstractType
                 ])
                 ->add('fromDate', 'sonata_type_date_picker', ['label' => 'tools_chronology_from_date'])
                 ->add('toDate', 'sonata_type_date_picker', ['label' => 'tools_chronology_to_date']);
-        });
+        };
+
+        //call form event
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, $generatedFields);
+
     }
 
     /**
