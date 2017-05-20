@@ -209,6 +209,21 @@ tools_status: Կարգավիճակ
 history: Պատմությունը
 meeting: Ժողովներ
 
+
+type: Տիպը
+another_field: Այլ լրացվող
+meeting_status: Տեսակը
+meeting_date: Օրը, ժամը
+meeting_place: Տեղը
+meeting_subject: Թեման
+meeting_schedule: Օրակարգը
+meeting_member: Մասնակիցները
+meeting_listen: Լսեցին
+meeting_decided: Որոշեցին
+meeting_tasks: Հանձնարարվեց
+meeting_chair_person: Նախագահողը
+meeting_secretary: Քարտուղարը
+meeting_state: Վիճակը
 ################################################## TRANSLATIONS FOR EXPORT ##########################################################
 
 Length: Երկարություն

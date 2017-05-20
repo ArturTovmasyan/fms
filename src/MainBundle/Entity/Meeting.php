@@ -31,84 +31,84 @@ class Meeting
     /**
      * @var integer
      *
-     * @ORM\Column(name="type", type="integer")
+     * @ORM\Column(name="type", type="json_array")
      */
     private $type;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="place", type="string", length=255)
+     * @ORM\Column(name="place", type="json_array", nullable=true)
      */
     private $place;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="subject", type="text")
+     * @ORM\Column(name="subject", type="json_array", nullable=true)
      */
     private $subject;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="schedule", type="integer")
+     * @ORM\Column(name="schedule", type="integer", nullable=true)
      */
     private $schedule;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="member", type="string", length=255)
+     * @ORM\Column(name="member", type="string", length=255, nullable=true)
      */
     private $member;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="listen", type="string", length=255)
+     * @ORM\Column(name="listen", type="string", length=255, nullable=true)
      */
     private $listen;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="decided", type="string", length=255)
+     * @ORM\Column(name="decided", type="string", length=255, nullable=true)
      */
     private $decided;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="tasks", type="string", length=255)
+     * @ORM\Column(name="tasks", type="string", length=255, nullable=true)
      */
     private $tasks;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="chairPerson", type="integer")
+     * @ORM\Column(name="chairPerson", type="json_array", nullable=true)
      */
     private $chairPerson;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="secretary", type="integer")
+     * @ORM\Column(name="secretary", type="json_array", nullable=true)
      */
     private $secretary;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="state", type="integer")
+     * @ORM\Column(name="state", type="integer", nullable=true)
      */
     private $state;
 
@@ -419,5 +419,13 @@ class Meeting
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * @return string
+     */
+    function __toString()
+    {
+        return (string)($this->id) ? (string)($this->id) : '';
     }
 }
