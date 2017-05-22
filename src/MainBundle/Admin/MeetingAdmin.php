@@ -46,7 +46,9 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
                     'field_options_end' => ['format' => 'yyyy-MM-dd']
                 ]
             )
-            ->add('place', null, ['label'=>'meeting_place'])
+            ->add('place', 'doctrine_orm_choice', ['label'=>'meeting_place'], 'choice', ['choices' => ['Տնօրենի աշխատասենյակ' => 'Տնօրենի աշխատասենյակ',
+                'Ինժեներներատեխնոլոգիական սենյակ' => 'Ինժեներներատեխնոլոգիական սենյակ',
+                'Արտադրամաս' => 'Արտադրամաս']])
             ->add('type', null, ['label'=>'type'])
             ->add('subject', null, ['label'=>'meeting_subject'])
             ->add('state', null, ['label'=>'meeting_state'])
@@ -158,17 +160,7 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('type', null, ['label'=>'type', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
-            ->add('date', null, ['label'=>'meeting_date'])
-            ->add('place', null, ['label'=>'meeting_place', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
-            ->add('subject', null, ['label'=>'meeting_subject', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
-            ->add('member', null, ['label'=>'meeting_member'])
-            ->add('listen', null, ['label'=>'meeting_listen'])
-            ->add('decided', null, ['label'=>'meeting_decided'])
-            ->add('tasks', null, ['label'=>'meeting_tasks'])
-            ->add('chairPerson', null, ['label'=>'meeting_chair_person','template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
-            ->add('secretary', null, ['label'=>'meeting_secretary', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig'])
-            ->add('state', null, ['label'=>'meeting_state']);
+            ->add('type', null, ['label'=>'type', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig']);
     }
 
     /**
