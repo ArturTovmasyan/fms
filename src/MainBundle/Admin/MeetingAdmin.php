@@ -98,7 +98,7 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
 
         $formMapper
             ->tab('global_info')
-            ->add('status', 'choice', ['choices'=> ['Հերթական', 'Արտահերթ'], 'required'=>true, 'label'=>'meeting_status'])
+            ->add('status', 'choice', ['choices'=> ['Հերթական'=>'Հերթական', 'Արտահերթ'=>'Արտահերթ'], 'required'=>true, 'label'=>'meeting_status'])
             ->add('type', 'choice', ['choices'=> $typeArrayData, 'required'=>false, 'multiple'=>true, 'label'=>'type'])
             ->add('anotherType', 'text', ['mapped'=>false, 'attr' => ['placeholder'=> 'another_field'],
                 'label'=>false, 'required'=>false])
@@ -117,7 +117,11 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
             ->add('secretary', 'choice', ['choices'=> $secretaryArray, 'required'=>false, 'multiple'=>true, 'label'=>'meeting_secretary'])
             ->add('anotherSecretary', 'text', ['mapped'=>false, 'attr' => ['placeholder'=> 'another_field'],
                 'label'=>false, 'required'=>false])
-            ->add('state', 'choice', ['choices'=> ['Նախատեսվող', 'Կայացած', 'Չկայացած/Հետաձգված '], 'required'=>false, 'label'=>'meeting_state'])
+            ->add('state', 'choice', ['choices'=> [
+                'Նախատեսվող'=>'Նախատեսվող',
+                'Կայացած'=>'Կայացած',
+                'Չկայացած/Հետաձգված'=>'Չկայացած/Հետաձգված'],
+                'required'=>false, 'label'=>'meeting_state'])
             ->end()
             ->end()
 

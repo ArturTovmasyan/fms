@@ -25,7 +25,7 @@ class Meeting
     /**
      * @var integer
      *
-     * @ORM\Column(name="status", type="smallint")
+     * @ORM\Column(name="status", type="string", length=100)
      */
     private $status;
 
@@ -101,7 +101,7 @@ class Meeting
     /**
      * @var integer
      *
-     * @ORM\Column(name="state", type="integer", nullable=true)
+     * @ORM\Column(name="state", type="string", length=100, nullable=true)
      */
     private $state;
 
