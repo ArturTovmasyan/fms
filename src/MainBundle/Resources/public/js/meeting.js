@@ -25,15 +25,23 @@ $( document ).ready(function() {
     var secretarySelector = "#"+fieldToken+"secretary";
     var anotherSecretarySelector = "#"+fieldToken+"anotherSecretary";
 
+    //selectors for invitors and newInvitors
+    var invitorsSelector = '#'+fieldToken+'invitors';
+    var addInvitorsSelector = 'div#sonata-ba-field-container-'+fieldToken+'newInvitors';
+
+    addMemberOptions();
+
     //close left menu after page loaded
     $('body.sonata-bc').addClass('sidebar-collapse');
 
-    //add change event on dynamically selected fieldds
+    //add change event on dynamically selected fields
     addAnotherValues(typeSelector, anotherTypeSelector);
     addAnotherValues(placeSelector, anotherPlaceSelector);
     addAnotherValues(subjectSelector, anotherSubjectSelector);
     addAnotherValues(chairPersonSelector, anotherChairPersonSelector);
     addAnotherValues(secretarySelector, anotherSecretarySelector);
+
+    addAnotherValues(invitorsSelector, addInvitorsSelector);
 
     /**
      *
@@ -41,6 +49,8 @@ $( document ).ready(function() {
      * @param anotherSelector
      */
     function addAnotherValues(selector, anotherSelector) {
+
+        $(anotherSelector).hide();
 
         //add custom input for dynamically select fields
         $(selector).change(function () {
@@ -50,15 +60,27 @@ $( document ).ready(function() {
 
             if($.inArray(itemRemove, typeVal) > -1) {
 
-                $(anotherSelector).removeClass('hidden-field');
+                $(anotherSelector).show();
 
                 typeVal.splice($.inArray(itemRemove, typeVal), 1);
 
                 $(this).select2('val', typeVal);
-            } else{
-                $(anotherSelector).addClass('hidden-field');
+            } else {
+                $(anotherSelector).hide();
             }
         });
+    }
+
+    /**
+     * This function is used to add custom options in member field
+     */
+    function addMemberOptions() {
+
+        var option = '<option value="id">name</option>';
+        var options = '';
+        // var optionLength = $(vendorSelector+ ' option').length;
+        options += (option.replace('id', "0").replace('name', 'Այլ հրավիրվածներ'));
+        $(invitorsSelector).prepend(options);
     }
 });
 

@@ -371,6 +371,15 @@
             <argument/>
         </service>
 
+        <!--Invitors -->
+        <service id="sonata.admin.invitors" class="MainBundle\Admin\InvitorsAdmin">
+            <tag name="sonata.admin" manager_type="orm" group="Meeting" label="meeting_invitors" />
+            <argument/>
+            <argument>MainBundle\Entity\Invitors</argument>
+            <argument>MainBundle:Admin/CRUD</argument>
+            <argument/>
+        </service>
+
     </services>
 
 </container>

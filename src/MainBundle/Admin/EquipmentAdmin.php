@@ -4,6 +4,7 @@ namespace MainBundle\Admin;
 
 use MainBundle\Form\EquipmentDefectType;
 use MainBundle\Form\EquipmentElPowerType;
+use MainBundle\Model\PersonnelFilterInterface;
 use MainBundle\Traits\FmsAdmin;
 use MainBundle\Traits\Resource\Equipment;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
@@ -13,7 +14,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class EquipmentAdmin extends Admin
+class EquipmentAdmin extends Admin implements PersonnelFilterInterface
 {
     use FmsAdmin;
     use Equipment;
@@ -85,7 +86,7 @@ class EquipmentAdmin extends Admin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
-        $this->enableDoctrineFilter();
+        $this->enablePersonnelFilter();
 
         $showMapper
             ->add('name')
@@ -127,7 +128,7 @@ class EquipmentAdmin extends Admin
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $this->enableDoctrineFilter();
+        $this->enablePersonnelFilter();
 
         $subject = $this->getSubject();
 
@@ -221,7 +222,7 @@ class EquipmentAdmin extends Admin
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper)
     {
-        $this->enableDoctrineFilter();
+        $this->enablePersonnelFilter();
 
         $showFields = null;
         $request = $this->getRequest();
@@ -337,7 +338,7 @@ class EquipmentAdmin extends Admin
     /**
      * This function is used to enable custom doctrine filter
      */
-    private function enableDoctrineFilter()
+    public function enablePersonnelFilter()
     {
         $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
         $em->getFilters()->enable('visibility_filter');

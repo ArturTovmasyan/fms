@@ -208,14 +208,17 @@ tools_person: Օգտագործող
 tools_status: Կարգավիճակ
 history: Պատմությունը
 meeting: Ժողովներ
-
+do_date: Վերջնաժամկետը
+time: ժամը
+day: Օրը
+reporter: Զեկուցող
 
 type: Տիպը
 another_field: Այլ լրացվող
 meeting_status: Տեսակը
 meeting_date: Օրը, ժամը
 meeting_place: Տեղը
-meeting_subject: Թեման
+meeting_subject: Թեմա
 meeting_schedule: Օրակարգը
 meeting_member: Մասնակիցները
 meeting_listen: Լսեցին
@@ -224,6 +227,11 @@ meeting_tasks: Հանձնարարվեց
 meeting_chair_person: Նախագահողը
 meeting_secretary: Քարտուղարը
 meeting_state: Վիճակը
+meeting_delegate: Հանձնարարողը
+meeting_reporter: Հասցեատերը
+meeting_task_description: Բովանդակությունը
+meeting_invitors: Հրավիրվածներ
+
 ################################################## TRANSLATIONS FOR EXPORT ##########################################################
 
 Length: Երկարություն

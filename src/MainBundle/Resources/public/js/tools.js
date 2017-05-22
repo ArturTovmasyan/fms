@@ -13,6 +13,7 @@ $( document ).ready(function() {
     var newVendorSelector = 'div#sonata-ba-field-container-'+fieldToken+'newVendors';
 
     $(newVendorSelector).hide();
+
     addVendorOptions();
 
     //add custom input for add vendor
@@ -22,7 +23,6 @@ $( document ).ready(function() {
         var vendorVal = $(this).select2('val');
         var itemRemove = "0";
 
-        console.log(vendorVal);
         if($.inArray(itemRemove, vendorVal) > -1) {
 
             $(newVendorSelector).show();

@@ -11,13 +11,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 /**
- * Class ComponentType
+ * Class MeetingTaskType
  * @package MainBundle\Form
  */
-
-class ComponentType extends AbstractType
+class MeetingTaskType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -26,17 +24,23 @@ class ComponentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null)
-            ->add('productRouteCard', 'route_card_type', ['label' => false]);
-
+            ->add('delegate', null, ['label' => 'meeting_delegate'])
+            ->add('recipient', null, ['label' => 'meeting_reporter'])
+            ->add('description', null, ['label' => 'meeting_task_description'])
+            ->add('date', 'sonata_type_date_picker', ['label' => 'do_date',
+                'required'=>false,
+                'dp_pick_time'=>true,
+                'format'=>'yyyy/MM/dd H:m:s']
+            );
     }
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'MainBundle\Entity\ProductComponent'
+            'data_class' => 'MainBundle\Entity\MeetingTask'
         ]);
     }
     /**
@@ -44,6 +48,6 @@ class ComponentType extends AbstractType
      */
     public function getName()
     {
-        return 'main_bundle_product_component';
+        return 'meeting_task';
     }
 }

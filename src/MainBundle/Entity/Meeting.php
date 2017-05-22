@@ -3,6 +3,7 @@
 namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Meeting
@@ -29,8 +30,6 @@ class Meeting
     private $status;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="type", type="json_array")
      */
     private $type;
@@ -43,46 +42,44 @@ class Meeting
     private $date;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="place", type="json_array", nullable=true)
      */
     private $place;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="subject", type="json_array", nullable=true)
      */
     private $subject;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="schedule", type="integer", nullable=true)
+     * @ORM\OneToMany(targetEntity="MeetingSchedule", mappedBy="meeting", cascade={"persist"})
      */
-    private $schedule;
+    private $meetingSchedule;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="member", type="string", length=255, nullable=true)
+     * @ORM\OneToMany(targetEntity="MeetingTask", mappedBy="meeting", cascade={"persist"})
+     */
+    private $meetingTask;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Personnel", fetch="EXTRA_LAZY")
      */
     private $member;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="listen", type="string", length=255, nullable=true)
+     * @ORM\Column(name="listen", type="json_array", nullable=true)
      */
     private $listen;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="decided", type="string", length=255, nullable=true)
+     * @ORM\Column(name="decided", type="json_array", nullable=true)
      */
     private $decided;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Invitors", fetch="EXTRA_LAZY")
+     */
+    private $invitors;
 
     /**
      * @var string
@@ -92,15 +89,11 @@ class Meeting
     private $tasks;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="chairPerson", type="json_array", nullable=true)
      */
     private $chairPerson;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="secretary", type="json_array", nullable=true)
      */
     private $secretary;
@@ -111,6 +104,19 @@ class Meeting
      * @ORM\Column(name="state", type="integer", nullable=true)
      */
     private $state;
+
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created", type="datetime")
+     */
+    private $created;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
+
 
     /**
      * Get id
@@ -212,75 +218,6 @@ class Meeting
     public function getPlace()
     {
         return $this->place;
-    }
-
-    /**
-     * Set subject
-     *
-     * @param string $subject
-     * @return Meeting
-     */
-    public function setSubject($subject)
-    {
-        $this->subject = $subject;
-
-        return $this;
-    }
-
-    /**
-     * Get subject
-     *
-     * @return string 
-     */
-    public function getSubject()
-    {
-        return $this->subject;
-    }
-
-    /**
-     * Set schedule
-     *
-     * @param integer $schedule
-     * @return Meeting
-     */
-    public function setSchedule($schedule)
-    {
-        $this->schedule = $schedule;
-
-        return $this;
-    }
-
-    /**
-     * Get schedule
-     *
-     * @return integer 
-     */
-    public function getSchedule()
-    {
-        return $this->schedule;
-    }
-
-    /**
-     * Set member
-     *
-     * @param string $member
-     * @return Meeting
-     */
-    public function setMember($member)
-    {
-        $this->member = $member;
-
-        return $this;
-    }
-
-    /**
-     * Get member
-     *
-     * @return string 
-     */
-    public function getMember()
-    {
-        return $this->member;
     }
 
     /**
@@ -422,10 +359,242 @@ class Meeting
     }
 
     /**
+     * Set subject
+     *
+     * @param string $subject
+     * @return MeetingSchedule
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+    /**
+     * Get subject
+     *
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
      * @return string
      */
     function __toString()
     {
         return (string)($this->id) ? (string)($this->id) : '';
+    }
+
+    /**
+     * This function is used to get time in date object
+     */
+    public function getTime()
+    {
+        $time = $this->getDate();
+        $time = $time ? $time->format('H:i:s') : null;
+
+        return $time;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->meetingSchedule = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add meetingSchedule
+     *
+     * @param \MainBundle\Entity\MeetingSchedule $meetingSchedule
+     * @return Meeting
+     */
+    public function addMeetingSchedule(\MainBundle\Entity\MeetingSchedule $meetingSchedule)
+    {
+        $this->meetingSchedule[] = $meetingSchedule;
+
+        return $this;
+    }
+
+    /**
+     * Remove meetingSchedule
+     *
+     * @param \MainBundle\Entity\MeetingSchedule $meetingSchedule
+     */
+    public function removeMeetingSchedule(\MainBundle\Entity\MeetingSchedule $meetingSchedule)
+    {
+        $this->meetingSchedule->removeElement($meetingSchedule);
+    }
+
+    /**
+     * Get meetingSchedule
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMeetingSchedule()
+    {
+        return $this->meetingSchedule;
+    }
+
+    /**
+     * Add meetingTask
+     *
+     * @param \MainBundle\Entity\MeetingTask $meetingTask
+     * @return Meeting
+     */
+    public function addMeetingTask(\MainBundle\Entity\MeetingTask $meetingTask)
+    {
+        $this->meetingTask[] = $meetingTask;
+
+        return $this;
+    }
+
+    /**
+     * Remove meetingTask
+     *
+     * @param \MainBundle\Entity\MeetingTask $meetingTask
+     */
+    public function removeMeetingTask(\MainBundle\Entity\MeetingTask $meetingTask)
+    {
+        $this->meetingTask->removeElement($meetingTask);
+    }
+
+    /**
+     * Get meetingTask
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMeetingTask()
+    {
+        return $this->meetingTask;
+    }
+
+    /**
+     * Set invitors
+     *
+     * @param array $invitors
+     * @return Meeting
+     */
+    public function setInvitors($invitors)
+    {
+        $this->invitors = $invitors;
+
+        return $this;
+    }
+
+    /**
+     * Get invitors
+     *
+     * @return array 
+     */
+    public function getInvitors()
+    {
+        return $this->invitors;
+    }
+
+    /**
+     * Add invitors
+     *
+     * @param \MainBundle\Entity\Invitors $invitors
+     * @return Meeting
+     */
+    public function addInvitor(\MainBundle\Entity\Invitors $invitors)
+    {
+        $this->invitors[] = $invitors;
+
+        return $this;
+    }
+
+    /**
+     * Remove invitors
+     *
+     * @param \MainBundle\Entity\Invitors $invitors
+     */
+    public function removeInvitor(\MainBundle\Entity\Invitors $invitors)
+    {
+        $this->invitors->removeElement($invitors);
+    }
+
+    /**
+     * Add member
+     *
+     * @param \MainBundle\Entity\Personnel $member
+     * @return Meeting
+     */
+    public function addMember(\MainBundle\Entity\Personnel $member)
+    {
+        $this->member[] = $member;
+
+        return $this;
+    }
+
+    /**
+     * Remove member
+     *
+     * @param \MainBundle\Entity\Personnel $member
+     */
+    public function removeMember(\MainBundle\Entity\Personnel $member)
+    {
+        $this->member->removeElement($member);
+    }
+
+    /**
+     * Get member
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMember()
+    {
+        return $this->member;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Meeting
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return Meeting
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

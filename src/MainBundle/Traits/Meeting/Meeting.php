@@ -1,6 +1,7 @@
 <?php
 
 namespace MainBundle\Traits\Meeting;
+use MainBundle\Entity\Invitors;
 
 /**
  * Trait Meeting
@@ -13,18 +14,18 @@ trait Meeting
      *
      * @param $object
      */
-  public function checkAndSetType(&$object)
-  {
-      $data = $this->getRequestData();
-      $anotherType = $data['anotherType'];
-      $type = $object->getType();
+    public function checkAndSetType(&$object)
+    {
+        $data = $this->getRequestData();
+        $anotherType = $data['anotherType'];
+        $type = $object->getType();
 
-      //add languages values
-      if ($anotherType){
-          $type[] = $anotherType;
-          $object->setType($type);
-      }
-  }
+        //add languages values
+        if ($anotherType){
+            $type[] = $anotherType;
+            $object->setType($type);
+        }
+    }
 
     /**
      * This function is used to check and set custom data for meeting place
@@ -251,6 +252,19 @@ trait Meeting
     }
 
     /**
+     * @param $object
+     */
+    public function setAllDynamicallyData($object)
+    {
+        //check and set array fields data
+        $this->checkAndSetType($object);
+        $this->checkAndSetPlace($object);
+        $this->checkAndSetSubject($object);
+        $this->checkAndSetChairPerson($object);
+        $this->checkAndSetSecretary($object);
+    }
+
+    /**
      * This function is used to get request data
      */
     public function getRequestData()
@@ -263,41 +277,102 @@ trait Meeting
         return $data;
     }
 
-//    /**
-//     * @param $object
-//     */
-//    public function setRelation($object)
-//    {
-//        //get el powers
-//        $workers = $object->getWorkers();
-//
-//        if($workers) {
-//
-//            foreach($workers as $worker)
-//            {
-//                $worker->setSubordination($object);
-//            }
-//        }
-//    }
-//
-//    /**
-//     * @param $object
-//     */
-//    public function removeRelations($object)
-//    {
-//        //get products
-//        $workers= $object->getWorkers();
-//
-//        if($workers) {
-//            //get removed products in Equipment
-//            $removed = $workers->getDeleteDiff();
-//
-//            if ($removed) {
-//                foreach ($removed as $remove) {
-//                    $remove->setSubordination(null);
-//                }
-//            }
-//        }
-//
-//    }
+    /**
+     * Thsi function is used to add new invitors in meeting
+     *
+     * @param $object
+     */
+    public function addNewInvitors($object)
+    {
+        //get all request data
+        $data = $this->getRequestData();
+
+        //get added invitors value in request
+        $newInvitors = array_key_exists('newInvitors', $data) ? $data['newInvitors'] : null;
+
+        if($newInvitors) {
+
+            //create new vendor and related it with current tool
+            $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+
+            foreach ($newInvitors as $newInvitor)
+            {
+                $invitor = new Invitors();
+                $invitor->setName($newInvitor);
+
+                $em->persist($invitor);
+                $object->addInvitor($invitor);
+            }
+
+            $em->flush();
+
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    public function setRelation($object)
+    {
+        //get meeting schedule
+        $meetingSchedule = $object->getMeetingSchedule();
+
+        if($meetingSchedule) {
+
+            foreach($meetingSchedule as $schedule)
+            {
+                if(!$schedule->getId()) {
+                    $schedule->setMeeting($object);
+                }
+            }
+        }
+
+        //get meeting tasks
+        $meetingTasks = $object->getMeetingTask();
+
+        if($meetingTasks) {
+
+            foreach($meetingTasks as $meetingTask)
+            {
+                if(!$meetingTask->getId()) {
+                    $meetingTask->setMeeting($object);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    public function removeRelations($object)
+    {
+        $container = $this->getConfigurationPool()->getContainer();
+        $em = $container->get('doctrine')->getManager();
+
+        //remove meeting schedules
+        $meetingSchedule = $object->getMeetingSchedule();
+
+        if($meetingSchedule) {
+
+            $schedules = $meetingSchedule->getDeleteDiff();
+
+            foreach($schedules as $schedule)
+            {
+                $em->remove($schedule);
+            }
+        }
+
+        //remove meeting tasks
+        $meetingTasks = $object->getMeetingTask();
+
+        if($meetingTasks) {
+
+            $tasks = $meetingTasks->getDeleteDiff();
+
+            foreach($tasks as $task)
+            {
+                $em->remove($task);
+            }
+        }
+    }
 }

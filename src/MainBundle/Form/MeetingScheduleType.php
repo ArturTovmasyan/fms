@@ -11,13 +11,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-
 /**
- * Class ComponentType
+ * Class MeetingScheduleType
  * @package MainBundle\Form
  */
-
-class ComponentType extends AbstractType
+class MeetingScheduleType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -26,8 +24,8 @@ class ComponentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', null)
-            ->add('productRouteCard', 'route_card_type', ['label' => false]);
+            ->add('subject', null, ['label'=>'meeting_subject'])
+            ->add('reporter', null, ['label' => 'reporter']);
 
     }
     /**
@@ -36,7 +34,7 @@ class ComponentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'MainBundle\Entity\ProductComponent'
+            'data_class' => 'MainBundle\Entity\MeetingSchedule'
         ]);
     }
     /**
@@ -44,6 +42,6 @@ class ComponentType extends AbstractType
      */
     public function getName()
     {
-        return 'main_bundle_product_component';
+        return 'meeting_schedule';
     }
 }

@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Model\PersonnelFilterInterface;
 use MainBundle\Traits\Personnel\Post;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -10,7 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class PostAdmin extends AbstractAdmin
+class PostAdmin extends AbstractAdmin implements PersonnelFilterInterface
 {
     use Post;
 
@@ -79,7 +80,7 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $listMapper)
     {
-        $this->enableDoctrineFilter();
+        $this->enablePersonnelFilter();
 
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
@@ -120,7 +121,7 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $this->enableDoctrineFilter();
+        $this->enablePersonnelFilter();
 
         //get division id by request
         $divisionId = $this->getRequest()->query->get('divisionId');
@@ -205,7 +206,7 @@ class PostAdmin extends AbstractAdmin
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
-        $this->enableDoctrineFilter();
+        $this->enablePersonnelFilter();
 
         $showMapper
             ->tab('global_info')
@@ -275,7 +276,7 @@ class PostAdmin extends AbstractAdmin
     /**
      * This function is used to disable custom doctrine filter
      */
-    private function enableDoctrineFilter()
+    public function enablePersonnelFilter()
     {
         $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
         $em->getFilters()->enable('visibility_filter');
