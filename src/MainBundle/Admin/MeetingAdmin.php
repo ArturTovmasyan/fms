@@ -167,8 +167,8 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
             ->add('state', null, ['label'=>'meeting_state'])
             ->add('member', null, ['label' => 'meeting_member'])
             ->add('invitors', null, ['label' => 'meeting_invitors'])
-            ->add('meetingSchedule' ,null, ['template' => 'MainBundle:Admin/Show:meeting_schedule_show.html.twig'])
-            ->add('meetingTask', null, ['template' => 'MainBundle:Admin/Show:meeting_tasks_show.html.twig']);
+            ->add('meetingSchedule' ,null, ['label' => 'meeting_schedule', 'template' => 'MainBundle:Admin/Show:meeting_schedule_show.html.twig'])
+            ->add('meetingTask', null, ['label' => 'meeting_tasks', 'template' => 'MainBundle:Admin/Show:meeting_tasks_show.html.twig']);
     }
 
     /**
