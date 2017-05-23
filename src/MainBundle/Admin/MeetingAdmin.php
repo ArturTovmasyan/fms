@@ -46,7 +46,7 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
                     'field_options_end' => ['format' => 'yyyy-MM-dd']
                 ]
             )
-            ->add('place', null, ['labe;'=>'meeting_place'])
+            ->add('place', null, ['label'=>'meeting_place'])
             ->add('type', null, ['label'=>'type'])
             ->add('subject', null, ['label'=>'meeting_subject'])
             ->add('state', null, ['label'=>'meeting_state'])
