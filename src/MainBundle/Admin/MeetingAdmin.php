@@ -46,9 +46,7 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
                     'field_options_end' => ['format' => 'yyyy-MM-dd']
                 ]
             )
-            ->add('place', 'doctrine_orm_choice', ['label'=>'meeting_place'], 'choice', ['choices' => ['Տնօրենի աշխատասենյակ' => 'Տնօրենի աշխատասենյակ',
-                'Ինժեներներատեխնոլոգիական սենյակ' => 'Ինժեներներատեխնոլոգիական սենյակ',
-                'Արտադրամաս' => 'Արտադրամաս']])
+            ->add('place', null, ['labe;'=>'meeting_place'])
             ->add('type', null, ['label'=>'type'])
             ->add('subject', null, ['label'=>'meeting_subject'])
             ->add('state', null, ['label'=>'meeting_state'])

@@ -30,7 +30,7 @@ class Meeting
     private $status;
 
     /**
-     * @ORM\Column(name="type", type="json_array")
+     * @ORM\Column(name="type", type="array")
      */
     private $type;
 
@@ -42,22 +42,22 @@ class Meeting
     private $date;
 
     /**
-     * @ORM\Column(name="place", type="json_array", nullable=true)
+     * @ORM\Column(name="place", type="array", nullable=true)
      */
     private $place;
 
     /**
-     * @ORM\Column(name="subject", type="json_array", nullable=true)
+     * @ORM\Column(name="subject", type="array", nullable=true)
      */
     private $subject;
 
     /**
-     * @ORM\OneToMany(targetEntity="MeetingSchedule", mappedBy="meeting", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="MeetingSchedule", mappedBy="meeting", cascade={"persist", "remove"})
      */
     private $meetingSchedule;
 
     /**
-     * @ORM\OneToMany(targetEntity="MeetingTask", mappedBy="meeting", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="MeetingTask", mappedBy="meeting", cascade={"persist", "remove"})
      */
     private $meetingTask;
 
@@ -67,12 +67,12 @@ class Meeting
     private $member;
 
     /**
-     * @ORM\Column(name="listen", type="json_array", nullable=true)
+     * @ORM\Column(name="listen", type="array", nullable=true)
      */
     private $listen;
 
     /**
-     * @ORM\Column(name="decided", type="json_array", nullable=true)
+     * @ORM\Column(name="decided", type="array", nullable=true)
      */
     private $decided;
 
@@ -89,12 +89,12 @@ class Meeting
     private $tasks;
 
     /**
-     * @ORM\Column(name="chairPerson", type="json_array", nullable=true)
+     * @ORM\Column(name="chairPerson", type="array", nullable=true)
      */
     private $chairPerson;
 
     /**
-     * @ORM\Column(name="secretary", type="json_array", nullable=true)
+     * @ORM\Column(name="secretary", type="array", nullable=true)
      */
     private $secretary;
 
