@@ -9,6 +9,13 @@ use MainBundle\Entity\Invitors;
  */
 trait Meeting
 {
+    //set meeting state array value
+    public $meetingState = [
+        'Նախատեսվող'=>'Նախատեսվող',
+        'Կայացած'=>'Կայացած',
+        'Չկայացած/Հետաձգված'=>'Չկայացած/Հետաձգված'
+    ];
+
     /**
      * This function is used to check and set custom data for meeting type
      *

@@ -68,10 +68,7 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
             ->add('place', null, ['label'=>'meeting_place', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('type', null, ['label'=>'type', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('subject', null, ['label'=>'meeting_subject', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
-            ->add('state', 'choice', ['label'=>'meeting_state', 'editable'=>true, 'choices'=> [
-                'Նախատեսվող'=>'Նախատեսվող',
-                'Կայացած'=>'Կայացած',
-                'Չկայացած/Հետաձգված'=>'Չկայացած/Հետաձգված']])
+            ->add('state', 'choice', ['label'=>'meeting_state', 'editable'=>true, 'choices'=>$this->meetingState])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],
@@ -120,10 +117,7 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
             ->add('secretary', 'choice', ['choices'=> $secretaryArray, 'required'=>false, 'multiple'=>true, 'label'=>'meeting_secretary'])
             ->add('anotherSecretary', 'text', ['mapped'=>false, 'attr' => ['placeholder'=> 'another_field'],
                 'label'=>false, 'required'=>false])
-            ->add('state', 'choice', ['choices'=> [
-                'Նախատեսվող'=>'Նախատեսվող',
-                'Կայացած'=>'Կայացած',
-                'Չկայացած/Հետաձգված'=>'Չկայացած/Հետաձգված'],
+            ->add('state', 'choice', ['choices'=> $this->meetingState,
                 'required'=>false, 'label'=>'meeting_state'])
             ->end()
             ->end()
