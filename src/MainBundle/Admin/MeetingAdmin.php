@@ -68,7 +68,10 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
             ->add('place', null, ['label'=>'meeting_place', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('type', null, ['label'=>'type', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
             ->add('subject', null, ['label'=>'meeting_subject', 'template' => 'MainBundle:Admin/List:post_array_list.html.twig'])
-            ->add('state', null, ['label'=>'meeting_state'])
+            ->add('state', 'choice', ['label'=>'meeting_state', 'editable'=>true, 'choices'=> [
+                'Նախատեսվող'=>'Նախատեսվող',
+                'Կայացած'=>'Կայացած',
+                'Չկայացած/Հետաձգված'=>'Չկայացած/Հետաձգված']])
             ->add('_action', null, [
                 'actions' => [
                     'show' => [],

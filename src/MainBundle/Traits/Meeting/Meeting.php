@@ -287,7 +287,7 @@ trait Meeting
         $data = $this->getRequestData();
 
         //get added invitors value in request
-        $newInvitors = array_key_exists('newInvitors', $data) ? $data['newInvitors'] : null;
+        $newInvitors = $data && array_key_exists('newInvitors', $data) ? $data['newInvitors'] : null;
 
         if($newInvitors) {
 
