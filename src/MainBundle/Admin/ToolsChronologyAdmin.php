@@ -57,7 +57,7 @@ class ToolsChronologyAdmin extends AbstractAdmin
     {
         $listMapper
             ->add('id', null, ['template'=>'MainBundle:Admin/Custom:custom_id_show.html.twig'])
-            ->add('personnel', null, ['label' => 'tools_person'])
+            ->add('personnel', null, ['label' => 'tools_person', 'template'=>'MainBundle:Admin/List:person_link_list.html.twig'])
             ->add('fromDate', null, ['label' => 'tools_chronology_from_date'])
             ->add('toDate', null, ['label' => 'tools_chronology_to_date'])
             ->add('_action', null, array(

@@ -1,0 +1,14 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+
+{%- block field %}
+    {% if value %}
+        {% if value.disabled %}
+            {{ value.name }}
+        {% else %}
+            {% set url = '/admin/main/personnel/'~value.id~'/edit' %}
+            <a href="{{ url }}" target="_blank">{{ value }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock -%}
+
+

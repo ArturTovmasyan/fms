@@ -55,7 +55,6 @@ abstract class RawMaterials
      */
     private $size;
 
-    //TODO
     /**
      * @ORM\ManyToMany(targetEntity="PlaceWarehouse", inversedBy="rawMaterials", cascade={"persist"})
      * @ORM\JoinTable(name="raw_place")

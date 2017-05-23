@@ -155,7 +155,20 @@ class MeetingAdmin extends AbstractAdmin implements PersonnelFilterInterface
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('type', null, ['label'=>'type', 'template' => 'MainBundle:Admin/Show:post_array_show.html.twig']);
+            ->add('status', null, ['label'=>'meeting_status'])
+            ->add('type', null, ['label'=>'type', 'template'=>'MainBundle:Admin/Show:meeting_array_show.html.twig'])
+            ->add('date', null, ['label'=> 'meeting_date'])
+            ->add('place', null, ['label'=>'meeting_place', 'template'=>'MainBundle:Admin/Show:meeting_array_show.html.twig'])
+            ->add('subject', null, ['label'=>'meeting_subject', 'template'=>'MainBundle:Admin/Show:meeting_array_show.html.twig'])
+            ->add('listen', null, ['label'=>'meeting_listen', 'template'=>'MainBundle:Admin/Show:meeting_array_show.html.twig'])
+            ->add('decided', null, ['required'=>false, 'label'=>'meeting_decided', 'template'=>'MainBundle:Admin/Show:meeting_array_show.html.twig'])
+            ->add('chairPerson', null, ['label'=>'meeting_chair_person', 'template'=>'MainBundle:Admin/Show:meeting_array_show.html.twig'])
+            ->add('secretary', null, ['label'=>'meeting_secretary', 'template'=>'MainBundle:Admin/Show:meeting_array_show.html.twig'])
+            ->add('state', null, ['label'=>'meeting_state'])
+            ->add('member', null, ['label' => 'meeting_member'])
+            ->add('invitors', null, ['label' => 'meeting_invitors'])
+            ->add('meetingSchedule' ,null, ['template' => 'MainBundle:Admin/Show:meeting_schedule_show.html.twig'])
+            ->add('meetingTask', null, ['template' => 'MainBundle:Admin/Show:meeting_tasks_show.html.twig']);
     }
 
     /**
