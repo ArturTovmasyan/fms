@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 class ToolsAdmin extends Admin
 {
     use FmsAdmin;
+
     const imageClassName = 'ToolImages';
 
     //set fields option
@@ -68,6 +69,8 @@ class ToolsAdmin extends Admin
             ->add('category')
             ->add('vendors')
             ->add('code')
+            ->add('toolsRepairJob', null, ['label' => 'tools_repair_job', 'template' => 'MainBundle:Admin/Show:tools_repairJob_show.html.twig'])
+            ->add('toolsChronology', null, ['label' => 'tools_chronology', 'template' => 'MainBundle:Admin/Show:tools_chronology.html.twig'])
             ->add('actualCost', null, ['label' => 'actual_cost'])
             ->add('balanceCost', null, ['label' => 'balance_cost'])
             ->add('getStringSize', null, ['label' => 'size'])
@@ -190,6 +193,7 @@ class ToolsAdmin extends Admin
         $images = $this->getImages($imageClassName);
         $this->addImages($object, $images);
 
+        //add new vendor
         $this->addNewVendor($object);
         $this->setRelations($object);
 

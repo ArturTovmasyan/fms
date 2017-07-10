@@ -30,7 +30,8 @@ class SparesAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name');
+            ->add('name')
+            ->add('equipment');
     }
 
     // Fields to be shown on filter forms
@@ -48,6 +49,7 @@ class SparesAdmin extends Admin
         $listMapper
             ->add('id')
             ->add('name')
+            ->add('equipment')
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],

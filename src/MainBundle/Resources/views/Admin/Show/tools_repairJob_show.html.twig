@@ -1,0 +1,22 @@
+{% extends 'SonataAdminBundle:CRUD:base_show_field.html.twig' %}
+
+{% block field %}
+    <ul>
+        {% for data in value %}
+            <span><b>Բնութագիրը</b></span>
+            <li>
+                {{ data.description|slice(0, 100) }}
+            </li>
+            <span><b>Սկսել է</b></span>
+            <li>
+                {{ data.fromDate|date('Y-m-d') }}
+            </li>
+            <span><b>Ավարտել է</b></span>
+            <li>
+                {{ data.toDate|date('Y-m-d') }}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

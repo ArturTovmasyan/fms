@@ -260,6 +260,7 @@ Get Defects String: Վերացման ենթ. թեր.
 Get El Power Sum: Էլ. հզ.
 add_vendor: Ավելացնել մատակարար
 first_route_card: First operation code must be set manually
+related_equipment: Պատկանող սարք.-մ
 
 file:
     max_extension: The minimum file size is 400x400 px

@@ -45,7 +45,7 @@ class SparePartAdmin extends Admin
     {
         switch ($name) {
             case 'edit':
-                return 'MainBundle:Admin/Edit:fms_edit.html.twig';
+                return 'MainBundle:Admin/Edit:tools_edit.html.twig';
                 break;
             default:
                 return parent::getTemplate($name);
@@ -63,7 +63,7 @@ class SparePartAdmin extends Admin
         $showMapper
             ->add('name')
             ->add('vendors')
-            ->add('equipment', null, ['label' => 'equipment'])
+            ->add('equipment', null, ['label' => 'related_equipment'])
             ->add('actualCost', null, ['label' => 'actual_cost'])
             ->add('balanceCost', null, ['label' => 'balance_cost'])
             ->add('getStringSize', null, ['label' => 'size'])
@@ -86,8 +86,10 @@ class SparePartAdmin extends Admin
         $formMapper
             ->add('name', null, ['attr'=>['class' => $className.' '. self::imageClassName]])
             ->add('vendors')
+            ->add('newVendors', 'text', ['mapped'=>false, 'label'=>'add_vendor', 'required'=>false,
+                'attr' => ['placeholder'=> 'add_vendor']])
             ->add('equipment', null, [
-                'label' => 'equipment',
+                'label' => 'related_equipment',
                 'query_builder' => function($query)  {
                     $result = $query->createQueryBuilder('sp');
                     $result
@@ -161,6 +163,7 @@ class SparePartAdmin extends Admin
     public function preUpdate($object)
     {
         $this->prePersist($object);
+        $this->removeRelations($object);
     }
 
     /**
@@ -174,6 +177,53 @@ class SparePartAdmin extends Admin
         //set relation for object and images
         $images = $this->getImages($imageClassName);
         $this->addImages($object, $images);
+
+        //add new vendor
+        $this->addNewVendor($object);
+        $this->setRelations($object);
+    }
+
+    /**
+     * @param $object
+     */
+    private function setRelations($object)
+    {
+        //get equipment
+        $equipments = $object->getEquipment();
+
+        if($equipments) {
+
+            foreach($equipments as $equipment)
+            {
+                //get spare part by equipment
+                $sparePartEquipment = $equipment->getSparePart();
+
+                //check if current spare part not realted with equipment
+                if(!$sparePartEquipment->contains($object)) {
+                    $equipment->addSparePart($object);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    public function removeRelations($object)
+    {
+        //get equipment
+        $equipment = $object->getEquipment();
+
+        //get removed spare part in Equipment
+        $removed = $equipment->getDeleteDiff();
+
+        if($removed) {
+            foreach($removed as $remove)
+            {
+                $remove->removeSparePart($object);
+            }
+        }
+
     }
 }
 
