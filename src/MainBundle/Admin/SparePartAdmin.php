@@ -2,6 +2,7 @@
 
 namespace MainBundle\Admin;
 
+use MainBundle\Entity\WorkshopType;
 use MainBundle\Traits\FmsAdmin;
 use Sonata\AdminBundle\Admin\AbstractAdmin as Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -90,17 +91,17 @@ class SparePartAdmin extends Admin
                 'attr' => ['placeholder'=> 'add_vendor']])
             ->add('equipment', null, [
                 'label' => 'related_equipment',
-                'query_builder' => function($query)  {
-                    $result = $query->createQueryBuilder('sp');
-                    $result
-                        ->select('eq', 'sps')
-                        ->from('MainBundle:Equipment','eq')
-                        ->leftJoin('eq.sparePart', 'sps')
-                        ->where('eq.type = :type')
-                        ->setParameter(':type', 1);
-
-                    return $result;
-                }
+//                'query_builder' => function($query)  {
+//                    $result = $query->createQueryBuilder('sp');
+//                    $result
+//                        ->select('eq', 'sps')
+//                        ->from('MainBundle:Equipment','eq')
+//                        ->leftJoin('eq.sparePart', 'sps')
+//                        ->where('eq.type = :type')
+//                        ->setParameter(':type', 1);
+//
+//                    return $result;
+//                }
             ])
 
             ->add('description', 'textarea')

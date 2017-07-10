@@ -193,7 +193,7 @@ class EquipmentAdmin extends Admin implements PersonnelFilterInterface
             ])
             ->add('responsiblePersons', null, ['label' => 'responsible_person'])
             ->add('spares')
-            ->add('sparePart')
+//            ->add('sparePart')
             ->add('weight')
             ->add('carryingPrice', null, ['label'=>'balance_cost'])
             ->add('factualPrice', null, ['label'=>'actual_cost'])
