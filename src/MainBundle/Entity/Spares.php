@@ -31,11 +31,11 @@ class Spares
      */
     private $name;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="spares", cascade={"persist"})
-     * @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", onDelete="SET NULL")
-     */
-    private $equipment;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="Equipment", inversedBy="spares", cascade={"persist"})
+//     * @ORM\JoinColumn(name="equipment_id", referencedColumnName="id", onDelete="SET NULL")
+//     */
+//    private $equipment;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -90,28 +90,28 @@ class Spares
         return $this->name;
     }
 
-    /**
-     * Set equipment
-     *
-     * @param \MainBundle\Entity\Equipment $equipment
-     * @return Spares
-     */
-    public function setEquipment(\MainBundle\Entity\Equipment $equipment = null)
-    {
-        $this->equipment = $equipment;
-
-        return $this;
-    }
-
-    /**
-     * Get equipment
-     *
-     * @return \MainBundle\Entity\Equipment 
-     */
-    public function getEquipment()
-    {
-        return $this->equipment;
-    }
+//    /**
+//     * Set equipment
+//     *
+//     * @param \MainBundle\Entity\Equipment $equipment
+//     * @return Spares
+//     */
+//    public function setEquipment(\MainBundle\Entity\Equipment $equipment = null)
+//    {
+//        $this->equipment = $equipment;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Get equipment
+//     *
+//     * @return \MainBundle\Entity\Equipment
+//     */
+//    public function getEquipment()
+//    {
+//        return $this->equipment;
+//    }
 
     /**
      * Set created

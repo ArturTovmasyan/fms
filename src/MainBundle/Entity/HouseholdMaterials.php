@@ -4,6 +4,7 @@ namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Model\MultipleFileInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
 
@@ -13,18 +14,10 @@ use JMS\Serializer\Annotation\Groups;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\HouseholdMaterialsRepository")
+ * @UniqueEntity(fields={"code"}, errorPath="code", message="This code is already exist")
  */
 class HouseholdMaterials extends RawMaterials implements MultipleFileInterface
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="householdMaterials", cascade={"persist", "remove"})
      * @Groups({"files"})
@@ -40,16 +33,6 @@ class HouseholdMaterials extends RawMaterials implements MultipleFileInterface
      * @Assert\Regex("/[0-9]/")
      */
     private $code;
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Add images

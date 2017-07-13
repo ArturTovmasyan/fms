@@ -17,15 +17,6 @@ use JMS\Serializer\Annotation\Groups;
 class PrepackMaterials extends RawMaterials implements MultipleFileInterface
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @ORM\ManyToMany(targetEntity="Product")
      */
     private $product;
@@ -54,16 +45,6 @@ class PrepackMaterials extends RawMaterials implements MultipleFileInterface
      * @Groups({"files"})
      */
     protected $images;
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @param $workshop

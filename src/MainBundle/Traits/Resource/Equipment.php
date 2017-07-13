@@ -139,18 +139,18 @@ trait Equipment
             }
         }
 
-        // add spares
-        $spares = $object->getSpares();
-
-        if($spares) {
-            foreach($spares as $spare)
-            {
-                if(!$spares->contains($object)){
-
-                    $spare->setEquipment($object);
-                }
-            }
-        }
+//        // add spares
+//        $spares = $object->getSpares();
+//
+//        if($spares) {
+//            foreach($spares as $spare)
+//            {
+//                if(!$spares->contains($object)){
+//
+//                    $spare->setEquipment($object);
+//                }
+//            }
+//        }
 
 
         // add moulds
@@ -188,19 +188,19 @@ trait Equipment
             }
         }
 
-        //remove spares
-        $spares = $object->getSpares();
-
-        if($spares) {
-
-            //check deleted spares
-            $removedSpares = $spares->getDeleteDiff();
-
-            foreach($removedSpares as $removedSpare)
-            {
-                $removedSpare->setEquipment(null);
-            }
-        }
+//        //remove spares
+//        $spares = $object->getSpares();
+//
+//        if($spares) {
+//
+//            //check deleted spares
+//            $removedSpares = $spares->getDeleteDiff();
+//
+//            foreach($removedSpares as $removedSpare)
+//            {
+//                $removedSpare->setEquipment(null);
+//            }
+//        }
 
         //remove defects
         $removeDefects = $object->getRemoveDefects();

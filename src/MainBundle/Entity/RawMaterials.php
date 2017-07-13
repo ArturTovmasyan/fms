@@ -12,7 +12,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="raw_materials")
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\RawMaterialsRepository")
- * @UniqueEntity(fields={"code"}, errorPath="code", message="This code is already exist")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="class_name", type="string")
  * @ORM\DiscriminatorMap({"rawMaterials" = "RawMaterials",
@@ -37,7 +36,7 @@ abstract class RawMaterials
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
 

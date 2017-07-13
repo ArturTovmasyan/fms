@@ -140,12 +140,7 @@ class SparePartAdmin extends Admin
             ->add('balanceCost', null, ['label' => 'balance_cost'])
             ->add('placeWarehouse', null, ['label' => 'place_warehouse'])
             ->add('countInWarehouse', null, ['label' => 'counts_in_warehouse'])
-            ->add('size', 'choice', ['label' => 'size', 'choices' => [
-                "Կգ",
-                "Մետր",
-                "Հատ",
-                "Կոմպլեկտ",
-                "Լիտր"]])
+            ->add('size', null, ['label' => 'size'])
             ->add('getSparePartImages', null, ['template' => 'MainBundle:Admin/List:fms_image_list.html.twig', 'label'=>'files'])
             ->add('_action', 'actions', [
                 'actions' => [

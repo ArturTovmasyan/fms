@@ -2,9 +2,8 @@
 
 {%- block field %}
     {% set listIds = app.request.get('listIds') %}
-
     {% for data in listIds %}
-        {% if data.code == object.code %}
+        {% if data.id == object.id %}
             {{ data.row }}
         {% endif %}
     {% endfor %}

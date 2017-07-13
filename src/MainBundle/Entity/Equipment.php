@@ -164,10 +164,10 @@ class Equipment
      */
     private $inspectionNextDate;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Spares", mappedBy="equipment", cascade={"persist"})
-     */
-    protected $spares;
+//    /**
+//     * @ORM\OneToMany(targetEntity="Spares", mappedBy="equipment", cascade={"persist"})
+//     */
+//    protected $spares;
 
     /**
      * @ORM\OneToOne(targetEntity="EquipmentReport", cascade={"persist", "remove"})
@@ -528,38 +528,38 @@ class Equipment
         return $this->inspectionNextDate;
     }
 
-    /**
-     * Add spares
-     *
-     * @param \MainBundle\Entity\Spares $spares
-     * @return Equipment
-     */
-    public function addSpare(\MainBundle\Entity\Spares $spares)
-    {
-        $this->spares[] = $spares;
-
-        return $this;
-    }
-
-    /**
-     * Remove spares
-     *
-     * @param \MainBundle\Entity\Spares $spares
-     */
-    public function removeSpare(\MainBundle\Entity\Spares $spares)
-    {
-        $this->spares->removeElement($spares);
-    }
-
-    /**
-     * Get spares
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSpares()
-    {
-        return $this->spares;
-    }
+//    /**
+//     * Add spares
+//     *
+//     * @param \MainBundle\Entity\Spares $spares
+//     * @return Equipment
+//     */
+//    public function addSpare(\MainBundle\Entity\Spares $spares)
+//    {
+//        $this->spares[] = $spares;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove spares
+//     *
+//     * @param \MainBundle\Entity\Spares $spares
+//     */
+//    public function removeSpare(\MainBundle\Entity\Spares $spares)
+//    {
+//        $this->spares->removeElement($spares);
+//    }
+//
+//    /**
+//     * Get spares
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getSpares()
+//    {
+//        return $this->spares;
+//    }
 
     /**
      * Set inspectionPeriod

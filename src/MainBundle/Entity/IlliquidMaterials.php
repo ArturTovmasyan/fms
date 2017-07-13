@@ -15,29 +15,10 @@ use JMS\Serializer\Annotation\Groups;
 class IlliquidMaterials extends RawMaterials implements MultipleFileInterface
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="illiquidMaterials", cascade={"persist", "remove"})
      * @Groups({"files"})
      */
     protected $images;
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Add images

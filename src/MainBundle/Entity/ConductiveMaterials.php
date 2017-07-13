@@ -4,6 +4,7 @@ namespace MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use MainBundle\Model\MultipleFileInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
 
@@ -12,18 +13,10 @@ use JMS\Serializer\Annotation\Groups;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="MainBundle\Entity\Repository\ConductiveMaterialsRepository")
+ * @UniqueEntity(fields={"code"}, errorPath="code", message="This code is already exist")
  */
 class ConductiveMaterials extends RawMaterials implements MultipleFileInterface
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @ORM\OneToMany(targetEntity="RawMaterialImages", mappedBy="conductiveMaterials", cascade={"persist", "remove"})
      * @Groups({"files"})
@@ -38,16 +31,6 @@ class ConductiveMaterials extends RawMaterials implements MultipleFileInterface
      * @Assert\Length(min="6", max="6")
      */
     private $code;
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Add images

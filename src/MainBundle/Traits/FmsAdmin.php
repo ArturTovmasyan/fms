@@ -13,6 +13,7 @@ use MainBundle\Entity\PostImages;
 use MainBundle\Entity\PrepackMaterials;
 use MainBundle\Entity\RawMaterialImages;
 use MainBundle\Entity\RubberMaterials;
+use MainBundle\Entity\SparePart;
 use MainBundle\Entity\SparePartImages;
 use MainBundle\Entity\ToolImages;
 
@@ -142,6 +143,29 @@ trait FmsAdmin
             $em->persist($vendor);
             $em->flush();
             $object->addVendor($vendor);
+        }
+    }
+
+    /**
+     * @param $object
+     */
+    public function addNewSparePart($object)
+    {
+        //get all request data
+        $data = $this->getRequestData();
+
+        //get added spare part value in request
+        $newSparePart = $data['newSparePart'];
+
+        if($newSparePart) {
+
+            //create new vendor and related it with current tool
+            $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+            $sparePart = new SparePart();
+            $sparePart->setName($newSparePart);
+            $em->persist($sparePart);
+            $em->flush();
+            $object->addSparePart($sparePart);
         }
     }
 }

@@ -33,14 +33,14 @@ class SparePart
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="size", type="smallint")
+     * @ORM\Column(name="size", type="smallint", nullable=true)
      */
     private $size;
 
@@ -58,7 +58,7 @@ class SparePart
     /**
      * @var integer
      *
-     * @ORM\Column(name="count_in_warehouse", type="integer")
+     * @ORM\Column(name="count_in_warehouse", type="integer", nullable=true)
      */
     private $countInWarehouse;
 
@@ -76,7 +76,7 @@ class SparePart
     /**
      * @ORM\Column(name="balance_cost", type="integer")
      */
-    private $balanceCost;
+    private $balanceCost = 1;
 
     /**
      * @ORM\OneToMany(targetEntity="SparePartImages", mappedBy="sparePart", cascade={"persist", "remove"})

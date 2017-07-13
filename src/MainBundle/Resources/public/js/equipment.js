@@ -58,4 +58,43 @@ $( document ).ready(function() {
         });
     }
 
+    //selectors for vendors
+    var sparePartSelector = "#"+fieldToken+"sparePart";
+    var newSparePartSelector = 'div#sonata-ba-field-container-'+fieldToken+'newSparePart';
+
+    $(newSparePartSelector).hide();
+
+    addSparePart();
+
+    //add custom input for add vendor
+    $(sparePartSelector).change(function () {
+
+        //get vendor values
+        var sparePartValue = $(this).select2('val');
+        var itemRemove = "0";
+
+        if($.inArray(itemRemove, sparePartValue) > -1) {
+
+            $(newSparePartSelector).show();
+            sparePartValue.splice($.inArray(itemRemove, sparePartValue), 1);
+
+            $(this).select2('val', sparePartValue);
+        }else{
+            $(newSparePartSelector).hide();
+        }
+
+    });
+
+    /**
+     * This function is used to add custom options in new spare part field
+     */
+    function addSparePart() {
+        var option = '<option value="id">name</option>';
+        var options = '';
+        // var optionLength = $(sparePartSelector+ ' option').length;
+        options += (option.replace('id', 0).replace('name','Այլ պահեստամաս'));
+        $(sparePartSelector).append(options);
+    }
+
+
 });

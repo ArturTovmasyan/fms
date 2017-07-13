@@ -36,19 +36,13 @@ class CRUDController extends Controller
         $path = explode('/',$path['path']);
 
         if(end($path) == 'list') {
+
+            //get table name by route param
             $key = count($path) - 2;
             $path = $path[$key];
-            $materials = explode('_', $path);
-            $materials = end($materials);
-
-            if($materials == 'materials') {
-                $materials = true;
-            } else{
-                $materials = false;
-            }
 
             //generate custom list ids
-            $listIds = $this->generateListId($path, $materials);
+            $listIds = $this->generateListId($path);
         }
 
         //save cookie
@@ -305,23 +299,16 @@ class CRUDController extends Controller
      * This function is used to generate show id in equipment
      *
      * @param $path
-     * @param bool $materials
      * @return mixed
      */
-    public function generateListId($path, $materials = false)
+    public function generateListId($path)
     {
         //get entity manager
         $em = $this->get('doctrine')->getManager();
         $connection = $em->getConnection();
 
-        if($materials) {
-            $field = 'eq.code';
-        } else {
-            $field = 'eq.id';
-        }
-
         //generate sql query
-        $sql = "SELECT ".$field.", @ROW := @ROW + 1 AS row FROM ".$path." as eq 
+        $sql = "SELECT eq.id, @ROW := @ROW + 1 AS row FROM ".$path." as eq 
                 JOIN (SELECT @ROW := 0) as r 
                 ORDER BY eq.id
                 ";

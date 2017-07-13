@@ -259,6 +259,7 @@ Get El Power String: Էլ. հզ.
 Get Defects String: Վերացման ենթ. թեր.
 Get El Power Sum: Էլ. հզ.
 add_vendor: Ավելացնել մատակարար
+add_spare_part: Ավելացնել պահեստամաս
 first_route_card: First operation code must be set manually
 related_equipment: Պատկանող սարք.-մ
 

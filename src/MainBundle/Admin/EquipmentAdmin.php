@@ -107,7 +107,7 @@ class EquipmentAdmin extends Admin implements PersonnelFilterInterface
             ->add('type', null, ['label' => 'equipment_type'])
             ->add('responsiblePersons', null, ['label' => 'responsible_person'])
             ->add('deployment', null, ['label' => 'Deployment'])
-            ->add('spares')
+            ->add('sparePart', null, ['label' => 'Spares'])
             ->end()
             ->with('el_power')
             ->add('elPowers', null, ['label'=>'el_power', 'template' => 'MainBundle:Admin/Show:el_power_show.html.twig'])
@@ -192,8 +192,9 @@ class EquipmentAdmin extends Admin implements PersonnelFilterInterface
                 }
             ])
             ->add('responsiblePersons', null, ['label' => 'responsible_person'])
-            ->add('spares')
-//            ->add('sparePart')
+            ->add('sparePart', null, ['label' => 'Spares'])
+            ->add('newSparePart', 'text', ['mapped'=>false, 'label'=>'add_spare_part', 'required'=>false,
+                'attr' => ['placeholder'=> 'add_spare_part']])
             ->add('weight')
             ->add('carryingPrice', null, ['label'=>'balance_cost'])
             ->add('factualPrice', null, ['label'=>'actual_cost'])
@@ -213,7 +214,7 @@ class EquipmentAdmin extends Admin implements PersonnelFilterInterface
         $datagridMapper
             ->add('code')
             ->add('name')
-            ->add('spares')
+            ->add('sparePart', null, ['label' => 'Spares'])
             ->add('type', null,  ['label'=>'equipment_type'])
             ->add('deployment', null, ['label' => 'Deployment'])
             ->add('workshop', null, ['label' => 'equipment_workshop'])
@@ -277,7 +278,7 @@ class EquipmentAdmin extends Admin implements PersonnelFilterInterface
                 ->add('description',  null, ['label'=>'description'])
                 ->add('deployment', null, ['label' => 'deployment'])
                 ->add('type', null, ['label' => 'equipment_type'])
-                ->add('spares', null, ['label'=>'code'])
+                ->add('sparePart', null, ['label'=>'Spares'])
                 ->add('responsiblePersons', null, ['label'=>'responsible_person'])
                 ->add('purchaseDate', 'date', ['widget'=>'single_text', 'label'=>'purchase_date'])
                 ->add('getElPowerSum', null, ['label'=>'el_power'])
@@ -333,6 +334,10 @@ class EquipmentAdmin extends Admin implements PersonnelFilterInterface
         //set relation for object and images
         $images = $this->getImages($imageClassName);
         $this->addImages($object, $images);
+
+        //add new sparePart
+        $this->addNewSparePart($object);
+
         $this->setRelations($object);
     }
 
