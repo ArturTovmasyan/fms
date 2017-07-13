@@ -41,7 +41,7 @@ class EquipmentAdmin extends Admin implements PersonnelFilterInterface
         $query->addSelect('p, pe, s, ml, im, eqs, elp, rd');
         $query->leftJoin($query->getRootAlias() . '.product', 'p');
         $query->leftJoin($query->getRootAlias() . '.responsiblePersons', 'pe');
-        $query->leftJoin($query->getRootAlias() . '.spares', 's');
+        $query->leftJoin($query->getRootAlias() . '.sparePart', 's');
         $query->leftJoin($query->getRootAlias() . '.mould', 'ml');
         $query->leftJoin($query->getRootAlias() . '.images', 'im');
         $query->leftJoin($query->getRootAlias() . '.eqState', 'eqs');
