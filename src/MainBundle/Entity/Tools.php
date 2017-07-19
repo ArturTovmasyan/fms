@@ -349,7 +349,6 @@ class Tools
             case 4:
                 $stringSize = "Լիտր";
                 break;
-
             default:
                 $stringSize= "";
         }
